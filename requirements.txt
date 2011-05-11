@@ -1,0 +1,17 @@
+-e git://github.com/alex/django-filter.git@51b39fca089f2cb1d3d3501d2e164635fbe52864#egg=django_filter-0.5.3-py2.7-dev
+django-floppyforms==0.4.4
+django-form-utils==0.2.0
+-e git://github.com/sunlightlabs/django-gatekeeper.git@f99c724a1d9fcccf130b80586c15b91e6b3c6338#egg=django_gatekeeper-0.4.0a-py2.7-dev
+django-guardian==1.0.2
+django-moderation==0.2
+-e git://github.com/washingtontimes/django-pagination.git@ef08a2061f1f41deae227e3cb5beaceb7e17dd23#egg=django_pagination-1.1.0-py2.7-dev
+-e git://github.com/toastdriven/django-registration.git@dd9edbd2d41b990945974731e91f4784dcca7f00#egg=django_registration-0.8_alpha_1-py2.7-dev
+-e git://github.com/ethanmiller/django-sorting.git@af048c335b5aa0f1579fe9d736085994b11fb822#egg=django_sorting-0.1-py2.7-dev
+-e git://github.com/bread-and-pepper/django-userena.git@6069e118ffa5d002a9cf2afcf5643d58dd05d298#egg=django_userena-1.0.0-py2.7-dev
+easy-thumbnails==1.0-alpha-17
+httplib2==0.6.0
+-e git://github.com/simplegeo/python-oauth2.git@1fcc1a6d49a7be2a9394125acf5b1c2227fcde79#egg=oauth2-1.5.170-py2.7-dev
+paramiko==1.7.6
+psycopg2==2.4
+pycrypto==2.3
+wsgiref==0.1.2

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load ads_tag %}
+{% load l10n %}
+
+{% block javascript %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false&v=3.2"></script>
+	<script src="http://openlayers.org/api/2.10/OpenLayers.js"></script>
+	<script src="{{ STATIC_URL }}js/map.utils.js"></script>
+	<script>
+	$(document).ready(function(){
+		map = create_map('map')
+		center_map(map, {{ profile.location.coords.0|unlocalize }}, {{ profile.location.coords.1|unlocalize }})
+		add_marker(map, {{ profile.location.coords.0|unlocalize }}, {{ profile.location.coords.1|unlocalize }})
+    });
+	</script>
+{% endblock %}
+
+{% block css %}
+<style type="text/css">
+.olMap{
+	width:100%;
+	height:350px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="atom">
+	<h2>{{ profile.user.username }}
+		{% ifequal user.username profile.user.username %}
+		<a href="{% url userena_profile_edit user.username %}" class="pill button" ><span class="pen icon"></span>Editer mes informations personnelles</a> <br />
+		{% endifequal %}	
+	</h2>
+	<p>
+		{% if profile.phone_number %}{{ profile.phone_number }}<br />{% endif %}
+		{% if profile.birthdate %}{{ profile.birthdate }}<br />{% endif %}
+		
+		<div id="map_container"><div id="map" class="smallmap"></div></div>
+	</p>
+</div>
+
+{% if ads %}
+<div class="atom">
+	<h3>Bien en ventes</h3>
+	<table>
+		{% for ad in ads %}
+		<tr>
+			<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a> </td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+{% else %}
+<div class="atom">
+	{% ifequal user.username profile.user.username %}
+	<h3>Vous n'avez aucun bien en vente sur le site</h3>
+	<p>Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
+	{% endifequal %}
+</div>
+{% endif %}
+
+{% if all_user_ads %}
+<div class="atom">
+<h3>Vos biens en ventes et/ou en cours de traitement</h3>
+<table>
+{% for ad in all_user_ads %}
+	<tr class="status_{{ ad.moderated_object.moderation_status}}">
+		<td>{{ ad.moderated_object.get_moderation_status_display }} </td>
+		<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a></td>
+		<td><a href="{% url edit ad.id %}" class="pill button"><span class="pen icon"></span>Editer</a></td>
+		<td><a href="{% url delete ad.id %}" class="negative pill button"><span class="cross icon"></span>Supprimer</a></td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+
+
+{% if searchs %}
+<div class="atom">
+	<h3>Recherches</h3>
+	<table>
+	{% for search in searchs %}
+		<tr>
+			<td><a href="{% url search search.id %}" class="button">
+				<span class="magnifier icon"></span>{{ search.create_date }} - {{ search }}
+			</a>
+			</td>
+			<td>
+			<a href="{% url delete_search search.id %}" class="negative button">
+				<span class="trash icon"></span>Supprimer cette recherche
+			</a>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+{% endif %}
+
+{% endblock %}

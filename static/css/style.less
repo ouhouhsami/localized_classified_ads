@@ -1,0 +1,56 @@
+@lighter:#ececec;
+@light:#cacaca;
+@dark:#3C3C3D;
+
+@approved:LightGreen;
+@pending:Orange;
+@rejected:#faa;
+
+
+.status_1 {
+	background-color:@approved;
+}
+
+.status_2 {
+	background-color:@pending;
+}
+
+.status_0 {
+	background-color:@rejected;
+}
+
+.atom {
+	border:1px solid @light;
+	margin-bottom:5px;
+	border-radius:2px;
+}
+
+
+.atom {
+	h2, h3 {
+		margin:0px;
+		padding:2px;
+		background-color:@lighter;
+		color:@dark;
+		font-weight:normal;
+	}
+	.atom_title{
+		font-size:0.9em;
+		
+		.icon {
+			margin-right:0px;
+		}
+	}
+	table {
+		padding:2px;
+	}
+	#map_container {
+		margin:2px;
+	}
+	td {
+		padding:3px;
+	}
+	.fields {
+		padding:2px;
+	}	
+}

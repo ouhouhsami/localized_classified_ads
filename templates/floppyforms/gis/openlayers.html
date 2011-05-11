@@ -1,0 +1,110 @@
+{% load l10n %}
+
+<style type="text/css">
+	#{{ attrs.id }}_map { width: {{ map_width }}px; height: {{ map_height }}px; }
+	#{{ attrs.id }}_map .aligned label { float: inherit; }
+	#{{ attrs.id }}_span_map { position: relative; vertical-align: top; float: left; }
+	{% if not display_wkt %}#{{ attrs.id }} { display: none; }{% endif %}
+	.olControlEditingToolbar .olControlModifyFeatureItemActive {
+		background-image: url("{{ ADMIN_MEDIA_PREFIX }}img/gis/move_vertex_on.png");
+		background-repeat: no-repeat;
+	}
+	.olControlEditingToolbar .olControlModifyFeatureItemInactive {
+		background-image: url("{{ ADMIN_MEDIA_PREFIX }}img/gis/move_vertex_off.png");
+		background-repeat: no-repeat;
+	}
+</style>
+
+<span id="{{ attrs.id }}_span_map">
+	
+	<div id="{{ attrs.id }}_map"></div>
+	<a href="javascript:{{ module }}.clearFeatures()">Delete all Features</a>
+	<br />
+	<input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
+	{% if display_wkt %}<p> WKT debugging window:</p>{% endif %}
+	{% include "floppyforms/textarea.html" %}
+	<script type="text/javascript">
+		{% block map_options %}var map_options = {};{% endblock %}
+		{% block options %}var options = {
+			geom_type: OpenLayers.Geometry.{{ geom_type }},
+			id: '{{ attrs.id }}',
+			is_collection: {{ is_collection|yesno:"true,false" }},
+			is_linestring: {{ is_linestring|yesno:"true,false" }},
+			is_point: {{ is_point|yesno:"true,false" }},
+			is_polygon: {{ is_polygon|yesno:"true,false" }},
+			map_id: '{{ attrs.id }}_map',
+			map_options: map_options,
+			map_srid: {{ map_srid }},
+			name: '{{ name }}'
+		};{% endblock %}
+
+		
+		var {{ module }} = new MapWidget(options);
+		var geocoder = new google.maps.Geocoder();
+		
+		
+		
+		{% if ads %}
+			add_layer({{ module }}.map)
+			{% for ad in ads %}
+			console.log('one ad')
+				//console.log('{{ ad.id }}')
+				mark = add_marker({{ module }}.map, {{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
+				html = '<h2>{{ ad.title|escapejs }}</h2> {{ ad.price|escapejs }}€, {{ ad.surface|escapejs }}m<sup>2</sup>, {{ ad.nb_of_rooms|escapejs }} pièces <br /> <a href="{% url view ad.id %}" target="_blank">détail</a>'
+				popup = new OpenLayers.Popup("ad_{{ ad.id }}", 
+											new OpenLayers.LonLat(
+												{{ ad.location.coords.0|unlocalize }},
+												{{ ad.location.coords.1|unlocalize }}), 
+												new OpenLayers.Size(200,200), html, true
+											);
+				mark.popup = popup
+				{{ module }}.map.addPopup(popup);
+				popup.hide()		
+			{% endfor %}
+
+    		{{ module }}.panel.addControls([new OpenLayers.Control.SelectFeature(
+												{{ module }}.map.ads_layer, 
+												{
+													clickFeature: function(feature){feature.popup.show()}
+												}
+											)
+											]);
+		{% endif %}
+
+		{% comment %}
+		{% if controls %}
+		{% else %}
+			{{ module }}.panel.destroy()
+			var simple_nav = [new OpenLayers.Control.Navigation()];
+			{{ module }}.panel = new OpenLayers.Control.Panel({div:$('panel')},{defaultControl:simple_nav,'displayClass': 'olControlPanel'}); 
+			{{ module }}.panel.addControls(simple_nav);
+		{% endif %}
+		{% endcomment %}
+		
+		$("#center_map").hide()
+		$("#center_map").click(function(evt){
+			var address = document.getElementById("address").value;
+			if (geocoder) {
+				geocoder.geocode( { 'address': address}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					//var ctr = new OpenLayers.LonLat(results[0].geometry.location.Ea, results[0].geometry.location.Da)
+					//var lonlat = new OpenLayers.LonLat(results[0].geometry.location.Ea, results[0].geometry.location.Da);
+					//var lonlat = new OpenLayers.LonLat(results[0].geometry.location.la, results[0].geometry.location.Ia);
+					//console.log(results[0].geometry)
+					//console.log(results[0].geometry.location)
+					var lat = results[0].geometry.location.Ia
+					var lon = results[0].geometry.location.Ja
+					var lonlat = new OpenLayers.LonLat(lon, lat)
+					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+					{{ module }}.map.setCenter(lonlat, 12);
+				} 
+				else 
+				{
+					//alert("Geocode was not successful for the following reason: " + status);
+				}
+			});
+			}			
+		})
+		$('#address').keyup(function(evt){$("#center_map").trigger('click')})
+	</script>
+</span>

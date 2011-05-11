@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" type="text/css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css3buttons/stylesheets/css3buttons.css" type="text/css">
+		<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}css/style.less"> 
+		<script src="{{ STATIC_URL }}js/less.js" type="text/javascript"></script>
+
+		{% block media %}
+		{% endblock %}
+		
+		{% block javascript %}
+		{% endblock %}
+		
+		{% block css %}
+		{% endblock %}
+		
+	</head>
+	<body>
+		<div id="site">
+			<div id='header'>
+				<div id="registration" class="horizontal_menu">
+					{% if user.is_authenticated %}
+					<a href="{% url profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte ({{ user.username }})</a>
+					<a href="{% url add %}" class="right button"><span class="plus icon"></span>Proposer un bien</a>
+					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
+					{% else %}
+					<a href="{% url userena_signin %}" class="left button">Se connecter</a></li>
+					<a href="{% url userena_signup %}" class="right button">S'inscrire</a>
+					{% endif %}
+				</div>
+				<h1><a href="{% url search %}">AcheterSansCom.com</a></h1>
+				{% comment %}
+				<div class="horizontal_menu">
+				</div>
+				<div style="clear:both"></div>
+				{% endcomment %}
+			</div>
+			<div id='content'>
+				{% if messages %}
+				<ul class="messages">
+    				{% for message in messages %}
+    				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    				{% endfor %}
+				</ul>
+				{% endif %}
+				<div class="main-content">
+					{% block content %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+			<div id='footer'>
+				<div class="content">© AcheterSansCom</div>
+			</div>
+	</body>
+</html>

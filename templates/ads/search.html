@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% load l10n %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load ads_tag %}
+
+{% block javascript %}
+	<!--
+	<script type="text/javascript">
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(function(position){
+			var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude);
+			lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+			console.log(lonlat)
+			map_location.map.setCenter(lonlat, 12);
+	 	});
+	}
+	else{
+		
+	}
+	</script>
+	-->
+{% endblock %}
+
+
+
+{% block media %}
+	{{ filter.form.media }}
+	<script>
+		$(document).ready(function(){
+			// init less important parameters
+			$('.atom_content').each(function(index) {
+				//console.log($(this).find('.has_value').length)
+				if($(this).find('.has_value').length == 0){
+					$(this).hide()
+				}else {
+					$(this).parent().find('.icon').removeClass('plus').addClass('cross')
+				}
+			})
+			$('.extend').click(function(evt){
+				if($(this).find('.icon').hasClass('plus')){
+					$(this).find('.icon').removeClass('plus').addClass('cross')
+					$(this).parent().next().show()
+				}else{
+					$(this).find('.icon').addClass('plus').removeClass('cross')
+					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
+					$(this).parent().next().hide()
+				}
+			})
+    	});
+	</script>
+
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <form action="{% url search %}" method="POST">
+		{% csrf_token %}
+		
+		
+		
+		
+		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
+
+
+	<div class="" style="float:right;width:250px;">
+		
+		<div style="text-align:center;padding:8px;">
+		<button type="submit" value="search" name="search"><span class="magnifier icon"></span>Chercher</button>
+		<a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a>
+		{% if user.is_authenticated %}
+        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% else %}
+		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signin %}">inscrivez-vous</a> ou <a href="{% url userena_signup %}">connectez-vous</a> !
+		{% endif %}	
+		</div>		
+			
+		{% for fieldset in filter.form.fieldsets %}
+			{% if fieldset.name != 'location' %}
+			<div class="atom {{ fieldset.classes }}">
+				{% if fieldset.legend != fieldset.name %}
+				<h3 class="atom_title"><a class="pill button extend"><span class="plus icon"></span></a>{{ fieldset.legend }}</h3>
+				{% else %}
+				{% endif %}
+				<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
+					{% if fieldset.description %}
+					<p class="description">{{ fieldset.description }}</p>
+					{% endif %}
+						<table>
+							{% for field in fieldset %}
+								{% if field.is_hidden %}
+									{{ field }}
+								{% else %}
+									{% ifequal field.name 'location' %}
+									<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+									<div style="clear:both"></div>
+									{% else %}
+									<tr{{ field.row_attrs }}>
+										<td>{{ field.label_tag }} </td>
+										<td class="{% has_value field %}">
+											{{ field }}
+											{% if field.help_text %}<br />{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}{% endif %}
+											{% if field.errors %}<br />{{ field.errors }}{% endif %}
+										</td>
+									</tr>
+									{% endifequal %}
+								{% endif %}
+							{% endfor %}
+						</table>
+				</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+		
+	<div style="margin-right:255px">
+		
+		{% for fieldset in filter.form.fieldsets %}
+			{% if fieldset.name = 'location' %}
+			  <div class="atom {{ fieldset.classes }}" style="height:500px">
+			  {% if fieldset.legend %}
+			    <h3>{{ fieldset.legend }}</h3>
+			  {% endif %}
+			  
+				{% if fieldset.description %}
+					<p class="description">{{ fieldset.description }}</p>
+				{% endif %}
+			  
+				<table>
+				{% for field in fieldset %}
+					{% if field.is_hidden %}
+						{{ field }}
+					{% else %}
+						{% ifequal field.name 'location' %}
+							<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+						{% else %}
+				      		<tr{{ field.row_attrs }}>
+				        	<td>{{ field.label_tag }} </td>
+				        	<td>{{ field }} <br />{{ field.errors }} </td>
+				      		</tr>
+				    	{% endifequal %}
+				    {% endif %}
+			  	{% endfor %}
+			  	</table>
+			  </div>
+			{% endif %}
+		{% endfor %}		
+
+		{% if filter.qs %}
+		<div class="atom" >
+			<h2>Résultats de la recherche</h2>
+			<table>
+				<tr>
+					<th></th>
+					<th>Prix</th>
+					<th>Surface</th>
+					<th>Type</th>
+					<th>Nb. pièces</th>
+					<th>Nb. chambres</th>
+				</tr>
+				{% for ad in filter %}
+				<tr>
+					<td><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
+					<td>{{ ad.price }}</td>
+					<td>{{ ad.surface }}</td>
+					<td>{{ ad.get_habitation_type_display }}</td>
+					<td>{{ ad.nb_of_rooms }}</td>
+					<td>{{ ad.nb_of_bedrooms }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		{% else  %}
+		<div class="atom" >
+			<h3>Pas d'annonces correspondant à votre recherche</h3>
+		</div>
+		{% endif %}
+		
+	</div>
+		
+		
+    </form>
+	
+
+		{% comment %}
+		{% autosort filter.qs as sorted_objects %}
+		
+		{% autopaginate sorted_objects 10 as object_list %}
+
+		{% for object in object_list %}
+		    {{ object }}
+		{% endfor %}
+
+		{% paginate %}	
+
+		<ul>
+			<li>{% anchor price "First Field" %}</li>
+			<li>{% anchor surface "Other Field" %}</li>
+		</ul>	
+		
+		{% endcomment %}
+
+
+{% endblock %}

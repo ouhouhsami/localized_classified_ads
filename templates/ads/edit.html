@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block media %}
+	{{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+			
+		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+		{% for fieldset in form.fieldsets %}
+		  <div class="atom {{ fieldset.classes }}">
+		  {% if fieldset.legend %}
+		    <h3>{{ fieldset.legend }}</h3>
+		  {% endif %}
+		  {% if fieldset.description %}
+		    <p class="description">{{ fieldset.description }}</p>
+		  {% endif %}
+		  <table>
+		  {% for field in fieldset %}
+		    {% if field.is_hidden %}
+		      {{ field }}
+		    {% else %}
+			{% ifequal field.name 'location' %}
+			<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+			<div style="clear:both"></div>
+			{% else %}
+		      <tr{{ field.row_attrs }}>
+		        <td>{{ field.label_tag }} </td>
+		        <td>{{ field }} <br />{{ field.errors }} </td>
+		      </tr>
+		    {% endifequal %}
+		    {% endif %}
+		  {% endfor %}
+		  </table>
+		  </div>
+		{% endfor %}		
+		<div class="atom">
+			<h3>Photos</h3>
+		<table>
+		{{ picture_formset.as_table }}
+		</table>
+		</div>
+        <button type="submit" />Envoyer</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,103 @@
+html {
+	font-family:Arial;
+	font-size:0.8em;
+}
+
+#registration{
+	float:right;
+}
+
+.horizontal_menu {
+	/*list-style-type:none;
+	margin-top:0px;
+	margin-left:0px;*/
+}
+
+.horizontal_menu li{
+	/*float:left;
+	text-decoration:none;
+	text-align:center;*/
+	
+}
+.horizontal_menu li a {
+	/*display:block;
+	text-decoration:none;
+	padding-right:4px;*/
+}
+
+#header h1 {
+	padding-top:3px;
+	margin-top:3px;
+	padding-bottom:3px;
+	margin-bottom:3px;
+}
+#header h1 a{
+	text-decoration:none;
+}
+
+th {
+	text-align:left;
+}
+
+fieldset {
+	border: 1px solid black;
+}
+
+legend {
+	font-weight:bold;
+}
+
+.debug {
+	background-color:Gray;
+}
+.info {
+	background-color:Yellow;
+}
+.success {
+	background-color:Green;
+}
+.warning {
+	background-color:Orange;
+}
+.error {
+	background-color:Red;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:bold;
+}
+
+a {
+	color:black;
+}
+
+ul.messages {
+	list-style:none;
+	margin-bottom:5px;
+}
+ul.messages li {
+	padding:5px;
+}
+
+.left_parameters {
+	float:left;
+	width:250px;
+}
+
+.right_results {
+	margin-left:260px;
+}
+
+.olControlSelectFeatureItemActive{
+	background-image: url("{{ STATIC_URL }}img/gis/move_feature_on.png");
+}
+
+.olControlSelectFeatureItemInactive{
+	background-image: url("{{ STATIC_URL }}img/gis/move_feature_off.png");
+}
+
+
+.help {
+	color:#666;
+	font-size:0.9em;
+}

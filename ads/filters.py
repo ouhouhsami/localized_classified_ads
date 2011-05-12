@@ -11,10 +11,9 @@ class LocationFilter(Filter):
     def filter(self, qs, value):
         # very very bad hack because of default manager in HomeForSaleAd
         qs = qs.filter(_relation_object__moderation_status = 1)
-
+        lookup = 'within'
         if not value:
             return qs
         if value:
-            lookup = 'within'
             value = fromstr(value)
             return qs.filter(**{'%s__%s' % (self.name, lookup): value})

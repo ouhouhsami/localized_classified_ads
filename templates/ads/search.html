@@ -57,6 +57,9 @@
 
 
 {% block content %}
+
+	{{ filter.form.errors }}
+
     <form action="{% url search %}" method="POST">
 		{% csrf_token %}
 		
@@ -77,6 +80,8 @@
 		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signin %}">inscrivez-vous</a> ou <a href="{% url userena_signup %}">connectez-vous</a> !
 		{% endif %}	
 		</div>		
+		
+		
 			
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}
@@ -150,6 +155,7 @@
 		{% endfor %}		
 
 		{% if filter.qs %}
+		{% autopaginate filter.qs 2 as filter_list %}
 		<div class="atom" >
 			<h2>Résultats de la recherche</h2>
 			<table>
@@ -161,7 +167,7 @@
 					<th>Nb. pièces</th>
 					<th>Nb. chambres</th>
 				</tr>
-				{% for ad in filter %}
+				{% for ad in filter_list %}
 				<tr>
 					<td><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
 					<td>{{ ad.price }}</td>
@@ -172,6 +178,7 @@
 				</tr>
 				{% endfor %}
 			</table>
+			{% paginate %}
 		</div>
 		{% else  %}
 		<div class="atom" >
@@ -185,11 +192,19 @@
     </form>
 	
 
-		{% comment %}
+    
+
+
+    
+
+
+		
 		{% autosort filter.qs as sorted_objects %}
 		
+		
+		
 		{% autopaginate sorted_objects 10 as object_list %}
-
+        {% comment %}
 		{% for object in object_list %}
 		    {{ object }}
 		{% endfor %}

@@ -23,7 +23,6 @@ import django_filters
 from django_filters.filters import Filter
 from form_utils.forms import BetterForm
 from profiles.models import UserProfile
-from idios.utils import get_profile_form, get_profile_model, get_profile_base
 
 from models import *
 from forms import AdContactForm, HomeForSaleAdForm, HomeForSaleAdFilterSetForm
@@ -87,10 +86,7 @@ def add(request):
         form = HomeForSaleAdForm(request.POST)
         if form.is_valid():
             instance = form.save(commit = False)
-            # print 'la ->'
-            # instance.location = fromstr(instance.location)
             instance.user_profile = UserProfile.objects.get(user = request.user)
-            # instance.create_date = datetime.now
             instance.save()
             print instance.location
             PictureFormset = inlineformset_factory(HomeForSaleAd, HomeForSaleAdPicture, extra=4, max_num=4)
@@ -125,7 +121,6 @@ def view(request, ad_id):
 @login_required
 def edit(request, ad_id):
     h = HomeForSaleAd.unmoderated_objects.get(id = ad_id)
-    # print h.location
     PictureFormset = inlineformset_factory(HomeForSaleAd, HomeForSaleAdPicture, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)
     if h.user_profile.user.username == request.user.username:
@@ -134,7 +129,6 @@ def edit(request, ad_id):
             form = HomeForSaleAdForm(request.POST, instance = h)
             if form.is_valid():
                 instance = form.save(commit = False)
-                # instance.location = fromstr(instance.location)
                 instance.save()
                 PictureFormset = inlineformset_factory(HomeForSaleAd, HomeForSaleAdPicture, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)

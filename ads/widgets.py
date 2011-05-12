@@ -7,6 +7,7 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
     is_polygon = True
     geom_type = 'POLYGON'
     map_srid = 900913
+    #display_wkt = True
     
     def __init__(self, *args, **kwargs): 
         self.ads = kwargs.get('ads', None)
@@ -30,7 +31,7 @@ class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidge
 class CustomPointWidget(GMapPointWidget):
     map_width = 914
     map_height = 400
-    display_wkt = True
+    #display_wkt = True
     map_srid = 900913
 
     def __init__(self, *args, **kwargs): 

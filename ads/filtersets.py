@@ -54,8 +54,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     def __init__(self, *args, **kwargs):
         super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
         self.form.fields['location'].widget = PolygonWidget(ads=self.qs)
-        #self.form.fields['location'] = LocationFilter(widget=PolygonWidget(ads=self.qs), label="Localisation", help_text="Localisation")
-
+        
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm
@@ -71,9 +70,10 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
                   'cupboards', 'open_parking', 'box', 'orientation']
 
-
+'''
 class HomeForSaleAdFilterSetLite(NicerFilterSet):
     location = LocationFilter(widget = PolygonWidget, label="Localisation")
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetLiteForm
+'''

@@ -5,8 +5,10 @@
 {% load ads_tag %}
 
 {% block javascript %}
-	<!--
+
 	<script type="text/javascript">
+	
+	/*
 	if (navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(function(position){
 			var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude);
@@ -18,8 +20,9 @@
 	else{
 		
 	}
+	*/
 	</script>
-	-->
+
 {% endblock %}
 
 
@@ -62,10 +65,7 @@
 
     <form action="{% url search %}" method="POST">
 		{% csrf_token %}
-		
-		
-		
-		
+
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 
 
@@ -99,10 +99,6 @@
 								{% if field.is_hidden %}
 									{{ field }}
 								{% else %}
-									{% ifequal field.name 'location' %}
-									<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
-									<div style="clear:both"></div>
-									{% else %}
 									<tr{{ field.row_attrs }}>
 										<td>{{ field.label_tag }} </td>
 										<td class="{% has_value field %}">
@@ -111,7 +107,6 @@
 											{% if field.errors %}<br />{{ field.errors }}{% endif %}
 										</td>
 									</tr>
-									{% endifequal %}
 								{% endif %}
 							{% endfor %}
 						</table>
@@ -122,52 +117,39 @@
 	</div>
 		
 	<div style="margin-right:255px">
-		
-		{% for fieldset in filter.form.fieldsets %}
-			{% if fieldset.name = 'location' %}
-			  <div class="atom {{ fieldset.classes }}" style="height:500px">
-			  {% if fieldset.legend %}
-			    <h3>{{ fieldset.legend }}</h3>
-			  {% endif %}
-			  
-				{% if fieldset.description %}
-					<p class="description">{{ fieldset.description }}</p>
-				{% endif %}
-			  
-				<table>
-				{% for field in fieldset %}
-					{% if field.is_hidden %}
-						{{ field }}
+
+		<!-- LOCATION FIELD -->
+		<div class="atom {{ fieldset.classes }}" style="height:500px">
+			<h3>{{ filter.form.fieldsets.location.legend }}</h3>
+			<p class="description">{{ filter.form.fieldsets.location.description }}</p>
+			{% for field in filter.form.fieldsets.location %}
+				{% if field.is_hidden %}
+					{{ field }}
 					{% else %}
-						{% ifequal field.name 'location' %}
-							<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
-						{% else %}
-				      		<tr{{ field.row_attrs }}>
-				        	<td>{{ field.label_tag }} </td>
-				        	<td>{{ field }} <br />{{ field.errors }} </td>
-				      		</tr>
-				    	{% endifequal %}
-				    {% endif %}
-			  	{% endfor %}
-			  	</table>
-			  </div>
-			{% endif %}
-		{% endfor %}		
+					<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+					{% endif %}
+			{% endfor %}
+		</div>
+		
+				
 
 		{% if filter.qs %}
-		{% autopaginate filter.qs 2 as filter_list %}
+		
+		{% autosort filter.qs as sorted_objects %}
+		{% autopaginate sorted_objects 10 as object_list %}
+		
 		<div class="atom" >
 			<h2>Résultats de la recherche</h2>
 			<table>
 				<tr>
 					<th></th>
-					<th>Prix</th>
-					<th>Surface</th>
-					<th>Type</th>
-					<th>Nb. pièces</th>
-					<th>Nb. chambres</th>
+					<th>{% anchor price "Prix" %}</th>
+					<th>{% anchor surface "Surface" %}</th>
+					<th>{% anchor habitation_type "Type de bien" %}</th>
+					<th>{% anchor nb_of_rooms "Nb. de pièces" %}</th>
+					<th>{% anchor nb_of_bedrooms "Nb. chambres" %}</th>
 				</tr>
-				{% for ad in filter_list %}
+				{% for ad in object_list %}
 				<tr>
 					<td><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
 					<td>{{ ad.price }}</td>
@@ -190,32 +172,9 @@
 		
 		
     </form>
+
 	
-
-    
-
-
-    
-
-
-		
-		{% autosort filter.qs as sorted_objects %}
-		
-		
-		
-		{% autopaginate sorted_objects 10 as object_list %}
-        {% comment %}
-		{% for object in object_list %}
-		    {{ object }}
-		{% endfor %}
-
-		{% paginate %}	
-
-		<ul>
-			<li>{% anchor price "First Field" %}</li>
-			<li>{% anchor surface "Other Field" %}</li>
-		</ul>	
-		
+		{% comment %}
 		{% endcomment %}
 
 

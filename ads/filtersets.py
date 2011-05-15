@@ -69,11 +69,3 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                   'separate_dining_room', 'living_room', 'separate_toilet', 
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
                   'cupboards', 'open_parking', 'box', 'orientation']
-
-'''
-class HomeForSaleAdFilterSetLite(NicerFilterSet):
-    location = LocationFilter(widget = PolygonWidget, label="Localisation")
-    class Meta:
-        model = HomeForSaleAd
-        form = HomeForSaleAdFilterSetLiteForm
-'''

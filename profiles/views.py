@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from models import UserProfile
 from django.contrib.auth.models import User
-from idios.utils import get_profile_form, get_profile_model, get_profile_base
 from ads.models import HomeForSaleAd, HomeForSaleSearch
 from moderation.models import ModeratedObject
 from django.shortcuts import redirect

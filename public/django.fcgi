@@ -1,6 +1,10 @@
 #!/usr/bin/python
 import os, sys
 
+# TODO: variable
+venv = '/home/achetersanscom/.virtualenvs/achetersanscom/bin/activate_this.py'
+execfile(venv, dict(__file__=venv))
+
 _PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, _PROJECT_DIR)
 sys.path.insert(0, os.path.dirname(_PROJECT_DIR))

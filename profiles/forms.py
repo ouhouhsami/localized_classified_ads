@@ -1,6 +1,5 @@
 # coding=utf-8
 from django import forms
-from location_field.forms import LocationField, ZoneField
 from django.contrib.gis.geos import Point, Polygon
 from django.forms import ModelForm
 from moderation.forms import BaseModeratedObjectForm

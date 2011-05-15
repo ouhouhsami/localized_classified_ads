@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import os, sys
 
-# TODO: variable
+# TODO: variable in venv variable
 venv = '/home/achetersanscom/.virtualenvs/achetersanscom/bin/activate_this.py'
 execfile(venv, dict(__file__=venv))
 

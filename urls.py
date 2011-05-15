@@ -8,6 +8,7 @@ from profiles.forms import UserProfileCustomForm
 from profiles.models import UserProfile
 from django.shortcuts import redirect
 from django.conf import settings
+from ads.views import search
 
 admin.autodiscover()
 auto_discover()
@@ -21,7 +22,8 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('userena.urls')),
     url(r'^profile/(?P<username>[\w\._-]+)/$', "profiles.views.detail", name="profile_detail"),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT, 'show_indexes':True}),
-    ('^$', redirect_to, {'url': '/ads/search/'}),
+    #('^$', redirect_to, {'url': '/ads/search/'}),
+    url(r'^$', search, name='search')
 )
 
 # urlpatterns += staticfiles_urlpatterns()

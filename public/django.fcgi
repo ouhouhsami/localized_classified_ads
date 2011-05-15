@@ -12,6 +12,9 @@ for dir in glob.glob(os.environ['VIRTUAL_ENV'] + '/src/*'):
     if os.path.isdir(dir):
         site.addsitedir(dir)
 
+# hack for django-moderation project
+site.addsitedir('/home/achetersanscom/.virtualenvs/achetersanscom/src/django-moderation/src')
+
 _PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, _PROJECT_DIR)
 sys.path.insert(0, os.path.dirname(_PROJECT_DIR))

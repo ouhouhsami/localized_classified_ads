@@ -151,7 +151,7 @@ class HomeForSaleAd(Ad):
                                    null = True, blank = True)
 
     #d_objects = ModerationObjectsManager()
-    # objects = models.GeoManager()
+    #objects = models.GeoManager()
     
 
 class HomeForSaleAdPicture(models.Model): 

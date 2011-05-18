@@ -5,7 +5,7 @@ from django_filters.widgets import RangeWidget
 from filters import LocationFilter
 from widgets import PolygonWidget
 from models import HomeForSaleAd, HABITATION_TYPE_CHOICES
-from forms import HomeForSaleAdFilterSetForm, HomeForSaleAdFilterSetLiteForm
+from forms import HomeForSaleAdFilterSetForm
 
 class NicerFilterSet(django_filters.FilterSet):
     # add location field filter
@@ -48,12 +48,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
                                          widget=RangeWidget({'size':'6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", help_text="choix multiple : ctrl+click", choices = HABITATION_TYPE_CHOICES)
-    location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation")
-
-
-    def __init__(self, *args, **kwargs):
-        super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
-        self.form.fields['location'].widget = PolygonWidget(ads=self.qs)
+    location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation", required=False)
         
     class Meta:
         model = HomeForSaleAd

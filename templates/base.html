@@ -21,6 +21,12 @@
 		<script src="{{ STATIC_URL }}jquery-ui-1.8.12.custom/development-bundle/ui/jquery.ui.resizable.js"></script>
 		<script src="{{ STATIC_URL }}jquery-ui-1.8.12.custom/development-bundle/ui/jquery.ui.dialog.js"></script>
 		
+		<script type="text/javascript">
+		if(typeof console === "undefined") {
+			console = { log: function() { } };
+		}
+		</script>
+		
 		{% block media %}
 		{% endblock %}
 		
@@ -36,7 +42,7 @@
 			<div id='header'>
 				<div id="registration" class="horizontal_menu">
 					{% if user.is_authenticated %}
-					<a href="{% url profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte ({{ user.username }})</a>
+					<a href="{% url userena_profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte ({{ user.username }})</a>
 					<a href="{% url add %}" class="right button"><span class="plus icon"></span>Proposer un bien</a>
 					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
 					{% else %}
@@ -44,12 +50,7 @@
 					<a href="{% url userena_signup %}" class="right button">S'inscrire</a>
 					{% endif %}
 				</div>
-				<h1><a href="{% url search %}">AcheterSansCom.com</a></h1>
-				{% comment %}
-				<div class="horizontal_menu">
-				</div>
-				<div style="clear:both"></div>
-				{% endcomment %}
+				<h1><a href="{% url search %}"><sup style="font-size:0.5em">beta</sup>AcheterSansCom.com</a></h1>
 			</div>
 			<div id='content'>
 				{% if messages %}
@@ -60,6 +61,7 @@
 				</ul>
 				{% endif %}
 				<div class="main-content">
+					<h2>{% block content_title %}{% endblock %}</h2>
 					{% block content %}
 					{% endblock %}
 				</div>

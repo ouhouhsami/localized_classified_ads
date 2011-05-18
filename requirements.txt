@@ -6,11 +6,11 @@ django-floppyforms==0.4.4
 django-form-utils==0.2.0
 -e git://github.com/sunlightlabs/django-gatekeeper.git@f99c724a1d9fcccf130b80586c15b91e6b3c6338#egg=django_gatekeeper-0.4.0a-py2.7-dev
 -e git://github.com/ouhouhsami/django-guardian.git@a77c12125c0e0383a0599b67414b657e2ec48608#egg=django_guardian-1.0.2-py2.7-dev
-django-moderation==0.3.2
+-e git://github.com/ouhouhsami/django-userena.git#egg=django-userena
+#django-moderation==0.3.2
 django-pagination==1.0.7
 -e git://github.com/toastdriven/django-registration.git@dd9edbd2d41b990945974731e91f4784dcca7f00#egg=django_registration-0.8_alpha_1-py2.7-dev
 -e git://github.com/lukeman/django-sorting.git@d3456924ff2140c2a3466a2dd9d674486500393e#egg=django_sorting-0.1-py2.7-dev
--e git://github.com/ouhouhsami/django-userena.git@0b3c50cf664947cb1fae12536e4c361890e7c941#egg=django_userena-1.0.0-py2.7-dev
 easy-thumbnails==1.0-alpha-17
 httplib2==0.6.0
 -e git://github.com/simplegeo/python-oauth2.git@1fcc1a6d49a7be2a9394125acf5b1c2227fcde79#egg=oauth2-1.5.170-py2.7-dev

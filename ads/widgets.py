@@ -3,13 +3,12 @@ import floppyforms
 from django.template import loader
 
 class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidget):
-    map_width = '658'
+    map_width = '633'
     is_polygon = True
     geom_type = 'POLYGON'
     map_srid = 900913
-    #display_wkt = True
     
-    def __init__(self, *args, **kwargs): 
+    def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
         self.controls = kwargs.get('controls', True)
         super(PolygonWidget, self).__init__()
@@ -31,8 +30,8 @@ class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidge
 class CustomPointWidget(GMapPointWidget):
     map_width = 914
     map_height = 400
-    #display_wkt = True
     map_srid = 900913
+    #display_wkt = True
 
     def __init__(self, *args, **kwargs): 
         self.ads = kwargs.get('ads', None)

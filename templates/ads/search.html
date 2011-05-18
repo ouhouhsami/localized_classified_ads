@@ -4,29 +4,6 @@
 {% load sorting_tags %}
 {% load ads_tag %}
 
-{% block javascript %}
-
-	<script type="text/javascript">
-	
-	/*
-	if (navigator.geolocation){
-		navigator.geolocation.getCurrentPosition(function(position){
-			var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude);
-			lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-			console.log(lonlat)
-			map_location.map.setCenter(lonlat, 12);
-	 	});
-	}
-	else{
-		
-	}
-	*/
-	</script>
-
-{% endblock %}
-
-
-
 {% block media %}
 	{{ filter.form.media }}
 	<script>
@@ -56,33 +33,29 @@
 {% endblock %}
 
 
-
-
-
 {% block content %}
 
 	{{ filter.form.errors }}
 
     <form action="{% url search %}" method="POST">
 		{% csrf_token %}
-
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
-
-
-	<div class="" style="float:right;width:250px;">
+	
+	<div  class="search_form" style="padding:10px; float:right;width:245px; border-top-right-radius:10px;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
 		
+		<!-- FORM ACTIONS -->
 		<div style="text-align:center;padding:8px;">
 		<button type="submit" value="search" name="search"><span class="magnifier icon"></span>Chercher</button>
 		<a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a>
 		{% if user.is_authenticated %}
-        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver</button>
 		{% else %}
 		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signin %}">inscrivez-vous</a> ou <a href="{% url userena_signup %}">connectez-vous</a> !
 		{% endif %}	
 		</div>		
 		
 		
-			
+		<!-- NON LOCATION FIELDS -->	
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}
 			<div class="atom {{ fieldset.classes }}">
@@ -116,8 +89,9 @@
 		{% endfor %}
 	</div>
 		
-	<div style="margin-right:255px">
-
+	<div style="margin-right:265px; " >
+		
+		<div class="search_form" style="padding:10px; padding-right:0px; border-top-left-radius:10px;border-bottom-left-radius:10px;">
 		<!-- LOCATION FIELD -->
 		<div class="atom {{ fieldset.classes }}" style="height:500px">
 			<h3>{{ filter.form.fieldsets.location.legend }}</h3>
@@ -131,8 +105,11 @@
 			{% endfor %}
 		</div>
 		
+		</div>
 				
 
+		<!-- RESULTS -->
+		<div style="padding:10px; padding-right:15px;">
 		{% if filter.qs %}
 		
 		{% autosort filter.qs as sorted_objects %}
@@ -167,6 +144,7 @@
 			<h3>Pas d'annonces correspondant à votre recherche</h3>
 		</div>
 		{% endif %}
+		</div>
 		
 	</div>
 		

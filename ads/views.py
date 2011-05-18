@@ -31,17 +31,17 @@ from filters import LocationFilter
 from filtersets import HomeForSaleAdFilterSet
 
 
-
-
 def search(request, search_id=None):
     """Search view
     
     """
-
-    # IL FAUT SURCHARGER LA QUERY PAR filter(moderated_object__moderation_status = 1)
-    print '->', HomeForSaleAd._default_manager
+    # must test if location is set in request.POST or in saved search ?
+    # no, it doesn't work
     if search_id is None:
         filter = HomeForSaleAdFilterSet(request.POST or None)
+        #value =  filter.form['location'].value()
+        #print isinstance(value, basestring)
+        #print filter.form
     else:
         home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
         q = QueryDict(home_for_sale.search)
@@ -72,7 +72,7 @@ def delete_search(request, search_id):
         search.delete()
         messages.add_message(request, messages.INFO, 
                              'Votre recherche a bien été supprimée.')
-        return redirect('profile_detail', username=request.user.username)
+        return redirect('userena_profile_detail', username=request.user.username)
     else:
         return Http404
 

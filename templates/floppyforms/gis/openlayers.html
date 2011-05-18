@@ -35,20 +35,17 @@
 			map_id: '{{ attrs.id }}_map',
 			map_options: map_options,
 			map_srid: {{ map_srid }},
-			name: '{{ name }}'
+			name: '{{ name }}',
+			default_lat: 48,
+			default_lon: 2
 		};{% endblock %}
-
 		
 		var {{ module }} = new MapWidget(options);
 		var geocoder = new google.maps.Geocoder();
 		
-		
-		
 		{% if ads %}
 			add_layer({{ module }}.map)
 			{% for ad in ads %}
-			console.log('one ad')
-				//console.log('{{ ad.id }}')
 				mark = add_marker({{ module }}.map, {{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
 				html = '<h2>{{ ad.title|escapejs }}</h2> {{ ad.price|escapejs }}€, {{ ad.surface|escapejs }}m<sup>2</sup>, {{ ad.nb_of_rooms|escapejs }} pièces <br /> <a href="{% url view ad.id %}" target="_blank">détail</a>'
 				popup = new OpenLayers.Popup("ad_{{ ad.id }}", 
@@ -69,6 +66,19 @@
 												}
 											)
 											]);
+		{% else %}
+			{% if value %}
+			{% else %}
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
+					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+					{{ module }}.map.setCenter(lonlat, 12);
+				});
+			}else{
+				
+			}
+			{% endif %}
 		{% endif %}
 
 		{% comment %}
@@ -87,13 +97,8 @@
 			if (geocoder) {
 				geocoder.geocode( { 'address': address}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
-					//var ctr = new OpenLayers.LonLat(results[0].geometry.location.Ea, results[0].geometry.location.Da)
-					//var lonlat = new OpenLayers.LonLat(results[0].geometry.location.Ea, results[0].geometry.location.Da);
-					//var lonlat = new OpenLayers.LonLat(results[0].geometry.location.la, results[0].geometry.location.Ia);
-					//console.log(results[0].geometry)
-					//console.log(results[0].geometry.location)
-					var lat = results[0].geometry.location.Ia
-					var lon = results[0].geometry.location.Ja
+					var lon = results[0].geometry.location.lng()
+					var lat = results[0].geometry.location.lat()
 					var lonlat = new OpenLayers.LonLat(lon, lat)
 					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 					{{ module }}.map.setCenter(lonlat, 12);

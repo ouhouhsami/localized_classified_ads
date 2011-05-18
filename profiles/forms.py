@@ -12,9 +12,9 @@ class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidge
     pass
 
 class CustomPointWidget(GMapPointWidget):
-    map_width = 500
+    map_width = 700
     map_height = 400
-    display_wkt = True
+    #display_wkt = True
 
 class UserProfileCustomForm(ModelForm):
     location = floppyforms.gis.PointField(widget = CustomPointWidget)
@@ -26,4 +26,7 @@ class UserProfileCustomForm(ModelForm):
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
             'http://maps.google.com/maps/api/js?sensor=false',
+            #'/static/js/map.utils.js',
+            #"http://openlayers.org/dev/OpenLayers.js",
+            #"/static/floppyforms/js/MapWidget.js" 
         )

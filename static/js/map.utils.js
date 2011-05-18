@@ -116,13 +116,6 @@ function add_marker(map, lon, lat){
 	map.ads_layer.addFeatures([pointFeature])
 
     return pointFeature
-	//pointFeature.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
-	/*
-	var select = new OpenLayers.Handler.Click(pointFeature, {click:function(evt){console.log('bla')}});
-	select.activate();
-	*/
-	
-	//	selectControl = new OpenLayers.Control.SelectFeature(pointFeature, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect}); 	
 }
 
 

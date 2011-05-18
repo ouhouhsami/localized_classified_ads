@@ -2,6 +2,9 @@ html {
 	font-family:Arial;
 	font-size:0.8em;
 }
+html, body{
+	background-color:#EAE5E1;
+}
 
 #registration{
 	float:right;
@@ -100,4 +103,13 @@ ul.messages li {
 .help {
 	color:#666;
 	font-size:0.9em;
+}
+
+.main-content ul li {
+	display:inline;
+}
+
+.search_form {
+	background-color:#F6F4F2; 
+	box-shadow: 0 0 3px #999999;
 }

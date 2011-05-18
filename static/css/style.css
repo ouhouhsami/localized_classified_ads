@@ -113,3 +113,12 @@ ul.messages li {
 	background-color:#F6F4F2; 
 	box-shadow: 0 0 3px #999999;
 }
+
+.extend {
+	float:left;
+	width:14px;
+	border:1px solid #eee;
+	cursor:pointer;
+	text-align:center;
+	margin-right:3px;
+}

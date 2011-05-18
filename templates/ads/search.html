@@ -18,11 +18,21 @@
 				}
 			})
 			$('.extend').click(function(evt){
+				/*
 				if($(this).find('.icon').hasClass('plus')){
 					$(this).find('.icon').removeClass('plus').addClass('cross')
 					$(this).parent().next().show()
 				}else{
 					$(this).find('.icon').addClass('plus').removeClass('cross')
+					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
+					$(this).parent().next().hide()
+				}
+				*/
+				if($(this).html() == '+'){
+					$(this).html('-')
+					$(this).parent().next().show()
+				}else{
+					$(this).html('+')
 					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
 					$(this).parent().next().hide()
 				}
@@ -60,7 +70,7 @@
 			{% if fieldset.name != 'location' %}
 			<div class="atom {{ fieldset.classes }}">
 				{% if fieldset.legend != fieldset.name %}
-				<h3 class="atom_title"><a class="pill button extend"><span class="plus icon"></span></a>{{ fieldset.legend }}</h3>
+				<h3 class="atom_title"><a class="extend">+</span></a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
 				{% else %}
 				{% endif %}
 				<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
@@ -94,7 +104,7 @@
 		<div class="search_form" style="padding:10px; padding-right:0px; border-top-left-radius:10px;border-bottom-left-radius:10px;">
 		<!-- LOCATION FIELD -->
 		<div class="atom {{ fieldset.classes }}" style="height:500px">
-			<h3>{{ filter.form.fieldsets.location.legend }}</h3>
+			<h2>{{ filter.form.fieldsets.location.legend }}</h2>
 			<p class="description">{{ filter.form.fieldsets.location.description }}</p>
 			{% for field in filter.form.fieldsets.location %}
 				{% if field.is_hidden %}

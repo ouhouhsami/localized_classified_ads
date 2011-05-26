@@ -3,7 +3,7 @@ import floppyforms
 from django.template import loader
 
 class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidget):
-    map_width = '633'
+    map_width = '610'
     is_polygon = True
     geom_type = 'POLYGON'
     map_srid = 900913
@@ -28,7 +28,7 @@ class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidge
     pass
 
 class CustomPointWidget(GMapPointWidget):
-    map_width = 914
+    map_width = 894
     map_height = 400
     map_srid = 900913
     #display_wkt = True

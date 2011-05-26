@@ -12,7 +12,7 @@
 			$('.atom_content').each(function(index) {
 				//console.log($(this).find('.has_value').length)
 				if($(this).find('.has_value').length == 0){
-					$(this).hide()
+					$(this).hide('fast')
 				}else {
 					$(this).parent().find('.icon').removeClass('plus').addClass('cross')
 				}
@@ -30,11 +30,11 @@
 				*/
 				if($(this).html() == '+'){
 					$(this).html('-')
-					$(this).parent().next().show()
+					$(this).parent().next().show('fast')
 				}else{
 					$(this).html('+')
 					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
-					$(this).parent().next().hide()
+					$(this).parent().next().hide('fast')
 				}
 			})
     	});
@@ -47,7 +47,7 @@
 
 	{{ filter.form.errors }}
 
-    <form action="{% url search %}" method="POST">
+    <form action="{% url search %}" method="POST" id="search">
 		{% csrf_token %}
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 	
@@ -119,7 +119,7 @@
 				
 
 		<!-- RESULTS -->
-		<div style="padding:10px; padding-right:15px;">
+		<div id="results" style="padding:10px; padding-right:15px;">
 		{% if filter.qs %}
 		
 		{% autosort filter.qs as sorted_objects %}
@@ -151,7 +151,7 @@
 		</div>
 		{% else  %}
 		<div class="atom" >
-			<h3>Pas d'annonces correspondant à votre recherche</h3>
+			<h2>Pas d'annonces correspondant à votre recherche</h2>
 		</div>
 		{% endif %}
 		</div>

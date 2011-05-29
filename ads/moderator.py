@@ -7,6 +7,7 @@ from django.contrib.gis.db import models
 
 class HomeForSaleAdModerator(GenericModerator):
     fields_exclude = ['update_date', 'create_date', 'delete_date']
+    auto_approve_for_superusers = False
     # manager_names = ['objects']
     # moderation_manager_class = ModerationObjectsManager
 

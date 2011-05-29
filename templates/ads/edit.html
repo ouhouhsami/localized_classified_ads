@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="POST" enctype="multipart/form-data">
+	{{ home.moderated_object.moderation_status }} 
+	{{ home.moderated_object.get_moderation_status_display }}
+	<br />
+	{{ home.location }}
+	<form action="" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 			
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
@@ -23,12 +27,25 @@
 		      {{ field }}
 		    {% else %}
 			{% ifequal field.name 'location' %}
-			<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+			<div style="padding:2px">{{ field }} 
+				{% if field.help_text %}<br />
+					{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
+				{% endif %}
+				{% if field.errors %}<br />{{ field.errors }}{% endif %}	
+			</div>
 			<div style="clear:both"></div>
 			{% else %}
 		      <tr{{ field.row_attrs }}>
-		        <td>{{ field.label_tag }} </td>
-		        <td>{{ field }} <br />{{ field.errors }} </td>
+		        <td>
+					{{ field.label_tag }}
+				</td>
+		        <td>
+					{{ field }} 
+					{% if field.errors %}<br />{{ field.errors }} {% endif %}
+					{% if field.help_text %}<br />
+						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
+					{% endif %}
+				</td>
 		      </tr>
 		    {% endifequal %}
 		    {% endif %}

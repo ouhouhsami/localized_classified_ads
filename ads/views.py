@@ -47,7 +47,7 @@ def search(request, search_id=None):
         q = QueryDict(home_for_sale.search)
         filter = HomeForSaleAdFilterSet(q or None)
         if home_for_sale.user_profile.user != request.user:
-            return Http404
+            raise Http404
     if request.POST.__contains__('save_and_search') and search_id is None:
         datas = request.POST.copy()
         del datas['save_and_search']
@@ -74,7 +74,7 @@ def delete_search(request, search_id):
                              'Votre recherche a bien été supprimée.')
         return redirect('userena_profile_detail', username=request.user.username)
     else:
-        return Http404
+        raise Http404
 
 @login_required
 def add(request):
@@ -101,8 +101,8 @@ def view(request, ad_id):
     ad = HomeForSaleAd.objects.get(id = ad_id)
     map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
     
-    if ad.delete_date is not None:
-        return Http404
+    if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
+        raise Http404
     contact_form = AdContactForm()
     if request.method == 'POST':
         contact_form = AdContactForm(request.POST)
@@ -121,10 +121,13 @@ def view(request, ad_id):
 @login_required
 def edit(request, ad_id):
     h = HomeForSaleAd.unmoderated_objects.get(id = ad_id)
+    #h = HomeForSaleAd.objects.get(id = ad_id)
     PictureFormset = inlineformset_factory(HomeForSaleAd, HomeForSaleAdPicture, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)
     if h.user_profile.user.username == request.user.username:
-        form = HomeForSaleAdForm(instance = h)
+        #form = HomeForSaleAdForm(instance = h)
+        #below sort of a hack
+        form = HomeForSaleAdForm(h.__dict__)
         if request.method == 'POST':
             form = HomeForSaleAdForm(request.POST, instance = h)
             if form.is_valid():
@@ -134,11 +137,10 @@ def edit(request, ad_id):
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
                     picture_formset.save()
-                
                 messages.add_message(request, messages.INFO, 'Votre annonce a bien été modifiée, elle va être modérée, vous serez tenu informé de sa mise en ligne.')
-        return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
+        return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
-        return Http404
+        raise Http404
 
 @login_required
 def delete(request, ad_id):
@@ -149,4 +151,4 @@ def delete(request, ad_id):
         messages.add_message(request, messages.INFO, 'Votre annonce a bien été supprimée.')
         return redirect('profile_detail', username=request.user.username)
     else:
-        return Http404
+        raise Http404

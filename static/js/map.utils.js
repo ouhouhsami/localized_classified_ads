@@ -105,9 +105,10 @@ function add_marker(map, lon, lat){
 	style_blue.strokeColor = "blue";
 	style_blue.fillColor = "#3BB9FF";
 	style_blue.graphicName = "circle";
-	style_blue.pointRadius = 7;
+	style_blue.pointRadius = 10;
 	style_blue.strokeWidth = 2;
 	style_blue.strokeLinecap = "butt";
+	style_blue.externalGraphic = "/static/img/home_icon.png";
 
 	var point = new OpenLayers.Geometry.Point(lon, lat);
 	point.transform(map.displayProjection, map.projection);

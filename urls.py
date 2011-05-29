@@ -24,16 +24,14 @@ def redirect_login_user(request):
 urlpatterns = patterns('',
     url(r'^ads/', include('ads.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/(?P<username>(?![signout|signup|signin])[\.\w]+)/$',
+    url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
        profile_detail, {},
        name='userena_profile_detail'),
     url(r'^accounts/(?P<username>[\.\w]+)/edit/$',
        userena_views.profile_edit, {'template_name':'userena/profile_geo_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),
     url(r'^accounts/', include('userena.urls')),
-    #url(r'^profile/(?P<username>[\w\._-]+)/$', "profiles.views.detail", name="profile_detail"),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT, 'show_indexes':True}),
-    #('^$', redirect_to, {'url': '/ads/search/'}),
     url(r'^$', search, name='search')
 )
 

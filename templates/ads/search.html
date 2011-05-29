@@ -3,6 +3,7 @@
 {% load pagination_tags %}
 {% load sorting_tags %}
 {% load ads_tag %}
+{% load utils_tags %}
 
 {% block media %}
 	{{ filter.form.media }}
@@ -120,6 +121,9 @@
 
 		<!-- RESULTS -->
 		<div id="results" style="padding:10px; padding-right:15px;">
+			
+		{{ all_ads }}
+			
 		{% if filter.qs %}
 		
 		{% autosort filter.qs as sorted_objects %}

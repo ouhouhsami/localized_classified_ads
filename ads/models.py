@@ -150,7 +150,7 @@ class HomeForSaleAd(Ad):
                                    choices = ORIENTATION_CHOICES, 
                                    null = True, blank = True)
 
-    #d_objects = ModerationObjectsManager()
+    #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
     
 

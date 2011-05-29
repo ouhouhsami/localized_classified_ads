@@ -6,7 +6,9 @@ from ads.models import HomeForSaleAd, HomeForSaleSearch
 from moderation.models import ModeratedObject
 from django.shortcuts import redirect
 
-def profile_detail(request, username, template_name='userena/profile_detail.html', extra_context=None):
+def profile_detail(request, username, 
+                   template_name='userena/profile_detail.html', 
+                   extra_context=None):
     """
     Detailed view of an user.
 
@@ -51,7 +53,7 @@ def detail(request, username):
     if not profile.can_view_profile(request.user):
         return HttpResponseForbidden(_("You don't have permission to view this profile."))
     #profile = UserProfile.objects.get(user__username = username)
-    ads = HomeForSaleAd.objects.exclude(delete_date__isnull = False).filter(user_profile = profile)
+    ads = HomeForSaleAd.objects.exclude(delete_date__isnull = False).filter(user_profile = profile).filter(_relation_object__moderation_status = 1)
     all_user_ads = False
     searchs = False
     if profile.user == request.user:

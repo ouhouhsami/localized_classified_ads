@@ -50,9 +50,11 @@
 		style_blue.strokeColor = "blue";
 		style_blue.fillColor = "#3BB9FF";
 		style_blue.graphicName = "circle";
-		style_blue.pointRadius = 7;
+		style_blue.pointRadius = 10;
 		style_blue.strokeWidth = 2;
 		style_blue.strokeLinecap = "butt";
+		style_blue.externalGraphic = "/static/img/marker-blue.png";
+		style_blue.backgroundGraphic = "/static/img/marker_shadow.png";
 
 		var point = new OpenLayers.Geometry.Point({{ profile.location.coords.0|unlocalize }}, {{ profile.location.coords.1|unlocalize }});
 		var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue); 
@@ -88,26 +90,6 @@
 	</p>
 </div>
 
-{% if ads %}
-<div class="atom">
-	<h3>Bien en ventes</h3>
-	<table>
-		{% for ad in ads %}
-		<tr>
-			<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a> </td>
-		</tr>
-		{% endfor %}
-	</table>
-</div>
-{% else %}
-<div class="atom">
-	{% ifequal user.username profile.user.username %}
-	<h3>Vous n'avez aucun bien en vente sur le site</h3>
-	<p>Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
-	{% endifequal %}
-</div>
-{% endif %}
-
 {% if all_user_ads %}
 <div class="atom">
 <h3>Vos biens en ventes et/ou en cours de traitement</h3>
@@ -122,7 +104,31 @@
 {% endfor %}
 </table>
 </div>
+{% else %}
+	{% if ads %}
+	<div class="atom">
+		<h3>Bien en ventes</h3>
+		<table>
+			{% for ad in ads %}
+			<tr>
+				<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a> </td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	{% else %}
+	<div class="atom">
+		{% ifequal user.username profile.user.username %}
+		<h3>Vous n'avez aucun bien en vente visible sur le site</h3>
+		<p>Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
+		{% endifequal %}
+	</div>
+	{% endif %}
 {% endif %}
+
+
+
+
 
 
 {% if searchs %}

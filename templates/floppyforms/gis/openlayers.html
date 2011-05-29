@@ -59,7 +59,7 @@
 				popup.hide()		
 			{% endfor %}
 
-    		{{ module }}.panel.addControls([new OpenLayers.Control.SelectFeature(
+			{{ module }}.panel.addControls([new OpenLayers.Control.SelectFeature(
 												{{ module }}.map.ads_layer, 
 												{
 													clickFeature: function(feature){feature.popup.show()}
@@ -68,6 +68,7 @@
 											]);
 		{% else %}
 			{% if value %}
+				console.log('{{ value }}')
 			{% else %}
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
@@ -81,15 +82,6 @@
 			{% endif %}
 		{% endif %}
 
-		{% comment %}
-		{% if controls %}
-		{% else %}
-			{{ module }}.panel.destroy()
-			var simple_nav = [new OpenLayers.Control.Navigation()];
-			{{ module }}.panel = new OpenLayers.Control.Panel({div:$('panel')},{defaultControl:simple_nav,'displayClass': 'olControlPanel'}); 
-			{{ module }}.panel.addControls(simple_nav);
-		{% endif %}
-		{% endcomment %}
 		
 		$("#center_map").hide()
 		$("#center_map").click(function(evt){

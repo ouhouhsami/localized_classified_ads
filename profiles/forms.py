@@ -18,7 +18,6 @@ class CustomPointWidget(GMapPointWidget):
 
 class UserProfileCustomForm(ModelForm):
     location = floppyforms.gis.PointField(widget = CustomPointWidget)
-    birthdate = forms.DateField(widget=SelectDateWidget(), required = False)
     class Meta:
         model = UserProfile
         exclude = ('user',)

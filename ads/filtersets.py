@@ -49,7 +49,11 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                                          widget=RangeWidget({'size':'6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", help_text="choix multiple : ctrl+click", choices = HABITATION_TYPE_CHOICES)
     location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation", required=False)
-        
+
+    def __init__(self, *args, **kwargs):
+        super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
+        self.form.fields['location'].widget = PolygonWidget(ads=self.qs)
+
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm

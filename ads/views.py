@@ -59,7 +59,11 @@ def search(request, search_id=None):
         home_for_sale_search.save()
         messages.add_message(request, messages.INFO, 
                              'Votre recherche a bien été sauvegardée.')
-    return render_to_response('ads/search.html', {'filter': filter}, 
+    if request.method == 'POST' or search_id is not None:
+        search = True
+    else:
+        search = False
+    return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
                               context_instance = RequestContext(request))
 
 @login_required

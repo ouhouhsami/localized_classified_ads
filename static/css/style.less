@@ -1,10 +1,198 @@
+/* VARIABLES */
+
 @lighter:#ececec;
 @light:#cacaca;
 @dark:#3C3C3D;
 
+@color_1:#EAE5E1;
+@color_2:#F6F4F2;
+@color_3:#F2F0E8;
+@color_4:#E8E6E4;
+@color_5:#E4E2E0;
+
 @approved:LightGreen;
 @pending:Orange;
 @rejected:#faa;
+
+/* STYLE DEFINITION */
+
+/* LAYOUT */
+
+html {
+	font-family:Arial;
+	font-size:0.8em;
+}
+
+html, body{
+	background-color:@color_1;
+}
+
+#header {
+	height:50px;
+}
+
+#site {
+    margin: 0 auto;
+    width: 920px;
+}
+
+#registration{
+	float:right;
+}
+
+#registration {
+	background-color:#F6F4F2; 
+	box-shadow: 0 0 3px #999999;
+	border-bottom-left-radius:10px;	
+	border-bottom-right-radius:10px;	
+	padding:10px;
+	margin-top: -3px;
+}
+
+#footer {
+	background-color:#F6F4F2; 
+	box-shadow: 0 0 3px #999999;
+	border-top-left-radius:10px;	
+	border-top-right-radius:10px;	
+	padding:10px;
+	margin-bottom: -3px;
+	margin-top:1px;
+}
+
+form, #block_content, #results, .content {
+	background-color:@color_2; 
+	box-shadow: 0 0 3px #999999;
+	border-radius:10px;	
+	padding:10px;
+	margin-bottom:8px;
+}
+
+#search {
+	padding:0px;
+}
+
+#results {
+	margin-right:10px;
+	margin-top:10px;
+}
+
+/* HTML ELEMENTS - GENERAL */
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:bold;
+}
+
+a {
+	color:black;
+}
+
+th {
+	text-align:left;
+}
+fieldset {
+	border: 1px solid black;
+}
+legend {
+	font-weight:bold;
+}
+
+/* HTML ELEMENTS - SPECIFIC */
+
+#header h1 {
+	padding-top:3px;
+	margin-top:3px;
+	padding-bottom:3px;
+	margin-bottom:3px;
+}
+
+#header h1 a{
+	text-decoration:none;
+}
+
+.debug {
+	background-color:Gray;
+}
+.info {
+	background-color:Yellow;
+}
+.success {
+	background-color:Green;
+}
+.warning {
+	background-color:Orange;
+}
+.error {
+	background-color:Red;
+}
+
+
+ul.messages {
+	list-style:none;
+	margin-bottom:5px;
+}
+ul.messages li {
+	padding:5px;
+}
+
+.left_parameters {
+	float:left;
+	width:250px;
+}
+
+.right_results {
+	margin-left:260px;
+}
+
+.olControlSelectFeatureItemActive{
+	background-image: url("{{ STATIC_URL }}img/gis/move_feature_on.png");
+}
+
+.olControlSelectFeatureItemInactive{
+	background-image: url("{{ STATIC_URL }}img/gis/move_feature_off.png");
+}
+
+
+.help {
+	color:#666;
+	font-size:0.9em;
+}
+
+.main-content ul li {
+	display:inline;
+}
+
+form fieldset {
+	border:0px solid transparent;
+}
+
+form input {
+	margin:2px;
+}
+
+#search .search_form {
+	background-color:#F6F4F2; 
+	box-shadow: 0 0 3px #999999;
+}
+
+#search {
+	background-color:transparent;
+	box-shadow: 0 0 0px transparent;
+}
+
+.extend {
+	float:left;
+	width:14px;
+	border:1px solid #eee;
+	cursor:pointer;
+	text-align:center;
+	margin-right:3px;
+	background-color:#fff;
+}
+
+input, select {
+	border:1px solid #bbb;
+	padding:2px;
+}
 
 
 .status_1 {
@@ -25,7 +213,6 @@
 	border-radius:2px;
 }
 
-
 .atom {
 	h2, h3 {
 		margin:0px;
@@ -33,9 +220,6 @@
 		/*background-color:@lighter;*/
 		/*color:@dark;*/
 		/*font-weight:normal;*/
-	}
-	h3 {
-		border-top:1px solid @light;
 	}
 	.atom_title{
 		font-size:0.9em;		
@@ -59,7 +243,11 @@
 		padding:2px;
 	}	
 }
-
+#search {
+	h3 {
+		border-top:1px solid @light;
+	}	
+}
 
 #userena_menu{
 	background-color:#F6F4F2; 
@@ -75,28 +263,10 @@
 	margin:5px; 
 	text-decoration:none;
 	color:#777;
-	font-weight:bold
+	/*font-weight:bold*/
 }
 
-
-#registration {
-	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
-	border-bottom-left-radius:10px;	
-	border-bottom-right-radius:10px;	
-	padding:10px;
-	margin-top: -3px;
-}
-
-#footer {
-	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
-	border-top-left-radius:10px;	
-	border-top-right-radius:10px;	
-	padding:10px;
-	margin-bottom: -3px;
-	margin-top:1px;
-}
+/* USERENA MENU STYLE */
 
 #userena_profile_detail {
 	#userena_profile_detail_menu_item {
@@ -119,6 +289,30 @@
 #userena_email_change {
 	#userena_email_change_menu_item {
 		color:black;
+	}
+}
+
+#results{
+	table{
+		width:100%;
+		tr.result_header{
+			background-color:@color_5;
+		}
+		th{
+			text-align:center;
+		}
+		td{
+			text-align:right;
+		}
+		td.ad_title{
+			text-align:left;
+		}
+		tr.odd{
+			background-color:@color_4;
+		}
+		tr.even{
+			background-color:@color_3;
+		}
 	}
 }
 

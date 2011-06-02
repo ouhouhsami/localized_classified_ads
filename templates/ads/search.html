@@ -61,7 +61,7 @@
 		{% if user.is_authenticated %}
         <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver</button>
 		{% else %}
-		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signin %}">inscrivez-vous</a> ou <a href="{% url userena_signup %}">connectez-vous</a> !
+		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
 		{% endif %}	
 		</div>		
 		
@@ -120,10 +120,11 @@
 				
 
 		<!-- RESULTS -->
+		{% if search %}
 		<div id="results" style="padding:10px; padding-right:15px;">
-			
-		{{ all_ads }}
-			
+		
+		
+		
 		{% if filter.qs %}
 		
 		{% autosort filter.qs as sorted_objects %}
@@ -132,7 +133,7 @@
 		<div class="atom" >
 			<h2>Résultats de la recherche</h2>
 			<table>
-				<tr>
+				<tr class="result_header">
 					<th></th>
 					<th>{% anchor price "Prix" %}</th>
 					<th>{% anchor surface "Surface" %}</th>
@@ -141,8 +142,8 @@
 					<th>{% anchor nb_of_bedrooms "Nb. chambres" %}</th>
 				</tr>
 				{% for ad in object_list %}
-				<tr>
-					<td><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
+				<tr class="{% cycle 'odd' 'even' %}">
+					<td class="ad_title"><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
 					<td>{{ ad.price }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.get_habitation_type_display }}</td>
@@ -159,6 +160,8 @@
 		</div>
 		{% endif %}
 		</div>
+		
+		{% endif %}
 		
 	</div>
 		

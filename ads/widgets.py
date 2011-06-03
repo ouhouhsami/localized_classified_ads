@@ -20,7 +20,6 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
 
     class Media:
         js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
             'http://maps.google.com/maps/api/js?sensor=false',
         )
 
@@ -31,7 +30,7 @@ class CustomPointWidget(GMapPointWidget):
     map_width = 894
     map_height = 400
     map_srid = 900913
-    display_wkt = True
+    #display_wkt = True
 
     def __init__(self, *args, **kwargs): 
         self.ads = kwargs.get('ads', None)

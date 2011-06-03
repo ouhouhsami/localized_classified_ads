@@ -24,7 +24,6 @@ register.simple_tag(moderation_status_label)
 
 
 def has_value(field):
-    print field.field.__class__.__name__
     if field.field.__class__.__name__ == 'RangeField' or field.field.__class__.__name__ == 'NumericRangeField':
         print 'FIELD RANGE', field.data
         if (field.data[0] == '' and field.data[1] == '') or (field.data[0] is None and field.data[1] is None):

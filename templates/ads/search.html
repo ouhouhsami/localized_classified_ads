@@ -7,8 +7,11 @@
 
 {% block media %}
 	{{ filter.form.media }}
+			
 	<script>
 		$(document).ready(function(){
+			
+			
 			// init less important parameters
 			$('.atom_content').each(function(index) {
 				if($(this).find('.has_value').length == 0){
@@ -29,7 +32,24 @@
 			})
     	});
 	</script>
-
+	
+    <script type="text/javascript">
+    $(function (){
+        $('a.ajax').click(function() {
+            var url = this.href;
+            var dialog = $('<div style="display:hidden"></div>').appendTo('body');
+            // load remote content
+            dialog.load(
+                url, 
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({ modal: true, width: 950, zIndex:1100 });
+                }
+            );
+            //prevent the browser to follow the link
+            return false;
+        });
+    });
+    </script>
 {% endblock %}
 
 
@@ -131,8 +151,8 @@
 					<th>{% anchor nb_of_bedrooms "Nb. chambres" %}</th>
 				</tr>
 				{% for ad in object_list %}
-				<tr class="{% cycle 'odd' 'even' %}">
-					<td class="ad_title"><a href="{% url view ad.id %}">{{ ad.title }}</a></td>
+				<tr class="{% cycle 'even' 'odd' %}">
+					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>
 					<td>{{ ad.price }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.get_habitation_type_display }}</td>

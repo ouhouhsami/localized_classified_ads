@@ -123,7 +123,11 @@ def view(request, ad_id):
             instance.save()
             send_mail('Demande d\'information concernant votre annonce', instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
-    return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+    if request.is_ajax():
+        return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+    else:
+        return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+	
 
 @login_required
 def edit(request, ad_id):

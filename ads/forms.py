@@ -35,7 +35,7 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
                      ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]
     class Media:
         js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+            
             'http://maps.google.com/maps/api/js?sensor=false',
         )
 

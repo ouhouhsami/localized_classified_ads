@@ -29,22 +29,22 @@ class NicerFilterSet(django_filters.FilterSet):
 
 
 class HomeForSaleAdFilterSet(NicerFilterSet):
-    price = django_filters.RangeFilter(label="Budget", 
+    price = django_filters.OpenRangeNumericFilter(label="Budget", 
                                        help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. (€)",
                                        widget=RangeWidget({'size':'6'}))
-    surface = django_filters.RangeFilter(label="Surface", 
+    surface = django_filters.OpenRangeNumericFilter(label="Surface", 
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. (m<sup>2</sup>)",
                                          widget=RangeWidget({'size':'6'}))
-    nb_of_rooms = django_filters.RangeFilter(label="Nb. de pièces", 
+    nb_of_rooms = django_filters.OpenRangeNumericFilter(label="Nb. de pièces", 
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
                                          widget=RangeWidget({'size':'6'}))
-    nb_of_bedrooms = django_filters.RangeFilter(label="Nb. de chambres", 
+    nb_of_bedrooms = django_filters.OpenRangeNumericFilter(label="Nb. de chambres", 
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
                                          widget=RangeWidget({'size':'6'}))
-    ground_surface = django_filters.RangeFilter(label="Surface du terrain", 
+    ground_surface = django_filters.OpenRangeNumericFilter(label="Surface du terrain", 
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
                                          widget=RangeWidget({'size':'6'}))
-    floor = django_filters.RangeFilter(label="Etage", 
+    floor = django_filters.OpenRangeNumericFilter(label="Etage", 
                                          help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
                                          widget=RangeWidget({'size':'6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", help_text="choix multiple : ctrl+click", choices = HABITATION_TYPE_CHOICES)

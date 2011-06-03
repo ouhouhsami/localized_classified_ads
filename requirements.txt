@@ -2,7 +2,7 @@ Django==1.3
 Fabric==1.0.1
 PIL==1.1.7
 South==0.7.3
-django-filter==0.5.3
+-e git://github.com/subsume/django-filter-actually-maintained.git#egg=django-filter
 django-floppyforms==0.4.4
 django-form-utils==0.2.0
 -e git://github.com/sunlightlabs/django-gatekeeper.git#egg=django_gatekeeper

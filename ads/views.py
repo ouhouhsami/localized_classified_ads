@@ -56,6 +56,16 @@ def search(request, search_id=None):
         home_for_sale_search.save()
         messages.add_message(request, messages.INFO, 
                              'Votre recherche a bien été sauvegardée.')
+    nb_of_results = filter.qs.count()
+    if nb_of_results == 0:
+        messages.add_message(request, messages.INFO, 
+                             'Aucune annonce ne correspond à votre recherche')
+    if nb_of_results == 1:
+        messages.add_message(request, messages.INFO, 
+                             '1 annonce correspondant à votre recherche')
+    if nb_of_results > 1:
+        messages.add_message(request, messages.INFO, 
+                             '%s annonces correspondant à votre recherche' % (filter.qs.count()))	
     return render_to_response('ads/search.html', {'filter': filter}, 
                               context_instance = RequestContext(request))
 

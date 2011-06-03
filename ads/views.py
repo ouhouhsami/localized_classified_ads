@@ -39,9 +39,6 @@ def search(request, search_id=None):
     # no, it doesn't work
     if search_id is None:
         filter = HomeForSaleAdFilterSet(request.POST or None)
-        #value =  filter.form['location'].value()
-        #print isinstance(value, basestring)
-        #print filter.form
     else:
         home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
         q = QueryDict(home_for_sale.search)
@@ -59,11 +56,7 @@ def search(request, search_id=None):
         home_for_sale_search.save()
         messages.add_message(request, messages.INFO, 
                              'Votre recherche a bien été sauvegardée.')
-    if request.method == 'POST' or search_id is not None:
-        search = True
-    else:
-        search = False
-    return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
+    return render_to_response('ads/search.html', {'filter': filter}, 
                               context_instance = RequestContext(request))
 
 @login_required

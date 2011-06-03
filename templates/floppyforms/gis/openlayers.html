@@ -18,9 +18,10 @@
 <span id="{{ attrs.id }}_span_map">
 	
 	<div id="{{ attrs.id }}_map"></div>
-	<a href="javascript:{{ module }}.clearFeatures()">Réinitialiser les formes</a>
-	<br />
-	<input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
+	<div>
+	<a href="javascript:{{ module }}.clearFeatures()" style="float:right">Effacer la zone de recherche</a>
+	Entrer une adresse pour centrer la carte : <input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
+	</div>
 	{% if display_wkt %}<p> WKT debugging window:</p>{% endif %}
 	{% include "floppyforms/textarea.html" %}
 	<script type="text/javascript">

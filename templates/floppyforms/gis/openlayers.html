@@ -48,6 +48,8 @@
 			add_layer({{ module }}.map)
 			{% for ad in ads %}
 				mark = add_marker({{ module }}.map, {{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
+				mark.href = '{% url view ad.id %}'
+				/*
 				html = '<h2>{{ ad.title|escapejs }}</h2> {{ ad.price|escapejs }}€, {{ ad.surface|escapejs }}m<sup>2</sup>, {{ ad.nb_of_rooms|escapejs }} pièces <br /> <a href="{% url view ad.id %}" target="_blank">détail</a>'
 				popup = new OpenLayers.Popup("ad_{{ ad.id }}", 
 											new OpenLayers.LonLat(
@@ -57,13 +59,18 @@
 											);
 				mark.popup = popup
 				{{ module }}.map.addPopup(popup);
-				popup.hide()		
+				popup.hide()
+				*/	
+					
 			{% endfor %}
-
 			{{ module }}.panel.addControls([new OpenLayers.Control.SelectFeature(
 												{{ module }}.map.ads_layer, 
 												{
-													clickFeature: function(feature){feature.popup.show()}
+													clickFeature: function(feature){
+														//feature.popup.show()
+														console.log(feature.href)
+														$('a.ajax[href='+feature.href+']').trigger('click')
+													}
 												}
 											)
 											]);

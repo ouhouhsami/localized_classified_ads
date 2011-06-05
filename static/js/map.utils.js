@@ -39,6 +39,9 @@ function add_layer(map){
 		renderers: renderer,
 		displayInLayerSwitcher: false,
 	}); 
+
+
+
 	
 	function selected (evt) {
 		console.log(evt.feature.id + " selected on " + this.name);
@@ -109,7 +112,7 @@ function add_marker(map, lon, lat){
 	style_blue.strokeWidth = 2;
 	style_blue.strokeLinecap = "butt";
 	style_blue.externalGraphic = "/static/img/home_icon.png";
-
+	
 	var point = new OpenLayers.Geometry.Point(lon, lat);
 	point.transform(map.displayProjection, map.projection);
 	var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue); 

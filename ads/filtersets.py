@@ -52,6 +52,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
 
     def __init__(self, *args, **kwargs):
         super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
+        # here we must filter by 10 and use paginate
         self.form.fields['location'].widget = PolygonWidget(ads=self.qs)
 
     class Meta:

@@ -5,12 +5,11 @@ South==0.7.3
 -e git://github.com/subsume/django-filter-actually-maintained.git#egg=django-filter
 django-floppyforms==0.4.4
 django-form-utils==0.2.0
--e git://github.com/sunlightlabs/django-gatekeeper.git#egg=django_gatekeeper
 -e git://github.com/ouhouhsami/django-guardian.git#egg=django_guardian
 -e git://github.com/dominno/django-moderation.git#egg=django-moderation
 django-pagination==1.0.7
 -e git://github.com/lukeman/django-sorting.git#egg=django_sorting
--e git://github.com/ouhouhsami/django-userena.git#egg=django_userena
+-e git+git://github.com/bread-and-pepper/django-userena.git#egg=userena
 easy-thumbnails==1.0-alpha-17
 httplib2==0.6.0
 -e git://github.com/simplegeo/python-oauth2.git#egg=oauth2

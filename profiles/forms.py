@@ -23,7 +23,7 @@ class UserProfileCustomForm(ModelForm):
         exclude = ('user',)
     class Media:
         js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+            #'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
             'http://maps.google.com/maps/api/js?sensor=false',
             #'/static/js/map.utils.js',
             #"http://openlayers.org/dev/OpenLayers.js",

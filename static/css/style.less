@@ -14,7 +14,23 @@
 @pending:Orange;
 @rejected:#faa;
 
+@debug:Gray;
+@info:LightYellow;
+@success:LightGreen;
+@warning:LightSalmon;
+@error:IndianRed;
+
+
+
+
 /* STYLE DEFINITION */
+
+
+@font-face {
+   font-family: 'Droid Sans',helvetica,arial,Geneva,sans-serif;
+   src: url("../font/DroidSans.ttf") ;
+}
+
 
 /* LAYOUT */
 
@@ -67,6 +83,12 @@ form, #block_content, #results, .content {
 	margin-bottom:8px;
 }
 
+.messages li {
+	box-shadow: 0 0 3px #999999;
+	border-radius:10px;	
+	padding:10px;	
+}
+
 #search {
 	padding:0px;
 }
@@ -103,6 +125,8 @@ legend {
 	margin-top:3px;
 	padding-bottom:3px;
 	margin-bottom:3px;
+	text-shadow: 1px 1px 0 #FFFFFF;
+	/*font-family: 'Droid Sans';*/	
 }
 
 #header h1 a{
@@ -110,19 +134,19 @@ legend {
 }
 
 .debug {
-	background-color:Gray;
+	background-color:@debug;
 }
 .info {
-	background-color:Yellow;
+	background-color:@info;
 }
 .success {
-	background-color:Green;
+	background-color:@success;
 }
 .warning {
-	background-color:Orange;
+	background-color:@warning;
 }
 .error {
-	background-color:Red;
+	background-color:@error;
 }
 
 
@@ -130,9 +154,7 @@ ul.messages {
 	list-style:none;
 	margin-bottom:5px;
 }
-ul.messages li {
-	padding:5px;
-}
+
 
 .left_parameters {
 	float:left;

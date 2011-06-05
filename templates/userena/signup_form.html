@@ -1,0 +1,15 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+  <fieldset>
+    <legend>Signup</legend>
+    {% csrf_token %}
+    {% include "userena/form_snippet.html" %} 
+  </fieldset>
+  <input type="submit" value="{% trans "Signup"%}" />
+</form>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% load i18n %}
+<ul id="userena_menu">
+    <li><a href="{% url userena_profile_detail user.username %}" id="userena_profile_detail_menu_item">{% trans 'View profile' %}</a></li>
+    <li><a href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">{% trans "Edit profile" %}</a></li>
+    <li><a href="{% url userena_password_change user.username %}" id="userena_password_change_menu_item">{% trans "Change password" %}</a></li>
+    <li><a href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">{% trans "Change email" %}</a></li>
+</ul>

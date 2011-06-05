@@ -1,0 +1,16 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Signin" %}{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+  <fieldset>
+    <legend>{% trans "Signin" %}</legend>
+        {% csrf_token %}
+        {% include "userena/form_snippet.html" %}
+  </fieldset>
+  <input type="submit" value="{% trans "Signin" %}" />
+  <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
+</form>
+{% endblock %}

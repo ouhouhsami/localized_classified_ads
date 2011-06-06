@@ -11,11 +11,14 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
     def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
         self.controls = kwargs.get('controls', True)
+        self.search = kwargs.get('search', False)
         super(PolygonWidget, self).__init__()
 
     def get_context_data(self):
         ctx = super(PolygonWidget, self).get_context_data()
         ctx['ads'] = self.ads
+        ctx['search'] = self.search
+        print 'self.search', self.search
         return ctx
 
     class Media:

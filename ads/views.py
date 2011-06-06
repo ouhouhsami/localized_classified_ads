@@ -37,36 +37,43 @@ def search(request, search_id=None):
     """
     # must test if location is set in request.POST or in saved search ?
     # no, it doesn't work
-    if search_id is None:
-        filter = HomeForSaleAdFilterSet(request.POST or None)
+    if request.method != 'POST' and request.GET == {} and search_id is None:
+        search = False
+        print 'search', search
+        filter = HomeForSaleAdFilterSet(None, search = search)
     else:
-        home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
-        q = QueryDict(home_for_sale.search)
-        filter = HomeForSaleAdFilterSet(q or None)
-        if home_for_sale.user_profile.user != request.user:
-            raise Http404
-    if request.POST.__contains__('save_and_search') and search_id is None:
-        datas = request.POST.copy()
-        del datas['save_and_search']
-        del datas['csrfmiddlewaretoken']
-        search =  datas.urlencode()
-        user_profile = UserProfile.objects.get(user = request.user)
-        home_for_sale_search = HomeForSaleSearch(search = search, 
+        search = True
+        print 'search', search
+        if search_id is not None:
+            home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
+            q = QueryDict(home_for_sale.search)
+            filter = HomeForSaleAdFilterSet(q or None, search = search)
+            if home_for_sale.user_profile.user != request.user:
+                raise Http404
+        else:
+            filter = HomeForSaleAdFilterSet(request.POST or None, search = search)
+        if request.POST.__contains__('save_and_search') and search_id is None:
+            datas = request.POST.copy()
+            del datas['save_and_search']
+            del datas['csrfmiddlewaretoken']
+            search =  datas.urlencode()
+            user_profile = UserProfile.objects.get(user = request.user)
+            home_for_sale_search = HomeForSaleSearch(search = search, 
                                                  user_profile = user_profile)
-        home_for_sale_search.save()
-        messages.add_message(request, messages.INFO, 
+            home_for_sale_search.save()
+            messages.add_message(request, messages.INFO, 
                              'Votre recherche a bien été sauvegardée.')
-    nb_of_results = filter.qs.count()
-    if nb_of_results == 0:
-        messages.add_message(request, messages.INFO, 
+        nb_of_results = filter.qs.count()
+        if nb_of_results == 0:
+            messages.add_message(request, messages.INFO, 
                              'Aucune annonce ne correspond à votre recherche')
-    if nb_of_results == 1:
-        messages.add_message(request, messages.INFO, 
+        if nb_of_results == 1:
+            messages.add_message(request, messages.INFO, 
                              '1 annonce correspondant à votre recherche')
-    if nb_of_results > 1:
-        messages.add_message(request, messages.INFO, 
+        if nb_of_results > 1:
+            messages.add_message(request, messages.INFO, 
                              '%s annonces correspondant à votre recherche' % (filter.qs.count()))	
-    return render_to_response('ads/search.html', {'filter': filter}, 
+    return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
                               context_instance = RequestContext(request))
 
 @login_required

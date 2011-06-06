@@ -51,9 +51,14 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation", required=False)
 
     def __init__(self, *args, **kwargs):
+        search = kwargs['search']
+        del kwargs['search']
         super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
         # here we must filter by 10 and use paginate
-        self.form.fields['location'].widget = PolygonWidget(ads=self.qs)
+        if search:
+            self.form.fields['location'].widget = PolygonWidget(ads=self.qs, search=search)
+        else:
+            self.form.fields['location'].widget = PolygonWidget(ads=[], search=search)
 
     class Meta:
         model = HomeForSaleAd

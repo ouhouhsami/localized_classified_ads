@@ -28,6 +28,8 @@
 					$(this).parent().next().hide('fast')
 				}
 			})
+
+			add_home()
     	});
 	</script>
     <script type="text/javascript">
@@ -141,8 +143,11 @@
 		
 		<!-- RESULTS -->
 
+		{% if search %}
+
 		<div id="results" style="padding:10px; padding-right:15px;">
 		
+
 		
 		
 		{% if filter.qs %}
@@ -169,6 +174,8 @@
 					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
+					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>
+					
 				</tr>
 				{% endfor %}
 			</table>
@@ -179,8 +186,14 @@
 			<h2>Pas d'annonces correspondant à votre recherche</h2>
 		</div>
 		{% endif %}
+
+		
 		</div>
 		
+		{% else %}
+
+		{% endif %}
+				
 	</div>
 		
 		

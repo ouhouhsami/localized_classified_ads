@@ -152,7 +152,9 @@ class HomeForSaleAd(Ad):
 
     #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
-    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('view', [str(self.id)])  
 
 class HomeForSaleAdPicture(models.Model): 
 

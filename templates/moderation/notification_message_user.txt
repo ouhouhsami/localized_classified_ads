@@ -1,0 +1,11 @@
+Cher {{ user }}
+
+Votre annonce a été {% ifequal moderated_object.moderation_status 0 %}rejetée{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}acceptée{% endifequal %}.
+
+{% if moderated_object.moderation_reason %}
+Raison: {{ moderated_object.moderation_reason }}
+{% endif %}
+
+{% if moderated_object.get_absolute_url %}
+Vous pouvez voir votre annonce en ligne ici : {{ moderated_object.get_absolute_url }}
+{% endif %}

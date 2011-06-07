@@ -127,6 +127,9 @@
 		<div class="atom {{ fieldset.classes }}" style="height:500px">
 			<h2>{{ filter.form.fieldsets.location.legend }}</h2>
 			<p class="description">{{ filter.form.fieldsets.location.description }}</p>
+			
+			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
+			
 			{% for field in filter.form.fieldsets.location %}
 				{% if field.is_hidden %}
 					{{ field }}

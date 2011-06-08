@@ -118,7 +118,6 @@ function add_marker(map, lon, lat){
 	var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue); 
 	
 	map.ads_layer.addFeatures([pointFeature])
-
     return pointFeature
 }
 

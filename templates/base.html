@@ -11,17 +11,6 @@
 		
 		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
 		
-		<!-- 
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/external/jquery.bgiframe-2.1.2.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.core.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.widget.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.mouse.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.draggable.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.position.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.resizable.js"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/ui/jquery.ui.dialog.js" type="text/javascript" charset="utf-8"></script>
-		-->
-		
 		{% block media %}
 		{% endblock %}
 		
@@ -42,6 +31,7 @@
 					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
 					{% else %}
 					<a href="{% url userena_signin %}" class="left button">Se connecter</a></li>
+					<a href="{% url add %}" class="right button"><span class="plus icon"></span>Proposer un bien</a>
 					<a href="{% url userena_signup %}" class="right button">S'inscrire</a>
 					{% endif %}
 				</div>

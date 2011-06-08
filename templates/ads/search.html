@@ -32,10 +32,17 @@
 			add_home()
     	});
 	</script>
+
     <script type="text/javascript">
     $(function (){
-        $('a.ajax').click(function() {
-            var url = this.href;
+		$('.result_header a').click(function(evt){
+			$("#search").attr('action', $(this).attr('href'))
+			$("#search").submit()
+			return false
+		})
+         /*
+		$('a.ajax').click(function() {
+			var url = this.href;
 			$('#details').html('')
             var dialog = $('<div class=""></div>').appendTo('#details');
 			$.ajax({
@@ -45,22 +52,12 @@
 			    	$(this).html(data);
 			  	}
 			});
-			/*
-            dialog.load(
-                url, 
-                function (responseText, textStatus, XMLHttpRequest) {
-                    //dialog.dialog({ modal: true, width: 950, zIndex:1100 });
-					dialog.html('lklklkl')
-                }
-            );
-			*/
             return false;
         });
-
-		
-
+		*/
     });
     </script>
+
 {% endblock %}
 
 
@@ -140,9 +137,6 @@
 		</div>
 		
 		</div>
-				
-		<div id="details">
-		</div>
 		
 		<!-- RESULTS -->
 
@@ -157,6 +151,12 @@
 		
 		{% autosort filter.qs as sorted_objects %}
 		{% autopaginate sorted_objects 10 as object_list %}
+
+		<div id="results_detail" style="display:none;visibility:hidden">
+			{% for ad in object_list %}
+				{% include 'ads/view_popup.html' %}
+			{% endfor %}
+		</div>
 		
 		<div class="atom" >
 			<h2>Résultats de la recherche</h2>
@@ -171,13 +171,13 @@
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>
+					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a> <a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">Voir sur la carte</a></td>
 					<td>{{ ad.price }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
-					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>
+					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
 					
 				</tr>
 				{% endfor %}

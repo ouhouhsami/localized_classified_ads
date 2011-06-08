@@ -1,47 +1,8 @@
-{% extends "base.html" %}
 {% load ads_tag %}
 {% load l10n %}
 
-{% block javascript %}
-	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script src="http://openlayers.org/dev/OpenLayers.js"></script>
-	<!-- -->
-	<script src="{{ STATIC_URL }}floppyforms/js/MapWidget.js"></script>
-	<script src="{{ STATIC_URL }}js/map.utils.js"></script>	
+<div id="block_content" class="ad_{{ ad.id }}">
 	
-	<script>
-	    $(document).ready(function(){
-            var map;
-            map = new OpenLayers.Map('map');
-            map.addControl(new OpenLayers.Control.LayerSwitcher());
-
-            var proj = new OpenLayers.Projection("EPSG:4326");
-
-            var gmap = new OpenLayers.Layer.Google("Google Streets", {
-                sphericalMercator: true,
-                'maxExtent': new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34)
-            });
-            var pointLayer = new OpenLayers.Layer.Vector("Point Layer");
-
-            map.addLayers([gmap, pointLayer]);
-            var lonlat = new OpenLayers.LonLat({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
-            //lonlat.transform(proj, map.getProjectionObject());
-            map.setCenter(lonlat, 15);
-
-            var point = new OpenLayers.Geometry.Point({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
-            //point = point.transform(proj, map.getProjectionObject());
-            //console.log(point);
-            var pointFeature = new OpenLayers.Feature.Vector(point, null, null);
-            pointLayer.addFeatures([pointFeature]);
-
-    	});
-	</script>
-{% endblock %}
-
-{% block content %}
-
-<div id="block_content">
-	<!--<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>-->
 	<h2>{{ ad.title }}</h2>
 	<h3>
 		{{ ad.get_habitation_type_display }}
@@ -50,16 +11,17 @@
 		- {{ ad.nb_of_rooms }} pièces
 		- {{ ad.nb_of_bedrooms }} chambres
 	</h3>
+	
+	<p><a href="{% url view ad.id %}" >Lien stable vers l'annonce</a></p>
+	
 	{% for img in ad.homeforsaleadpicture_set.all %}
 		<img src="{% thumbnail img.image 200 130 %}" />
 	{% endfor %}
-	{% comment %}{{ map_widget }}{% endcomment %}
-	<div style="width:900px; height:300px" id="map"></div>
 	<div style="clear:both"></div>
 	<p>
 		{{ ad.description|linebreaksbr  }}
 	</p>
-	<div class="atom">
+	<div class="atom" >
 		<h3>Critères énergétiques</h3>
 		<p>
 			Consommation énergétique : {{ ad.get_energy_consumption_display }}	
@@ -132,25 +94,3 @@
 	</p>
 
 </div>
-
-<div class="atom">
-{% if user.is_authenticated %}
-	<form action="" method="POST">
-		<h3>Contacter le vendeur</h3>
-	<table>
-		{% csrf_token %}
-		{{ contact_form.as_table }}
-		<tr>
-			<td></td>
-			<td><button type="submit">Ecrire au vendeur</button></td>
-		</tr>
-	</table>
-	</form>
-{% else %}
-	<div class="content">
-		<p>Pour écrire au vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
-	</div>
-{% endif %}
-</div>
-
-{% endblock %}

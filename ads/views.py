@@ -123,12 +123,9 @@ def view(request, ad_id):
         if contact_form.is_valid():
             instance = contact_form.save(commit = False)
             instance.content_object = ad
-            page_user = get_object_or_404(User, username=request.user.username)
-            profile_class = get_profile_model()
-            profile = get_object_or_404(profile_class, user = page_user)
-            instance.user_profile = profile
+            instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
-            send_mail('Demande d\'information concernant votre annonce', instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
+            send_mail('[AcheterSansCom.com] Demande d\'information concernant votre annonce', instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
     if request.is_ajax():
         return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))

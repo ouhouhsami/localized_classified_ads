@@ -39,11 +39,9 @@ def search(request, search_id=None):
     # no, it doesn't work
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
-        print 'search', search
         filter = HomeForSaleAdFilterSet(None, search = search)
     else:
         search = True
-        print 'search', search
         if search_id is not None:
             home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
             q = QueryDict(home_for_sale.search)
@@ -102,7 +100,6 @@ def add(request):
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
-            print instance.location
             PictureFormset = inlineformset_factory(HomeForSaleAd, HomeForSaleAdPicture, extra=4, max_num=4)
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
             if picture_formset.is_valid():

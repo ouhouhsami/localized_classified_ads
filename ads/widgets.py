@@ -18,7 +18,6 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
         ctx = super(PolygonWidget, self).get_context_data()
         ctx['ads'] = self.ads
         ctx['search'] = self.search
-        print 'self.search', self.search
         return ctx
 
     class Media:

@@ -163,16 +163,18 @@
 			<table>
 				<tr class="result_header">
 					<th></th>
+					<th></th>
 					<th>{% anchor price "Prix" %}</th>
 					<th>{% anchor surface "Surface" %}</th>
 					<th>{% anchor habitation_type "Type de bien" %}</th>
-					<th>{% anchor nb_of_rooms "Nb. de pièces" %}</th>
-					<th>{% anchor nb_of_bedrooms "Nb. chambres" %}</th>
+					<th>{% anchor nb_of_rooms "Pièces" %}</th>
+					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a> <a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">Voir sur la carte</a></td>
-					<td>{{ ad.price }}</td>
+					<td><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /></a></td>
+					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>
+					<td>{{ ad.price|priceformat }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>

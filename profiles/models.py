@@ -10,3 +10,4 @@ class UserProfile(UserenaBaseProfile):
     location		= models.PointField(default='POINT(-95.3385 29.7245)', srid=900913)
 
     objects = models.GeoManager()
+

@@ -29,7 +29,6 @@ class Command(BaseCommand):
             pnt.transform(4326)
             latitude = pnt.y
             longitude = pnt.x
-            print latitude, longitude
             params = 'status=%s&lat=%s&long=%s&display_coordinates=true' % (urlencode(status), latitude, longitude)
             resp, content = client.request(
                 'http://api.twitter.com/1/statuses/update.xml?%s' % (params),

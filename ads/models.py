@@ -102,14 +102,16 @@ ORIENTATION_CHOICES = (
 )
 
 class HomeForSaleAd(Ad):
+    """HomeFormSaleAd model
 
-    price = models.IntegerField("Prix", help_text="Prix du bien en Euros")
+    """
+    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros")
     habitation_type	= models.CharField("Type d'habitation", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
     surface = models.FloatField("Surface", 
                                 help_text="Surface de votre bien en mètres carrés")
-    nb_of_rooms	= models.IntegerField("Nombre de pièces")
-    nb_of_bedrooms = models.IntegerField("Nombre de chambres")
+    nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
+    nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique", 
                                           max_length = 1, 
                                           choices = ENERGY_CONSUMPTION_CHOICES)
@@ -118,7 +120,7 @@ class HomeForSaleAd(Ad):
                                                     choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES)
     ground_surface = models.FloatField('Surface du terrain', 
                                        null = True, blank = True)
-    floor = models.IntegerField('Etage', null = True, blank = True)
+    floor = models.PositiveIntegerField('Etage', null = True, blank = True)
     top_floor = models.BooleanField('Dernier étage')
     elevator = models.BooleanField("Ascenceur")
     intercom = models.BooleanField("Interphone")

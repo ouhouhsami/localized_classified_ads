@@ -91,6 +91,7 @@
 																'html', 
 																true
 														);
+														popup.panMapIfOutOfView = true;
 														popup.contentHTML = $('.'+feature.classname).html()
 														{{ module }}.map.addPopup(popup);
 													}
@@ -111,6 +112,7 @@
 											'html', 
 											true
 											);
+				popup.panMapIfOutOfView = true
 				popup.contentHTML = $('.'+classname).html()
 				{{ module }}.map.addPopup(popup);				
 			}

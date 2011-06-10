@@ -1,7 +1,11 @@
 # coding=utf-8
-
+import re
 from django import template
+from django.conf import settings
 from moderation.models import ModeratedObject
+from django.utils.encoding import force_unicode
+from django.utils.formats import number_format
+
 register = template.Library()
 
 '''
@@ -25,7 +29,6 @@ register.simple_tag(moderation_status_label)
 
 def has_value(field):
     if field.field.__class__.__name__ == 'RangeField' or field.field.__class__.__name__ == 'NumericRangeField':
-        print 'FIELD RANGE', field.data
         if (field.data[0] == '' and field.data[1] == '') or (field.data[0] is None and field.data[1] is None):
             return 'has_not_value'
     elif field.field.__class__.__name__ == 'NullBooleanField':
@@ -111,3 +114,29 @@ def thumbnail(parser, token):
     except ValueError:
         raise template.TemplateSyntaxError, " %r tag requires exactly 3 arguments" % token.contents[0]
     return ThumbnailerNode(image, int(width), int(height))
+
+def priceformat(value, use_l10n=True):
+    """
+    Converts an integer to a string containing commas every three digits.
+    For example, 3000 becomes '3,000' and 45000 becomes '45,000'.
+    """
+    #if settings.USE_L10N and use_l10n:
+    '''
+        try:
+            if not isinstance(value, float):
+                value = int(value)
+        except (TypeError, ValueError):
+            return priceformat(value, False)
+        else:
+            return number_format(value)
+    '''
+    orig = force_unicode(value)
+    print orig
+    new = re.sub("^(-?\d+)(\d{3})", '\g<1> \g<2>', orig)
+    print new
+    if orig == new:
+        return new
+    else:
+        return priceformat(new, use_l10n)
+priceformat.is_safe = True
+register.filter(priceformat)

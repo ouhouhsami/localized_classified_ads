@@ -3,19 +3,19 @@ Fabric==1.0.1
 PIL==1.1.7
 South==0.7.3
 django-debug-toolbar==0.8.5
--e git://github.com/subsume/django-filter-actually-maintained.git@2cf55f2dfa3dc62eb10d8d755554090b5b14ffe5#egg=django_filter-0.5.3-py2.7-dev
+-e git://github.com/subsume/django-filter-actually-maintained.git#egg=django_filter
 django-floppyforms==0.4.4
 django-form-utils==0.2.0
 django-guardian==1.0.2
--e git://github.com/sirex/django-mockups.git@5843ae19b5f33a6f9c3ec93d84222a3cdfb9e36d#egg=django_mockups-0.4.8-py2.7-dev
-django-moderation==0.3.2
+-e git://github.com/sirex/django-mockups.git#egg=django_mockups-0.4.8-py2.7-dev
+-e git://github.com/dominno/django-moderation.git#egg=django-moderation
 django-pagination==1.0.7
--e git://github.com/lukeman/django-sorting.git@d3456924ff2140c2a3466a2dd9d674486500393e#egg=django_sorting-0.1-py2.7-dev
--e git://github.com/bread-and-pepper/django-userena.git@b21e50c530597ae316b3b09bff275fabc7f3223a#egg=django_userena-1.0.0-py2.7-dev
+-e git://github.com/lukeman/django-sorting.git#egg=django_sorting
+-e git+git://github.com/bread-and-pepper/django-userena.git#egg=userena
 easy-thumbnails==1.0-alpha-17
 httplib2==0.6.0
 johnny-cache==0.3.1
--e git://github.com/simplegeo/python-oauth2.git@1fcc1a6d49a7be2a9394125acf5b1c2227fcde79#egg=oauth2-1.5.170-py2.7-dev
+-e git://github.com/simplegeo/python-oauth2.git#egg=oauth2
 paramiko==1.7.6
 psycopg2==2.4
 pycrypto==2.3

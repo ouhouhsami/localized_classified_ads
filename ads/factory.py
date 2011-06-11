@@ -15,8 +15,8 @@ class GeoPointGenerator(generators.Generator):
         super(GeoPointGenerator, self).__init__(*args, **kwargs)
 
     def generate(self):
-        coord_0 = decimal.Decimal(random.randrange(2003750834))/100 - decimal.Decimal(20037508.34/2)
-        coord_1 = decimal.Decimal(random.randrange(2003750834))/100 - decimal.Decimal(20037508.34/2)
+        coord_0 = decimal.Decimal(random.randrange(2003750834)/100 - 20037508.34/2)
+        coord_1 = decimal.Decimal(random.randrange(2003750834)/100 - 20037508.34/2)
         value = 'POINT(%s %s)' % (coord_0, coord_1)
         return value
 

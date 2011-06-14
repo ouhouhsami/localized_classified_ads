@@ -104,6 +104,7 @@ function center_map(map, lon, lat){
 }
 
 function add_marker(map, lon, lat){
+	
 	var style_blue = OpenLayers.Util.extend({}, map.layer_style);
 	style_blue.strokeColor = "blue";
 	style_blue.fillColor = "#3BB9FF";
@@ -118,7 +119,7 @@ function add_marker(map, lon, lat){
 	var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue); 
 	
 	map.ads_layer.addFeatures([pointFeature])
-    return pointFeature
+	return pointFeature
 }
 
 

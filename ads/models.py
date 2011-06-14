@@ -35,14 +35,14 @@ class Ad(models.Model):
 
 HABITATION_TYPE_CHOICES = (
     ('0', 'appartement'),
-    ('1', 'maison / villa'),
-    ('2', 'loft/atelier/surface'),
-    ('3', 'bureau'),
-    ('4', 'boutique'),
-    ('5', 'local commercial'),
-    ('6', 'immeuble'),
+    ('1', 'maison'),
+    #('2', 'loft/atelier/surface'),
+    #('3', 'bureau'),
+    #('4', 'boutique'),
+    #('5', 'local commercial'),
+    #('6', 'immeuble'),
     ('7', 'parking'),
-    ('8', 'divers'),
+    ('8', 'autres'),
 )
 
 ENERGY_CONSUMPTION_CHOICES = (
@@ -78,6 +78,7 @@ HEATING_CHOICES = (
     ('10', 'sol'),
     ('11', 'gaz sol'),
     ('12', 'collectif radiateur'),
+    ('13', 'autres')
 )
 
 KITCHEN_CHOICES = (
@@ -97,8 +98,8 @@ ORIENTATION_CHOICES = (
     ('2', 'est'),
     ('3', 'nord'),
     ('4', 'ouest'),
-    ('5', 'belle vue'),
-    ('6', 'sans vis à vis'),
+    #('5', 'belle vue'),
+    #('6', 'sans vis à vis'),
 )
 
 class HomeForSaleAd(Ad):
@@ -106,22 +107,24 @@ class HomeForSaleAd(Ad):
 
     """
     price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros")
-    habitation_type	= models.CharField("Type d'habitation", max_length = 1, 
+    habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
     surface = models.FloatField("Surface", 
                                 help_text="Surface de votre bien en mètres carrés")
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
-    energy_consumption = models.CharField("Consommation énergétique", 
+    energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
                                           max_length = 1, 
                                           choices = ENERGY_CONSUMPTION_CHOICES)
-    emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre", 
+    emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre (kgeqCO2/m².an)", 
                                                     max_length = 1, 
                                                     choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES)
     ground_surface = models.FloatField('Surface du terrain', 
                                        null = True, blank = True)
     floor = models.PositiveIntegerField('Etage', null = True, blank = True)
+    ground_floor = models.BooleanField('Rez de chaussé')
     top_floor = models.BooleanField('Dernier étage')
+    not_overlooked = models.BooleanField('Sans vis-à-vis')
     elevator = models.BooleanField("Ascenceur")
     intercom = models.BooleanField("Interphone")
     digicode = models.BooleanField("Digicode")

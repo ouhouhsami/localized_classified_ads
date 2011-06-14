@@ -11,5 +11,7 @@
     {% include "userena/form_snippet.html" %} 
   </fieldset>
   <input type="submit" value="{% trans "Signup"%}" />
+	<p>Si vous êtes déjà inscrit, <a href="{% url userena_signin %}">connectez-vous</a>.</p>
 </form>
+
 {% endblock %}

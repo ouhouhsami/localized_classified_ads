@@ -10,6 +10,11 @@
 			
 	<script>
 		$(document).ready(function(){
+			
+			// test click image
+			
+			$('#id_location_map image').click(function(evt){console.log('okokokokoko cool')})
+			
 			// init less important parameters
 			$('.atom_content').each(function(index) {
 				if($(this).find('.has_value').length == 0){
@@ -27,6 +32,10 @@
 					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
 					$(this).parent().next().hide('fast')
 				}
+				evt.stopPropagation()
+			})
+			$('.atom_title').click(function(evt){ 
+				$(this).find('.extend').trigger('click')
 			})
 
 			add_home()
@@ -74,12 +83,17 @@
 		<!-- FORM ACTIONS -->
 		<div style="text-align:center;padding:8px;">
 		<button type="submit" value="search" name="search"><span class="magnifier icon"></span>Chercher</button>
-		<a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a>
+		<!-- <a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a> -->
+		
+		{% if search %}
 		{% if user.is_authenticated %}
-        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver</button>
+        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% else %}
-		<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
+		<!--<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
+		-->
 		{% endif %}	
+		{% endif %}
+		
 		</div>		
 		
 		
@@ -88,7 +102,7 @@
 			{% if fieldset.name != 'location' %}
 			<div class="atom {{ fieldset.classes }}">
 				{% if fieldset.legend != fieldset.name %}
-				<h3 class="atom_title"><a class="extend">+</span></a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
+				<h3 class="atom_title" style="cursor:pointer"><a class="extend">+</span></a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
 				{% else %}
 				{% endif %}
 				<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
@@ -101,7 +115,7 @@
 									{{ field }}
 								{% else %}
 									<tr{{ field.row_attrs }}>
-										<td>{{ field.label_tag }} </td>
+										<td>{{ field.label_tag }}</td>
 										<td class="{% has_value field %}">
 											{{ field }}
 											{% if field.help_text %}<br />{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}{% endif %}
@@ -163,7 +177,6 @@
 			<table>
 				<tr class="result_header">
 					<th></th>
-					<th></th>
 					<th>{% anchor price "Prix" %}</th>
 					<th>{% anchor surface "Surface" %}</th>
 					<th>{% anchor habitation_type "Type de bien" %}</th>
@@ -172,8 +185,8 @@
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /></a></td>
-					<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>
+					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /> consulter l'annonce'</a></td>
+					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.price|priceformat }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.get_habitation_type_display }}</td>
@@ -196,7 +209,17 @@
 		</div>
 		
 		{% else %}
-
+			<div id="results" style="padding:10px; padding-right:15px;">
+			<p>
+				<b>{{ total_ads }} annonces de biens en vente, sans intermédiaires et géolocalisés.</b>
+				<br />
+				" Pour 5 biens immobiliers vendus via AcheterSansCom.com, un agent immobilier est au chômage. Ca serait dommage de se priver."
+				<br />
+				" Lorsque tous les biens immobiliers seront vendu via AcheterSansCom.com, la hausse des prix de l'immobilier cessera. Ca serait dommage de se priver."
+				<br />
+				Ils n'aiment pas AcheterSansCom.com : Le Figaro, Challenge, Capital, Century21, Orpy ...
+			</p>
+			</div>
 		{% endif %}
 				
 	</div>

@@ -37,6 +37,7 @@ def search(request, search_id=None):
     """
     # must test if location is set in request.POST or in saved search ?
     # no, it doesn't work
+    total_ads = HomeForSaleAd.objects.all().count()
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
         filter = HomeForSaleAdFilterSet(None, search = search)
@@ -69,9 +70,14 @@ def search(request, search_id=None):
             messages.add_message(request, messages.INFO, 
                              '1 annonce correspondant à votre recherche')
         if nb_of_results > 1:
-            messages.add_message(request, messages.INFO, 
-                             '%s annonces correspondant à votre recherche' % (filter.qs.count()))	
-    return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
+            if request.user.is_authenticated():
+                messages.add_message(request, messages.INFO, 
+                             '%s annonces correspondant à votre recherche' % (filter.qs.count()))
+            else:
+                sign_url = reverse('userena_signup', args=[])
+                messages.add_message(request, messages.INFO, 
+                             '%s annonces correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail !' % (filter.qs.count(), sign_url))
+    return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads}, 
                               context_instance = RequestContext(request))
 
 @login_required

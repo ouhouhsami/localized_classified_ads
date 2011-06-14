@@ -28,7 +28,7 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
                      #('pieces', {'fields' :['nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'Pièces'}),
                      ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'top_floor', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
                      ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
                      ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
@@ -47,11 +47,11 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche', 'description':"Sur la carte ci-dessous, cliquez pour ajouter un point, double-cliquez pour fermer la zone de recherche."}),
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche', 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."}),
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms']}),
                      ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'top_floor', 'orientation'], 'legend': 'Le logement dans l\'immeuble'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
                      ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
                      ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),

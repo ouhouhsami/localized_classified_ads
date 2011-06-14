@@ -16,14 +16,29 @@
 </style>
 
 <span id="{{ attrs.id }}_span_map">
-	
+	<script type="text/javascript">
+	localizeMe = function(){
+		if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
+					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+					{{ module }}.map.setCenter(lonlat, 12);
+				});
+			}else{				
+		}
+	}
+	</script>	
 	<div id="{{ attrs.id }}_map"></div>
 	<div>
-	<a href="javascript:{{ module }}.clearFeatures()" style="float:right">Effacer la zone de recherche</a>
-	Entrer une adresse pour centrer la carte : <input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
+	
+	<!-- <a href="javascript:{{ module }}.clearFeatures()" style="float:right"> Effacer la zone </a> -->
+	Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou sur l'adresse de votre choix : <input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
 	</div>
 	{% if display_wkt %}<p> WKT debugging window:</p>{% endif %}
 	{% include "floppyforms/textarea.html" %}
+	
+
+
 	<script type="text/javascript">
 		{% block map_options %}var map_options = {};{% endblock %}
 		{% block options %}var options = {
@@ -37,16 +52,13 @@
 			map_options: map_options,
 			map_srid: {{ map_srid }},
 			name: '{{ name }}',
-			default_lat: 48,
-			default_lon: 2
+			default_lat: 48.858,
+			default_lon: 2.333, 
+			default_zoom:12
 		};{% endblock %}
 		
 		var {{ module }} = new MapWidget(options);
 		var geocoder = new google.maps.Geocoder();
-		
-		
-
-		
 		
 		{% if ads %}
 			
@@ -95,11 +107,6 @@
 														popup.contentHTML = $('.'+feature.classname).html()
 														{{ module }}.map.addPopup(popup);
 													}
-													/*
-													clickFeature: function(feature){
-														$('a.ajax[href="'+feature.href+'"]').trigger('click')
-													}
-													*/
 												}
 											)
 											]);
@@ -122,6 +129,7 @@
 
 		{% if search %}
 		{% else %}
+			/*
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
@@ -131,6 +139,7 @@
 			}else{
 				
 			}
+			*/
 		{% endif %}
 				
 		$("#center_map").hide()

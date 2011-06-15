@@ -1,0 +1,9 @@
+Bonjour, 
+
+Voici une sélection de nouveaux biens correspondant à votre recherche: 
+
+{% for ad in ads %}
+- <a href="{% url view ad.id %}">{{ ad.get_habitation_type_display }}, {{ ad.price }}Euros, {{ ad.surface }} m2, {{ ad.nb_of_rooms }} pièces, {{ ad.nb_of_bedrooms }} chambres</a>
+{% endfor %}
+
+Pour supprimer cette recherche et les alertes mail, allez dans votre espace personnel.

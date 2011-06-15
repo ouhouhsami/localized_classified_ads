@@ -18,7 +18,7 @@ from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.geos import fromstr
 
-import floppyforms 
+import floppyforms
 import django_filters
 from django_filters.filters import Filter
 from form_utils.forms import BetterForm

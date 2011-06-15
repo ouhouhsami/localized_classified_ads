@@ -21,16 +21,36 @@
 @error:IndianRed;
 
 
+.box-shadow{
+    box-shadow: 0 0 3px #999999;
+    -webkit-box-shadow: 0 0 3px #999999;
+    -moz-box-shadow: 0 0 3px #999999;
+}
+
+.border-radius (@topleft: 10px, @topright: 10px, @bottomleft: 10px, @bottomright: 10px) {
+  border-top-left-radius: @topleft;
+  border-top-right-radius: @topright;
+  border-bottom-left-radius: @bottomleft;
+  border-bottom-right-radius: @bottomright;
+  
+  -webkit-border-top-left-radius: @topleft;
+  -webkit-border-top-right-radius: @topright;
+  -webkit-border-bottom-left-radius: @bottomleft;
+  -webkit-border-bottom-right-radius: @bottomright;
+  
+  -moz-border-radius-topleft: @topleft;
+  -moz-border-radius-topright: @topright;
+  -moz-border-radius-bottomleft: @bottomleft;
+  -moz-border-radius-bottomright: @bottomright;
+}
 
 
 /* STYLE DEFINITION */
-
 
 @font-face {
    font-family: 'Droid Sans',helvetica,arial,Geneva,sans-serif;
    src: url("../font/DroidSans.ttf") ;
 }
-
 
 /* LAYOUT */
 
@@ -58,12 +78,12 @@ html, body{
 
 #registration {
 	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
-	border-bottom-left-radius:10px;	
-	border-bottom-right-radius:10px;	
+	.box-shadow;
+    .border-radius(0px, 0px, 10px, 10px);	
 	padding:10px;
 	margin-top: -3px;
 }
+
 #social_links {
 	padding:4px;
 	margin-top: -3px;
@@ -72,9 +92,8 @@ html, body{
 
 #footer {
 	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
-	border-top-left-radius:10px;	
-	border-top-right-radius:10px;	
+	.box-shadow;
+	.border-radius(10px, 10px, 0px, 0px);
 	padding:10px;
 	margin-bottom: -3px;
 	margin-top:1px;
@@ -82,15 +101,29 @@ html, body{
 
 form, #block_content, #results, .content, .olPopup {
 	background-color:@color_2; 
-	box-shadow: 0 0 3px #999999;
-	border-radius:10px;	
+	.box-shadow;
+	.border-radius;	
 	padding:10px;
 	margin-bottom:8px;
 }
 
+
+.non-location-field{
+	padding:10px; 
+	float:right;
+	width:245px;
+	.border-radius(0px,10px,10px,10px);	
+}
+
+.location-field{
+	padding:10px; 
+	padding-right:0px;
+	.border-radius(10px,0px,10px,0px);
+}
+
 .messages li {
-	box-shadow: 0 0 3px #999999;
-	border-radius:10px;	
+	.box-shadow;
+	.border-radius;	
 	padding:10px;	
 	margin-bottom:3px;
 }
@@ -213,12 +246,12 @@ form input {
 
 #search .search_form {
 	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
+	.box-shadow;
 }
 
 #search {
 	background-color:transparent;
-	box-shadow: 0 0 0px transparent;
+	box-shadow: 0 0 0px #999999;
 }
 
 .extend {
@@ -252,7 +285,7 @@ input, select {
 .atom {
 	/*border:1px solid @light;*/
 	margin-bottom:5px;
-	border-radius:2px;
+	.border-radius(2px,2px,2px,2px);
 }
 
 .atom {
@@ -293,8 +326,8 @@ input, select {
 
 #userena_menu{
 	background-color:#F6F4F2; 
-	box-shadow: 0 0 3px #999999;
-	border-radius:10px;	
+	.box-shadow;
+	.border-radius;	
 	margin-bottom:10px;
 	padding:5px;
 	
@@ -305,7 +338,6 @@ input, select {
 	margin:5px; 
 	text-decoration:none;
 	color:#777;
-	/*font-weight:bold*/
 }
 
 /* USERENA MENU STYLE */
@@ -356,13 +388,6 @@ input, select {
 			background-color:@color_3;
 		}
 	}
-}
-
-.button {
-	/*text-decoration:none;*/
-}
-.button:hover {
-	/*text-decoration:underline;*/
 }
 
 .ui-widget {

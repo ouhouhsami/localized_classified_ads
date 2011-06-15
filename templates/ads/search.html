@@ -78,7 +78,7 @@
 		{% csrf_token %}
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 	
-	<div  class="search_form" style="padding:10px; float:right;width:245px; border-top-right-radius:10px;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+	<div  class="search_form non-location-field" style="">
 		
 		<!-- FORM ACTIONS -->
 		<div style="text-align:center;padding:8px;">
@@ -133,7 +133,7 @@
 		
 	<div style="margin-right:265px; " >
 		
-		<div class="search_form" style="padding:10px; padding-right:0px; border-top-left-radius:10px;border-bottom-left-radius:10px;">
+		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
 		<div class="atom {{ fieldset.classes }}" style="height:500px">
 			<h2>{{ filter.form.fieldsets.location.legend }}</h2>
@@ -185,7 +185,7 @@
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /> consulter l'annonce'</a></td>
+					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /> consulter l'annonce</a></td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.price|priceformat }}</td>
 					<td>{{ ad.surface }}</td>

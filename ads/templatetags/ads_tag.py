@@ -131,9 +131,7 @@ def priceformat(value, use_l10n=True):
             return number_format(value)
     '''
     orig = force_unicode(value)
-    print orig
     new = re.sub("^(-?\d+)(\d{3})", '\g<1> \g<2>', orig)
-    print new
     if orig == new:
         return new
     else:

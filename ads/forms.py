@@ -47,7 +47,8 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche', 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."}),
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche sur la carte'}),
+                     #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms']}),
                      ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),

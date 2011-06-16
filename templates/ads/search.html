@@ -11,9 +11,31 @@
 	<script>
 		$(document).ready(function(){
 			
-			// test click image
 			
-			$('#id_location_map image').click(function(evt){console.log('okokokokoko cool')})
+			
+			var help_text = $("<div class='tooltip'></div>")
+			var h = help_text.appendTo('#content');
+			h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
+			$('.olControlEditingToolbar > div').click(function(evt){
+				//console.log(this)
+				if($(this).attr('class').indexOf("Modify") !=-1 ){
+					h.html("Selectionner la zone que vous avez dessine, et deplacer les ancres pour la modifier")
+				}
+				if($(this).attr('class').indexOf("Draw") !=-1 ){
+					h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
+				}
+				if($(this).attr('class').indexOf("Navigation") !=-1 ){
+					h.html('Selectionner-deplacer la carte')
+				}
+			})
+			
+			
+			
+			$('#id_location_span_map .olMapViewport').mousemove(function(evt){
+				h.css({'z-index':10000, 'position':'fixed', 'top':evt.pageY+8-$("html").scrollTop(), 'left':evt.pageX+8})	
+			})
+			.mouseenter(function(evt){h.show()})
+			.mouseleave(function(evt){h.hide()})
 			
 			// init less important parameters
 			$('.atom_content').each(function(index) {
@@ -38,7 +60,6 @@
 				$(this).find('.extend').trigger('click')
 			})
 
-			add_home()
     	});
 	</script>
 
@@ -66,6 +87,7 @@
 		*/
     });
     </script>
+
 
 {% endblock %}
 

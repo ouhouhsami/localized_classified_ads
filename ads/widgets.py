@@ -23,7 +23,10 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
     class Media:
         js = (
             'http://maps.google.com/maps/api/js?sensor=false',
+            '/static/js/CustomZoomPanel.js',
+            '/static/js/MapWidgetOverride.js',
         )
+
 
 class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidget):
     pass

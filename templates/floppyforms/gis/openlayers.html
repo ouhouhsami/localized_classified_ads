@@ -5,13 +5,37 @@
 	#{{ attrs.id }}_map .aligned label { float: inherit; }
 	#{{ attrs.id }}_span_map { position: relative; vertical-align: top; float: left; }
 	{% if not display_wkt %}#{{ attrs.id }} { display: none; }{% endif %}
+	.olControlEditingToolbar {
+		background-color:#999;
+		height: 22px;
+	}
+	
+	.olControlEditingToolbar .olControlViewFeatureItemActive {
+		background-image: url("/static/img/home_icon.png");
+		background-repeat: no-repeat;
+	}
+	.olControlEditingToolbar .olControlViewFeatureItemInactive {
+		background-image: url("/static/img/home_icon_bw.png");
+		background-repeat: no-repeat;
+	}
 	.olControlEditingToolbar .olControlModifyFeatureItemActive {
-		background-image: url("{{ ADMIN_MEDIA_PREFIX }}img/gis/move_vertex_on.png");
+		background-image: url("/static/img/gis/move_feature_on.png");
 		background-repeat: no-repeat;
 	}
 	.olControlEditingToolbar .olControlModifyFeatureItemInactive {
-		background-image: url("{{ ADMIN_MEDIA_PREFIX }}img/gis/move_vertex_off.png");
+		background-image: url("/static/img/gis/move_feature_off.png");
 		background-repeat: no-repeat;
+	}
+	.olControlZoomPanel{
+		top:14px;
+	}
+	.olControlZoomPanel div {
+		position:static;
+	}
+	.olControlEditingToolbar {
+		right: 14px;
+		top: 14px;
+		margin:0px;
 	}
 </style>
 
@@ -32,7 +56,7 @@
 	<div>
 	
 	<!-- <a href="javascript:{{ module }}.clearFeatures()" style="float:right"> Effacer la zone </a> -->
-	Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou sur l'adresse de votre choix : <input type="text" id="address" /><input type="button" id="center_map" value="centrer la carte" />
+	Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou sur l'adresse de votre choix : <input type="text" id="address" /> <input type="button" id="center_map" value="centrer la carte" />
 	</div>
 	{% if display_wkt %}<p> WKT debugging window:</p>{% endif %}
 	{% include "floppyforms/textarea.html" %}
@@ -41,13 +65,22 @@
 
 	<script type="text/javascript">
 		{% block map_options %}var map_options = {};{% endblock %}
-		{% block options %}var options = {
+		{% block options %}
+		
+		map_options.controls = [
+									new OpenLayers.Control.Navigation(),
+									new OpenLayers.Control.ArgParser(),
+									new OpenLayers.Control.Attribution(),
+									new OpenLayers.Control.ZoomPanel()
+								]	
+		var options = {
 			geom_type: OpenLayers.Geometry.{{ geom_type }},
 			id: '{{ attrs.id }}',
 			is_collection: {{ is_collection|yesno:"true,false" }},
 			is_linestring: {{ is_linestring|yesno:"true,false" }},
 			is_point: {{ is_point|yesno:"true,false" }},
 			is_polygon: {{ is_polygon|yesno:"true,false" }},
+			has_results: {% if ads %}true{% else %}false{% endif %},
 			map_id: '{{ attrs.id }}_map',
 			map_options: map_options,
 			map_srid: {{ map_srid }},
@@ -58,90 +91,14 @@
 		};{% endblock %}
 		
 		var {{ module }} = new MapWidget(options);
-		var geocoder = new google.maps.Geocoder();
-		
 		{% if ads %}
-			
-			add_layer({{ module }}.map)
-			function add_home(coord_0, coord_1, href, classname){
-				mark = add_marker({{ module }}.map, coord_0, coord_1);
-				mark.href = href
-				mark.classname =  classname
-				mark.coord_0 = coord_0
-				mark.coord_1 = coord_1
-			}
-			
-			{% for ad in ads %}
-				
-				/*
-				mark = add_marker({{ module }}.map, {{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
-				mark.href = '{% url view ad.id %}';
-				
-				html = '<h2>{{ ad.title|escapejs }}</h2> {{ ad.price|escapejs }}€, {{ ad.surface|escapejs }}m<sup>2</sup>, {{ ad.nb_of_rooms|escapejs }} pièces <br /> <a href="{% url view ad.id %}" target="_blank">détail</a>'
-				popup = new OpenLayers.Popup("ad_{{ ad.id }}", 
-											new OpenLayers.LonLat(
-												{{ ad.location.coords.0|unlocalize }},
-												{{ ad.location.coords.1|unlocalize }}), 
-												new OpenLayers.Size(200,200), html, true
-											);
-				mark.popup = popup
-				{{ module }}.map.addPopup(popup);
-				popup.hide()	
-				*/
-					
-			{% endfor %}
-			
-			{{ module }}.panel.addControls([new OpenLayers.Control.SelectFeature(
-												{{ module }}.map.ads_layer, 
-												{
-													clickFeature: function(feature){
-														popup = new OpenLayers.Popup(feature.classname, 
-															new OpenLayers.LonLat(
-																feature.coord_0,
-																feature.coord_1), 
-																new OpenLayers.Size(400,200), 
-																'html', 
-																true
-														);
-														popup.panMapIfOutOfView = true;
-														popup.contentHTML = $('.'+feature.classname).html()
-														{{ module }}.map.addPopup(popup);
-													}
-												}
-											)
-											]);
-			function open_popup(coord_0, coord_1, classname){
-				popup = new OpenLayers.Popup(classname, 
-											new OpenLayers.LonLat(
-											coord_0,
-											coord_1), 
-											new OpenLayers.Size(400,200), 
-											'html', 
-											true
-											);
-				popup.panMapIfOutOfView = true
-				popup.contentHTML = $('.'+classname).html()
-				{{ module }}.map.addPopup(popup);				
-			}
-		{% else %}
-
+		{{ module }}.map.getControlsByClass('OpenLayers.Control.SelectFeature')[1].deactivate();
+		{{ module }}.map.getControlsByClass('OpenLayers.Control.SelectFeature')[0].activate();
 		{% endif %}
+		$('.olControlModifyFeatureItemActive').addClass('olControlModifyFeatureItemInactive').removeClass('olControlModifyFeatureItemActive')
+		var geocoder = new google.maps.Geocoder();
 
-		{% if search %}
-		{% else %}
-			/*
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
-					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-					{{ module }}.map.setCenter(lonlat, 12);
-				});
-			}else{
-				
-			}
-			*/
-		{% endif %}
-				
+
 		$("#center_map").hide()
 		$("#center_map").click(function(evt){
 			var address = document.getElementById("address").value;
@@ -162,5 +119,64 @@
 			}			
 		})
 		$('#address').keyup(function(evt){$("#center_map").trigger('click')})
+		
+
+			var layer_style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+			layer_style.fillOpacity = 0.2;
+			layer_style.graphicOpacity = 1; 
+
+			var style_blue = OpenLayers.Util.extend({}, layer_style);
+			style_blue.strokeColor = "blue";
+			style_blue.fillColor = "#3BB9FF";
+			style_blue.graphicName = "circle";
+			style_blue.pointRadius = 10;
+			style_blue.strokeWidth = 2;
+			style_blue.strokeLinecap = "butt";
+			style_blue.externalGraphic = "/static/img/home_icon.png";
+			
+			function add_home(coord_0, coord_1, href, classname){
+				var point = new OpenLayers.Geometry.Point(coord_0, coord_1);
+				point.transform({{ module }}.map.displayProjection, {{ module }}.map.projection);
+				var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue); 
+				pointFeature.classname = classname
+				pointFeature.coord_0 = coord_0
+				pointFeature.coord_1 = coord_1
+				{{ module }}.layers.ads.addFeatures([pointFeature])
+			}
+			
+
+			
+
+			function open_popup(coord_0, coord_1, classname){
+				popup = new OpenLayers.Popup(classname, 
+											new OpenLayers.LonLat(
+											coord_0,
+											coord_1), 
+											new OpenLayers.Size(400,200), 
+											'html', 
+											true
+											);
+				popup.panMapIfOutOfView = true
+				popup.contentHTML = $('.'+classname).html()
+				{{ module }}.map.addPopup(popup);				
+			}
+
+
+		{% if search %}
+		{% else %}
+			/*
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
+					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+					{{ module }}.map.setCenter(lonlat, 12);
+				});
+			}else{
+				
+			}
+			*/
+		{% endif %}
+				
+
 	</script>
 </span>

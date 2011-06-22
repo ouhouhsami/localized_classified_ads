@@ -12,12 +12,13 @@
 		$(document).ready(function(){
 			
 			
-			
 			var help_text = $("<div class='tooltip'></div>")
+			help_text.hide()
 			var h = help_text.appendTo('#content');
 			h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
 			$('.olControlEditingToolbar > div').click(function(evt){
 				//console.log(this)
+				help_text.show()
 				if($(this).attr('class').indexOf("Modify") !=-1 ){
 					h.html("Selectionner la zone que vous avez dessine, et deplacer les ancres pour la modifier")
 				}
@@ -27,12 +28,19 @@
 				if($(this).attr('class').indexOf("Navigation") !=-1 ){
 					h.html('Selectionner-deplacer la carte')
 				}
+				if($(this).attr('class').indexOf("View") !=-1 ){
+					h.html('Cliquer sur une icône sur la carte pour consulter l\'annonce')
+				}
 			})
+			
+			{% if filter.qs %}
+				h.html('Cliquer sur une icône sur la carte pour consulter l\'annonce')
+			{% endif %}
 			
 			
 			
 			$('#id_location_span_map .olMapViewport').mousemove(function(evt){
-				h.css({'z-index':10000, 'position':'fixed', 'top':evt.pageY+8-$("html").scrollTop(), 'left':evt.pageX+8})	
+				h.css({'z-index':10000, 'position':'fixed', 'top':evt.pageY+12-$("html").scrollTop(), 'left':evt.pageX+12})	
 			})
 			.mouseenter(function(evt){h.show()})
 			.mouseleave(function(evt){h.hide()})
@@ -157,7 +165,7 @@
 		
 		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
-		<div class="atom {{ fieldset.classes }}" style="height:500px">
+		<div class="atom {{ fieldset.classes }}" style="height:460px">
 			<h2>{{ filter.form.fieldsets.location.legend }}</h2>
 			<p class="description">{{ filter.form.fieldsets.location.description }}</p>
 			
@@ -167,7 +175,16 @@
 				{% if field.is_hidden %}
 					{{ field }}
 					{% else %}
-					<div style="padding:2px">{{ field }} <br />{{ field.errors }}</div>
+					<div style="padding:2px"> {{ field }} <br />{{ field.errors }}</div>
+					{% if field.value %}
+					<script>			
+							var location_value = true
+					</script>
+					{% else %}
+					<script>
+							var location_value = false
+					</script>
+					{% endif %}
 					{% endif %}
 			{% endfor %}
 		</div>
@@ -215,7 +232,16 @@
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
 					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
-					
+					<script>
+						{% if forloop.first %}
+						$(document).ready(function(){
+							if(location_value == new Boolean(0)){
+								// center map on this location
+								center_map({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
+							}
+						})
+						{% endif %}
+					</script>
 				</tr>
 				{% endfor %}
 			</table>

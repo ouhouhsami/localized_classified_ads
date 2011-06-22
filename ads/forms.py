@@ -41,9 +41,36 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
 
 class HomeForSaleAdFilterSetForm(BetterModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
+    #def __init__(self, *args, **kwargs):
+    #    super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
         #self['location'].value()
+
+
+    # CLEAN def for each rangefield, multiplechoice field for validation purpose
+    # Longtime bug to solve, cause of filterset link to a form, and form
+    # not valid due to special filterfield
+    # the thing not solved here is : why errors appear only if location field blank
+    # and not if location field filled !
+    def clean_price(self):
+        pass
+
+    def clean_surface(self):
+        pass
+
+    def clean_nb_of_rooms(self):
+        pass
+
+    def clean_ground_surface(self):
+        pass
+
+    def clean_floor(self):
+        pass
+
+    def clean_habitation_type(self):
+        pass
+
+    def clean_location(self):
+        pass
 
     class Meta:
         model = HomeForSaleAd

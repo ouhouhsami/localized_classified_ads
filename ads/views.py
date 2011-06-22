@@ -40,17 +40,20 @@ def search(request, search_id=None):
     total_ads = HomeForSaleAd.objects.all().count()
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
+        #filter = HomeForSaleAdFilterSet(None, search = search, queryset=HomeForSaleAd.objects.all().filter(_relation_object__moderation_status = 1))
         filter = HomeForSaleAdFilterSet(None, search = search)
     else:
         search = True
         if search_id is not None:
             home_for_sale = HomeForSaleSearch.objects.get(id = search_id)
             q = QueryDict(home_for_sale.search)
+            #filter = HomeForSaleAdFilterSet(q or None, search = search, queryset=HomeForSaleAd.objects.all().filter(_relation_object__moderation_status = 1))
             filter = HomeForSaleAdFilterSet(q or None, search = search)
             if home_for_sale.user_profile.user != request.user:
                 raise Http404
         else:
-            filter = HomeForSaleAdFilterSet(request.POST or None, search = search)
+            q = request.POST.copy()
+            filter = HomeForSaleAdFilterSet(q or None, search = search)
         if request.POST.__contains__('save_and_search') and search_id is None:
             datas = request.POST.copy()
             del datas['save_and_search']

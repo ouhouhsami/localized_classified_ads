@@ -10,15 +10,19 @@ from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget
 
 
-class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
+class AdContactForm(ModelForm):
+    class Meta:
+        model = AdContact
+        exclude = ['user_profile', 'content_type', 'object_pk']
+
+class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
     location = floppyforms.gis.PointField(widget = CustomPointWidget)
 
-    def __init__(self, *args, **kwargs):
-        super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
+    #def __init__(self, *args, **kwargs):
+    #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
 
     class Meta:
-        model = HomeForSaleAd
         exclude = ('user_profile', 'delete_date')
         fieldsets = [('title', {'fields': ['title', 'description', 'price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'L\'annonce'}),
                      ('location', {'fields': ['location'], 'legend': 'Localisation'}),
@@ -35,9 +39,29 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
                      ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]
     class Media:
         js = (
-            
             'http://maps.google.com/maps/api/js?sensor=false',
         )
+
+
+class HomeForSaleAdForm(HomeAdForm):
+    #location = floppyforms.gis.PointField(widget = CustomPointWidget)
+
+    #def __init__(self, *args, **kwargs):
+    #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
+        #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
+
+    class Meta:
+        model = HomeForSaleAd
+
+class HomeForRentAdForm(HomeAdForm):
+    #location = floppyforms.gis.PointField(widget = CustomPointWidget)
+
+    #def __init__(self, *args, **kwargs):
+    #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
+        #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
+
+    class Meta:
+        model = HomeForRentAd
 
 class HomeForSaleAdFilterSetForm(BetterModelForm):
 
@@ -90,10 +114,18 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
             '/static/js/map.utils.js',
         )
 
-class AdContactForm(ModelForm):
+
+class HomeForRentAdFilterSetForm(HomeForSaleAdFilterSetForm):
     class Meta:
-        model = AdContact
-        exclude = ['user_profile', 'content_type', 'object_pk']
-
-
+        model = HomeForRentAd
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche sur la carte'}),
+                     #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
+                     ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms', 'colocation', 'furnished']}),
+                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
+                     ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
+                     ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
+                     ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
+                     ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]        
     

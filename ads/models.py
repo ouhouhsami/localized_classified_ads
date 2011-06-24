@@ -9,6 +9,36 @@ from moderation.fields import SerializedObjectField
 from django.http import QueryDict
 from moderation.managers import ModerationObjectsManager
 
+# GENERIC AD MODELS
+
+class AdPicture(models.Model):
+
+    def upload_path(self, filename):
+        # line below to fix : app_label is not model_name, but always ad which is bad
+        # we should have /ad/homeforsalead/id/image.jpg
+        #return 'pictures/%s/%s/%s' % (self.content_type.app_label, self.content_object.id, filename)
+        return 'pictures/%s' % (filename)
+
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    title = models.CharField(max_length = 255)
+    image = models.ImageField(upload_to = upload_path)
+    order = models.PositiveIntegerField() 
+
+class AdContact(models.Model):
+    user_profile = models.ForeignKey(UserProfile)
+    content_type = models.ForeignKey(ContentType)
+    object_pk = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey(ct_field="content_type",
+                                               fk_field="object_pk")
+    message = models.TextField()
+
+class AdSearch(models.Model):
+    search = models.CharField(max_length=2550)
+    user_profile = models.ForeignKey(UserProfile)   
+    create_date = models.DateTimeField(auto_now_add = True)  
+    content_type = models.ForeignKey(ContentType)
 
 class Ad(models.Model):
     """Ad abstract base model
@@ -21,6 +51,7 @@ class Ad(models.Model):
                                        null = True, blank = True, 
                                        help_text="Description de votre bien")
     location = models.PointField(srid=900913)
+    # pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)
     create_date = models.DateTimeField(auto_now_add = True) 
     delete_date = models.DateTimeField(null = True, blank = True)
@@ -32,6 +63,14 @@ class Ad(models.Model):
     
     def __unicode__(self):
         return self.title
+
+
+# SPECIFIC AD MODELS 
+
+
+#
+# HOME FOR SALE AD MODEL
+#
 
 HABITATION_TYPE_CHOICES = (
     ('0', 'appartement'),
@@ -102,11 +141,7 @@ ORIENTATION_CHOICES = (
     #('6', 'sans vis à vis'),
 )
 
-class HomeForSaleAd(Ad):
-    """HomeFormSaleAd model
-
-    """
-    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros")
+class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
     surface = models.FloatField("Surface", 
@@ -154,34 +189,33 @@ class HomeForSaleAd(Ad):
     orientation = models.CharField("Orientation", max_length = 1, 
                                    choices = ORIENTATION_CHOICES, 
                                    null = True, blank = True)
+    class Meta:
+        abstract = True
 
+class HomeForSaleAd(HomeAd):
+    """HomeFormSaleAd model
+
+    """
+    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros")
     #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
     @models.permalink
     def get_absolute_url(self):
         return ('view', [str(self.id)])  
 
-class HomeForSaleAdPicture(models.Model): 
 
-    def upload_path(self, filename):
-        return 'pictures/%s/%s' % (self.homeforsalead.id, filename)
+class HomeForRentAd(HomeAd):
+    """HomeFormRentAd model
 
-    homeforsalead	= models.ForeignKey(HomeForSaleAd)
-    title 			= models.CharField(max_length = 255)
-    image 			= models.ImageField(upload_to = upload_path)
-    order 			= models.PositiveIntegerField()
+    """
+    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros par mois")
+    colocation = models.BooleanField("Colocation possible")
+    furnished = models.BooleanField("Appartement meublé")
 
-    def __unicode__(self):
-        return self.title
-
-class AdContact(models.Model):
-    user_profile = models.ForeignKey(UserProfile)
-    content_type = models.ForeignKey(ContentType)
-    object_pk = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey(ct_field="content_type",
-                                               fk_field="object_pk")
-    message = models.TextField()
-
+    @models.permalink
+    def get_absolute_url(self):
+        return ('view', [str(self.id)])  
+'''
 class HomeForSaleSearch(models.Model):
     search = models.CharField(max_length=2550)
     user_profile = models.ForeignKey(UserProfile)   
@@ -221,3 +255,4 @@ class HomeForSaleSearch(models.Model):
 
         return '%s %s %s' % (price, surface, rooms)
     #pretty_view = property(_get_pretty_view)        
+'''

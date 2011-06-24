@@ -28,5 +28,5 @@ class HomeForSaleAdAdmin(ModerationAdmin):
 
 #admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(HomeForSaleAd, HomeForSaleAdAdmin)
-admin.site.register(HomeForSaleSearch)
+admin.site.register(AdSearch)
 admin.site.register(AdContact)

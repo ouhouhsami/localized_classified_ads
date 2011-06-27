@@ -21,15 +21,13 @@ class GeoPointGenerator(generators.Generator):
         return value
 
 class HomeForSaleAdFactory(Factory):
-    title = generators.LoremWordGenerator(3)
-    #user_profile = generators.ForeignKeyFieldGenerator(HomeForSaleAd, generate_fk=False)
     description = generators.LoremWordGenerator(20)
     location = GeoPointGenerator()
     surface = generators.IntegerGenerator(min_value=7, max_value=450)
     nb_of_rooms	= generators.IntegerGenerator(min_value=1, max_value=9)
     nb_of_bedrooms = generators.IntegerGenerator(min_value=1, max_value=9)
-    price = generators.IntegerGenerator(min_value=7500, max_value=10000000)
-    #habitation_type	= generators.ChoiceGenerator(choices = HABITATION_TYPE_CHOICES)
+    price = generators.IntegerGenerator(min_value=8000, max_value=10000000)
+    #habitation_type = generators.ChoiceGenerator(choices = HABITATION_TYPE_CHOICES)
     update_date = generators.DateTimeGenerator(max_date=datetime.now())
     create_date = generators.DateTimeGenerator(max_date=datetime.now()) 
     delete_date = generators.StaticGenerator(None)
@@ -91,6 +89,14 @@ class HomeForSaleAdMockup(Mockup):
         pass
 
     def post_process_instance(self, instance):
+        if instance.nb_of_rooms < instance.nb_of_bedrooms:
+            instance.nb_of_rooms = instance.nb_of_bedrooms+1
+        instance.price = int(instance.price/1000) * 1000
+        if instance.update_date < instance.create_date:
+            instance.update_date = instance.create_date
+        instance.save()
+        #if instance.delete_date < instance.update_date:
+        #    instance.delete_date = instance.update_date
         mo = ModeratedObject(content_object = instance, moderation_status=1)
         mo.save()
         return instance

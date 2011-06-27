@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		
+		
+		<title>{{ site.name }}</title>
 
 		<link rel="stylesheet" href="{{ STATIC_URL }}jquery-ui-1.8.13/themes/base/jquery.ui.all.css">
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css">
@@ -42,7 +45,7 @@
 					<a href="http://twitter.com/#!/achetersanscom"><img src="{{ STATIC_URL }}img/twitter-logo.png"></a>
 					<a href="http://www.facebook.com/album.php?profile=1&id=124133527629884"><img src="{{ STATIC_URL }}img/facebook-logo.png"></a>
 				</div>
-				<h1><a href="{% url search %}"><sup style="font-size:0.5em">beta</sup>AcheterSansCom.com</a><br /><span class="subtitle">Annonces immobilières sans intermédiaires</span></h1>
+				<h1><a href="{% url search %}"><sup style="font-size:0.5em">beta</sup>{{ site.name }}</a><br /><span class="subtitle">Annonces immobilières sans intermédiaires</span></h1>
 			</div>
 			<div id='content'>
 				{% if messages %}

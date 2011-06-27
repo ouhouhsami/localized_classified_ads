@@ -5,8 +5,8 @@ from forms import *
 from filtersets import *
 
 PER_SITE_OBJECTS = {
-    'achetersanscom.com':{'ad_model':HomeForSaleAd, 'ad_form': HomeForSaleAdForm, 'ad_filterset':HomeForSaleAdFilterSet},
-    'louersanscom.com':{'ad_model':HomeForRentAd, 'ad_form': HomeForRentAdForm, 'ad_filterset':HomeForRentAdFilterSet},
+    'AcheterSansCom.com':{'ad_model':HomeForSaleAd, 'ad_form': HomeForSaleAdForm, 'ad_filterset':HomeForSaleAdFilterSet},
+    'LouerSansCom.com':{'ad_model':HomeForRentAd, 'ad_form': HomeForRentAdForm, 'ad_filterset':HomeForRentAdFilterSet},
 }
 
 

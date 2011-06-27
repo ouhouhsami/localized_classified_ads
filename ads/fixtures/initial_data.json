@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "sites.site", "fields": {"domain": "achetersanscom.com", "subdomains": "", "name": "AcheterSansCom.com", "folder_name": "achetersanscom"}}, {"pk": 2, "model": "sites.site", "fields": {"domain": "louersanscom.com", "subdomains": "", "name": "LouerSansCom.com", "folder_name": "louersanscom"}}]

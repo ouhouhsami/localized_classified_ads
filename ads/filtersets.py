@@ -86,7 +86,7 @@ class HomeForSaleAdFilterSet(HomeAdFilterSet):
         form = HomeForSaleAdFilterSetForm
 
 class HomeForRentAdFilterSet(HomeAdFilterSet):
-    price = django_filters.OpenRangeNumericFilter(label="Budget (€) / mois", 
+    price = django_filters.OpenRangeNumericFilter(label="Loyer (€) / mois", 
                                        help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. ",
                                        widget=RangeWidget({'size':'6'}))
 

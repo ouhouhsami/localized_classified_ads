@@ -208,7 +208,7 @@ class HomeForRentAd(HomeAd):
     """HomeFormRentAd model
 
     """
-    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros par mois")
+    price = models.PositiveIntegerField("Loyer", help_text="Loyer du bien en Euros par mois")
     colocation = models.BooleanField("Colocation possible")
     furnished = models.BooleanField("Appartement meublé")
 

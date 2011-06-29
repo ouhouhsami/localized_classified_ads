@@ -26,9 +26,16 @@ urlpatterns = patterns('',
        userena_views.profile_edit, {'template_name':'userena/profile_geo_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),
     url(r'^accounts/', include('userena.urls')),
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT, 'show_indexes':True}),
     url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
 )
+
+
+try:
+    from settings_local import *
+    # print 'local media donwload'
+    urlpatterns += (url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT, 'show_indexes':True}),)
+except ImportError:
+    pass
 
 

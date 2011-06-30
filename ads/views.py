@@ -28,7 +28,7 @@ from form_utils.forms import BetterForm
 from profiles.models import UserProfile
 
 from models import HomeForSaleAd, AdSearch, AdPicture
-from forms import AdContactForm, HomeForSaleAdForm, HomeForSaleAdFilterSetForm
+from forms import AdPictureForm, AdContactForm, HomeForSaleAdForm, HomeForSaleAdFilterSetForm
 from widgets import PolygonWidget, CustomPointWidget
 from filters import LocationFilter
 from filtersets import HomeForSaleAdFilterSet
@@ -144,7 +144,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
 @login_required
 def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     h = Ad.unmoderated_objects.get(id = ad_id)
-    PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
+    PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)
     if h.user_profile.user.username == request.user.username:
         form = AdForm(h.__dict__)
@@ -153,11 +153,13 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             if form.is_valid():
                 instance = form.save(commit = False)
                 instance.save()
-                PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
+                PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
                     picture_formset.save()
-                messages.add_message(request, messages.INFO, 'Votre annonce a bien été modifiée, elle va être modérée, vous serez tenu informé de sa mise en ligne.')
+                # below, to be sure that images are displayed
+                picture_formset = PictureFormset(instance = h)
+                messages.add_message(request, messages.INFO, 'Votre annonce a bien été modifiée, elle va être modérée, vous serez tenu informé de sa mise en ligne.')       
         return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
         raise Http404

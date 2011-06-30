@@ -6,9 +6,15 @@ from moderation.forms import BaseModeratedObjectForm
 from models import *
 import floppyforms
 from form_utils.forms import BetterModelForm, BetterForm
+from form_utils.widgets import ImageWidget
 from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget
 
+class AdPictureForm(ModelForm):
+    image = forms.ImageField(widget=ImageWidget(template='%(input)s<br /><div class="preview">%(image)s</div>'))
+    #order = forms.IntegerField(widget=forms.HiddenInput)
+    class Meta:
+        model = AdPicture
 
 class AdContactForm(ModelForm):
     class Meta:
@@ -24,7 +30,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['title', 'description', 'price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'L\'annonce'}),
+        fieldsets = [('title', {'fields': ['description', 'price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'L\'annonce'}),
                      ('location', {'fields': ['location'], 'legend': 'Localisation'}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
                      #('surface', {'fields' :['surface'], 'legend': 'Surface'}),

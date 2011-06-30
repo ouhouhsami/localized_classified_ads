@@ -23,8 +23,9 @@ class AdPicture(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     title = models.CharField(max_length = 255)
-    image = models.ImageField(upload_to = upload_path)
-    order = models.PositiveIntegerField() 
+    #image = models.ImageField(upload_to = upload_path)
+    image = models.ImageField(upload_to='pictures/')
+    #order = models.PositiveIntegerField() 
 
 class AdContact(models.Model):
     user_profile = models.ForeignKey(UserProfile)
@@ -51,7 +52,7 @@ class Ad(models.Model):
                                        null = True, blank = True, 
                                        help_text="Description de votre bien")
     location = models.PointField(srid=900913)
-    # pictures = generic.GenericRelation(AdPicture)
+    pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)
     create_date = models.DateTimeField(auto_now_add = True) 
     delete_date = models.DateTimeField(null = True, blank = True)

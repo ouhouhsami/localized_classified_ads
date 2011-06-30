@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load ads_tag %}
 
 {% block media %}
 	{{ form.media }}
@@ -51,9 +52,17 @@
 		{% endfor %}		
 		<div class="atom">
 			<h3>Photos</h3>
-		<table>
-		{{ picture_formset.as_table }}
-		</table>
+				{% comment %}
+				{% for picture in home.pictures.all %}
+					<img src="{% thumbnail picture.image 200 130 %}" />
+				{% endfor %}
+				{% endcomment %}
+			    {{ picture_formset.management_form }}
+    		<ul style="list-style:none">
+        		{% for form in picture_formset %}
+        		<li style="border-top:1px solid #999"><b>Photo n°{{ forloop.counter }}</b><table>{{ form }}</table></li>
+        		{% endfor %}
+    		</ul>
 		</div>
         <button type="submit" />Envoyer</button>
     </form>

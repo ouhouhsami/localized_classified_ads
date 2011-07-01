@@ -7,7 +7,7 @@ class UserProfile(UserenaBaseProfile):
 
     """
     phone_number	= models.CharField(max_length=255, null = True, blank = True)
-    location		= models.PointField(default='POINT(-95.3385 29.7245)', srid=900913)
+    location		= models.PointField(default='POINT(261278.51676999778 6250645.2903766)', srid=900913)
 
     objects = models.GeoManager()
 

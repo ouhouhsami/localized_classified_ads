@@ -26,12 +26,52 @@
 		background-image: url("/static/img/gis/move_feature_off.png");
 		background-repeat: no-repeat;
 	}
-	.olControlZoomPanel{
-		top:14px;
+	
+	.olControlZoomPanel {
+		top:0px !important;
+		left:10px;
+
 	}
+	
 	.olControlZoomPanel div {
-		position:static;
+    	background-image: url("/static/img/zoom-20x20-sprite.png");
+    	cursor: pointer;
+		height:20px;
+		width:20px;
 	}
+	.olControlZoomInItemInactive{
+		background-position: -60px 0 !important;
+		height: 20px;
+		left: 10px;
+		position: absolute;
+		top: 10px !important;
+		width: 20px;
+	}
+    .olControlZoomInItemActive{
+		background-position: -20px 0 !important;
+		height: 20px;
+		left: 10px;
+		position: absolute;
+		top: 10px !important;
+		width: 20px;
+	}	
+	.olControlZoomOutItemInactive{
+		background-position: -20px 0 !important;
+		height: 20px;
+		left: 10px;
+		position: absolute;
+		top: 35px !important;
+		width: 20px;
+	}
+    .olControlZoomOutItemActive{
+		background-position: -80px 0 !important;
+		height: 20px;
+		left: 10px;
+		position: absolute;
+		top: 35px !important;;
+		width: 20px;
+	}	
+	
 	.olControlEditingToolbar {
 		right: 14px;
 		top: 14px;

@@ -48,8 +48,8 @@
 /* STYLE DEFINITION */
 
 @font-face {
-   font-family: 'Droid Sans',helvetica,arial,Geneva,sans-serif;
-   src: url("../font/DroidSans.ttf") ;
+   font-family: Logisoso;
+   src: url("../font/Logisoso.ttf") ;
 }
 
 /* LAYOUT */
@@ -61,6 +61,7 @@ html {
 
 html, body{
 	background-color:@color_1;
+	background:url(../img/background.png);
 }
 
 #header {
@@ -82,6 +83,15 @@ html, body{
     .border-radius(0px, 0px, 10px, 10px);	
 	padding:10px;
 	margin-top: -3px;
+}
+
+#registration a{
+	text-decoration:none;
+	padding:5px;
+	.border-radius(5px, 5px, 5px, 5px);
+}
+#registration a:hover{
+	background-color:#FFF;
 }
 
 #social_links {
@@ -141,7 +151,12 @@ form, #block_content, #results, .content, .olPopup {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
+
 }
+h1{
+	font-family: Logisoso, serif;
+}
+
 
 a {
 	color:black;
@@ -160,13 +175,14 @@ legend {
 /* HTML ELEMENTS - SPECIFIC */
 
 #header h1 {
-	padding-top:3px;
+	padding-top:20px;
+	padding-left:10px;
 	margin-top:3px;
 	padding-bottom:3px;
 	margin-bottom:3px;
-	text-shadow: 1px 1px 0 #FFFFFF;
-	/*font-family: 'Droid Sans';*/	
+	text-shadow: 1px 1px 0px #eee;
 	line-height:12px;
+	font-size:2.5em;
 }
 
 #header h1 a{
@@ -176,7 +192,6 @@ legend {
 
 .subtitle{
 	font-size:0.5em;
-	padding-left:26px;
 	text-shadow: 0px 0px 0 #FFFFFF;
 	color:#555
 }
@@ -245,6 +260,19 @@ form fieldset {
 
 form input {
 	margin:2px;
+}
+
+button, input[type=submit] {
+	.border-radius(5px,5px,5px,5px);
+	background-color:#fff;
+	border:2px solid @color_1;
+	padding:5px;
+	font-weight:bold;
+	.box-shadow;
+}
+button:hover{
+	background-color:@color_2;	
+	border:2px solid #fff;
 }
 
 #search .search_form {

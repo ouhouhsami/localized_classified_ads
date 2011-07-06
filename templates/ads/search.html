@@ -48,7 +48,7 @@
 			})
 			.mouseenter(function(evt){h.show()})
 			.mouseleave(function(evt){h.hide()})
-			
+			//$('.olControlEditingToolbar').mouseover(function(evt){h.hide()})
 			// init less important parameters
 			$('.atom_content').each(function(index) {
 				if($(this).find('.has_value').length == 0){
@@ -155,8 +155,8 @@
 		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
 		<div class="atom {{ fieldset.classes }}" style="height:460px">
-			<h2>{{ filter.form.fieldsets.location.legend }}</h2>
-			<p class="description">{{ filter.form.fieldsets.location.description }}</p>
+			<!--<h2>{{ filter.form.fieldsets.location.legend }}</h2>
+			<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
 			
 			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
 			

@@ -1,8 +1,26 @@
 from models import *
 import floppyforms
 from django.template import loader
+from floppyforms.gis.widgets import BaseGeometryWidget
 
-class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidget):
+class BaseGMapWidget(BaseGeometryWidget):
+    """A Google Maps base widget"""
+    map_srid = 900913
+    template_name = 'floppyforms/gis/google.html'
+
+    class Media:
+        js = (
+            'js/OpenLayers.js',
+            'floppyforms/js/MapWidget.js',
+            'js/map.js',
+            'http://maps.google.com/maps/api/js?sensor=false',
+        )
+        css = {
+            'all': ('css/map.css',)
+        }
+
+
+class PolygonWidget(floppyforms.gis.PolygonWidget, BaseGMapWidget):
     map_width = '630'
     is_polygon = True
     geom_type = 'POLYGON'
@@ -28,7 +46,7 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, floppyforms.gis.BaseGMapWidge
         )
 
 
-class GMapPointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidget):
+class GMapPointWidget(floppyforms.gis.PointWidget, BaseGMapWidget):
     pass
 
 class CustomPointWidget(GMapPointWidget):

@@ -15,7 +15,7 @@ class UserProfileFactory(Factory):
 class UserProfileMockup(Mockup):
     # don't follow permissions and groups
     follow_m2m = False
-    #generate_fk= False
+    # generate_fk= False
     factory = UserProfileFactory
     def post_process_instance(self, instance):
         instance.user.username = ''.join((random.choice(string.letters+string.digits) for _ in xrange(random.randint(5,8))))

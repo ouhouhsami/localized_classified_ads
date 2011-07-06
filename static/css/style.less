@@ -52,6 +52,13 @@
    src: url("../font/Logisoso.ttf") ;
 }
 
+@font-face {
+   font-family: Franchise;
+   src: url("../font/Franchise-Bold-hinted.ttf") ;
+}
+
+
+
 /* LAYOUT */
 
 html {
@@ -125,6 +132,20 @@ form, #block_content, #results, .content, .olPopup {
 	.border-radius(0px,10px,10px,10px);	
 }
 
+.olMap {
+	/*.border-radius(10px,10px,10px,10px);	
+	.box-shadow;*/
+}
+
+.olControlEditingToolbar {
+    padding:4px;
+	.border-radius(10px,10px,10px,10px);
+}
+
+.olControlEditingToolbar > div {
+	.border-radius(5px,5px,5px,5px);
+}
+
 .location-field{
 	padding:10px; 
 	padding-right:0px;
@@ -154,7 +175,8 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 h1{
-	font-family: Logisoso, serif;
+	font-family: Franchise, serif;
+
 }
 
 
@@ -175,19 +197,20 @@ legend {
 /* HTML ELEMENTS - SPECIFIC */
 
 #header h1 {
-	padding-top:20px;
+	padding-top:30px;
 	padding-left:10px;
 	margin-top:3px;
 	padding-bottom:3px;
 	margin-bottom:3px;
-	text-shadow: 1px 1px 0px #eee;
+	text-shadow: 1px 1px 0px #fff;
 	line-height:12px;
-	font-size:2.5em;
+	font-size:4em;
+
 }
 
 #header h1 a{
 	text-decoration:none;
-	
+	color:#111;	
 }
 
 .subtitle{

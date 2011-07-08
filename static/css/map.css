@@ -55,7 +55,8 @@
 .olControlEditingToolbar {
     left: 10px;
     top: 10px;
-    background-color:#F6F4F2;
+    background-color:rgba(0,0,0,0.6);
+    
 }
 /* layouts */
 .olControlEditingToolbar > div {
@@ -78,7 +79,9 @@
 .olControlNavToolbar .olControlNavigationItemInactive,
 .olControlEditingToolbar .olControlNavigationItemInactive {
     /*background-position: -103px -1px;*/
-	background-color:#F6F4F2;
+	/*background-color:#F6F4F2;*/
+	background-color:rgba(0,0,0,0);
+	color:White;
 }
 .olControlNavToolbar .olControlNavigationItemActive ,
 .olControlEditingToolbar .olControlNavigationItemActive  {
@@ -101,8 +104,8 @@
 }
 .olControlEditingToolbar .olControlDrawFeaturePointItemActive {
     /*background-position: -77px -24px;*/
-	background-color:#fff;
-	color:#000;
+	background-color:rgba(0,0,0,0);
+	color:White;
 }
 .olControlEditingToolbar .olControlDrawFeaturePathItemInactive {
     /*background-position: -51px -1px;*/
@@ -115,7 +118,9 @@
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive{
     /*background-position: -26px -1px;*/
-	background-color:#F6F4F2;
+	/*background-color:#F6F4F2;*/
+	background-color:rgba(0,0,0,0);
+	color:White;
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemActive {
     /*background-position: -26px -24px;*/
@@ -124,7 +129,8 @@
 }
 .olControlEditingToolbar .olControlModifyFeatureItemInactive{
     /*background-position: -26px -1px;*/
-	background-color:#F6F4F2;
+	background-color:rgba(0,0,0,0.0);
+	color:White;
 }
 .olControlEditingToolbar .olControlModifyFeatureItemActive {
     /*background-position: -26px -24px;*/

@@ -50,8 +50,8 @@
 
 
 @font-face {
-   font-family: almonte;
-   src: url("../font/almonte.ttf") ;
+   font-family: cafeta;
+   src: url("../font/cafeta.ttf") ;
 }
 
 
@@ -64,7 +64,6 @@ html {
 }
 
 html, body{
-	background-color:@color_1;
 	background:url(../img/background.png);
 }
 
@@ -126,6 +125,7 @@ form, #block_content, #results, .content, .olPopup {
 	padding:10px; 
 	float:right;
 	width:245px;
+	min-height:480px;
 	.border-radius(0px,10px,10px,10px);	
 }
 
@@ -150,14 +150,19 @@ form, #block_content, #results, .content, .olPopup {
 }
 
 #map_utils{
-	.border-radius(0px,0px,10px,10px);
-	background-color:rgba(0,0,0,0.6);
 	color:white;
 	padding:5px;
 	text-align:center;
 	a{
 		color:white;
 	}
+	
+}
+
+#map_container{
+	.border-radius(10px,10px,10px,10px);
+	background-color:rgba(0,0,0,0.6);
+	overflow:hidden;
 	
 }
 
@@ -184,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 h1{
-	font-family: almonte, serif;
+	font-family: cafeta, serif;
 
 }
 
@@ -203,23 +208,27 @@ legend {
 	font-weight:bold;
 }
 
+table, th, td {
+    vertical-align: top;
+}
+
 /* HTML ELEMENTS - SPECIFIC */
 
 #header h1 {
 	padding-top:30px;
-	padding-left:10px;
+	padding-left:25px;
 	margin-top:3px;
 	padding-bottom:3px;
 	margin-bottom:3px;
-	text-shadow: 1px 1px 0px #fff;
 	line-height:12px;
 	font-size:4em;
-
+    /*background-color:rgba(0,0,0,0.9);*/
+    text-shadow: 1px 1px 7px #FFF; 
 }
 
 #header h1 a{
 	text-decoration:none;
-	color:#111;	
+	color:rgba(0,0,0,0.9);	
 }
 
 .subtitle{
@@ -297,14 +306,33 @@ form input {
 button, input[type=submit] {
 	.border-radius(5px,5px,5px,5px);
 	background-color:#fff;
-	border:2px solid @color_1;
+	border:2px solid rgba(0,0,0,0.6);
 	padding:5px;
 	font-weight:bold;
-	.box-shadow;
+	/*.box-shadow;*/
 }
+
+button[disabled=disabled]{
+	opacity:0.2;
+}
+button[disabled=disabled]:hover{
+	opacity:0.2;
+	background-color:#fff;
+	color:buttontext;
+}
+
 button:hover{
-	background-color:@color_2;	
-	border:2px solid #fff;
+	background-color:rgba(0,0,0,0.3);
+	color:white;
+}
+
+.search_buttons{
+	text-align:center;
+	padding-top:4px;
+}
+
+.search_buttons button{
+	margin:0px;
 }
 
 #search .search_form {

@@ -2,11 +2,26 @@
 import django_filters
 from django_filters.filters import Filter
 from django_filters.widgets import RangeWidget
+from django import forms
 from django.forms import widgets
 from filters import LocationFilter
 from widgets import PolygonWidget
 from models import HomeForSaleAd, HomeForRentAd, HABITATION_TYPE_CHOICES
 from forms import HomeForSaleAdFilterSetForm, HomeForRentAdFilterSetForm
+
+
+class SpecificRangeWidget(forms.MultiWidget):
+    def __init__(self, attrs=None):
+        widgets = (forms.TextInput(attrs={'placeholder':'min'}), forms.TextInput(attrs={'placeholder':'max'}))
+        super(SpecificRangeWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return [value.start, value.stop]
+        return [None, None]
+
+    def format_output(self, rendered_widgets):
+        return u'-'.join(rendered_widgets)
 
 class NicerFilterSet(django_filters.FilterSet):
     # add location field filter
@@ -30,20 +45,15 @@ class NicerFilterSet(django_filters.FilterSet):
 
 class HomeAdFilterSet(NicerFilterSet):
     surface = django_filters.OpenRangeNumericFilter(label="Surface (m²)", 
-                                         help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. ",
-                                         widget=RangeWidget({'size':'6'}))
+                                         widget=SpecificRangeWidget({'size':'6'}))
     nb_of_rooms = django_filters.OpenRangeNumericFilter(label="Nb. de pièces", 
-                                         help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
-                                         widget=RangeWidget({'size':'6'}))
+                                         widget=SpecificRangeWidget({'size':'6'}))
     nb_of_bedrooms = django_filters.OpenRangeNumericFilter(label="Nb. de chambres", 
-                                         help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
-                                         widget=RangeWidget({'size':'6'}))
+                                         widget=SpecificRangeWidget({'size':'6'}))
     ground_surface = django_filters.OpenRangeNumericFilter(label="(m²)", 
-                                         help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
-                                         widget=RangeWidget({'size':'6'}))
+                                         widget=SpecificRangeWidget({'size':'6'}))
     floor = django_filters.OpenRangeNumericFilter(label="Etage", 
-                                         help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max.",
-                                         widget=RangeWidget({'size':'6'}))
+                                         widget=SpecificRangeWidget({'size':'6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", 
                                          widget = widgets.CheckboxSelectMultiple(),
                                          choices = HABITATION_TYPE_CHOICES)
@@ -68,8 +78,7 @@ class HomeAdFilterSet(NicerFilterSet):
 
 class HomeForSaleAdFilterSet(HomeAdFilterSet):
     price = django_filters.OpenRangeNumericFilter(label="Budget (€)", 
-                                       help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. ",
-                                       widget=RangeWidget({'size':'6'}))
+                                       widget=SpecificRangeWidget({'size':'6'}))
 
     def __init__(self, *args, **kwargs):
         search = kwargs['search']
@@ -87,8 +96,7 @@ class HomeForSaleAdFilterSet(HomeAdFilterSet):
 
 class HomeForRentAdFilterSet(HomeAdFilterSet):
     price = django_filters.OpenRangeNumericFilter(label="Loyer (€) / mois", 
-                                       help_text="min.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max. ",
-                                       widget=RangeWidget({'size':'6'}))
+                                       widget=SpecificRangeWidget({'size':'6'}))
 
     def __init__(self, *args, **kwargs):
         search = kwargs['search']

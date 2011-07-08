@@ -100,18 +100,17 @@
 	<div  class="search_form non-location-field" style="">
 		
 		<!-- FORM ACTIONS -->
-		<div style="text-align:center;padding:8px;">
+		<div class="search_buttons">
 		<button type="submit" value="search" name="search"><span class="magnifier icon"></span>Chercher</button>
 		<!-- <a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a> -->
 		
-		{% if search %}
-		{% if user.is_authenticated %}
-        <button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% if search and user.is_authenticated %}
+        	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% else %}
 		<!--<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
 		-->
+			<button type="submit" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% endif %}	
-		{% endif %}
 		
 		</div>		
 		
@@ -154,7 +153,7 @@
 		
 		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
-		<div class="atom {{ fieldset.classes }}" style="height:460px">
+		<div class="atom {{ fieldset.classes }}" style="height:438px">
 			<!--<h2>{{ filter.form.fieldsets.location.legend }}</h2>
 			<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
 			

@@ -5,12 +5,20 @@
 	{{ form.media }}
 {% endblock %}
 
+
+{% block main_menu %}
+	<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>
+	<a href="{% url add %}" class="main_menu_item_selected" >Proposer un bien</a>
+{% endblock %}
+
 {% block content %}
 	<form action="" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 			
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 		{% for fieldset in form.fieldsets %}
+		  {% if fieldset.name != 'description' %}
+		    
 		  <div class="atom {{ fieldset.classes }}">
 		  {% if fieldset.legend %}
 		    <h3>{{ fieldset.legend }}</h3>
@@ -20,7 +28,7 @@
 		  {% endif %}
 		  <table>
 		  {% for field in fieldset %}
-		    {% if field.is_hidden %}
+			{% if field.is_hidden %}
 		      {{ field }}
 		    {% else %}
 			{% ifequal field.name 'location' %}
@@ -46,12 +54,16 @@
 		      </tr>
 		    {% endifequal %}
 		    {% endif %}
-		  {% endfor %}
+		  	{% endfor %}
+
 		  </table>
 		  </div>
+			{% endif %}
 		{% endfor %}
+
 		<div class="atom">
 			<h3>Photos</h3>
+			<p>N'hésitez pas à insérer une photo du plan de votre bien.</p>
 				{% comment %}
 				{% for picture in home.pictures.all %}
 					<img src="{% thumbnail picture.image 200 130 %}" />
@@ -64,6 +76,34 @@
         		{% endfor %}
     		</ul>
 		</div>
+		
+		
+		<div class="atom">
+			<h3>{{ form.fieldsets.description.legend }}</h3>
+		  <table>
+		  {% for field in form.fieldsets.description %}
+			{% if field.is_hidden %}
+		      {{ field }}
+		    {% else %}
+			
+		      <tr{{ field.row_attrs }}>
+		        <td>
+					{{ field.label_tag }}
+				</td>
+		        <td>
+					{{ field }} 
+					{% if field.errors %}<br />{{ field.errors }} {% endif %}
+					{% if field.help_text %}<br />
+						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
+					{% endif %}
+				</td>
+		      </tr>
+		    {% endif %}
+		  	{% endfor %}
+		  </table>
+		</div>
+
+
         <button type="submit" />Envoyer</button>
     </form>
 {% endblock %}

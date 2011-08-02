@@ -68,6 +68,9 @@
 
 {% endcomment %}
 
+{% block main_menu %}
+{% endblock %}
+
 {% block content %}
 
 
@@ -80,7 +83,6 @@
 <div id="block_content">
 
 <div class="atom">
-	<h2>{{ profile.user.username }}</h2>
 	<p>
 		{% if profile.phone_number %}Téléphone : {{ profile.phone_number }}<br />{% endif %}
 		{% comment %}
@@ -95,8 +97,12 @@
 <table>
 {% for ad in all_user_ads %}
 	<tr class="status_{{ ad.moderated_object.moderation_status}}">
-		<td>{{ ad.moderated_object.get_moderation_status_display }} </td>
 		<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a></td>
+		<td>
+			{% if ad.moderated_object.moderation_status == 0 %}Annonce rejetée. Modifiez-la pour la soumettre de nouveau.{% endif %}
+			{% if ad.moderated_object.moderation_status == 1 %}Annonce en ligne{% endif %}
+			{% if ad.moderated_object.moderation_status == 2 %}Annonce en cours de modération{% endif %}
+		</td>
 		<td><a href="{% url edit ad.id %}" class="pill button"><span class="pen icon"></span>Editer</a></td>
 		<td><a href="{% url delete ad.id %}" class="negative pill button"><span class="cross icon"></span>Supprimer</a></td>
 	</tr>

@@ -53,8 +53,8 @@
 }
 /* positions */
 .olControlEditingToolbar {
-    left: 10px;
-    top: 10px;
+    bottom: 10px;
+    right: 10px;
     background-color:rgba(0,0,0,0.6);
     
 }

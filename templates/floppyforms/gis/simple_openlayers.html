@@ -30,7 +30,7 @@
 	<div id="map_container">
 		<div id="map_utils">	
 			<!-- <a href="javascript:{{ module }}.clearFeatures()" style="float:right"> Effacer la zone </a> -->
-			Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" placeholder="indiquer une adresse"/> <input type="button" id="center_map" value="centrer la carte" />
+			<!-- Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou --> <input type="text" id="address" placeholder="indiquer l’adresse du bien"/> <input type="button" id="center_map" value="centrer la carte" />
 		</div>
 		<div id="{{ attrs.id }}_map"></div>
 	</div>
@@ -68,11 +68,9 @@
 		};{% endblock %}
 		
 		var {{ module }} = new MapWidget(options);
-		{% if ads %}
-		{{ module }}.map.getControlsByClass('OpenLayers.Control.SelectFeature')[1].deactivate();
-		{{ module }}.map.getControlsByClass('OpenLayers.Control.SelectFeature')[0].activate();
-		{% endif %}
-		$('.olControlModifyFeatureItemActive').addClass('olControlModifyFeatureItemInactive').removeClass('olControlModifyFeatureItemActive')
+
+		//$('.olControlModifyFeatureItemActive').addClass('olControlModifyFeatureItemInactive').removeClass('olControlModifyFeatureItemActive')
+		$('.olControlEditingToolbar').hide()
 		var geocoder = new google.maps.Geocoder();
 
 
@@ -139,23 +137,6 @@
 				popup.contentHTML = $('.'+classname).html()
 				{{ module }}.map.addPopup(popup);
 			}
-
-
-		{% if search %}
-		{% else %}
-			/*
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
-					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-					{{ module }}.map.setCenter(lonlat, 12);
-				});
-			}else{
-				
-			}
-			*/
-		{% endif %}
-				
 
 	</script>
 </span>

@@ -48,9 +48,8 @@ class Ad(models.Model):
     title = models.CharField("Titre", max_length = 255, 
                                        help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
-    description = models.TextField("Description", 
-                                       null = True, blank = True, 
-                                       help_text="Description de votre bien")
+    description = models.TextField("", 
+                                       null = True, blank = True)
     location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)
@@ -133,6 +132,13 @@ KITCHEN_CHOICES = (
     ('9', 'coin cuisine équipé'),
 )
 
+
+PARKING_CHOICES = (
+    ('0', 'Non'),
+    ('1', 'Ouvert'),
+    ('2', 'Fermé'),
+)
+
 ORIENTATION_CHOICES = (
     ('1', 'sud'),
     ('2', 'est'),
@@ -145,8 +151,7 @@ ORIENTATION_CHOICES = (
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.FloatField("Surface", 
-                                help_text="Surface de votre bien en mètres carrés")
+    surface = models.FloatField("Surface (m², hors terrain)")
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
@@ -167,26 +172,29 @@ class HomeAd(Ad):
     doorman = models.BooleanField("Gardien")
     heating = models.CharField("Chauffage", max_length = 2, 
                                choices = HEATING_CHOICES, null = True, blank = True)
-    kitchen = models.CharField("Cuisine", max_length = 2,
-                               choices = KITCHEN_CHOICES, null = True, blank = True)
+    #kitchen = models.CharField("Cuisine", max_length = 2,
+    #                           choices = KITCHEN_CHOICES, null = True, blank = True)
+    kitchen = models.BooleanField("Cuisine équipée")
     duplex = models.BooleanField("Duplex")
     swimming_pool = models.BooleanField("Piscine")
     alarm = models.BooleanField("Alarme")
     air_conditioning = models.BooleanField("Climatisation")
     fireplace = models.BooleanField("Cheminée")
-    parquet = models.BooleanField("Parquet")
+    #parquet = models.BooleanField("Parquet")
     terrace = models.BooleanField("Terrasse")
     balcony = models.BooleanField("Balcon")
-    separate_dining_room = models.BooleanField("Salle à manger séparée")
-    living_room = models.BooleanField("Séjour")
+    separate_dining_room = models.BooleanField("Cuisine séparée")
+    #living_room = models.BooleanField("Séjour")
     separate_toilet = models.BooleanField("Toilettes séparés")
     bathroom = models.BooleanField("Salle de bain")
     shower = models.BooleanField("Salle d'eau (douche)")
     separate_entrance = models.BooleanField("Entrée séparée")
     cellar = models.BooleanField("Cave")
-    cupboards = models.BooleanField("Placards")
-    open_parking = models.BooleanField("Parking ouvert")
-    box = models.BooleanField("Parking fermé / garage")
+    #cupboards = models.BooleanField("Placards")
+    parking = models.CharField("Parking", max_length = 2,
+                               choices = PARKING_CHOICES, null = True, blank = True)
+    #open_parking = models.BooleanField("Parking ouvert")
+    #box = models.BooleanField("Parking fermé / garage")
     orientation = models.CharField("Orientation", max_length = 1, 
                                    choices = ORIENTATION_CHOICES, 
                                    null = True, blank = True)
@@ -197,7 +205,7 @@ class HomeForSaleAd(HomeAd):
     """HomeFormSaleAd model
 
     """
-    price = models.PositiveIntegerField("Prix", help_text="Prix du bien en Euros")
+    price = models.PositiveIntegerField("Prix (€)")
     #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
     @models.permalink

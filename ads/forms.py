@@ -30,19 +30,22 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['description', 'price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'L\'annonce'}),
-                     ('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
+        fieldsets = [('title', {'fields': ['price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': ''}),
+                     #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
+                     ('location', {'fields': ['location'], 'legend': 'Localisation', 'description': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
                      #('surface', {'fields' :['surface'], 'legend': 'Surface'}),
                      #('type', {'fields' :['habitation_type'], 'legend': 'Type d\'habitation'}),
                      #('pieces', {'fields' :['nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'Pièces'}),
                      ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
-                     ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
-                     ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
+                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
+                     #('storage_space', {'fields' :[], 'legend': 'Rangements'})
+                     ('description', {'fields': ['description'], 'legend':'Informations complémentaires'})
+                     ]
     class Media:
         js = (
             'http://maps.google.com/maps/api/js?sensor=false',
@@ -104,16 +107,16 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche sur la carte'}),
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
                      #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms']}),
-                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
-                     ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
+                     #('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
-                     ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
-                     ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]        
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
+                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
+                     #('storage_space', {'fields' :['cellar', 'parking'], 'legend': 'Rangements'}),
+                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ]        
 
     class Media:
         js = (
@@ -124,14 +127,15 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
 class HomeForRentAdFilterSetForm(HomeForSaleAdFilterSetForm):
     class Meta:
         model = HomeForRentAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessinez votre zone de recherche sur la carte'}),
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
                      #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms', 'colocation', 'furnished']}),
-                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'duplex', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'parquet', 'terrace', 'balcony'], 'legend': 'Commodités'}),
-                     ('rooms', {'fields' :['separate_dining_room', 'living_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
-                     ('storage_space', {'fields' :['cellar', 'cupboards', 'open_parking', 'box'], 'legend': 'Rangements'})]        
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
+                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
+                     #('storage_space', {'fields' :['cellar', 'parking'], 'legend': 'Rangements'}),
+                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
+                     ]        
     

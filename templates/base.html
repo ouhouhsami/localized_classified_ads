@@ -40,8 +40,8 @@
 			<div id='header'>
 				<div id="registration" class="horizontal_menu">
 					{% if user.is_authenticated %}
-					<a href="{% url userena_profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte ({{ user.username }})</a>
-					<a href="{% url add %}" class="right button"><span class="plus icon"></span>Proposer un bien</a>
+					<a href="{% url userena_profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte</a>
+					{% comment %}<a href="{% url add %}" class="right button"><span class="plus icon"></span>Proposer un bien</a>{% endcomment %}
 					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
 					{% else %}
 					<a href="{% url userena_signin %}" class="left button">Se connecter</a></li>
@@ -65,14 +65,25 @@
     				{% endfor %}
 				</ul>
 				{% endif %}
+
+
+				<div id="main_menu">
+					{% block main_menu %}
+					<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>
+					<a href="{% url add %}" class="main_menu_item_unselected" >Proposer un bien</a>
+					{% endblock %}
+				</div>
+				
+
 				<div class="main-content">
 					{% comment %}<h2>{% block content_title %}{% endblock %}</h2>{% endcomment %}
 					{% block content %}
 					{% endblock %}
 				</div>
 			</div>
+			<div style="clear:both"></div>
 			<div id='footer'>
-				<p style="float:right"><a href="">Contact</a>	<a href="">Mentions légales</a></p>
+				<p style="float:right"><a href="">Contact</a>	<a href="">Mentions légales</a> <a href="">Conditions d'utilisation</a></p>
 				<p>© 2011 - AcheterSansCom</p> 
 			</div>
 

@@ -5,10 +5,10 @@ from django_filters.widgets import RangeWidget
 from django import forms
 from django.forms import widgets
 from filters import LocationFilter
-from widgets import PolygonWidget
-from models import HomeForSaleAd, HomeForRentAd, HABITATION_TYPE_CHOICES
+from widgets import PolygonWidget, IndifferentNullBooleanSelect
+from models import HomeForSaleAd, HomeForRentAd, HABITATION_TYPE_CHOICES, PARKING_CHOICES
 from forms import HomeForSaleAdFilterSetForm, HomeForRentAdFilterSetForm
-
+from django.utils.translation import ugettext
 
 class SpecificRangeWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
@@ -22,6 +22,9 @@ class SpecificRangeWidget(forms.MultiWidget):
 
     def format_output(self, rendered_widgets):
         return u'-'.join(rendered_widgets)
+
+
+indifferent_choices = ((u'1', ugettext('Indifferent')),(u'2', ugettext('Yes')),(u'3', ugettext('No')))
 
 class NicerFilterSet(django_filters.FilterSet):
     # add location field filter
@@ -37,6 +40,10 @@ class NicerFilterSet(django_filters.FilterSet):
         super(NicerFilterSet, self).__init__(*args, **kwargs)
         
         for name, field in self.filters.iteritems():
+            #print field
+            if isinstance(field, django_filters.filters.BooleanFilter):
+                field.widget = IndifferentNullBooleanSelect()
+                #field.extra['choices'] = indifferent_choices 
             if isinstance(field, django_filters.ChoiceFilter):
                 # Add "Any" entry to choice fields.
                 field.extra['choices'] = tuple([("", "Tous types"), ] + list(field.extra['choices']))
@@ -59,7 +66,9 @@ class HomeAdFilterSet(NicerFilterSet):
                                          choices = HABITATION_TYPE_CHOICES)
     location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation", required=False)
 
-
+    #parking = django_filters.MultipleChoiceFilter(label="Parking", 
+    #                                     widget = widgets.CheckboxSelectMultiple(),
+    #                                     choices = PARKING_CHOICES)
 
     class Meta:
         #model = HomeForSaleAd
@@ -71,10 +80,10 @@ class HomeAdFilterSet(NicerFilterSet):
                   'elevator', 'intercom', 'digicode', 'doorman', 
                   'elevator', 'heating', 'kitchen', 'duplex', 
                   'swimming_pool', 'alarm', 'air_conditioning', 
-                  'fireplace', 'parquet', 'terrace', 'balcony', 
-                  'separate_dining_room', 'living_room', 'separate_toilet', 
+                  'fireplace', 'terrace', 'balcony', 
+                  'separate_dining_room', 'separate_toilet', 
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
-                  'cupboards', 'open_parking', 'box', 'orientation']
+                  'parking', 'orientation']
 
 class HomeForSaleAdFilterSet(HomeAdFilterSet):
     price = django_filters.OpenRangeNumericFilter(label="Budget (€)", 
@@ -114,11 +123,12 @@ class HomeForRentAdFilterSet(HomeAdFilterSet):
         fields = ['price', 'surface', 'habitation_type', 'colocation', 'furnished', 
                   'location', 'nb_of_rooms', 'nb_of_bedrooms', 
                   'energy_consumption', 'emission_of_greenhouse_gases', 
-                  'ground_surface', 'floor', 'top_floor', 'not_overlooked', 'ground_floor',
+                  #'ground_surface', 
+                  'floor', 'top_floor', 'not_overlooked', 'ground_floor',
                   'elevator', 'intercom', 'digicode', 'doorman', 
                   'elevator', 'heating', 'kitchen', 'duplex', 
                   'swimming_pool', 'alarm', 'air_conditioning', 
-                  'fireplace', 'parquet', 'terrace', 'balcony', 
-                  'separate_dining_room', 'living_room', 'separate_toilet', 
+                  'fireplace', 'terrace', 'balcony', 
+                  'separate_dining_room', 'separate_toilet', 
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
-                  'cupboards', 'open_parking', 'box', 'orientation']
+                  'parking', 'orientation']

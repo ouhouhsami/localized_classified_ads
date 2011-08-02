@@ -9,6 +9,7 @@
 @color_3:#F2F0E8;
 @color_4:#E8E6E4;
 @color_5:#E4E2E0;
+@color_6:#E0DEDD;
 
 @approved:LightGreen;
 @pending:Orange;
@@ -97,6 +98,33 @@ html, body{
 	background-color:#FFF;
 }
 
+#main_menu {
+	margin-top:10px;
+	margin-bottom:10px;
+	font-size:1.1em;
+	a{
+		padding:10px;
+		font-weight:bold;
+		text-decoration:none;
+	}
+	a:hover{
+		background-color:White;
+	}
+	.main_menu_item_selected {
+		background-color:#F6F4F2; 
+		.box-shadow;
+		.border-radius(10px, 10px, 0px, 0px);
+	}
+	.main_menu_item_unselected {
+		background-color:#ccc;
+		.box-shadow;
+    	.border-radius(10px, 10px, 0px, 0px);
+	}
+}
+
+
+
+
 #social_links {
 	padding:4px;
 	margin-top: -3px;
@@ -109,13 +137,13 @@ html, body{
 	.border-radius(10px, 10px, 0px, 0px);
 	padding:10px;
 	margin-bottom: -3px;
-	margin-top:1px;
+	margin-top:10px;
 }
 
 form, #block_content, #results, .content, .olPopup {
 	background-color:@color_2; 
 	.box-shadow;
-	.border-radius;	
+	.border-radius(0px, 10px, 10px, 10px);	
 	padding:10px;
 	margin-bottom:8px;
 }
@@ -134,6 +162,10 @@ form, #block_content, #results, .content, .olPopup {
 	.box-shadow;*/
 }
 
+.olControlViewFeatureItemActive, .olControlViewFeatureItemInactive {
+	display:none;
+}
+
 .olControlEditingToolbar {
     padding:4px;
 	.border-radius(10px,10px,10px,10px);
@@ -146,7 +178,7 @@ form, #block_content, #results, .content, .olPopup {
 .location-field{
 	padding:10px; 
 	padding-right:0px;
-	.border-radius(10px,0px,10px,0px);
+	.border-radius(0px,0px,10px,0px);
 }
 
 #map_utils{
@@ -216,7 +248,7 @@ table, th, td {
 
 #header h1 {
 	padding-top:30px;
-	padding-left:25px;
+	padding-left:10px;
 	margin-top:3px;
 	padding-bottom:3px;
 	margin-bottom:3px;
@@ -436,24 +468,28 @@ input, select {
 #userena_profile_detail {
 	#userena_profile_detail_menu_item {
 		color:black;
+		background-color:#F6F4F2; 
 	}
 }
 
 #userena_profile_edit {
 	#userena_profile_edit_menu_item {
 		color:black;
+		background-color:#F6F4F2; 
 	}
 }
 
 #userena_password_change {
 	#userena_password_change_menu_item {
 		color:black;
+		background-color:#F6F4F2; 
 	}
 }
 
 #userena_email_change {
 	#userena_email_change_menu_item {
 		color:black;
+		background-color:#F6F4F2; 
 	}
 }
 
@@ -485,3 +521,5 @@ input, select {
 	font-size:0.8em;
 	font-family:Arial;
 }
+
+

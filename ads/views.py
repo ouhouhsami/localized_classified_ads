@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.geos import fromstr
+from django.contrib.sites.models import Site
 
 
 import floppyforms
@@ -67,7 +68,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
         nb_of_results = filter.qs.count()
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 
-                             'Aucune annonce ne correspond à votre recherche')
+                             'Aucune annonce ne correspond à votre recherche. Elargissez votre zone de recherche ou modifiez les critères.')
         if nb_of_results == 1:
             messages.add_message(request, messages.INFO, 
                              '1 annonce correspondant à votre recherche')
@@ -111,7 +112,7 @@ def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             instance.content_object = ad
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
-            send_mail('[AcheterSansCom.com] Demande d\'information concernant votre annonce', instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
+            send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current()), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
     if request.is_ajax():
         return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
@@ -135,7 +136,8 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
             if picture_formset.is_valid():
                 picture_formset.save()
-            messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, vous serez tenu informé de sa mise en ligne.')
+            messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
+            send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
             return HttpResponseRedirect(reverse('edit', args=[instance.id]))
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
@@ -159,7 +161,8 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                     picture_formset.save()
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
-                messages.add_message(request, messages.INFO, 'Votre annonce a bien été modifiée, elle va être modérée, vous serez tenu informé de sa mise en ligne.')       
+                messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
+                send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
         return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
         raise Http404

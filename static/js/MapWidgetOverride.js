@@ -38,7 +38,7 @@ MapWidget.prototype.getControls = function(layer) {
 															new OpenLayers.LonLat(
 																feature.coord_0,
 																feature.coord_1), 
-																new OpenLayers.Size(400,200), 
+																new OpenLayers.Size(350,50), 
 																'html', 
 																true
 														);

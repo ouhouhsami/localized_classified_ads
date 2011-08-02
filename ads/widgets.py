@@ -1,7 +1,42 @@
+# coding=utf-8
+from itertools import chain
+
+from django.utils.encoding import force_unicode
 from models import *
 import floppyforms
 from django.template import loader
 from floppyforms.gis.widgets import BaseGeometryWidget
+from floppyforms.widgets import Input
+from django.utils.translation import ugettext
+
+
+class Select(floppyforms.Select, Input):
+    template_name = 'floppyforms/select.html'
+
+    def render(self, name, value, attrs=None, choices=()):
+        if value is None:
+            value = ''
+        #just because of the line below, we need to not CHAIN
+        #choices = chain(self.choices, choices)
+        final_choices = []
+        for option_value, option_label in choices:
+            final_choices.append((force_unicode(option_value), option_label))
+        extra = {'choices': final_choices}
+        return Input.render(self, name, value, attrs=attrs,
+                            extra_context=extra)
+
+
+class IndifferentNullBooleanSelect(floppyforms.NullBooleanSelect, Select):
+
+    def render(self, name, value, attrs=None, choices=()):
+        choices = ((u'1', ugettext(u'Indifférent')),
+                   (u'2', ugettext('Yes')),
+                   (u'3', ugettext('No')))
+        try:
+            value = {True: u'2', False: u'3', u'2': u'2', u'3': u'3'}[value]
+        except KeyError:
+            value = u'1'
+        return Select.render(self, name, value, attrs, choices=choices)
 
 class BaseGMapWidget(BaseGeometryWidget):
     """A Google Maps base widget"""
@@ -19,6 +54,21 @@ class BaseGMapWidget(BaseGeometryWidget):
             'all': ('css/map.css',)
         }
 
+
+class BaseSimpleGMapWidget(BaseGeometryWidget):
+    map_srid = 900913
+    template_name = 'floppyforms/gis/simple_google.html'
+    class Media:
+        js = (
+            'js/OpenLayers.js',
+            'floppyforms/js/MapWidget.js',
+            'js/map.js',
+            'http://maps.google.com/maps/api/js?sensor=false',
+        )
+        css = {
+            'all': ('css/map.css',)
+        }
+    
 
 class PolygonWidget(floppyforms.gis.PolygonWidget, BaseGMapWidget):
     map_width = '630'
@@ -46,14 +96,20 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, BaseGMapWidget):
         )
 
 
+'''
 class GMapPointWidget(floppyforms.gis.PointWidget, BaseGMapWidget):
     pass
+'''
+
+class GMapPointWidget(floppyforms.gis.PointWidget, BaseSimpleGMapWidget):
+    pass
+
 
 class CustomPointWidget(GMapPointWidget):
-    map_width = 894
+    map_width = 630
     map_height = 400
     map_srid = 900913
-    #display_wkt = True
+    display_wkt = True
 
     def __init__(self, *args, **kwargs): 
         self.ads = kwargs.get('ads', None)

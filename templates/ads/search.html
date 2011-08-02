@@ -89,6 +89,12 @@
 {% endblock %}
 
 
+{% block main_menu %}
+	<a href="{% url search %}" class="main_menu_item_selected">Rechercher un bien</a>
+	<a href="{% url add %}" class="main_menu_item_unselected" >Proposer un bien</a>
+{% endblock %}
+
+
 {% block content %}
 
 	{{ filter.form.errors }}
@@ -109,12 +115,12 @@
 		{% else %}
 		<!--<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
 		-->
-			<button type="submit" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% endif %}	
 		
 		</div>		
 		
-		
+		<div style="border-top:1px solid #CACACA; margin-top:10px;padding-top:6px"><b>Critères optionnels</b></div>
 		<!-- NON LOCATION FIELDS -->	
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}
@@ -153,9 +159,9 @@
 		
 		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
-		<div class="atom {{ fieldset.classes }}" style="height:438px">
-			<!--<h2>{{ filter.form.fieldsets.location.legend }}</h2>
-			<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
+		<div class="atom {{ fieldset.classes }}" style="height:458px">
+			<p><b>{{ filter.form.fieldsets.location.legend }}</b></p>
+			<!--<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
 			
 			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
 			
@@ -183,13 +189,10 @@
 
 		{% if search %}
 
-		<div id="results" style="padding:10px; padding-right:15px;">
-		
-
-		
-		
+			
 		{% if filter.qs %}
-		
+		<div id="results" style="padding:10px; padding-right:15px;">
+				
 		{% autosort filter.qs as sorted_objects %}
 		{% autopaginate sorted_objects 10 as object_list %}
 
@@ -204,9 +207,9 @@
 			<table>
 				<tr class="result_header">
 					<th></th>
-					<th>{% anchor price "Prix" %}</th>
-					<th>{% anchor surface "Surface" %}</th>
 					<th>{% anchor habitation_type "Type de bien" %}</th>
+					<th>{% anchor price "Prix (€)" %}</th>
+					<th>{% anchor surface "Surface (m²)" %}</th>
 					<th>{% anchor nb_of_rooms "Pièces" %}</th>
 					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
 				</tr>
@@ -214,9 +217,9 @@
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /> consulter l'annonce</a></td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
+					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.price|priceformat }}</td>
 					<td>{{ ad.surface }}</td>
-					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
 					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
@@ -235,21 +238,22 @@
 			</table>
 			{% paginate %}
 		</div>
-		{% else  %}
-		<div class="atom" >
-			<h2>Pas d'annonces correspondant à votre recherche</h2>
 		</div>
+		{% else  %}
+
 		{% endif %}
 
 		
-		</div>
+
 		
 		{% else %}
+			{% comment %}
 			<div id="results" style="padding:10px; padding-right:15px;">
 			<p>
-				<b>{{ total_ads }} annonces de biens en vente, sans intermédiaires et géolocalisés.</b>
+				<b>Actuellement {{ total_ads }} annonces en lignes sans intermédiaires et géolocalisés.</b>
 			</p>
 			</div>
+			{% endcomment %}
 		{% endif %}
 				
 	</div>

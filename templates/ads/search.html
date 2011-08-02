@@ -99,7 +99,7 @@
 
 	{{ filter.form.errors }}
 
-    <form action="{% url search %}" method="POST" id="search">
+    <form action="{% url search %}" method="POST" id="search" style="background-color:#F6F4F2">
 		{% csrf_token %}
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 	
@@ -120,7 +120,7 @@
 		
 		</div>		
 		
-		<div style="border-top:1px solid #CACACA; margin-top:10px;padding-top:6px"><b>Critères optionnels</b></div>
+		<div style="border-top:1px solid #CACACA; margin-top:10px;padding-top:6px; padding-left:4px;"><b>Critères optionnels</b></div>
 		<!-- NON LOCATION FIELDS -->	
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}
@@ -169,7 +169,7 @@
 				{% if field.is_hidden %}
 					{{ field }}
 					{% else %}
-					<div style="padding:2px"> {{ field }} <br />{{ field.errors }}</div>
+					<div style="padding-top:8px"> {{ field }} <br />{{ field.errors }}</div>
 					{% if field.value %}
 					<script>			
 							var location_value = true

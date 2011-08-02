@@ -4,13 +4,29 @@
 
 {% block javascript %}
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script src="http://openlayers.org/dev/OpenLayers.js"></script>
-	<!-- -->
-	<script src="{{ STATIC_URL }}floppyforms/js/MapWidget.js"></script>
-	<script src="{{ STATIC_URL }}js/map.utils.js"></script>	
+	
+	<link rel="stylesheet" media="all" type="text/css" href="{{ STATIC_URL }}css/map.css">
+	<script src="{{ STATIC_URL }}js/OpenLayers.js"></script>
+
+	
+	<script src="{{ STATIC_URL }}js/jquery.tools.min.js"></script>
 	
 	<script>
 	    $(document).ready(function(){
+
+			var layer_style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+			layer_style.fillOpacity = 0.2;
+			layer_style.graphicOpacity = 1; 
+					
+			var style_blue = OpenLayers.Util.extend({}, layer_style);
+			style_blue.strokeColor = "blue";
+			style_blue.fillColor = "#3BB9FF";
+			style_blue.graphicName = "circle";
+			style_blue.pointRadius = 10;
+			style_blue.strokeWidth = 2;
+			style_blue.strokeLinecap = "butt";
+			style_blue.externalGraphic = "/static/img/home_icon.png";
+
             var map;
             map = new OpenLayers.Map('map');
             map.addControl(new OpenLayers.Control.LayerSwitcher());
@@ -29,30 +45,91 @@
             map.setCenter(lonlat, 15);
 
             var point = new OpenLayers.Geometry.Point({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }});
-            //point = point.transform(proj, map.getProjectionObject());
-            //console.log(point);
-            var pointFeature = new OpenLayers.Feature.Vector(point, null, null);
+
+
+            var pointFeature = new OpenLayers.Feature.Vector(point, null, style_blue);
             pointLayer.addFeatures([pointFeature]);
+
+
+			$("img[rel]").overlay();
 
     	});
 	</script>
 {% endblock %}
+
+{% block css %}
+ <style type="text/css">
+/* the overlayed element */
+.simple_overlay {
+	
+	/* must be initially hidden */
+	display:none;
+	
+	/* place overlay on top of other elements */
+	z-index:10000;
+	
+	/* styling */
+	background-color:#333;
+	
+	width:675px;	
+	min-height:200px;
+	border:1px solid #666;
+	
+	/* CSS3 styling for latest browsers */
+	-moz-box-shadow:0 0 90px 5px #000;
+	-webkit-box-shadow: 0 0 90px #000;	
+}
+
+.simple_overlay img {
+	max-width:675px;
+}
+
+/* close button positioned on upper right corner */
+.simple_overlay .close {
+	background-image:url('{{ STATIC_URL }}/img/close.png');
+	position:absolute;
+	right:-15px;
+	top:-15px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
+}
+
+</style>
+
+{% endblock %}
+
+
 
 {% block content %}
 
 <div id="block_content">
 	<!--<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>-->
 	<h2>{{ ad.title }}</h2>
-	<h3>
+	<h2>
 		{{ ad.get_habitation_type_display }}
 		- {{ ad.price }}€
 		- {{ ad.surface }}m<sup>2</sup>
 		- {{ ad.nb_of_rooms }} pièces
 		- {{ ad.nb_of_bedrooms }} chambres
-	</h3>
-	{% for img in ad.homeforsaleadpicture_set.all %}
-		<img src="{% thumbnail img.image 200 130 %}" />
+	</h2>
+	<br />
+	{% for img in ad.pictures.all %}
+		<div class="thumbnail">
+		<img src="{% thumbnail img.image 200 130 %}" rel="#img_{{ img.id }}" />
+		</div>
 	{% endfor %}
+	{% for img in ad.pictures.all %}
+		<div class="simple_overlay" id="img_{{ img.id }}">
+		<img src="{{ img.image.url }}"/>
+		<br />
+		<b style="color:white;padding-left:4px;">{{ img.title }}</b>
+		</div>
+	{% endfor %}
+	
+	
+	
+	<div style="clear:both"></div>
 	{% comment %}{{ map_widget }}{% endcomment %}
 	<div style="width:900px; height:300px" id="map"></div>
 	<div style="clear:both"></div>
@@ -125,8 +202,10 @@
 		</div>
 	<p>
 		<i>
+			{% comment %}
 			Annonce mise en ligne par <a href="{% url userena_profile_detail ad.user_profile.user.username %}">{{ ad.user_profile.user }}</a>
 			<br />
+			{% endcomment %}
 			Date de création de l'annonce : {{ ad.create_date }}, date de mise à jour : {{ ad.update_date }}
 		</i>
 	</p>

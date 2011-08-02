@@ -138,3 +138,10 @@
 	color:#000;
 }
 
+.olPopupCloseBox {
+	background-repeat:no-repeat;
+    background:url("../img/close-button.png") no-repeat ;!important
+    cursor:pointer;!important
+
+}
+

@@ -11,7 +11,7 @@ from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget
 
 class AdPictureForm(ModelForm):
-    image = forms.ImageField(widget=ImageWidget(template='%(input)s<br /><div class="preview">%(image)s</div>'))
+    image = forms.ImageField(widget=ImageWidget(template='%(input)s<br /><div class="preview" width="200" height="200">%(image)s</div>'))
     #order = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = AdPicture

@@ -88,31 +88,36 @@
 
 {% if all_user_ads %}
 <div class="atom">
-<h3>Vos biens en ventes et/ou en cours de traitement</h3>
+<h3>Vos Biens en ventes</h3>
 <table>
 {% for ad in all_user_ads %}
-	<tr class="status_{{ ad.moderated_object.moderation_status}}">
-		<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a></td>
-		<td>
+    {% if ad.delete_date == None %}
+	<tr class="status_{{ ad.moderated_object.moderation_status}}" >
+		<td style="border-bottom:2px solid white;"><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a></td>
+		<td style="border-bottom:2px solid white;">
 			{% if ad.moderated_object.moderation_status == 0 %}Annonce rejetée. Modifiez-la pour la soumettre de nouveau.{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}Annonce en ligne{% endif %}
 			{% if ad.moderated_object.moderation_status == 2 %}Annonce en cours de modération{% endif %}
 		</td>
-		<td><a href="{% url edit ad.id %}" class="pill button"><span class="pen icon"></span>Modifier</a></td>
-		<td><a href="{% url delete ad.id %}" class="negative pill button"><span class="cross icon"></span>Supprimer</a></td>
+		<td style="border-bottom:2px solid white;"><a href="{% url edit ad.id %}" class="pill button"><span class="pen icon"></span>Modifier</a></td>
+		<td style="border-bottom:2px solid white;"><a href="{% url delete ad.id %}" class="negative pill button"><span class="cross icon"></span>Supprimer</a></td>
 	</tr>
+	{% endif %}
 {% endfor %}
 </table>
 </div>
+<br />
 {% else %}
 	{% if ads %}
 	<div class="atom">
-		<h3>Bien en ventes</h3>
+		<h3>Bien de ce vendeur en ventes</h3>
 		<table>
 			{% for ad in ads %}
+			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
 			<tr>
 				<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a> </td>
 			</tr>
+			{% endif %}
 			{% endfor %}
 		</table>
 	</div>
@@ -124,6 +129,7 @@
 		{% endifequal %}
 	</div>
 	{% endif %}
+<br />
 {% endif %}
 
 {% if searchs %}
@@ -133,23 +139,28 @@
 	{% for search in searchs %}
 		<tr>
 			<td><a href="{% url search search.id %}" class="button">
-				<span class="magnifier icon"></span>Recherche {{ search }}
+				{% autoescape off %}{{ search }}{% endautoescape %}
 			</a>
 			</td>
 			<td>
 			<a href="{% url delete_search search.id %}" class="negative button">
-				<span class="trash icon"></span>Supprimer cette recherche
+				Supprimer cette recherche
 			</a>
 			</td>
 		</tr>
 	{% endfor %}
 	</table>
 </div>
+<br />
 {% endif %}
 
-<h3>Gérer votre compte</h3>
+{% if user.is_authenticated %}
 
-	<p>
+{% ifequal user.username profile.user.username %}
+
+<h3>Votre Compte</h3>
+
+	<p style="padding-top:5px">
 		{% if profile.phone_number %}Votre numéro de téléphone : {{ profile.phone_number }}<br />{% endif %}
 		{% comment %}
 		<div id="map_container"><div id="map" class="smallmap"></div></div>
@@ -162,6 +173,9 @@
 <a class="main_menu_item_unselected" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">{% trans "Change email" %}</a>
 </p>
 
+{% endifequal %}
+
+{% endif %}
 
 </div>
 

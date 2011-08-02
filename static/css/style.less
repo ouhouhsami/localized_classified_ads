@@ -66,7 +66,7 @@ html {
 
 html, body{
 	/*background:url(../img/background.png);*/
-	background-color:#CDFECD;
+	background-color:#9ABA9A;
 }
 
 #header {
@@ -124,7 +124,20 @@ html, body{
 }
 
 
-
+.thumbnail {
+	float:left; 
+	margin:5px; 
+	padding:6px; 
+	background-color:white; 
+	border:1px solid #aaa;
+	.border-radius(5px, 5px, 5px, 5px);
+	overflow:hidden;
+	margin-bottom:12px;
+}
+.thumbnail:hover {
+	border:1px solid #888;
+	background-color:#eee;
+}
 
 #social_links {
 	padding:4px;
@@ -139,6 +152,15 @@ html, body{
 	padding:10px;
 	margin-bottom: -3px;
 	margin-top:10px;
+	a {
+		text-decoration:none;
+		color:#666;
+		font-size:0.9em;
+		padding-left:7px;
+	}
+	a:hover{
+		text-decoration:underline;
+	}
 }
 
 form, #block_content, #results, .content, .olPopup {
@@ -154,7 +176,7 @@ form, #block_content, #results, .content, .olPopup {
 	padding:10px; 
 	float:right;
 	width:245px;
-	min-height:480px;
+	min-height:463px;
 	.border-radius(0px,10px,10px,10px);	
 }
 
@@ -392,7 +414,9 @@ input, select {
 	border:1px solid #bbb;
 	padding:2px;
 }
-
+select {
+	margin:2px;
+}
 
 .status_1 {
 	background-color:@approved;
@@ -433,7 +457,7 @@ input, select {
 		padding:2px;
 	}
 	#map_container {
-		margin:2px;
+		/*margin:2px;*/
 	}
 	td {
 		padding:3px;
@@ -521,6 +545,12 @@ input, select {
 .ui-widget {
 	font-size:0.8em;
 	font-family:Arial;
+}
+
+.preview {
+	overflow:hidden;
+	max-width:250px;
+	max-height:150px;
 }
 
 

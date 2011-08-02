@@ -72,11 +72,11 @@
 			    {{ picture_formset.management_form }}
     		<ul style="list-style:none">
         		{% for form in picture_formset %}
-        		<li style="border-top:1px solid #999"><b>Photo n°{{ forloop.counter }}</b><table>{{ form }}</table></li>
+        		<li style="border:1px solid #999; float:left; margin:5px; width:420px; padding:5px;"><b>Photo n°{{ forloop.counter }}</b><table>{{ form }}</table></li>
         		{% endfor %}
     		</ul>
 		</div>
-		
+		<div style="clear:both"></div>
 		
 		<div class="atom">
 			<h3>{{ form.fieldsets.description.legend }}</h3>

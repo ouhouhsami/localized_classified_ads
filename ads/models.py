@@ -86,7 +86,7 @@ class AdSearch(models.Model):
         elif len(min_rooms) > 0 and len(max_rooms) == 0:
             rooms = u'supérieur à %s pièces' % (min_rooms)
 
-        return '%s - %s - %s - %s' % (habitation_types, price, surface, rooms)
+        return '<b>%s</b> %s - %s - %s' % (habitation_types, price, surface, rooms)
 
 class Ad(models.Model):
     """Ad abstract base model
@@ -120,15 +120,15 @@ class Ad(models.Model):
 #
 
 HABITATION_TYPE_CHOICES = (
-    ('0', 'appartement'),
-    ('1', 'maison'),
+    ('0', 'Appartement'),
+    ('1', 'Maison'),
     #('2', 'loft/atelier/surface'),
     #('3', 'bureau'),
     #('4', 'boutique'),
     #('5', 'local commercial'),
     #('6', 'immeuble'),
-    ('7', 'parking'),
-    ('8', 'autres'),
+    ('7', 'Parking'),
+    ('8', 'Autres'),
 )
 
 ENERGY_CONSUMPTION_CHOICES = (

@@ -40,7 +40,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
     """Search view
     
     """
-    total_ads = Ad.objects.all().count()
+    total_ads = Ad.objects.all().filter(delete_date__isnull=True).count()
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
         filter = AdFilterSet(None, search = search)
@@ -102,6 +102,8 @@ def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     ad = Ad.objects.get(id = ad_id)
     map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
     sent_mail = False
+    print ad.delete_date
+    print ad.moderated_object.moderation_status
     if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
         raise Http404
     contact_form = AdContactForm()

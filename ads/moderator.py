@@ -13,18 +13,16 @@ class HomeForSaleAdModerator(GenericModerator):
     notify_moderator = True
     notify_user = True
 
-    '''
-    def inform_moderator(self,
-                     content_object,
-                     extra_context=None):
+
+    def inform_moderator(self, content_object, extra_context=None):
         extra_context={'test':'test'}
         super(HomeForSaleAdModerator, self).inform_moderator(content_object,
                                                            extra_context)
 
 
     def inform_user(self, content_object, user, extra_context=None):
+        print 'teste'
         extra_context={'test':'test'}
         super(HomeForSaleAdModerator, self).inform_user(content_object,user,extra_context)
-    '''
 
 moderation.register(HomeForSaleAd, HomeForSaleAdModerator)

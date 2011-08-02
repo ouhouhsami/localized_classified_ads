@@ -109,7 +109,7 @@ class CustomPointWidget(GMapPointWidget):
     map_width = 630
     map_height = 400
     map_srid = 900913
-    display_wkt = True
+    #display_wkt = True
 
     def __init__(self, *args, **kwargs): 
         self.ads = kwargs.get('ads', None)

@@ -40,6 +40,53 @@ class AdSearch(models.Model):
     user_profile = models.ForeignKey(UserProfile)   
     create_date = models.DateTimeField(auto_now_add = True)  
     content_type = models.ForeignKey(ContentType)
+    def __unicode__(self):
+        q = QueryDict(self.search)
+        
+        habitation_types_values = q.getlist('habitation_type')
+        '''
+        if len(habitation_types_values) > 0:
+            print habitation_types_values
+            for i in habitation_types_values:
+                habitation_types = HABITATION_TYPE_CHOICES[habitation_types_values]
+        else:
+            habitation_types = ''
+        '''
+        habitation_types = ''
+        for i in habitation_types_values:
+            habitation_types += HABITATION_TYPE_CHOICES[int(i)][1]+' '
+        habitation_types += ''
+        min_price = q.get('price_0', '')
+        max_price = q.get('price_1', '')
+        price = ''
+        if len(min_price) > 0 and len(max_price) > 0:
+            price = u'entre %s et %s €' % (min_price, max_price)
+        elif len(min_price) == 0 and len(max_price) > 0:
+            price = u'inférieur à %s €' % (max_price)
+        elif len(min_price) > 0 and len(max_price) == 0:
+            price = u'supérieur à %s €' % (min_price)
+        
+        min_surface = q.get('surface_0', '')
+        max_surface = q.get('surface_1', '')
+        surface = ''
+        if len(min_surface) > 0 and len(max_surface) > 0:
+            surface = u'entre %s et %s m2' % (min_surface, max_surface)
+        elif len(min_surface) == 0 and len(max_surface) > 0:
+            surface = u'inférieur à %s m2' % (max_surface)
+        elif len(min_surface) > 0 and len(max_surface) == 0:
+            surface = u'supérieur à %s m2' % (min_surface)
+        
+        min_rooms = str(q.get('nb_of_rooms_0', ''))
+        max_rooms = str(q.get('nb_of_rooms_1', ''))
+        rooms = ''
+        if len(min_rooms) > 0 and len(max_rooms) > 0:
+            rooms = u'entre %s et %s pièces' % (min_rooms, max_rooms)
+        elif len(min_rooms) == 0 and len(max_rooms) > 0:
+            rooms = u'inférieur à %s pièces' % (max_rooms)
+        elif len(min_rooms) > 0 and len(max_rooms) == 0:
+            rooms = u'supérieur à %s pièces' % (min_rooms)
+
+        return '%s - %s - %s - %s' % (habitation_types, price, surface, rooms)
 
 class Ad(models.Model):
     """Ad abstract base model
@@ -211,6 +258,8 @@ class HomeForSaleAd(HomeAd):
     @models.permalink
     def get_absolute_url(self):
         return ('view', [str(self.id)])  
+    def __unicode__(self):
+        return '%s e - %s m2 - %s pieces' % (self.price, self.surface, self.nb_of_rooms)
 
 
 class HomeForRentAd(HomeAd):

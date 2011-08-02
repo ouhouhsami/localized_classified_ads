@@ -101,7 +101,7 @@ def delete_search(request, search_id):
 def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     ad = Ad.objects.get(id = ad_id)
     map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
-    
+    sent_mail = False
     if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
         raise Http404
     contact_form = AdContactForm()
@@ -113,11 +113,12 @@ def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
             send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current()), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
+            sent_mail = True
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
     if request.is_ajax():
         return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
     else:
-        return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+        return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'sent_mail':sent_mail, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
 
 
 @site_decorator
@@ -136,6 +137,9 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
             if picture_formset.is_valid():
                 picture_formset.save()
+            # here we need to add changed_by to moderated object to get email notification
+            instance.moderated_object.changed_by = request.user
+            instance.moderated_object.save()
             messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
             send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
             return HttpResponseRedirect(reverse('edit', args=[instance.id]))
@@ -159,6 +163,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
                     picture_formset.save()
+                # here we need to add changed_by to moderated object to get email notification
+                instance.moderated_object.changed_by = request.user
+                instance.moderated_object.save()
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
                 messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       

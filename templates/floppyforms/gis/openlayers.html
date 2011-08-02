@@ -15,16 +15,20 @@
 					var lonlat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude)
 					lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 					{{ module }}.map.setCenter(lonlat, 12);
+
 				});
 			}else{				
 		}
 	}
 	$(document).ready(function(){	
-	
+		$("#address").keypress(function(e) {
+    			if (e.which == 13) {
+    				return false;
+    			}
+    	});
 		$('#address').focus(function(evt){
 			$(this).val('')
 		})
-	
 	})
 	</script>	
 	<div id="map_container">

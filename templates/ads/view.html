@@ -134,6 +134,9 @@
 </div>
 
 <div class="atom">
+{% if sent_mail %}
+{% else %}
+
 {% if user.is_authenticated %}
 	<form action="" method="POST">
 		<h3>Contacter le vendeur</h3>
@@ -150,6 +153,8 @@
 	<div class="content">
 		<p>Pour écrire au vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
 	</div>
+{% endif %}
+
 {% endif %}
 </div>
 

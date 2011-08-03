@@ -198,7 +198,7 @@ ORIENTATION_CHOICES = (
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.FloatField("Surface (m², hors terrain)")
+    surface = models.IntegerField("Surface (m², hors terrain)")
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
@@ -207,7 +207,7 @@ class HomeAd(Ad):
     emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre (kgeqCO2/m².an)", 
                                                     max_length = 1, 
                                                     choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES)
-    ground_surface = models.FloatField('Surface du terrain', 
+    ground_surface = models.IntegerField('M²', 
                                        null = True, blank = True)
     floor = models.PositiveIntegerField('Etage', null = True, blank = True)
     ground_floor = models.BooleanField('Rez de chaussé')

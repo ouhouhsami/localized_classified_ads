@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load ads_tag %}
 
+{% block title %}{{ site.name }} | Proposer un bien{% endblock %}
+
 {% block media %}
 	{{ form.media }}
 {% endblock %}
@@ -32,13 +34,20 @@
 		      {{ field }}
 		    {% else %}
 			{% ifequal field.name 'location' %}
-			<div style="padding:2px">{{ field }} 
-				{% if field.help_text %}<br />
-					{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
-				{% endif %}
-				{% if field.errors %}<br />{{ field.errors }}{% endif %}	
-			</div>
-			<div style="clear:both"></div>
+			
+			<tr>
+				<td>Localisation</td>
+				<td>
+				<div >{{ field }} 
+					{% if field.help_text %}<br />
+						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
+						{% endif %}
+						{% if field.errors %}<br />{{ field.errors }}{% endif %}	
+					</div>
+					<div style="clear:both"></div>
+				</td>
+			</tr>
+			
 			{% else %}
 		      <tr{{ field.row_attrs }}>
 		        <td>

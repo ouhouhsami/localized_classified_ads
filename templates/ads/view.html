@@ -2,6 +2,9 @@
 {% load ads_tag %}
 {% load l10n %}
 
+{% block title %}Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces - {{ ad.price|priceformat }} € - {{ ad.surface }} m²{% endblock %}
+
+
 {% block javascript %}
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	
@@ -107,11 +110,9 @@
 	<!--<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>-->
 	<h2>{{ ad.title }}</h2>
 	<h2>
-		{{ ad.get_habitation_type_display }}
-		- {{ ad.price }}€
-		- {{ ad.surface }}m<sup>2</sup>
-		- {{ ad.nb_of_rooms }} pièces
-		- {{ ad.nb_of_bedrooms }} chambres
+		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} chambres)
+		{{ ad.price|priceformat }} €
+		- {{ ad.surface }} m<sup>2</sup>
 	</h2>
 	<br />
 	{% for img in ad.pictures.all %}
@@ -131,27 +132,87 @@
 	
 	<div style="clear:both"></div>
 	{% comment %}{{ map_widget }}{% endcomment %}
-	<div style="width:900px; height:300px" id="map"></div>
+	
+	<div style="float:right; padding-right:40px">
+	<h3>Critères énergétiques</h3>
+		
+		<table class="energy">
+			<tr>
+				<th>Consommation énergétique</th>
+				<th>Emission de gaz à effets de serre</th>
+			</tr>
+			<tr>
+				<td><div style="background-color:#429e3a; width:40px" class="{%if ad.energy_consumption == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 50</span> <span style="float:right"><b>A</b></span></div></td>
+				<td><div style="background-color:#f3ecfd; width:40px" class="{%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 5</span> <span style="float:right"><b>A</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#4cd540; width:60px" class="{%if ad.energy_consumption == 'B' %}selected{% endif %}"><span style="font-size:0.8em">51 à 90</span> <span style="float:right"><b> B</b></span></div></td>
+				<td><div style="background-color:#d8c0f7; width:60px" class="{%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span style="font-size:0.8em">6 à 10</span> <span style="float:right"><b> B</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#e9ff3f; width:80px" class="{%if ad.energy_consumption == 'C' %}selected{% endif %}"><span style="font-size:0.8em">91 à 150</span> <span style="float:right"><b> C</b></span></div></td>
+				<td><div style="background-color:#c8a7f4; width:80px" class="{%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span style="font-size:0.8em">11 à 20</span> <span style="float:right"><b> C</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#ffff18; width:100px" class="{%if ad.energy_consumption == 'D' %}selected{% endif %}"><span style="font-size:0.8em">151 à 230</span> <span style="float:right"><b> D</b></span></div></td>
+				<td><div style="background-color:#bc93f2; width:100px" class="{%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span style="font-size:0.8em">21 à 35</span> <span style="float:right"><b> D</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#ffdb00; width:120px" class="{%if ad.energy_consumption == 'E' %}selected{% endif %}"><span style="font-size:0.8em">231 à 330</span> <span style="float:right"><b> E</b></span></div></td>
+				<td><div style="background-color:#a570ee; width:120px" class="{%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span style="font-size:0.8em">36 à 55</span> <span style="float:right"><b> E</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#ff9c34; width:140px" class="{%if ad.energy_consumption == 'F' %}selected{% endif %}"><span style="font-size:0.8em">331 à 450</span> <span style="float:right"><b> F</b></span></div></td>
+				<td><div style="background-color:#8b4aea; width:140px" class="{%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span style="font-size:0.8em">56 à 80</span> <span style="float:right"><b> F</b></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#ff0000; width:160px" class="{%if ad.energy_consumption == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 450</span> <span style="float:right"><b>G</b></span></div></td>
+				<td><div style="background-color:#6200dd; width:160px" class="{%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 80</span> <span style="float:right"><b> G</b></span></div></td>
+			</tr>			
+			
+		</table>
+	</div>
+<div style="width:450px; height:300px" id="map"></div>
+
+
 	<div style="clear:both"></div>
-	<p>
-		{{ ad.description|linebreaksbr  }}
-	</p>
+
 	<div class="atom">
-		<h3>Critères énergétiques</h3>
-		<p>
-			Consommation énergétique : {{ ad.get_energy_consumption_display }}	
-			<br />
-			Emission de gaz à effets de serre : {{ ad.emission_of_greenhouse_gases }}
-		</p>
-		{% if ad.floor or ad.orientation %}
+
+		
+		
+		
+		
+		<div class="bloc_info">
+		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
 		<h3>Situation du logement</h3>
 		<p>
-		{{ ad.floor }}<sup>e</sup> étage {% if ad.top_floor %}(ce bien est situé au dernier étage){% endif %}
+		{% if ad.floor %}{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}(et dernier){% endif %} étage{% endif %}
+		{% if ad.ground_floor %}
+		<br />
+		Rez-de-chaussé
+		{% endif %}
+		{% if ad.duplex %}
+		<br />
+		Duplex
+		{% endif %}
+		{% if ad.ground_surface %}
+		<br />
+		Surface du terrain : {{ ad.ground_surface }} m²
+		{% endif %}
+		{% if ad.not_overlooked %}
+		<br />
+		Sans vis-à-vis
+		{% endif %}
+		{% if ad.orientation %}
 		<br />
 		Orientation : {{ ad.get_orientation_display }}
+		{% endif %}
 		</p>
 		{% endif %}
+		</div>
 
+		<div class="bloc_info">
 		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
 		<h3>A propos de l'immeuble</h3>
 		<p>
@@ -161,45 +222,51 @@
 		{% if ad.doorman %}Gardien{% endif %}
 		</p>
 		{% endif %}
+		</div>
 
-		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.parquet or ad.terrace or ad.balcony %}
+		<div class="bloc_info">
+		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
 		<h3>Commodités</h3>
 		<p>
 		{% if ad.heating %}Chauffage : {{ ad.get_heating_display }}<br />{% endif %}
-		{% if ad.kitchen %}Cuisine : {{ ad.get_kitchen_display }}<br />{% endif %}
-		{% if ad.duplex %}Duplex<br />{% endif %}
+		{% if ad.kitchen %}Cuisine équipée<br />{% endif %}
+		{% if ad.cellar %}Cave<br />{% endif %}
+		{% if ad.parking %}Parking {{ ad.get_parking_display }}<br />{% endif %}
 		{% if ad.swimming_pool %}Piscine<br />{% endif %}
 		{% if ad.alarm %}Alarme<br />{% endif %}
 		{% if ad.air_conditioning %}Air conditionné<br />{% endif %}
 		{% if ad.fireplace %}Cheminée<br />{% endif %}
-		{% if ad.parquet %}Parquet<br />{% endif %}
 		{% if ad.terrace %}Terrasse<br />{% endif %}
 		{% if ad.balcony %}Balcon{% endif %}
 		</p>
 		{% endif %}
+		</div>
 
-		{% if ad.separate_dining_room or ad.living_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
+		<div class="bloc_info">
+		{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
 		<h3>Pièces</h3>
 		<p>
-		{% if ad.separate_dining_room %}Salle à manger séparée<br />{% endif %}
-		{% if ad.living_room %}Salon<br />{% endif %}
+		{% if ad.separate_dining_room %}Cuisine séparée<br />{% endif %}
 		{% if ad.separate_toilet %}Toilette séparée<br />{% endif %}
 		{% if ad.bathroom %}Salle de bain<br />{% endif %}
 		{% if ad.shower %}Douche<br />{% endif %}
 		{% if ad.separate_entrance %}Entrée séparée{% endif %}
 		</p>
 		{% endif %}
-
-		{% if ad.cellar or ad.cupboards or ad.open_parking or ad.box %}
-		<h3>Rangements</h3>
-		<p>
-		{% if ad.cellar %}Cave<br />{% endif %}
-		{% if ad.cupboards %}Placards<br />{% endif %}
-		{% if ad.open_parking %}Parking ouvert<br />{% endif %}
-		{% if ad.box %}Boite{% endif %}	
-		</p>
-		{% endif %}
 		</div>
+		
+		<div style="clear:both"></div>
+		
+		</div>
+	
+	{% if ad.description %}
+	<h3>Informations complémentaires</h3>	
+	<p>
+		{{ ad.description|linebreaksbr  }}
+	</p>
+	<br />
+	{% endif %}		
+
 	<p>
 		<i>
 			{% comment %}

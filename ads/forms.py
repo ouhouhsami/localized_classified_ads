@@ -30,14 +30,14 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms'], 'legend': ''}),
+        fieldsets = [('title', {'fields': ['price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales (obligatoires)'}),
                      #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
-                     ('location', {'fields': ['location'], 'description': '', 'legend': ''}),
+                     #('location', {'fields': ['location'], 'description': '', 'legend': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
                      #('surface', {'fields' :['surface'], 'legend': 'Surface'}),
                      #('type', {'fields' :['habitation_type'], 'legend': 'Type d\'habitation'}),
                      #('pieces', {'fields' :['nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'Pièces'}),
-                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
+                     #('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
                      ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),

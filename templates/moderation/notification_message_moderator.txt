@@ -1,1 +1,2 @@
 Nouveau bien à modérer.
+{{ moderated_object.get_absolute_url }}

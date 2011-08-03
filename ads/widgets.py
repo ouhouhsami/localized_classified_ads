@@ -71,7 +71,7 @@ class BaseSimpleGMapWidget(BaseGeometryWidget):
     
 
 class PolygonWidget(floppyforms.gis.PolygonWidget, BaseGMapWidget):
-    map_width = '630'
+    map_width = '645'
     is_polygon = True
     geom_type = 'POLYGON'
     map_srid = 900913
@@ -106,7 +106,7 @@ class GMapPointWidget(floppyforms.gis.PointWidget, BaseSimpleGMapWidget):
 
 
 class CustomPointWidget(GMapPointWidget):
-    map_width = 630
+    map_width = 645
     map_height = 400
     map_srid = 900913
     #display_wkt = True

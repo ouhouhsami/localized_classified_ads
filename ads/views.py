@@ -69,17 +69,20 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 
                              'Aucune annonce ne correspond à votre recherche. Elargissez votre zone de recherche ou modifiez les critères.')
-        if nb_of_results == 1:
-            messages.add_message(request, messages.INFO, 
-                             '1 annonce correspondant à votre recherche')
-        if nb_of_results > 1:
+        #if nb_of_results == 1:
+        #    messages.add_message(request, messages.INFO, 
+        #                     '1 annonce correspondant à votre recherche')
+        if nb_of_results >= 1:
+            ann = 'annonces'
+            if nb_of_results == 1:
+                ann = 'annonce'
             if request.user.is_authenticated():
                 messages.add_message(request, messages.INFO, 
-                             '%s annonces correspondant à votre recherche' % (filter.qs.count()))
+                             '%s %s correspondant à votre recherche' % (nb_of_results, ann))
             else:
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
-                             '%s annonces correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail !' % (filter.qs.count(), sign_url))
+                             '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail !' % (nb_of_results, ann, sign_url))
     return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads}, 
                               context_instance = RequestContext(request))
 
@@ -159,8 +162,10 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
             if form.is_valid():
+                print 'ok valid'
                 instance = form.save(commit = False)
                 instance.save()
+                print instance.top_floor
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
@@ -184,6 +189,6 @@ def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         h.delete_date = datetime.now()
         h.save()
         messages.add_message(request, messages.INFO, 'Votre annonce a bien été supprimée.')
-        return redirect('profile_detail', username=request.user.username)
+        return redirect('userena_profile_detail', username=request.user.username)
     else:
         raise Http404

@@ -66,7 +66,8 @@ html {
 
 html, body{
 	/*background:url(../img/background.png);*/
-	background-color:#9ABA9A;
+	/*background-color:#9ABA9A;*/
+	background-color:#556;
 }
 
 #header {
@@ -124,15 +125,33 @@ html, body{
 }
 
 
-.thumbnail {
-	float:left; 
+.photo_gallery {
+	margin-bottom:12px;
+	margin-top:10px;
+}
+
+
+.view_map {
 	margin:5px; 
+	margin-left:0px;	
 	padding:6px; 
 	background-color:white; 
 	border:1px solid #aaa;
 	.border-radius(5px, 5px, 5px, 5px);
-	overflow:hidden;
 	margin-bottom:12px;
+}
+
+.thumbnail {
+	float:left; 
+	margin:5px; 
+	margin-left:0px;	
+	padding:6px; 
+	padding-bottom:2px;
+	background-color:white; 
+	border:1px solid #aaa;
+	.border-radius(5px, 5px, 5px, 5px);
+	overflow:hidden;
+	margin-bottom:0px;
 }
 .thumbnail:hover {
 	border:1px solid #888;
@@ -278,12 +297,14 @@ table, th, td {
 	line-height:12px;
 	font-size:4em;
     /*background-color:rgba(0,0,0,0.9);*/
-    text-shadow: 1px 1px 7px #FFF; 
+    text-shadow: 1px 1px 7px #000; 
+	
 }
 
 #header h1 a{
 	text-decoration:none;
 	color:rgba(0,0,0,0.9);	
+	color:White;
 }
 
 .subtitle{
@@ -416,6 +437,13 @@ input, select {
 }
 select {
 	margin:2px;
+}
+
+textarea {
+	font-family:Arial;
+	padding:2px;
+	font-size: 96%;
+	border:1px solid #bbb;
 }
 
 .status_1 {
@@ -572,5 +600,18 @@ select {
 
 .bloc_info{
 	float:left;
-	width:225px;
+	width:206px;
+	margin:5px; 
+	margin-left:0px;	
+	padding:6px;
+	border:1px solid transparent; 
 }
+
+.upload_picture {
+	border:1px solid #999;
+	float:left; 
+	margin:5px; 
+	width:370px; 
+	padding:5px;
+}
+

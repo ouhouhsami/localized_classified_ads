@@ -6,12 +6,35 @@ from moderation.forms import BaseModeratedObjectForm
 from models import *
 import floppyforms
 from form_utils.forms import BetterModelForm, BetterForm
-from form_utils.widgets import ImageWidget
+#from form_utils.widgets import ImageWidget
 from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget
+from django.utils.safestring import mark_safe
+
+
+class ImageWidget(forms.FileInput):
+    template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'
+
+    def __init__(self, attrs=None, template=None, width=200, height=200):
+        if template is not None:
+            self.template = template
+        self.width = width
+        self.height = height
+        super(ImageWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        input_html = super(forms.FileInput, self).render(name, value, attrs)
+        if hasattr(value, 'width') and hasattr(value, 'height'):
+            #image_html = thumbnail(value.name, self.width, self.height)
+            #print value.thumbnail.url()
+            output = self.template % {'input': input_html, 'image': value.url,
+                                      'image_thumbnail': value.thumbnail.url()}
+        else:
+            output = input_html
+        return mark_safe(output)
 
 class AdPictureForm(ModelForm):
-    image = forms.ImageField(widget=ImageWidget(template='%(input)s<br /><div class="preview" width="200" height="200">%(image)s</div>'))
+    image = forms.ImageField(widget=ImageWidget())
     #order = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = AdPicture
@@ -23,7 +46,7 @@ class AdContactForm(ModelForm):
 
 class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
     location = floppyforms.gis.PointField(widget = CustomPointWidget)
-
+    description = forms.CharField(label="", widget=forms.Textarea(attrs={'rows':7, 'cols':150}))
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
@@ -46,6 +69,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
                      #('storage_space', {'fields' :[], 'legend': 'Rangements'})
                      ('description', {'fields': ['description'], 'legend':'Informations complémentaires'})
                      ]
+        #row_attrs = {'description': {'cols': '150', 'rows':'7'}}
     class Media:
         js = (
             'http://maps.google.com/maps/api/js?sensor=false',

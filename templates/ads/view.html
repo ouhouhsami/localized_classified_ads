@@ -107,17 +107,16 @@
 {% block content %}
 
 <div id="block_content">
-	<!--<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}")</script>-->
-	<h2>{{ ad.title }}</h2>
-	<h2>
+	<h2 style="padding-left:8px;">
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} chambres)
 		{{ ad.price|priceformat }} €
 		- {{ ad.surface }} m<sup>2</sup>
 	</h2>
-	<br />
+
+	<div class="photo_gallery">
 	{% for img in ad.pictures.all %}
 		<div class="thumbnail">
-		<img src="{% thumbnail img.image 200 130 %}" rel="#img_{{ img.id }}" />
+		<img src="{% thumbnail img.image 206 150 %}" rel="#img_{{ img.id }}" />
 		</div>
 	{% endfor %}
 	{% for img in ad.pictures.all %}
@@ -127,18 +126,18 @@
 		<b style="color:white;padding-left:4px;">{{ img.title }}</b>
 		</div>
 	{% endfor %}
-	
-	
-	
 	<div style="clear:both"></div>
-	{% comment %}{{ map_widget }}{% endcomment %}
-	
-	<div style="float:right; padding-right:40px">
+	{% if ad.pictures.all %}
+		<p style="font-size:0.9; color:#555;padding-left:6px;"><i>Cliquez sur les photos pour les agrandir</i></p>
+	{% endif %}
+	</div>
+
+	<div style="float:right; padding-right:12px; padding-top:3px">
 	<h3>Critères énergétiques</h3>
 		
 		<table class="energy">
 			<tr>
-				<th>Consommation énergétique</th>
+				<th style="width:230px">Consommation énergétique</th>
 				<th>Emission de gaz à effets de serre</th>
 			</tr>
 			<tr>
@@ -172,7 +171,7 @@
 			
 		</table>
 	</div>
-<div style="width:450px; height:300px" id="map"></div>
+<div style="width:431px; height:212px" id="map" class="view_map"></div>
 
 
 	<div style="clear:both"></div>
@@ -185,7 +184,7 @@
 		
 		<div class="bloc_info">
 		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
-		<h3>Situation du logement</h3>
+		<h4>Situation du logement</h4>
 		<p>
 		{% if ad.floor %}{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}(et dernier){% endif %} étage{% endif %}
 		{% if ad.ground_floor %}
@@ -214,7 +213,7 @@
 
 		<div class="bloc_info">
 		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
-		<h3>A propos de l'immeuble</h3>
+		<h4>A propos de l'immeuble</h4>
 		<p>
 		{% if ad.elevator %}Ascenseur<br />{% endif %}
 		{% if ad.intercom %}Interphone<br />{% endif %}
@@ -226,7 +225,7 @@
 
 		<div class="bloc_info">
 		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
-		<h3>Commodités</h3>
+		<h4>Commodités</h4>
 		<p>
 		{% if ad.heating %}Chauffage : {{ ad.get_heating_display }}<br />{% endif %}
 		{% if ad.kitchen %}Cuisine équipée<br />{% endif %}
@@ -244,7 +243,7 @@
 
 		<div class="bloc_info">
 		{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
-		<h3>Pièces</h3>
+		<h4>Pièces</h4>
 		<p>
 		{% if ad.separate_dining_room %}Cuisine séparée<br />{% endif %}
 		{% if ad.separate_toilet %}Toilette séparée<br />{% endif %}
@@ -260,7 +259,7 @@
 		</div>
 	
 	{% if ad.description %}
-	<h3>Informations complémentaires</h3>	
+	<h4>Informations complémentaires</h4>	
 	<p>
 		{{ ad.description|linebreaksbr  }}
 	</p>

@@ -155,6 +155,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
 @login_required
 def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     h = Ad.unmoderated_objects.get(id = ad_id)
+    # h = Ad.objects.get(id = ad_id)
     PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)
     if h.user_profile.user.username == request.user.username:
@@ -165,14 +166,13 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 print 'ok valid'
                 instance = form.save(commit = False)
                 instance.save()
-                print instance.top_floor
+                print instance.floor
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
                     picture_formset.save()
-                # here we need to add changed_by to moderated object to get email notification
-                instance.moderated_object.changed_by = request.user
-                instance.moderated_object.save()
+                # here we DONT need to add changed_by to moderated object to get email notification
+                # because moderated object already know about user from 'add' function
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
                 messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       

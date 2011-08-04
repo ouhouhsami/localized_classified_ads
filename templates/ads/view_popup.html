@@ -4,17 +4,13 @@
 <div id="block_content" class="ad_{{ ad.id }}">
 	
 	<!-- <h2>{{ ad.title }}</h2> -->
-	<h4>
-		{{ ad.get_habitation_type_display }}
-		- {{ ad.price }}€
-		- {{ ad.surface }}m<sup>2</sup>
-		- {{ ad.nb_of_rooms }} pièces
-		- {{ ad.nb_of_bedrooms }} chambres
-	</h4>
+	<p><b>
+		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} ch.)
+		<br />
+		{{ ad.price|priceformat }} € - {{ ad.surface }} m<sup>2</sup>
+		</b> <a href="{% url view ad.id %}" target="_blank">Voir le détail</a>
+	</p>
 	
-	<p><a href="{% url view ad.id %}" target="_blank">Lien vers l'annonce</a></p>
-
-
 	{% comment %}
 	
 	{% for img in ad.homeforsaleadpicture_set.all %}

@@ -73,15 +73,13 @@
 		<div class="atom">
 			<h3>Photos</h3>
 			<p>N'hésitez pas à insérer une photo du plan de votre bien.</p>
-				{% comment %}
-				{% for picture in home.pictures.all %}
-					<img src="{% thumbnail picture.image 200 130 %}" />
-				{% endfor %}
-				{% endcomment %}
 			    {{ picture_formset.management_form }}
     		<ul style="list-style:none">
         		{% for form in picture_formset %}
-        		<li style="border:1px solid #999; float:left; margin:5px; width:420px; padding:5px;"><b>Photo n°{{ forloop.counter }}</b><table>{{ form }}</table></li>
+        		<li class="upload_picture">
+					{% comment %}{{ form.id }} {{ form.DELETE }} {{ form.title }} {{ form.image }} {% endcomment %}
+					<table>{{ form }}</table>
+				</li>
         		{% endfor %}
     		</ul>
 		</div>

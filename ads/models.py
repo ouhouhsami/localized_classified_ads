@@ -8,23 +8,26 @@ from django.contrib.contenttypes.models import ContentType
 from moderation.fields import SerializedObjectField
 from django.http import QueryDict
 from moderation.managers import ModerationObjectsManager
+from stdimage import StdImageField
 
 # GENERIC AD MODELS
 
 class AdPicture(models.Model):
 
-    def upload_path(self, filename):
+    #def upload_path(self, filename):
         # line below to fix : app_label is not model_name, but always ad which is bad
         # we should have /ad/homeforsalead/id/image.jpg
         #return 'pictures/%s/%s/%s' % (self.content_type.app_label, self.content_object.id, filename)
-        return 'pictures/%s' % (filename)
+    #    return 'pictures/%s' % (filename)
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     title = models.CharField(max_length = 255)
     #image = models.ImageField(upload_to = upload_path)
-    image = models.ImageField(upload_to='pictures/')
+    #image = models.ImageField(upload_to='pictures/')
+    image = StdImageField(upload_to="pictures/", size=(640,500), thumbnail_size=(100, 100))
+
     #order = models.PositiveIntegerField() 
 
 class AdContact(models.Model):

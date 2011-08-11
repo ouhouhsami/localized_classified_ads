@@ -114,6 +114,7 @@
 		- {{ ad.surface }} m<sup>2</sup>
 	</h2>
 
+	{% if ad.pictures.all %}
 	<div class="photo_gallery">
 	{% for img in ad.pictures.all %}
 		<div class="thumbnail">
@@ -132,7 +133,8 @@
 		<p style="font-size:0.9; color:#555;padding-left:6px;"><i>Cliquez sur les photos pour les agrandir</i></p>
 	{% endif %}
 	</div>
-
+	{% endif %}
+	
 	<div style="float:right; padding-right:12px; padding-top:3px">
 	<h3>Critères énergétiques</h3>
 		

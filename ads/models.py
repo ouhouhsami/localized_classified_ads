@@ -98,8 +98,7 @@ class Ad(models.Model):
     title = models.CharField("Titre", max_length = 255, 
                                        help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
-    description = models.TextField("", 
-                                       null = True, blank = True)
+    description = models.TextField("", null = True, blank = True)
     location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)

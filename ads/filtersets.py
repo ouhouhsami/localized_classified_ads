@@ -5,7 +5,7 @@ from django_filters.widgets import RangeWidget
 from django import forms
 from django.forms import widgets
 from filters import LocationFilter
-from widgets import PolygonWidget, IndifferentNullBooleanSelect
+from widgets import PolygonWidget, IndifferentNullBooleanSelect, GooglePolygonWidget
 from models import HomeForSaleAd, HomeForRentAd, HABITATION_TYPE_CHOICES, PARKING_CHOICES
 from forms import HomeForSaleAdFilterSetForm, HomeForRentAdFilterSetForm
 from django.utils.translation import ugettext
@@ -64,8 +64,11 @@ class HomeAdFilterSet(NicerFilterSet):
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", 
                                          widget = widgets.CheckboxSelectMultiple(),
                                          choices = HABITATION_TYPE_CHOICES)
-    location = LocationFilter(widget=PolygonWidget(ads=[]), label="Localisation", help_text="Localisation", required=False)
-
+    #location = LocationFilter(widget=PolygonWidget(ads=[]), 
+    #                          label="Localisation", help_text="Localisation", required=False)
+    location = LocationFilter(widget=GooglePolygonWidget(), 
+                              label="Localisation", help_text="Localisation", required=False)
+    # GooglePolygonWidget
     #parking = django_filters.MultipleChoiceFilter(label="Parking", 
     #                                     widget = widgets.CheckboxSelectMultiple(),
     #                                     choices = PARKING_CHOICES)
@@ -94,9 +97,12 @@ class HomeForSaleAdFilterSet(HomeAdFilterSet):
         del kwargs['search']
         super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
         if search:
-            self.form.fields['location'].widget = PolygonWidget(ads=self.qs, search=search)
+            #self.form.fields['location'].widget = PolygonWidget(ads=self.qs, search=search)
+            self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=search)
         else:
-            self.form.fields['location'].widget = PolygonWidget(ads=[], search=search)
+            #self.form.fields['location'].widget = PolygonWidget(ads=[], search=search)
+            self.form.fields['location'].widget = GooglePolygonWidget(ads=[], search=search)
+            
         #print self.form.fields['location']
 
     class Meta:

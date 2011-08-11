@@ -75,6 +75,7 @@ class PolygonWidget(floppyforms.gis.PolygonWidget, BaseGMapWidget):
     is_polygon = True
     geom_type = 'POLYGON'
     map_srid = 900913
+    display_wkt = True
     
     def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
@@ -125,3 +126,23 @@ class CustomPointWidget(GMapPointWidget):
         if hasattr(self, 'id'):
             self.attrs['id'] = self.id           
         return ctx
+
+class GooglePolygonWidget(Input):
+    template_name = 'floppyforms/gis/poly_google.html'
+    def __init__(self, *args, **kwargs):
+        self.ads = kwargs.get('ads', None)
+        #self.controls = kwargs.get('controls', True)
+        self.search = kwargs.get('search', False)
+        super(GooglePolygonWidget, self).__init__()
+    def get_context_data(self):
+        ctx = super(GooglePolygonWidget, self).get_context_data()
+        ctx['ads'] = self.ads
+        ctx['search'] = self.search
+        return ctx
+    class Media:
+        js = (
+            'http://maps.google.com/maps/api/js?sensor=false',
+            #'jquery-gmap3-3.4/gmap3.min.js',
+            'js/proj4js-combined.js',
+            'js/googlemap.js',
+        )

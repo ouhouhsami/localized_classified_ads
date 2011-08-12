@@ -1,0 +1,61 @@
+<div style="display:none">
+<span id="hand_b" onclick="MapToolbar.stopEditing()">hand</span>
+<span id="shape_b" onclick="MapToolbar.initFeature('placemark')">shape</span>;
+<span id="line_b" onclick="MapToolbar.initFeature('line')">line</span>;
+<span id="placemark_b" onclick="MapToolbar.initFeature('shape')">placemark</span>;
+</div>
+
+
+<script type="text/javascript">
+localizeMe = function(){
+	if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				map.setCenter(initialLocation);
+			});
+		}else{				
+	}
+}
+$(document).ready(function(){	
+	$("#address").keypress(function(e) {
+   			if (e.which == 13) {
+   				return false;
+   			}
+   	});
+	$('#address').focus(function(evt){
+		$(this).val('')
+	})
+	var geocoder = new google.maps.Geocoder();
+	$("#center_map").hide()
+	$("#center_map").click(function(evt){
+		var address = document.getElementById("address").value;
+		if (geocoder) {
+			geocoder.geocode( { 'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				var lon = results[0].geometry.location.lng()
+				var lat = results[0].geometry.location.lat()
+				initialLocation = new google.maps.LatLng(lat,lon);
+				map.setCenter(initialLocation);
+			} 
+			else 
+			{
+				//alert("Geocode was not successful for the following reason: " + status);
+			}
+		});
+		}			
+	})
+	$('#address').keyup(function(evt){$("#center_map").trigger('click')})
+})
+
+</script>
+
+<div id="map_container">
+	<div id="map_utils">
+		Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" placeholder="indiquer une adresse"/> <input type="button" id="center_map" value="centrer la carte" /> | <a href="javascript:initPath()">Effacer la zone de recherche</a> 
+	</div>
+	<div id="map" style="height:400px; width:645px"></div>
+</div>
+
+<div style="display:none">
+{% include "floppyforms/textarea.html" %}
+</div>

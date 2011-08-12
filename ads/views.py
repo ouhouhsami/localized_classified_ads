@@ -155,6 +155,8 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
 @login_required
 def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     h = Ad.unmoderated_objects.get(id = ad_id)
+    # hack de merde, je ne comprends pas, sinon il convertit la valeur
+    h.location = str(h.location)
     # h = Ad.objects.get(id = ad_id)
     PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)

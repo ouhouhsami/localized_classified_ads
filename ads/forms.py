@@ -8,7 +8,7 @@ import floppyforms
 from form_utils.forms import BetterModelForm, BetterForm
 #from form_utils.widgets import ImageWidget
 from django.forms.extras.widgets import SelectDateWidget
-from widgets import CustomPointWidget
+from widgets import CustomPointWidget, GooglePointWidget
 from django.utils.safestring import mark_safe
 
 
@@ -45,7 +45,8 @@ class AdContactForm(ModelForm):
         exclude = ['user_profile', 'content_type', 'object_pk']
 
 class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
-    location = floppyforms.gis.PointField(widget = CustomPointWidget)
+    #location = floppyforms.gis.PointField(widget = CustomPointWidget)
+    location = floppyforms.gis.PointField(widget = GooglePointWidget)
     description = forms.CharField(label="", widget=forms.Textarea(attrs={'rows':7, 'cols':150}))
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)

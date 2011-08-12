@@ -131,7 +131,6 @@ class GooglePolygonWidget(Input):
     template_name = 'floppyforms/gis/poly_google.html'
     def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
-        #self.controls = kwargs.get('controls', True)
         self.search = kwargs.get('search', False)
         super(GooglePolygonWidget, self).__init__()
     def get_context_data(self):
@@ -142,7 +141,15 @@ class GooglePolygonWidget(Input):
     class Media:
         js = (
             'http://maps.google.com/maps/api/js?sensor=false',
-            #'jquery-gmap3-3.4/gmap3.min.js',
             'js/proj4js-combined.js',
-            'js/googlemap.js',
+            'js/poly_googlemap.js',
+        )
+
+class GooglePointWidget(Input):
+    template_name = 'floppyforms/gis/point_google.html'
+    class Media:
+        js = (
+            'http://maps.google.com/maps/api/js?sensor=false',
+            'js/proj4js-combined.js',
+            'js/point_googlemap.js',
         )

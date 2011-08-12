@@ -215,7 +215,9 @@
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"><img height="13px" src="{{ STATIC_URL }}img/home_icon.png" /> consulter l'annonce</a></td>
+					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> consulter l'annonce</a>
+					</td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.price|priceformat }}</td>

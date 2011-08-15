@@ -7,6 +7,44 @@
 	{{ form.media }}
 {% endblock %}
 
+{% block javascript %}
+	<script>
+		$(document).ready(function(){
+			var habitation_type = $('#id_habitation_type').val();
+			var correspondance = ['apartment', 'house', '', '', '', '', '', 'parking', 'others'];
+			//var habitation_type_display = correspondance[parseInt(habitation_type)]
+			function init_form(){
+				$('.atom').each(function(evt){
+					console.log($(this), habitation_type)
+					if(habitation_type != ''){
+						if(!$(this).hasClass(correspondance[parseInt(habitation_type)])){
+							$(this).hide()
+							// erase values
+							$(this).find(':input').val('').removeAttr('checked').removeAttr('selected')
+						}else{
+							$(this).show()
+						}
+					}
+					else{
+						if(!$(this).hasClass('base')){
+							$(this).hide()
+						}
+					}
+				})
+			}
+						
+			$('#id_habitation_type').change(function(evt){
+				habitation_type = $(this).val()
+				//habitation_type_display = correspondance[parseInt(habitation_type)]
+				//console.log(habitation_type_display)
+				init_form()
+			})
+			
+			init_form()
+		})
+	</script>
+{% endblock %}
+
 
 {% block main_menu %}
 	<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>
@@ -14,16 +52,16 @@
 {% endblock %}
 
 {% block content %}
-	<form action="" method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-			
+	<form action="" method="POST" class="pretty_form" enctype="multipart/form-data">
+	<div class="form">
+		{% csrf_token %}	
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 		{% for fieldset in form.fieldsets %}
 		  {% if fieldset.name != 'description' %}
 		    
 		  <div class="atom {{ fieldset.classes }}">
 		  {% if fieldset.legend %}
-		    <h3>{{ fieldset.legend }}</h3>
+		    <h2 class="hightlight_title">{{ fieldset.legend }}</h2>
 		  {% endif %}
 		  {% if fieldset.description %}
 		    <p class="description">{{ fieldset.description }}</p>
@@ -36,7 +74,7 @@
 			{% ifequal field.name 'location' %}
 			
 			<tr>
-				<td>Localisation</td>
+				<th>{{ field.label_tag }}</th>
 				<td>
 				<div >{{ field }} 
 					{% if field.help_text %}<br />
@@ -50,9 +88,9 @@
 			
 			{% else %}
 		      <tr{{ field.row_attrs }}>
-		        <td>
+		        <th>
 					{{ field.label_tag }}
-				</td>
+				</th>
 		        <td>
 					{{ field }} 
 					{% if field.errors %}<br />{{ field.errors }} {% endif %}
@@ -70,8 +108,8 @@
 			{% endif %}
 		{% endfor %}
 
-		<div class="atom">
-			<h3>Photos</h3>
+		<div class="atom house apartment parking others">
+			<h2 class="hightlight_title">Photos</h2>
 			<p>N'hésitez pas à insérer une photo du plan de votre bien.</p>
 			    {{ picture_formset.management_form }}
     		<ul style="list-style:none">
@@ -85,8 +123,8 @@
 		</div>
 		<div style="clear:both"></div>
 		
-		<div class="atom">
-			<h3>{{ form.fieldsets.description.legend }}</h3>
+		<div class="atom {{ form.fieldsets.description.classes }}">
+			<h2 class="hightlight_title">{{ form.fieldsets.description.legend }}</h2>
 		  <table>
 		  {% for field in form.fieldsets.description %}
 			{% if field.is_hidden %}
@@ -112,5 +150,6 @@
 
 
         <button type="submit" />Envoyer</button>
+	</div>
     </form>
 {% endblock %}

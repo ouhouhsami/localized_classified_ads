@@ -46,15 +46,15 @@ class AdContactForm(ModelForm):
 
 class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
     #location = floppyforms.gis.PointField(widget = CustomPointWidget)
-    location = floppyforms.gis.PointField(widget = GooglePointWidget)
-    description = forms.CharField(label="", widget=forms.Textarea(attrs={'rows':7, 'cols':150}))
+    location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget)
+    description = forms.CharField(label="", required=False, widget=forms.Textarea(attrs={'rows':7, 'cols':80}))
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['price', 'surface', 'habitation_type','nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales (obligatoires)'}),
+        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
                      #('location', {'fields': ['location'], 'description': '', 'legend': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
@@ -62,13 +62,13 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
                      #('type', {'fields' :['habitation_type'], 'legend': 'Type d\'habitation'}),
                      #('pieces', {'fields' :['nb_of_rooms', 'nb_of_bedrooms'], 'legend': 'Pièces'}),
                      #('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ,
-                     ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble'}),
-                     ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
-                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
+                     ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble', 'classes': ['apartment']}),
+                     ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble', 'classes': ['apartment']}),
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités', 'classes': ['apartment', 'house', 'others']}),
+                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces',  'classes': ['apartment', 'house', 'others']}),
                      #('storage_space', {'fields' :[], 'legend': 'Rangements'})
-                     ('description', {'fields': ['description'], 'legend':'Informations complémentaires'})
+                     ('description', {'fields': ['description'], 'legend':'Informations complémentaires', 'classes':['house', 'apartment', 'parking', 'others']})
                      ]
         #row_attrs = {'description': {'cols': '150', 'rows':'7'}}
     class Media:
@@ -132,7 +132,7 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
+        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre propre zone de recherche cliquant sur la carte'}),
                      #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms']}),
                      #('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),

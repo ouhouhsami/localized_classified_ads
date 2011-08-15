@@ -11,6 +11,9 @@
 @color_5:#E4E2E0;
 @color_6:#E0DEDD;
 
+@first_color:#e1dc4d;
+@second_color:LightSeaGreen;
+
 @approved:LightGreen;
 @pending:Orange;
 @rejected:#faa;
@@ -86,13 +89,13 @@ html, body{
 	background-color:#444;
 }
 #header_background {
-	border-bottom:5px solid LightSeaGreen;
+	border-bottom:5px solid @second_color;
 	margin-bottom:20px;
 	.gradient
 }
 
 #footer_background {
-	border-top:5px solid LightSeaGreen;
+	border-top:5px solid @second_color ;
 	.gradient
 }
 
@@ -334,9 +337,8 @@ table, th, td {
 	margin-bottom:3px;
 	line-height:12px;
 	font-size:2.6em;
-    /*background-color:rgba(0,0,0,0.9);*/
-    text-shadow: 1px 1px 7px #000; 
-	
+	/*background-color:rgba(0,0,0,0.9);*/
+	text-shadow: 1px 1px 7px #000; 
 }
 
 #header h1 a{
@@ -349,12 +351,22 @@ table, th, td {
 	padding-top:8px;
 }
 
+.hightlight_title {
+	color:@second_color;
+}
+
 .subtitle{
-    font-family: AlphaMacAOE;
-	/*font-size:0.5em;
-	text-shadow: 0px 0px 0 #FFFFFF;*/
+    /*font-family: AlphaMacAOE;
+	font-size:2.3em;*/
+	font-weight:bold;
 	color:#fff;
-	font-size:2.3em;
+	
+}
+
+.special_text {
+	color:@second_color;
+	/* font-family: AlphaMacAOE;
+	font-size:1.8em;*/
 }
 
 .debug {
@@ -653,10 +665,80 @@ textarea {
 }
 
 .upload_picture {
-	border:1px solid #999;
+	/*border:1px solid #999;
 	float:left; 
 	margin:5px; 
 	width:370px; 
 	padding:5px;
+	height:200px;
+	*/
 }
 
+
+/* FORMS */
+
+.pretty_form{
+	padding:25px;
+	h2 {
+		font-variant:small-caps;
+		border-bottom:1px solid #ddd;
+	}
+	.form_adson{
+		margin:10px;
+		padding:10px;
+		font-size:0.9em;
+		width:480px;
+		margin-left:auto;
+		margin-right:auto;
+		margin-top:30px;
+		border-top:1px solid #ddd;
+		border-bottom:1px solid #ddd;
+		background-color:#fefefe;
+	}
+	.form {
+		width:500px;
+		margin-left:auto;
+		margin-right:auto;
+	}
+	.form table {
+		width:500px;
+	}
+	.form td, .form th {
+		border-bottom:1px solid #ddd;
+	}
+	.form tr.last td, .form tr.last th  {
+			border-bottom:0px solid #ddd;
+	}
+	.form td, .form th {
+		padding:4px;
+	}
+	.form td{
+		width:320px;
+	}
+	.form th {
+		text-align:right;
+		font-weight:bold;
+		font-size:0.9em;
+		padding-bottom:0px;
+		padding-top:14px;
+	}
+	.form td input[type="text"], .form td input[type="password"], .form td select{
+		width:306px;
+		.border-radius(3px,3px,3px,3px);
+		padding-left:6px;
+		padding-right:6px;
+		padding-bottom:5px;
+		padding-top:5px;
+	}
+	.form td select{
+		width:320px;
+	}
+	.form .error {
+		color:red;
+		background-color:transparent;
+		padding-left:6px;
+	}
+	.form input:focus {
+		border:1px solid #4C4C4C;
+	}
+}

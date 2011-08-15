@@ -64,11 +64,12 @@ $(function(){
 		var latlon = new google.maps.LatLng(p.y, p.x)
 		marker.setPosition(latlon)
 		map.setCenter(latlon)
+		/* for reverse geocoding
 		geocoder.geocode({'latLng': latlon}, function(results, status) {
-      		if (status == google.maps.GeocoderStatus.OK) {
-				console.log(results[0].formatted_address)
+			if (status == google.maps.GeocoderStatus.OK) {
 				$('#address').val(results[0].formatted_address)
 			}
 		});
+		*/
 	}
 })

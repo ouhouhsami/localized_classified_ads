@@ -83,7 +83,9 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
                              '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail !' % (nb_of_results, ann, sign_url))
-    return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads}, 
+    initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1)
+    ##### ICI AJOUTER L'AFFICHAGE DES CES INITIAL ADS
+    return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads, 'initial_ads':initial_ads}, 
                               context_instance = RequestContext(request))
 
 @login_required
@@ -127,7 +129,7 @@ def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
 
 
 @site_decorator
-@login_required
+@login_required(login_url='/accounts/signup/')
 def add(request, Ad=None, AdForm=None, AdFilterSet=None):
     form = AdForm()
     PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
@@ -155,13 +157,17 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
 @login_required
 def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     h = Ad.unmoderated_objects.get(id = ad_id)
+    print h.moderated_object.changed_object.__dict__
     # hack de merde, je ne comprends pas, sinon il convertit la valeur
     h.location = str(h.location)
     # h = Ad.objects.get(id = ad_id)
     PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
     picture_formset = PictureFormset(instance = h)
     if h.user_profile.user.username == request.user.username:
-        form = AdForm(h.__dict__)
+        #form = AdForm(h.__dict__)
+        form = AdForm(h.moderated_object.changed_object.__dict__)
+        #print form['price']
+        #print h.price
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
             if form.is_valid():

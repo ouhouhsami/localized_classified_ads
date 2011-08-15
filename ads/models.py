@@ -23,7 +23,7 @@ class AdPicture(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    title = models.CharField(max_length = 255)
+    title = models.CharField('Titre', max_length = 255, null = True, blank = True)
     #image = models.ImageField(upload_to = upload_path)
     #image = models.ImageField(upload_to='pictures/')
     image = StdImageField(upload_to="pictures/", size=(640,500), thumbnail_size=(100, 100))

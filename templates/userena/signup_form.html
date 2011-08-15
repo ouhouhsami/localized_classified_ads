@@ -4,14 +4,17 @@
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<form action="" method="post">
+<form action="" method="post" class="pretty_form">
+  <div class="form">
+  <h2 class="hightlight_title">{% trans "Signup" %}</h2>
   <fieldset>
-    <legend>Signup</legend>
     {% csrf_token %}
-    {% include "userena/form_snippet.html" %} 
+    {% include "userena/form_snippet.html" with submit="Valider" %} 
   </fieldset>
-  <input type="submit" value="{% trans "Signup"%}" />
+  </div>
+	<div class="form_adson">
 	<p>Si vous êtes déjà inscrit, <a href="{% url userena_signin %}">connectez-vous</a>.</p>
+	</div>
 </form>
 
 {% endblock %}

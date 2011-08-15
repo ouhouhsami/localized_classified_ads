@@ -4,14 +4,22 @@
 {% block title %}{% trans "Signin" %}{% endblock %}
 
 {% block content %}
-<form action="" method="post">
-  <fieldset>
-    <legend>{% trans "Signin" %}</legend>
+
+
+<form action="" method="post" class="pretty_form">
+	<div class="form">
+	<h2 class="hightlight_title">{% trans "Signin" %}</h2>
+  	<fieldset>
+    <!-- <legend>{% trans "Signin" %}</legend> -->
         {% csrf_token %}
-        {% include "userena/form_snippet.html" %}
-  </fieldset>
-  <input type="submit" value="{% trans "Signin" %}" />
-  <p class="forgot-password"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></p>
-  <p><b>Pour vous inscrire, <a href="{% url userena_signup %}">cliquez-ici</a>.</b></p>
+        {% include "userena/form_snippet.html" with submit="Connexion" %}
+  	</fieldset>
+  
+	</div>
+
+	<div class="form_adson">
+	  <p>Pour vous inscrire, <a href="{% url userena_signup %}">cliquez-ici</a>.</p>
+	</div>
+
 </form>
 {% endblock %}

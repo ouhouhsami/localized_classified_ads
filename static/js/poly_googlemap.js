@@ -35,7 +35,7 @@ $(function(){
 		}
 		if(!poly){
 			// create poly
-			poly = new google.maps.Polygon({strokeWeight: 5, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});
+			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});
 		}
 		path = poly.getPath();
 		path.insertAt(path.length, event.latLng);
@@ -63,7 +63,7 @@ $(function(){
 		if($('#id_location').val() != ''){
 			console.log('getpath')
 			has_poly = 'true';
-			poly = new google.maps.Polygon({strokeWeight: 5, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});  
+			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});  
 			path = poly.getPath();
 			var points = $('#id_location').val().split('SRID=900913;POLYGON((')[1].split('))')[0].split(',');
 			var latlngbounds = new google.maps.LatLngBounds( );

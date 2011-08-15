@@ -16,12 +16,12 @@
 			
 	<script>
 		$(document).ready(function(){	
+			/*
 			var help_text = $("<div class='tooltip'></div>")
 			help_text.hide()
 			var h = help_text.appendTo('#content');
 			h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
 			$('.olControlEditingToolbar > div').click(function(evt){
-				//console.log(this)
 				help_text.show()
 				if($(this).attr('class').indexOf("Modify") !=-1 ){
 					h.html("Selectionner la zone que vous avez dessine, et deplacer les ancres pour la modifier")
@@ -48,6 +48,7 @@
 			})
 			.mouseenter(function(evt){h.show()})
 			.mouseleave(function(evt){h.hide()})
+			*/
 			//$('.olControlEditingToolbar').mouseover(function(evt){h.hide()})
 			// init less important parameters
 			$('.atom_content').each(function(index) {
@@ -160,7 +161,7 @@
 		<div class="search_form location-field">
 		<!-- LOCATION FIELD -->
 		<div class="atom {{ fieldset.classes }}" style="height:458px">
-			<p><b>{{ filter.form.fieldsets.location.legend }}</b></p>
+			<p class="special_text"><img src="{{ STATIC_URL }}img/preview-draw.png" style="padding-right:4px; margin-bottom:-8px"><b>{{ filter.form.fieldsets.location.legend }}</b></p>
 			<!--<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
 			
 			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
@@ -191,7 +192,7 @@
 
 			
 		{% if filter.qs %}
-		<div id="results" style="padding:10px; padding-right:15px;">
+		<div id="results" style="padding:10px; padding-right:15px;padding-top:0px">
 				
 		{% autosort filter.qs as sorted_objects %}
 		{% autopaginate sorted_objects 10 as object_list %}
@@ -215,8 +216,11 @@
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
-					<td style="text-align:left"><a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
-						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> consulter l'annonce</a>
+					<td style="text-align:left">
+						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> 
+						</a>
+						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
 					</td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>
@@ -242,6 +246,8 @@
 		</div>
 		</div>
 		{% else  %}
+	
+		
 
 		{% endif %}
 
@@ -256,6 +262,60 @@
 			</p>
 			</div>
 			{% endcomment %}
+		<div id="results" style="padding:10px; padding-right:15px;padding-top:0px">
+				
+		{% autosort initial_ads as initial_sorted_objects %}
+		{% autopaginate initial_sorted_objects 10 as initial_object_list %}
+
+		<div id="results_detail" style="display:none;visibility:hidden">
+			{% for ad in initial_object_list %}
+				{% include 'ads/view_popup.html' %}
+			{% endfor %}
+		</div>
+		
+		<div class="atom" >
+			<h2>Dernières annonces publiées</h2>
+			<table>
+				<tr class="result_header">
+					<th></th>
+					<th>{% anchor habitation_type "Type de bien" %}</th>
+					<th>{% anchor price "Prix (€)" %}</th>
+					<th>{% anchor surface "Surface (m²)" %}</th>
+					<th>{% anchor nb_of_rooms "Pièces" %}</th>
+					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
+				</tr>
+				{% for ad in initial_object_list %}
+				<tr class="{% cycle 'even' 'odd' %}">
+					<td style="text-align:left">
+						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> 
+						</a>
+						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
+					</td>
+					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
+					<td>{{ ad.get_habitation_type_display }}</td>
+					<td>{{ ad.price|priceformat }}</td>
+					<td>{{ ad.surface }}</td>
+					<td>{{ ad.nb_of_rooms }}</td>
+					<td>{{ ad.nb_of_bedrooms }}</td>
+					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
+					<script>
+						{% if forloop.first %}
+						$(document).ready(function(){
+							if(location_value == new Boolean(0)){
+								// center map on this location
+								center_map({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
+							}
+						})
+						{% endif %}
+					</script>
+				</tr>
+				{% endfor %}
+			</table>
+			{% paginate %}
+		</div>
+		</div>				
+
 		{% endif %}
 				
 	</div>

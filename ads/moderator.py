@@ -12,6 +12,7 @@ class HomeForSaleAdModerator(GenericModerator):
     # moderation_manager_class = ModerationObjectsManager
     notify_moderator = True
     notify_user = True
+    visibility_column = 'visible'
 
 
     def inform_moderator(self, content_object, extra_context=None):

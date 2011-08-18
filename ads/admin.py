@@ -3,6 +3,7 @@ from models import *
 import floppyforms
 from django.forms import ModelForm
 from moderation.admin import ModerationAdmin
+from widgets import CustomPointWidget, GooglePointWidget
 
 class PointWidget(floppyforms.gis.PointWidget, floppyforms.gis.BaseGMapWidget):
     pass
@@ -23,6 +24,8 @@ class AdAdmin(ModerationAdmin):
         from moderation.helpers import automoderate
         automoderate(obj, request.user)
     '''
+    #location = floppyforms.gis.PointField(widget = PointWidget)
+    #location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget)
     pass
 
 #admin.site.register(UserProfile, UserProfileAdmin)

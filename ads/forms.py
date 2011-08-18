@@ -65,7 +65,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),
                      ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble', 'classes': ['apartment']}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble', 'classes': ['apartment']}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités', 'classes': ['apartment', 'house', 'others']}),
+                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'alarm', 'balcony', 'terrace', 'fireplace', 'air_conditioning', 'swimming_pool'], 'legend': 'Commodités', 'classes': ['apartment', 'house', 'others']}),
                      ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces',  'classes': ['apartment', 'house', 'others']}),
                      #('storage_space', {'fields' :[], 'legend': 'Rangements'})
                      ('description', {'fields': ['description'], 'legend':'Informations complémentaires', 'classes':['house', 'apartment', 'parking', 'others']})
@@ -143,10 +143,10 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
                      #('storage_space', {'fields' :['cellar', 'parking'], 'legend': 'Rangements'}),
                      ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ]        
 
-    class Media:
-        js = (
-            '/static/js/map.utils.js',
-        )
+    #class Media:
+    #    js = (
+    #        '/static/js/map.utils.js',
+    #    )
 
 
 class HomeForRentAdFilterSetForm(HomeForSaleAdFilterSetForm):

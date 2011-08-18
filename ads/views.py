@@ -63,8 +63,9 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
             ad_search = AdSearch(search = search,content_type = ContentType.objects.get_for_model(Ad), 
                                                  user_profile = user_profile)
             ad_search.save()
+            userena_profile_detail_url = reverse('userena_profile_detail', args=[user_profile.user.username])
             messages.add_message(request, messages.INFO,
-                             'Votre recherche a bien été sauvegardée.')
+                             'Votre recherche a bien été sauvegardée dans <a href="%s">votre compte</a>.' % (userena_profile_detail_url))
         nb_of_results = filter.qs.count()
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 

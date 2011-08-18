@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load ads_tag %}
+{% load utils_tags %}
 
 {% block title %}{{ site.name }} | Proposer un bien{% endblock %}
 
@@ -53,6 +54,17 @@
 
 {% block content %}
 	<form action="" method="POST" class="pretty_form" enctype="multipart/form-data">
+		<div class="form_adson" style="margin-top:0px;">
+		Les champs obligatoires sont identifiés par une <span style="color:red">*</span>.
+		<br />Nous vous conseillons de renseigner le maximum de champs, 
+		d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
+		En effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète 
+		et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
+		Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
+		par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
+		superflues qui auront peu de chance d'aboutir.	
+		</div>
+	
 	<div class="form">
 		{% csrf_token %}	
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
@@ -73,6 +85,9 @@
 		    {% else %}
 			{% ifequal field.name 'location' %}
 			
+			
+
+			
 			<tr>
 				<th>{{ field.label_tag }}</th>
 				<td>
@@ -86,19 +101,40 @@
 				</td>
 			</tr>
 			
+
+			
 			{% else %}
+			
+			
+			{% if field.field.widget|widget_type == 'CheckboxInput' %}
 		      <tr{{ field.row_attrs }}>
 		        <th>
-					{{ field.label_tag }}
+					
 				</th>
 		        <td>
-					{{ field }} 
+					{{ field }} <span class="checkbox_label">{{ field.label_tag }}</span>
 					{% if field.errors %}<br />{{ field.errors }} {% endif %}
 					{% if field.help_text %}<br />
 						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
 					{% endif %}
 				</td>
 		      </tr>
+
+			{% else %}
+		      <tr{{ field.row_attrs }}>
+		        <th>
+					{{ field.label_tag }}
+				</th>
+		        <td>
+					{% if field.field.required %}<div class="required_class" style="float:right">*</div>{% endif %}
+					<span>{{ field }}</span>
+					{% if field.errors %}<br />{{ field.errors }} {% endif %}
+					{% if field.help_text %}<br />
+						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
+					{% endif %}
+				</td>
+		      </tr>
+			{% endif %}
 		    {% endifequal %}
 		    {% endif %}
 		  	{% endfor %}
@@ -114,9 +150,13 @@
 			    {{ picture_formset.management_form }}
     		<ul style="list-style:none">
         		{% for form in picture_formset %}
-        		<li class="upload_picture">
+        		<li class="upload_picture" style="margin-bottom:10px">
 					{% comment %}{{ form.id }} {{ form.DELETE }} {{ form.title }} {{ form.image }} {% endcomment %}
-					<table>{{ form }}</table>
+					
+					<table>
+						<tr><th style="text-align:left; font-size:1em">Photo n° {{ forloop.counter }}</th><td></td></tr>
+						{{ form }}
+					</table>
 				</li>
         		{% endfor %}
     		</ul>
@@ -147,9 +187,15 @@
 		  	{% endfor %}
 		  </table>
 		</div>
+<table>
+<tr class="last">
+	<th></th>
+	<td><button type="submit" />Envoyer</button></td>
+</tr>
+</table>
 
 
-        <button type="submit" />Envoyer</button>
+        
 	</div>
     </form>
 {% endblock %}

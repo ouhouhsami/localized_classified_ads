@@ -99,29 +99,50 @@
 {% block content %}
 
 	{{ filter.form.errors }}
+	
+	
+
 
     <form action="{% url search %}" method="POST" id="search" style="background-color:#F6F4F2">
-		{% csrf_token %}
-		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
-	
-	<div  class="search_form non-location-field" style="">
-		
-		<!-- FORM ACTIONS -->
-		<div class="search_buttons">
+
+	<div style="padding-top:4px;font-weight:bold;">
+	<div class="non-location-field" style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;height:54px;width:247px;margin-right:8px;padding:4px;padding-bottom:0px;background-color:#999;color:White; min-height:20px; border-top:1px solid #CACACA; margin-top:10px;padding-top:6px; padding-left:4px;">
+	<div style="text-align:center;margin-top:8px">
+	<span style="color:black;font-family:AlphaMacAOE">3.</span> 
 		<button type="submit" value="search" name="search">Rechercher</button>
-		<!-- <a class="button" href="{% url search %}"><span class="cross icon"></span>Initialiser</a> -->
-		
 		{% if search and user.is_authenticated %}
         	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% else %}
-		<!--<br />Pour sauvegarder vos recherches, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a>.
-		-->
 			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% endif %}	
+	</div>
+	</div>
+	<div class="location-field" style="padding-bottom:0px;margin-right:265px;margin-bottom:0px;">
+		<div style="border-top-left-radius: 10px; padding:4px;background-color:#999;color:White;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre localisation actuelle ou <input type="text" id="address" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" /></div>
+		<div style="padding:4px;background-color:#999;color:White;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <a href="javascript:initPath()" style="font-weight:normal; float:right;color:white">Effacer la zone de recherche</a></div>
+	</div>
+	<div style="clear:both"></div>
+	</div>
+		{% csrf_token %}
+		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
+	
+	<div class="search_form non-location-field" style="padding-top:0px; padding-right: 15px;padding-left:0px;">
 		
-		</div>		
+		<!-- FORM ACTIONS -->
 		
-		<div style="border-top:1px solid #CACACA; margin-top:10px;padding-top:6px; padding-left:4px;"><b>Critères optionnels</b></div>
+		<!-- 
+		<div class="search_buttons">
+		 <div style="text-align:center"><span class="map_help_number_2" >3.</span> <button type="submit" value="search" name="search">Rechercher</button>
+		</div>
+		{% if search and user.is_authenticated %}
+        	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% else %}
+			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% endif %}	
+		</div>
+		-->	
+		<!-- border-top:1px solid #CACACA; -->
+		<div style="margin-top:10px;padding-top:6px; padding-left:4px;padding-top:0px;margin-top:0px;"><b>Critères optionnels</b></div>
 		<!-- NON LOCATION FIELDS -->	
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}
@@ -156,12 +177,12 @@
 		{% endfor %}
 	</div>
 		
-	<div style="margin-right:265px; " >
+	<div style="margin-right:265px;" >
 		
-		<div class="search_form location-field">
+		<div class="search_form location-field" style="padding-top:0px;margin-top:0px">
 		<!-- LOCATION FIELD -->
-		<div class="atom {{ fieldset.classes }}" style="height:458px">
-			<p class="special_text"><img src="{{ STATIC_URL }}img/preview-draw.png" style="padding-right:4px; margin-bottom:-8px"><b>{{ filter.form.fieldsets.location.legend }}</b></p>
+		<div class="atom {{ fieldset.classes }}" >
+			<!-- <p class="special_text"><img src="{{ STATIC_URL }}img/preview-draw.png" style="padding-right:4px; margin-bottom:-8px"><b>{{ filter.form.fieldsets.location.legend }}</b></p>-->
 			<!--<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
 			
 			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
@@ -170,7 +191,7 @@
 				{% if field.is_hidden %}
 					{{ field }}
 					{% else %}
-					<div style="padding-top:8px"> {{ field }} <br />{{ field.errors }}</div>
+					<div style="padding-top:8px; padding-top:0px;"> {{ field }} {{ field.errors }}</div>
 					{% if field.value %}
 					<script>			
 							var location_value = true
@@ -203,8 +224,8 @@
 			{% endfor %}
 		</div>
 		
-		<div class="atom" >
-			<h2>Résultats de la recherche</h2>
+		<div class="atom">
+			<h3 style="padding-top:10px">Résultats de la recherche</h3>
 			<table>
 				<tr class="result_header">
 					<th></th>
@@ -234,7 +255,7 @@
 						$(document).ready(function(){
 							if(location_value == new Boolean(0)){
 								// center map on this location
-								center_map({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
+								map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
 							}
 						})
 						{% endif %}
@@ -274,7 +295,7 @@
 		</div>
 		
 		<div class="atom" >
-			<h2>Dernières annonces publiées</h2>
+			<h3 style="padding-top:10px; border-top:0px solid transparent">Dernières annonces publiées</h3>
 			<table>
 				<tr class="result_header">
 					<th></th>
@@ -304,7 +325,7 @@
 						$(document).ready(function(){
 							if(location_value == new Boolean(0)){
 								// center map on this location
-								center_map({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
+								map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
 							}
 						})
 						{% endif %}

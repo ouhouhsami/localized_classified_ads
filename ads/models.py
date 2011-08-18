@@ -23,11 +23,11 @@ class AdPicture(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    title = models.CharField('Titre', max_length = 255, null = True, blank = True)
+    image = StdImageField(upload_to="pictures/", size=(640,500), thumbnail_size=(100, 100))
+    title = models.CharField('Description de la photo', max_length = 255, null = True, blank = True)
     #image = models.ImageField(upload_to = upload_path)
     #image = models.ImageField(upload_to='pictures/')
-    image = StdImageField(upload_to="pictures/", size=(640,500), thumbnail_size=(100, 100))
-
+    
     #order = models.PositiveIntegerField() 
 
 class AdContact(models.Model):
@@ -36,7 +36,7 @@ class AdContact(models.Model):
     object_pk = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey(ct_field="content_type",
                                                fk_field="object_pk")
-    message = models.TextField()
+    message = models.TextField('Votre message')
 
 class AdSearch(models.Model):
     search = models.CharField(max_length=2550)
@@ -55,41 +55,54 @@ class AdSearch(models.Model):
         else:
             habitation_types = ''
         '''
-        habitation_types = ''
+        search_zone = u'non géolocalisée'
+        if len(q['location']) > 0:
+            search_zone = u'géolocalisée'
+        habitation_types = ' '
         for i in habitation_types_values:
-            habitation_types += HABITATION_TYPE_CHOICES[int(i)][1]+' '
+            habitation_types += HABITATION_TYPE_CHOICES[int(i)][1]
+            if int(i) == len(habitation_types_values)-1:
+                habitation_types += ' '
+            else:
+                habitation_types += ', '
+        if len(habitation_types_values) == 0:
+            habitation_types += u'sans type d\'habitation précisé'
         habitation_types += ''
         min_price = q.get('price_0', '')
         max_price = q.get('price_1', '')
         price = ''
         if len(min_price) > 0 and len(max_price) > 0:
-            price = u'entre %s et %s €' % (min_price, max_price)
+            price = u'- entre %s et %s €' % (min_price, max_price)
         elif len(min_price) == 0 and len(max_price) > 0:
-            price = u'inférieur à %s €' % (max_price)
+            price = u'- inférieur à %s €' % (max_price)
         elif len(min_price) > 0 and len(max_price) == 0:
-            price = u'supérieur à %s €' % (min_price)
+            price = u'- supérieur à %s €' % (min_price)
+        if len(min_price) == 0 and len(max_price) == 0:
+            price = u'- sans critère de prix'
         
         min_surface = q.get('surface_0', '')
         max_surface = q.get('surface_1', '')
         surface = ''
         if len(min_surface) > 0 and len(max_surface) > 0:
-            surface = u'entre %s et %s m2' % (min_surface, max_surface)
+            surface = u'- entre %s et %s m²' % (min_surface, max_surface)
         elif len(min_surface) == 0 and len(max_surface) > 0:
-            surface = u'inférieur à %s m2' % (max_surface)
+            surface = u'- inférieur à %s m²' % (max_surface)
         elif len(min_surface) > 0 and len(max_surface) == 0:
-            surface = u'supérieur à %s m2' % (min_surface)
-        
+            surface = u'- supérieur à %s m²' % (min_surface)
+        if len(min_surface) == 0 and len(max_surface) == 0:
+            surface = u'- sans critère de surface'
+     
         min_rooms = str(q.get('nb_of_rooms_0', ''))
         max_rooms = str(q.get('nb_of_rooms_1', ''))
         rooms = ''
         if len(min_rooms) > 0 and len(max_rooms) > 0:
-            rooms = u'entre %s et %s pièces' % (min_rooms, max_rooms)
+            rooms = u'- entre %s et %s pièces' % (min_rooms, max_rooms)
         elif len(min_rooms) == 0 and len(max_rooms) > 0:
-            rooms = u'inférieur à %s pièces' % (max_rooms)
+            rooms = u'- inférieur à %s pièces' % (max_rooms)
         elif len(min_rooms) > 0 and len(max_rooms) == 0:
-            rooms = u'supérieur à %s pièces' % (min_rooms)
+            rooms = u'- supérieur à %s pièces' % (min_rooms)
 
-        return '<b>%s</b> %s - %s - %s' % (habitation_types, price, surface, rooms)
+        return 'Recherche <i>%s</i> : <b>%s</b> %s %s %s' % (search_zone, habitation_types, price, surface, rooms)
 
 class Ad(models.Model):
     """Ad abstract base model
@@ -104,7 +117,7 @@ class Ad(models.Model):
     update_date = models.DateTimeField(auto_now = True)
     create_date = models.DateTimeField(auto_now_add = True) 
     delete_date = models.DateTimeField(null = True, blank = True)
-
+    visible = models.BooleanField()
     objects = models.GeoManager()
 
     class Meta:
@@ -183,9 +196,9 @@ KITCHEN_CHOICES = (
 
 
 PARKING_CHOICES = (
-    ('0', 'Non'),
-    ('1', 'Ouvert'),
-    ('2', 'Fermé'),
+    #('0', 'Non'),
+    ('1', 'Place de parking'),
+    ('2', 'Box fermé'),
 )
 
 ORIENTATION_CHOICES = (
@@ -200,7 +213,7 @@ ORIENTATION_CHOICES = (
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.IntegerField("Surface (m², hors terrain)")
+    surface = models.IntegerField("Surface habitable (m²)", help_text="Loi Carrez pour les appartements ou lots de copropriété.")
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 

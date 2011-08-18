@@ -1,6 +1,9 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
+
+
+
 {% block title %}{% trans "Account setup" %}{% endblock %}
 
 {% block content_title %}
@@ -11,7 +14,7 @@
 <div id="userena_profile_edit_menu">
 {% include "userena/menu_snippet.html" %}
 
-<form action="" enctype="multipart/form-data" method="post">
+<form action="" enctype="multipart/form-data" method="post"  class="pretty_form">
   {% csrf_token %}
   <fieldset>
     <legend>{% trans "Edit Profile" %}</legend>

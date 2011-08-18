@@ -318,8 +318,9 @@
 {% else %}
 
 {% if user.is_authenticated %}
-	<form action="" method="POST">
-		<h3>Contacter le vendeur</h3>
+	<form action="" method="POST" class="pretty_form">
+		<div class="form">
+			<h2 class="hightlight_title">Contacter le vendeur</h2>
 	<table>
 		{% csrf_token %}
 		{{ contact_form.as_table }}
@@ -328,7 +329,15 @@
 			<td><button type="submit">Ecrire au vendeur</button></td>
 		</tr>
 	</table>
+	{% if ad.user_profile.phone_number %}
+	
+	<div class="form_adson">
+	  <p>Ou contactez-le par téléphone, au {{ ad.user_profile.phone_number }}</p>
+	</div>
+	{% endif %}
+		</div>
 	</form>
+	
 {% else %}
 	<div class="content">
 		<p>Pour écrire au vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>

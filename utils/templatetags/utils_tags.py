@@ -32,3 +32,7 @@ def display_value(field):
 			if val == value: 
 				return desc 
 	return value
+	
+@register.filter(name='widget_type')
+def widget_type(ob):
+    return ob.__class__.__name__

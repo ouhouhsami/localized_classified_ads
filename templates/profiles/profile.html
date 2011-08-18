@@ -86,22 +86,55 @@
 
 {% ifequal user.username profile.user.username %}
 
-<h3>Votre Compte</h3>
-	<p style="padding-top:5px">
-		email : {{ user.email }}
-		<br />
-		{% if profile.phone_number %}Votre numéro de téléphone : {{ profile.phone_number }}<br />{% endif %}
-		{% comment %}
-		<div id="map_container"><div id="map" class="smallmap"></div></div>
-		{% endcomment %}
-	</p>
-	
-<p>
-<a class="main_menu_item_unselected" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">{% trans "Edit profile" %}</a>
-<a class="main_menu_item_unselected" href="{% url userena_password_change user.username %}" id="userena_password_change_menu_item">{% trans "Change password" %}</a>
-<a class="main_menu_item_unselected" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">{% trans "Change email" %}</a>
+<h3>Vos informations personnelles</h3>
 
-</p>
+<div style="margin-left:20px;margin-right:20px;">
+	<p>
+		<b>Adresse email</b> : {{ user.email }} (<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>)
+	</p>
+	<div class="adson">
+		Votre adresse email n'est pas visible par les utilisateurs d'AcheterSansCom. <br />Elle est visible par le destinataire d'un message envoyé depuis une annonce de bien du site AcheterSansCom.
+	</div>
+	
+	{% if profile.phone_number %}
+	<p><b>Téléphone</b> : {{ profile.phone_number }} (<a class="" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">modifier</a>)
+		
+	</p>
+	<div class="adson">
+		Votre numéro de téléphone est visible sur l'annonce de votre bien mis en vente par les utilisateurs du site AcheterSansCom.
+	</div>
+	{% else %}
+	<p><b>Téléphone</b> : Non renseigné, <a class="" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">ajouter votre téléphone</a>
+		
+	</p>
+	{% if all_user_ads %}
+	<div class="adson">
+		Les acheteurs ne peuvent vous contacter que par message électronique.
+	</div>
+	{% endif %}
+	{% endif %}
+	
+	<p><b>Alertes email</b> : 
+	{% if profile.email_alert %}
+		<a class="" href="{% url userena_profile_edit user.username %}">Me désabonner</a>
+	</p>
+	<div class="adson">
+		Vous êtes abonné aux alertes email : vous recevrez un mail lorsque de nouvelles offres correspondront à vos recherches.
+	</div>
+	{% else %}
+		<a class="" href="{% url userena_profile_edit user.username %}">M'abonner</a>
+		</p>
+	<div class="adson">
+	Vous n'êtes pas abonné aux alertes email pour vos recherches.
+	</div>
+		{% endif %}
+
+
+	<p><b>Mot de passe</b> : 
+		<a class="" href="{% url userena_password_change user.username %}" id="userena_password_change_menu_item">{% trans "Change password" %}</a>
+	</p>
+
+</div>
 
 {% endifequal %}
 
@@ -109,7 +142,6 @@
 
 {% if all_user_ads %}
 <div class="atom">
-<br />
 <h3>Vos Biens en ventes</h3>
 <table>
 {% for ad in all_user_ads %}
@@ -151,7 +183,6 @@
 		{% endifequal %}
 	</div>
 	{% endif %}
-<br />
 {% endif %}
 
 {% if searchs %}
@@ -173,7 +204,14 @@
 	{% endfor %}
 	</table>
 </div>
+{% if profile.email_alert %}
+Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+{% else %}
+Pour recevoir les alertes email lorsque de nouvelles offres correspondront à vos recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+{% endif %}
 <br />
+{% else %}
+<h3>Vous n'avez aucune recherche enregistrée</h3>
 {% endif %}
 
 

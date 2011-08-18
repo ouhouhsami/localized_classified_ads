@@ -50,9 +50,26 @@ $(document).ready(function(){
 </script>
 
 <div id="map_container">
+	<!-- 
 	<div id="map_utils">
-		Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" placeholder="indiquer une adresse"/> <input type="button" id="center_map" value="centrer la carte" /> | <a href="javascript:initPath()">Effacer la zone de recherche</a> 
+		<div class="help_line">
+			<span class="map_help_number">1.</span>
+			<span style="margin-top:8px;" > Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> 
+			ou <input type="text" id="address" placeholder="indiquer une adresse"/>
+			<input type="button" id="center_map" value="centrer la carte" /> 
+			</span>
+			
+			
+		</div>
+		<div class="help_line">
+			<span class="map_help_number">2.</span>
+			<span> Dessiner votre zone de recherche en cliquant sur la carte
+			<a href="javascript:initPath()" style="font-weight:normal; float:right;padding-right:3px;padding-top:7px">Effacer la zone de recherche</a>
+			</span>
+			
+		</div>
 	</div>
+	-->
 	<div id="map" style="height:400px; width:645px"></div>
 </div>
 

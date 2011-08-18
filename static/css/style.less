@@ -14,6 +14,11 @@
 @first_color:#e1dc4d;
 @second_color:LightSeaGreen;
 
+/*
+@first_color:#deafdd;
+@second_color:#0da9ed;
+*/
+
 @approved:LightGreen;
 @pending:Orange;
 @rejected:#faa;
@@ -110,6 +115,7 @@ html, body{
 
 body {
 	background:url(../img/bg.jpg);
+	/*background-color:@first_color;*/
 }
 
 #registration, #social_links{
@@ -257,6 +263,7 @@ form, #block_content, #results, .content, .olPopup {
 
 .location-field{
 	padding:10px; 
+	padding-bottom: 0px;
 	padding-right:0px;
 	.border-radius(0px,0px,10px,0px);
 }
@@ -264,16 +271,25 @@ form, #block_content, #results, .content, .olPopup {
 #map_utils{
 	color:white;
 	padding:5px;
-	text-align:center;
+	/*text-align:center;*/
+	/*background-image: -moz-linear-gradient(center bottom , @second_color 45%, @first_color 100%);*/
+	background-color:rgba(0,0,0,0.2);
 	a{
 		color:white;
 	}
-	
+	div.help_line {
+		font-weight:bold;
+		padding:2px;
+		margin:2px;
+		background-color:rgba(0,0,0,0.2);
+		/*height:26px;*/
+	}	
 }
 
 #map_container{
-	.border-radius(10px,10px,10px,10px);
-	background-color:rgba(0,0,0,0.6);
+	/*.border-radius(10px,10px,10px,10px);*/
+	.border-radius(0px,0px,10px,10px);
+	/*background-color:rgba(0,0,0,0.6);*/
 	overflow:hidden;
 	
 }
@@ -294,8 +310,8 @@ form, #block_content, #results, .content, .olPopup {
 }
 
 #results, #details {
-	margin-right:10px;
-	margin-top:10px;
+	/*margin-right:10px;
+	margin-top:10px;*/
 }
 
 /* HTML ELEMENTS - GENERAL */
@@ -309,6 +325,10 @@ h1{
 
 }
 
+p{
+	margin-top:8px;
+	margin-bottom:10px;
+}
 
 a {
 	color:black;
@@ -417,6 +437,7 @@ ul.messages {
 .help {
 	color:#666;
 	font-size:0.9em;
+	padding-left:4px;
 }
 
 
@@ -439,9 +460,10 @@ form input {
 button, input[type=submit] {
 	.border-radius(5px,5px,5px,5px);
 	background-color:#fff;
-	border:2px solid rgba(0,0,0,0.6);
+	border:2px solid @second_color;
 	padding:5px;
 	font-weight:bold;
+	cursor:pointer;
 	/*.box-shadow;*/
 }
 
@@ -455,12 +477,12 @@ button[disabled=disabled]:hover{
 }
 
 button:hover{
-	background-color:rgba(0,0,0,0.3);
-	color:white;
+	border:2px solid @first_color;
+	/*color:white;*/
 }
 
 .search_buttons{
-	text-align:center;
+	/*text-align:center;*/
 	padding-top:4px;
 }
 
@@ -677,12 +699,31 @@ textarea {
 
 /* FORMS */
 
+
+.checkbox_label {
+	font-size:0.9em;
+	font-weight:bold;
+}
+
+
+.adson{
+	padding:10px;
+	margin-bottom:14px;
+	font-size:0.9em;
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	background-color:#fefefe;
+	text-align:justify;
+}
+
 .pretty_form{
 	padding:25px;
 	h2 {
 		font-variant:small-caps;
-		border-bottom:1px solid #ddd;
+		/*padding-top:10px;*/
+		/*border-bottom:1px solid #ddd;*/
 	}
+
 	.form_adson{
 		margin:10px;
 		padding:10px;
@@ -694,6 +735,7 @@ textarea {
 		border-top:1px solid #ddd;
 		border-bottom:1px solid #ddd;
 		background-color:#fefefe;
+		text-align:justify;
 	}
 	.form {
 		width:500px;
@@ -723,7 +765,7 @@ textarea {
 		padding-top:14px;
 	}
 	.form td input[type="text"], .form td input[type="password"], .form td select{
-		width:306px;
+		width:285px;
 		.border-radius(3px,3px,3px,3px);
 		padding-left:6px;
 		padding-right:6px;
@@ -731,7 +773,7 @@ textarea {
 		padding-top:5px;
 	}
 	.form td select{
-		width:320px;
+		width:299px;
 	}
 	.form .error {
 		color:red;
@@ -741,4 +783,37 @@ textarea {
 	.form input:focus {
 		border:1px solid #4C4C4C;
 	}
+	.form .required_class {
+		color:red;
+	}
+}
+
+
+.map_help_number{
+	font-family:AlphaMacAOE;
+	/*display:block;
+	text-align:center;*/
+	/*color:@second_color;*/
+	/*background-color:@first_color;*/
+	font-size:1.5em;
+	padding:0px;
+	margin-left:4px;
+	/*width:26px;
+	height:26px;
+	float:left;*/
+	margin-right:3px;
+	color:black;
+}
+.map_help_number_2{
+	font-family:AlphaMacAOE;
+	/*text-align:center;*/
+	/*color:@second_color;*/
+	/*background-color:@first_color;*/
+	font-size:1.7em;
+	padding:0px;
+	margin:0px;
+	/*width:26px;
+	height:26px;
+	margin-right:3px;*/
+	color:black;
 }

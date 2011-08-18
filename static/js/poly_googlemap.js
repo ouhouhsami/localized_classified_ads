@@ -3,6 +3,7 @@ var source = new Proj4js.Proj('EPSG:4326');
 var dest = new Proj4js.Proj('EPSG:900913');  
 var homes = []
 
+var map
 
 // initialize
 $(function(){
@@ -21,7 +22,7 @@ $(function(){
 		},
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	var map = new google.maps.Map(document.getElementById('map'), options);
+	map = new google.maps.Map(document.getElementById('map'), options);
 	var poly = null;
 	var markers = []
 	var has_poly = 'false';

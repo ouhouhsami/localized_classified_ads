@@ -4,7 +4,7 @@ from django_filters.filters import Filter
 from django_filters.widgets import RangeWidget
 from django import forms
 from django.forms import widgets
-from filters import LocationFilter
+from filters import LocationFilter, BooleanForNumberFilter
 from widgets import PolygonWidget, IndifferentNullBooleanSelect, GooglePolygonWidget
 from models import HomeForSaleAd, HomeForRentAd, HABITATION_TYPE_CHOICES, PARKING_CHOICES
 from forms import HomeForSaleAdFilterSetForm, HomeForRentAdFilterSetForm
@@ -72,6 +72,11 @@ class HomeAdFilterSet(NicerFilterSet):
     #parking = django_filters.MultipleChoiceFilter(label="Parking", 
     #                                     widget = widgets.CheckboxSelectMultiple(),
     #                                     choices = PARKING_CHOICES)
+    balcony = BooleanForNumberFilter(label="Balcon", widget = IndifferentNullBooleanSelect())
+    terrace = BooleanForNumberFilter(label="Terrasse", widget = IndifferentNullBooleanSelect())
+    separate_toilet = BooleanForNumberFilter(label="Toilettes séparés", widget = IndifferentNullBooleanSelect())
+    bathroom = BooleanForNumberFilter(label="Salle de bain", widget = IndifferentNullBooleanSelect())
+    shower = BooleanForNumberFilter(label="Salle d'eau (douche)", widget = IndifferentNullBooleanSelect())
 
     class Meta:
         #model = HomeForSaleAd
@@ -86,7 +91,8 @@ class HomeAdFilterSet(NicerFilterSet):
                   'fireplace', 'terrace', 'balcony', 
                   'separate_dining_room', 'separate_toilet', 
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
-                  'parking', 'orientation']
+                  #'parking', 'orientation']
+                  'parking']
 
 class HomeForSaleAdFilterSet(HomeAdFilterSet):
     price = django_filters.OpenRangeNumericFilter(label="Budget (€)", 
@@ -137,4 +143,5 @@ class HomeForRentAdFilterSet(HomeAdFilterSet):
                   'fireplace', 'terrace', 'balcony', 
                   'separate_dining_room', 'separate_toilet', 
                   'bathroom', 'shower', 'separate_entrance', 'cellar', 
-                  'parking', 'orientation']
+                  #'parking', 'orientation']
+                  'parking']

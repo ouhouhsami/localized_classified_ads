@@ -22,3 +22,10 @@ class LocationFilter(Filter):
         if value:
             value = fromstr(value)
             return qs.filter(**{'%s__%s' % (self.name, lookup): value})
+
+class BooleanForNumberFilter(Filter):
+    def filter(self, qs, value):
+        if value is None:
+            return qs
+        else:
+            return qs.filter(**{'%s__isnull' % (self.name): not(value)})

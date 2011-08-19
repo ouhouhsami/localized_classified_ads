@@ -6,7 +6,7 @@ from models import *
 import floppyforms
 from django.template import loader
 from floppyforms.gis.widgets import BaseGeometryWidget
-from floppyforms.widgets import Input
+from floppyforms.widgets import Input, NumberInput
 from django.utils.translation import ugettext
 
 
@@ -153,3 +153,7 @@ class GooglePointWidget(Input):
             'js/proj4js-combined.js',
             'js/point_googlemap.js',
         )
+
+class BooleanExtendedNumberInput(NumberInput):
+    template_name = 'floppyforms/boolean_extended_number_input.html'
+    # we should add jquery, but it's on all site pages so ...

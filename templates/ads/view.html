@@ -240,7 +240,7 @@
 		{% endif %}
 		{% if ad.orientation %}
 		<br />
-		Orientation : {{ ad.get_orientation_display }}
+		Orientation : {{ ad.orientation }}
 		{% endif %}
 		</p>
 		{% endif %}
@@ -269,9 +269,9 @@
 		{% if ad.swimming_pool %}Piscine<br />{% endif %}
 		{% if ad.alarm %}Alarme<br />{% endif %}
 		{% if ad.air_conditioning %}Air conditionné<br />{% endif %}
-		{% if ad.fireplace %}Cheminée<br />{% endif %}
-		{% if ad.terrace %}Terrasse<br />{% endif %}
-		{% if ad.balcony %}Balcon{% endif %}
+		{% if ad.fireplace %}Cheminée : {{ ad.get_fireplace_display }}<br />{% endif %}
+		{% if ad.terrace %}Terrasse : {{ ad.terrace }} m²<br />{% endif %}
+		{% if ad.balcony %}Balcon : {{ ad.balcony }} m²{% endif %}
 		</p>
 		{% endif %}
 		</div>
@@ -281,9 +281,9 @@
 		<h4>Pièces</h4>
 		<p>
 		{% if ad.separate_dining_room %}Cuisine séparée<br />{% endif %}
-		{% if ad.separate_toilet %}Toilette séparée<br />{% endif %}
-		{% if ad.bathroom %}Salle de bain<br />{% endif %}
-		{% if ad.shower %}Douche<br />{% endif %}
+		{% if ad.separate_toilet %} {{ ad.separate_toilet }} toilette{{ ad.separate_toilet|pluralize }} séparée{{ ad.separate_toilet|pluralize }}<br />{% endif %}
+		{% if ad.bathroom %} {{ ad.bathroom }} salle{{ ad.bathroom|pluralize }} de bain<br />{% endif %}
+		{% if ad.shower %} {{ ad.shower }} douche{{ ad.shower|pluralize }}<br />{% endif %}
 		{% if ad.separate_entrance %}Entrée séparée{% endif %}
 		</p>
 		{% endif %}

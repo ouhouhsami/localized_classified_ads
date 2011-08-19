@@ -8,7 +8,7 @@ import floppyforms
 from form_utils.forms import BetterModelForm, BetterForm
 #from form_utils.widgets import ImageWidget
 from django.forms.extras.widgets import SelectDateWidget
-from widgets import CustomPointWidget, GooglePointWidget
+from widgets import CustomPointWidget, GooglePointWidget, BooleanExtendedNumberInput
 from django.utils.safestring import mark_safe
 
 
@@ -46,8 +46,13 @@ class AdContactForm(ModelForm):
 
 class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
     #location = floppyforms.gis.PointField(widget = CustomPointWidget)
-    location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget)
+    location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget, required=True)
     description = forms.CharField(label="", required=False, widget=forms.Textarea(attrs={'rows':7, 'cols':80}))
+    balcony = forms.CharField(label="Balcon", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 'detail':"préciser la surface (m²)"}))
+    terrace = forms.CharField(label="Terrasse", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Terrace", 'detail':"préciser la surface (m²)"}))
+    separate_toilet = forms.CharField(label="Toilettes séparés", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Toilettes séparés", 'detail':"préciser leur nombre"}))
+    bathroom = forms.CharField(label="Salle de bain", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle de bain", 'detail':"préciser leur nombre"}))
+    shower = forms.CharField(label="Salle d'eau (douche)", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle d'eau (douche)", 'detail':"préciser leur nombre"}))
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
@@ -83,6 +88,35 @@ class HomeForSaleAdForm(HomeAdForm):
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
+    def clean_balcony(self):
+        data = self.cleaned_data['balcony']
+        if data == '':
+            data = None
+        return data
+
+    def clean_terrace(self):
+        data = self.cleaned_data['terrace']
+        if data == '':
+            data = None
+        return data
+
+    def clean_separate_toilet(self):
+        data = self.cleaned_data['separate_toilet']
+        if data == '':
+            data = None
+        return data
+
+    def clean_bathroom(self):
+        data = self.cleaned_data['bathroom']
+        if data == '':
+            data = None
+        return data
+
+    def clean_shower(self):
+        data = self.cleaned_data['shower']
+        if data == '':
+            data = None
+        return data
 
     class Meta:
         model = HomeForSaleAd
@@ -136,7 +170,7 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
                      #, 'description':"Cliquez sur la carte pour dessiner le contour de votre zone de recherche, double-cliquez pour la fermer."
                      ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms']}),
                      #('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain'}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation'}),
+                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked'], 'legend': 'Situation'}),
                      ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
                      ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
                      ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),

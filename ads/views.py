@@ -137,6 +137,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
     picture_formset = PictureFormset()
     if request.method == 'POST':
         form = AdForm(request.POST)
+        print request.POST
         if form.is_valid():
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)

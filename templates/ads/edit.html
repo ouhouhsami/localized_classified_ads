@@ -106,13 +106,13 @@
 			{% else %}
 			
 			
-			{% if field.field.widget|widget_type == 'CheckboxInput' %}
+			{% if field.field.widget|widget_type == 'CheckboxInput' or field.field.widget|widget_type == 'BooleanExtendedNumberInput' %}
 		      <tr{{ field.row_attrs }}>
 		        <th>
 					
 				</th>
 		        <td>
-					{{ field }} <span class="checkbox_label">{{ field.label_tag }}</span>
+					{{ field }} {% if field.field.widget|widget_type == 'CheckboxInput' %} <span class="checkbox_label">{{ field.label_tag }}</span> {% endif %}
 					{% if field.errors %}<br />{{ field.errors }} {% endif %}
 					{% if field.help_text %}<br />
 						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}

@@ -1,0 +1,24 @@
+<input type="checkbox" name="{{ name }}_checkbox" > <span class="checkbox_label"><label>{{ attrs.label }}</label></span> 
+<span class="{{ name }}_detail" style="font-size:0.8;font-style:italic;"><br />{{ attrs.detail }}</span>
+<input type="{{ type }}" name="{{ name }}" {% if value %} value="{{ value }}"{% else %} value=""{% endif %}{% if required %} required{% endif %} >
+
+<script>
+	$(document).ready(function(){
+		if($('input[name={{ name }}]').val() == ""){
+			$('input[name={{ name }}]').hide()
+			$('.{{ name }}_detail').hide()	
+		}else{
+			$('input[name={{ name }}_checkbox]').attr('checked','checked')
+		}
+		$('input[name={{ name }}_checkbox]').change(function (){
+			if($(this).attr('checked')){
+				$('input[name={{ name }}]').show()
+				$('.{{ name }}_detail').show()
+			}else{
+				$('input[name={{ name }}]').hide()
+				$('.{{ name }}_detail').hide()
+				$('input[name={{ name }}]').val('')
+			}
+		})
+	})
+</script>

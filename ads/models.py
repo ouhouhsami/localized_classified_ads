@@ -201,14 +201,19 @@ PARKING_CHOICES = (
     ('2', 'Box fermé'),
 )
 
-ORIENTATION_CHOICES = (
-    ('1', 'sud'),
-    ('2', 'est'),
-    ('3', 'nord'),
-    ('4', 'ouest'),
+FIREPLACE_CHOICES = (
+    ('1', 'Foyer ouvert'),
+    ('2', 'Insert'),
+)
+
+#ORIENTATION_CHOICES = (
+#    ('1', 'sud'),
+#    ('2', 'est'),
+#    ('3', 'nord'),
+#    ('4', 'ouest'),
     #('5', 'belle vue'),
     #('6', 'sans vis à vis'),
-)
+#)
 
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
@@ -241,15 +246,22 @@ class HomeAd(Ad):
     swimming_pool = models.BooleanField("Piscine")
     alarm = models.BooleanField("Alarme")
     air_conditioning = models.BooleanField("Climatisation")
-    fireplace = models.BooleanField("Cheminée")
+    #fireplace = models.BooleanField("Cheminée")
+    fireplace = models.CharField("Cheminée", max_length = 2,
+                               choices = FIREPLACE_CHOICES, null = True, blank = True)
     #parquet = models.BooleanField("Parquet")
-    terrace = models.BooleanField("Terrasse")
-    balcony = models.BooleanField("Balcon")
+    #terrace = models.BooleanField("Terrasse")
+    #balcony = models.BooleanField("Balcon")
+    terrace = models.IntegerField("Terrasse", null = True, blank = True)
+    balcony = models.IntegerField("Balcon", null = True, blank = True)
     separate_dining_room = models.BooleanField("Cuisine séparée")
     #living_room = models.BooleanField("Séjour")
-    separate_toilet = models.BooleanField("Toilettes séparés")
-    bathroom = models.BooleanField("Salle de bain")
-    shower = models.BooleanField("Salle d'eau (douche)")
+    #separate_toilet = models.BooleanField("Toilettes séparés")
+    #bathroom = models.BooleanField("Salle de bain")
+    #shower = models.BooleanField("Salle d'eau (douche)")
+    separate_toilet = models.IntegerField("Toilettes séparés", null = True, blank = True)
+    bathroom = models.IntegerField("Salle de bain", null = True, blank = True)
+    shower = models.IntegerField("Salle d'eau (douche)", null = True, blank = True)
     separate_entrance = models.BooleanField("Entrée séparée")
     cellar = models.BooleanField("Cave")
     #cupboards = models.BooleanField("Placards")
@@ -257,9 +269,10 @@ class HomeAd(Ad):
                                choices = PARKING_CHOICES, null = True, blank = True)
     #open_parking = models.BooleanField("Parking ouvert")
     #box = models.BooleanField("Parking fermé / garage")
-    orientation = models.CharField("Orientation", max_length = 1, 
-                                   choices = ORIENTATION_CHOICES, 
-                                   null = True, blank = True)
+    #orientation = models.CharField("Orientation", max_length = 1, 
+    #                               choices = ORIENTATION_CHOICES, 
+    #                               null = True, blank = True)
+    orientation = models.CharField("Orientation", max_length = 255, null = True, blank = True)
     class Meta:
         abstract = True
 

@@ -83,7 +83,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
             else:
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
-                             '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail !' % (nb_of_results, ann, sign_url))
+                             '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail ou enregistrer votre recherche.' % (nb_of_results, ann, sign_url))
     initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1)
     ##### ICI AJOUTER L'AFFICHAGE DES CES INITIAL ADS
     return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads, 'initial_ads':initial_ads}, 

@@ -119,7 +119,7 @@
 		<a class="" href="{% url userena_profile_edit user.username %}">Me désabonner</a>
 	</p>
 	<div class="adson">
-		Vous êtes abonné aux alertes email : vous recevrez un mail lorsque de nouvelles offres correspondront à vos recherches.
+		Vous êtes abonné aux alertes email : vous recevrez un mail lorsque de nouvelles offres correspondront à Vos Recherches.
 	</div>
 	{% else %}
 		<a class="" href="{% url userena_profile_edit user.username %}">M'abonner</a>
@@ -207,7 +207,7 @@
 {% if profile.email_alert %}
 Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% else %}
-Pour recevoir les alertes email lorsque de nouvelles offres correspondront à vos recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% endif %}
 <br />
 {% else %}

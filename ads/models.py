@@ -167,20 +167,22 @@ EMISSION_OF_GREENHOUSE_GASES_CHOICES = (
 )
 
 HEATING_CHOICES = (
-    ('1', 'gaz'),
-    ('2', 'collectif'),
-    ('3', 'individuel gaz'),
-    ('4', 'collectif gaz'),
-    ('5', 'fuel'),
-    ('6', 'electrique'),
-    ('7', 'collectif fuel'),
-    ('8', 'individuel'),
-    ('9', 'individuel electrique'),
-    ('10', 'sol'),
-    ('11', 'gaz sol'),
-    ('12', 'collectif radiateur'),
+    ('1', 'individuel gaz'),
+    ('2', 'individuel électrique'),
+    ('3', 'collectif gaz'),
+    ('4', 'collectif fuel '),
+    ('5', 'collectif réseau de chaleur'),
+    #('6', 'electrique'),
+    #('7', 'collectif fuel'),
+    #('8', 'individuel'),
+    #('9', 'individuel electrique'),
+    #('10', 'sol'),
+    #('11', 'gaz sol'),
+    #('12', 'collectif radiateur'),
     ('13', 'autres')
 )
+
+# / individuel électrique / collectif gaz / collectif fuel / collectif réseau de chaleur / autres:
 
 KITCHEN_CHOICES = (
     ('1', 'américaine'),

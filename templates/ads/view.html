@@ -324,23 +324,29 @@
 	<table>
 		{% csrf_token %}
 		{{ contact_form.as_table }}
-		<tr>
+
+
+		<tr >
 			<td></td>
-			<td><button type="submit">Ecrire au vendeur</button></td>
+			<td style="padding-bottom:20px"><button type="submit">Envoyer</button></td>
 		</tr>
-	</table>
 	{% if ad.user_profile.phone_number %}
-	
-	<div class="form_adson">
-	  <p>Ou contactez-le par téléphone, au {{ ad.user_profile.phone_number }}</p>
-	</div>
+		<tr>
+			<th><label>N° téléphone du vendeur</label></th>
+			<td><input value="{{ ad.user_profile.phone_number }}" readonly="readonly"></td>
+		</tr>
 	{% endif %}
+	</table>
+
+
+
+
 		</div>
 	</form>
 	
 {% else %}
 	<div class="content">
-		<p>Pour écrire au vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
+		<p>Pour contacter le vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
 	</div>
 {% endif %}
 

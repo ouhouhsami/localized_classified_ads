@@ -96,6 +96,14 @@
 {% endblock %}
 
 
+			{% block subtitle %}
+			{% if search %}
+			{% else %}
+			<p class="subtitle" >Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b></p>
+			{% endif %}			
+			{% endblock %}
+
+
 {% block content %}
 
 	{{ filter.form.errors }}
@@ -103,13 +111,16 @@
 	
 
 
-    <form action="{% url search %}" method="POST" id="search" style="background-color:#F6F4F2">
+    <form action="{% url search %}" method="POST" id="search" style="padding-top:10px;background-color:#F6F4F2;box-shadow: 0 0 4px rgba(0,0,0, 0.2);">
 
+	
+	<div class="helper">
+		<div class="ex">&nbsp;</div>
 	<div style="padding-top:4px;font-weight:bold;">
-	<div class="non-location-field" style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;height:54px;width:247px;margin-right:8px;padding:4px;padding-bottom:0px;background-color:#999;color:White; min-height:20px; border-top:1px solid #CACACA; margin-top:10px;padding-top:6px; padding-left:4px;">
-	<div style="text-align:center;margin-top:8px">
-	<span style="color:black;font-family:AlphaMacAOE">3.</span> 
-		<button type="submit" value="search" name="search">Rechercher</button>
+	<div class="non-location-field" style="height:54px;width:247px;margin-right:8px;padding:4px;padding-bottom:0px;min-height:20px; margin-top:4px;padding-top:6px; padding-left:4px;">
+	<div  class="helper_text" style="text-align:center;height:51px">
+	<!-- <span style="color:black;font-family:AlphaMacAOE">3.</span> -->
+		<button type="submit" value="search" name="search"><span style="color:black;font-family:AlphaMacAOE">3.</span> Lancer la recherche</button>
 		{% if search and user.is_authenticated %}
         	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% else %}
@@ -118,11 +129,16 @@
 	</div>
 	</div>
 	<div class="location-field" style="padding-bottom:0px;margin-right:265px;margin-bottom:0px;">
-		<div style="border-top-left-radius: 10px; padding:4px;background-color:#999;color:White;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre localisation actuelle ou <input type="text" id="address" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" /></div>
-		<div style="padding:4px;background-color:#999;color:White;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <a href="javascript:initPath()" style="font-weight:normal; float:right;color:white">Effacer la zone de recherche</a></div>
+		<div class="helper_text" style="padding:4px;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" style="background-color:rgba(255,255,255,0.2);color:black;border:1px solid transparent" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" />
+		<br />
+		<span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <a href="javascript:initPath()" style="font-weight:normal;">(effacer)</a></div>
 	</div>
 	<div style="clear:both"></div>
 	</div>
+	</div>
+
+
+
 		{% csrf_token %}
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 	
@@ -225,7 +241,7 @@
 		</div>
 		
 		<div class="atom">
-			<h3 style="padding-top:10px">Résultats de la recherche</h3>
+			<h3 class="extended_title">Résultats de la recherche</h3>
 			<table>
 				<tr class="result_header">
 					<th></th>
@@ -239,7 +255,7 @@
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td style="text-align:left">
 						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
-						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> 
+						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte"/> 
 						</a>
 						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
 					</td>
@@ -295,7 +311,7 @@
 		</div>
 		
 		<div class="atom" >
-			<h3 style="padding-top:10px; border-top:0px solid transparent">Dernières annonces publiées</h3>
+			<h3 class="extended_title">Dernières annonces publiées</h3>
 			<table>
 				<tr class="result_header">
 					<th></th>
@@ -309,7 +325,7 @@
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td style="text-align:left">
 						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
-						<img height="15px" src="{{ STATIC_URL }}img/home.png" /> 
+						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte" /> 
 						</a>
 						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
 					</td>

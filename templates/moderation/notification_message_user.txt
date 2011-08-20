@@ -8,6 +8,6 @@ Raison : {{ moderated_object.moderation_reason }}
 
 {% if moderated_object.get_absolute_url %}
 {% ifequal moderated_object.moderation_status 1 %}
-Vous pouvez voir votre annonce en ligne ici : http://www.achetersanscom.com/{{ moderated_object.get_absolute_url }}
+Vous pouvez voir votre annonce en ligne ici : http://www.achetersanscom.com{{ moderated_object.get_absolute_url }}
 {% endifequal %}
 {% endif %}

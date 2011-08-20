@@ -13,6 +13,7 @@
 
 @first_color:#e1dc4d;
 @second_color:LightSeaGreen;
+/*@second_color:#82FA58;*/
 
 /*
 @first_color:#deafdd;
@@ -74,6 +75,11 @@
 	src: url("../font/AlphaMacAOE.ttf")
 }
 
+@font-face {
+	font-family:TypoSlabserif;
+	src: url("../font/TypoSlabserif-Light.ttf");
+}
+
 
 /* LAYOUT */
 
@@ -82,11 +88,13 @@ html {
 	font-size:0.8em;
 	padding:0px;
 	margin:0px;
+	color:#1B1B1B;
 }
 
 html, body{
 	/*background:url(../img/background.png);*/
 	/*background-color:#9ABA9A;*/
+	
 	background-color:White;
 }
 
@@ -105,7 +113,7 @@ html, body{
 }
 
 #header {
-	height:60px;
+	height:52px;
 }
 
 #site, #header, #footer {
@@ -114,33 +122,42 @@ html, body{
 }
 
 body {
-	background:url(../img/bg.jpg);
-	/*background-color:@first_color;*/
+	/*background:url(../img/bg.jpg);
+	background-color:@first_color;*/
+	background:url(../img/bg_light.jpg);
 }
 
-#registration, #social_links{
+#social_links{
 	float:right;
 }
 
 #registration {
-	/*background-color:#F6F4F2; 
-	.box-shadow;
-    .border-radius(0px, 0px, 10px, 10px);*/	
 	padding:10px;
-	margin-top: -3px;
-
+	margin-top: 5px;
+	float:right;
+	a{
+		text-decoration:none;
+		padding:5px;
+		.border-radius(50px, 50px, 50px, 50px);
+		color:#ccc;
+		text-shadow: 0 -1px #000000;
+    padding-bottom: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 5px;
+	}
+	a:hover{
+		color:White;
+	}
+	a.signup {
+		background-color:#3E3F3D;
+		color:white;
+	}
+	a.signup:hover {
+		background-color:black;
+	}
 }
 
-#registration a{
-	text-decoration:none;
-	padding:5px;
-	.border-radius(5px, 5px, 5px, 5px);
-	color:#ccc;
-}
-#registration a:hover{
-	/*background-color:#FFF;*/
-	color:White;
-}
 
 #main_menu {
 	margin-top:10px;
@@ -227,7 +244,8 @@ body {
 }
 
 form, #block_content, #results, .content, .olPopup {
-	background-color:@color_2; 
+	/*background-color:@color_2; */
+	background:url(../img/bg_content.jpg);
 	.box-shadow;
 	.border-radius(0px, 10px, 10px, 10px);	
 	padding:10px;
@@ -318,6 +336,7 @@ form, #block_content, #results, .content, .olPopup {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
+	color:#1B1B1B;
 
 }
 h1{
@@ -331,7 +350,8 @@ p{
 }
 
 a {
-	color:black;
+	color:#1B1B1B;
+	
 }
 
 th {
@@ -359,6 +379,10 @@ table, th, td {
 	font-size:2.6em;
 	/*background-color:rgba(0,0,0,0.9);*/
 	text-shadow: 1px 1px 7px #000; 
+	.u_title {
+		color:@second_color;
+		padding-left:2px;
+	}
 }
 
 #header h1 a{
@@ -369,6 +393,7 @@ table, th, td {
 
 .title {
 	padding-top:8px;
+
 }
 
 .hightlight_title {
@@ -376,11 +401,12 @@ table, th, td {
 }
 
 .subtitle{
-    /*font-family: AlphaMacAOE;
-	font-size:2.3em;*/
-	font-weight:bold;
-	color:#fff;
-	
+    /*font-family: AlphaMacAOE;*/
+	font-size:2.3em;
+	font-family:TypoSlabserif;
+	/*font-weight:bold;*/
+	text-align:center;
+	padding-bottom:20px;	
 }
 
 .special_text {
@@ -441,6 +467,46 @@ ul.messages {
 }
 
 
+.helper {
+	background-color:@second_color;
+	margin-top:10px;
+	margin-bottom:10px;
+	font-family:TypoSlabserif;
+	height:80px;
+	font-size:1.2em;
+	.helper_text {
+		/*background:url(../img/bg_light.jpg);
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+		border-radius:4px;*/
+		/*background-color:#00FF00;*/
+	}
+	a {
+		color:#1B1B1B;
+	}
+	.ex {
+		background:url(../img/ex.png);
+		float:left;
+		height:80px;
+		width:30px;
+		margin-left:-30px;
+	}
+	input {
+		font-family:TypoSlabserif;
+	}
+	button {
+		width:250px;
+		height:50px;
+		background-color:rgba(255,255,255,0.5);
+		font-size:1.2em;
+		border-radius:8px;
+		font-family:TypoSlabserif;
+		border:1px solid white;
+	}
+}
+
+
+
+
 #userena_menu li {
 	display:inline;
 }
@@ -491,7 +557,7 @@ button:hover{
 }
 
 #search .search_form {
-	background-color:@color_2; 
+	/*background-color:@color_2; */
 	.box-shadow;
 }
 
@@ -550,6 +616,19 @@ textarea {
 		/*background-color:@lighter;*/
 		/*color:@dark;*/
 		/*font-weight:normal;*/
+	}
+	h3.extended_title {
+	background-color:@second_color;
+	/*color:White;*/
+	font-family:TypoSlabserif;
+	width:230px;
+	padding-left:-5px;
+	padding-left:38px;
+	border-top-left-radius:50px;
+	border-bottom-left-radius:50px;
+	margin-top:15px;
+	margin-bottom:10px;
+	margin-left:-35px;
 	}
 	.atom_title{
 		font-size:0.9em;		
@@ -718,6 +797,7 @@ textarea {
 
 .pretty_form{
 	padding:25px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 	h2 {
 		font-variant:small-caps;
 		/*padding-top:10px;*/

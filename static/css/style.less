@@ -13,6 +13,8 @@
 
 @first_color:#e1dc4d;
 @second_color:LightSeaGreen;
+@second_color:#ccff66;
+@second_color:#fd2e33;
 /*@second_color:#82FA58;*/
 
 /*
@@ -109,6 +111,7 @@ html, body{
 
 #footer_background {
 	border-top:5px solid @second_color ;
+	margin-top:40px;
 	.gradient
 }
 
@@ -172,14 +175,18 @@ body {
 		background-color:White;
 	}
 	.main_menu_item_selected {
-		background-color:@color_2;
+		/*background-color:@color_2;*/
+		background:url(../img/bg_content.jpg);
 		.box-shadow;
 		.border-radius(10px, 10px, 0px, 0px);
+		box-shadow: 0 -2px 1px 1px rgba(0, 0, 0, 0.05);
 	}
 	.main_menu_item_unselected {
-		background-color:rgba(255,255,255,0.5);
+		background-color:rgba(220,220,220,0.5);
+		opacity:0.8;
 		.box-shadow;
     	.border-radius(10px, 10px, 0px, 0px);
+		box-shadow: 0 -2px 1px 1px rgba(0, 0, 0, 0.05);
 	}
 }
 
@@ -228,8 +235,9 @@ body {
 	.box-shadow;
 	.border-radius(10px, 10px, 0px, 0px);*/
 	padding:10px;
+	padding-top:5px;
 	margin-bottom: -3px;
-	margin-top:10px;
+
 	color:#ccc;
 	a {
 		text-decoration:none;
@@ -251,6 +259,8 @@ form, #block_content, #results, .content, .olPopup {
 	padding:10px;
 	margin-bottom:8px;
 }
+
+
 
 
 .non-location-field{
@@ -317,11 +327,16 @@ form, #block_content, #results, .content, .olPopup {
 	.border-radius;	
 	padding:10px;	
 	margin-bottom:3px;
+	/*
 	-moz-box-shadow: inset 0 0 2px #000;
 	-webkit-box-shadow: inset 0 0 2px#000;
 	box-shadow: inner 0 0 2px #000;
+	*/
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 
 }
+
+
 
 #search {
 	padding:0px;
@@ -384,6 +399,7 @@ table, th, td {
 		padding-left:2px;
 	}
 }
+	
 
 #header h1 a{
 	text-decoration:none;
@@ -480,8 +496,20 @@ ul.messages {
 		border-radius:4px;*/
 		/*background-color:#00FF00;*/
 	}
-	a {
+	a, input {
 		color:#1B1B1B;
+		background-color:rgba(255,255,255,0.5);
+		text-decoration:none;
+		border-radius:5px;
+		padding-left:5px;
+		padding-right:5px;
+		padding-top:2px;
+		padding-bottom:2px;
+		font-weight:normal;
+	}
+	a:hover {
+		background-color:rgba(255,255,255,0.8);
+		text-decoration:underline;
 	}
 	.ex {
 		background:url(../img/ex.png);
@@ -491,20 +519,43 @@ ul.messages {
 		margin-left:-30px;
 	}
 	input {
+		border:1px solid transparent;
 		font-family:TypoSlabserif;
+		padding-bottom:3px;
+		padding-top:6px;
+		font-size:0.92em;
+		font-weight:normal;
+		padding-top:3px;
+	}
+	input:focus {
+		background-color:rgba(255,255,255,0.7);
 	}
 	button {
 		width:250px;
 		height:50px;
-		background-color:rgba(255,255,255,0.5);
+		/*background-color:rgba(255,255,255,0.5);
 		font-size:1.2em;
-		border-radius:8px;
+		border-radius:8px;*/
 		font-family:TypoSlabserif;
-		border:1px solid white;
+		/*border:0px solid transparent;
+		box-shadow: 0 0 4px rgba(0,0,0, 0.4);*/
+	}
+	button:hover {
+		/*background-color:rgba(255,255,255,0.8);
+		border:0px solid transparent;*/
 	}
 }
 
 
+.save_search {
+	background-color:rgba(255,255,255,0.5);
+	border:0px solid transparent;
+	margin-right:1px;
+	margin-top:1px;
+}
+.save_search:hover{
+	border:0px solid transparent;
+}
 
 
 #userena_menu li {
@@ -618,17 +669,17 @@ textarea {
 		/*font-weight:normal;*/
 	}
 	h3.extended_title {
-	background-color:@second_color;
-	/*color:White;*/
-	font-family:TypoSlabserif;
-	width:230px;
-	padding-left:-5px;
-	padding-left:38px;
-	border-top-left-radius:50px;
-	border-bottom-left-radius:50px;
-	margin-top:15px;
-	margin-bottom:10px;
-	margin-left:-35px;
+		background-color:@second_color;
+		/*color:White;*/
+		font-family:TypoSlabserif;
+		/*width:230px;*/
+		padding-left:-5px;
+		padding-left:38px;
+		border-top-left-radius:50px;
+		border-bottom-left-radius:50px;
+		margin-top:15px;
+		margin-bottom:10px;
+		margin-left:-35px;
 	}
 	.atom_title{
 		font-size:0.9em;		
@@ -657,6 +708,8 @@ textarea {
 		border-top:1px solid @light;
 	}	
 }
+
+
 
 #userena_menu{
 	background-color:#F6F4F2; 
@@ -896,4 +949,87 @@ textarea {
 	height:26px;
 	margin-right:3px;*/
 	color:black;
+}
+
+
+/* 3D BUTTON */
+
+
+a.fancy_button, button.fancy_button { 
+  
+  /*background: #555;*/ 
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(77,77,77,0)));  
+  background: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(77,77,77,0)); 
+  float: left; 
+  padding: 4px; 
+  text-decoration: none; 
+  outline: 0; 
+  border-width: 1px; 
+  border-style: solid;
+  width: auto;
+  overflow: visible;
+  border-color: transparent transparent #666 transparent; 
+  border-color: transparent transparent rgba(202,202,202,0.27) transparent;
+  -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;
+  -webkit-background-clip: padding-box;
+}
+
+a.fancy_button > span, button.fancy_button > span { 
+  display: block; 
+  float: left;
+  letter-spacing: -1px; 
+  border-width: 1px; 
+  border-style: solid; 
+  border-color: #ccc #444 #111 #444; 
+  border-color: rgba(255,255,255,0.7) rgba(0,0,0,0.5) rgba(0,0,0,0.7) rgba(0,0,0,0.5); 
+  font: bold 21px/1em Arial;
+  /*color: black; */
+  padding: 0.48em 2em; 
+  cursor: pointer; 
+  text-shadow: rgba(255,255,255,0.45) 0 -1px 0; 
+  -webkit-box-shadow: rgba(0,0,0,0.75) 0px 0px 3px; -moz-box-shadow: rgba(0,0,0,0.75) 0px 0px 3px; box-shadow: rgba(0,0,0,0.75) 0px 0px 3px;
+  -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+  background: transparent -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.6)), color-stop(0.5, rgba(255,255,255,0.15)), color-stop(0.5, rgba(255,255,255,0.01)), to(transparent)); 
+  background: transparent -moz-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.01) 50%, transparent);
+  -webkit-background-clip: padding-box;
+}
+
+a.fancy_button:hover > span, button.fancy_button:hover > span {  
+  border-top-color: rgba(255,255,255,0.65); 
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(220,220,220,0.6)), color-stop(0.5, rgba(100,100,100,0.2)), color-stop(0.5, rgba(0,0,0,0.21)), to(rgba(0, 0, 0, 0.20))); 
+  background: -moz-linear-gradient(top, rgba(220,220,220,0.6), rgba(100,100,100,0.2) 50%, rgba(0,0,0,0.21) 50%, rgba(0, 0, 0, 0.20));
+  -webkit-background-clip: padding-box;
+}
+
+a.fancy_button:active > span, button.fancy_button:active > span {  
+  border-top-color: rgba(255,255,255,0.2); 
+  border-left-color: rgba(0,0,0,0.4); 
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(150,150,150,0.6)), color-stop(0.5, rgba(60,60,60,0.6)), color-stop(0.5, rgba(40,40,40,0.6)), to(rgba(20, 20, 20, 0.5))); 
+  background: -moz-linear-gradient(top, rgba(150,150,150,0.6), rgba(60,60,60,0.6) 50%, rgba(40,40,40,0.6) 50%, rgba(20, 20, 20, 0.5));
+  -webkit-box-shadow: inset 0 0 18px rgba(0,0,0,0.75), rgba(0,0,0,0.75) 0px 0px 3px; -moz-box-shadow: inset 0 0 18px rgba(0,0,0,0.75), rgba(0,0,0,0.75) 0px 0px 3px; box-shadow: inset 0 0 18px rgba(0,0,0,0.75), rgba(0,0,0,0.75) 0px 0px 3px; 
+  -webkit-background-clip: padding-box;
+}
+
+a.fancy_button > span:active, button.fancy_button > span:active { 
+  border-top-color: rgba(255,255,255,0.2); 
+  border-left-color: rgba(0,0,0,0.4); 
+  -webkit-background-clip: padding-box;
+}
+
+.erase_button {
+	margin-top:10px;
+	background-color:@second_color;
+	border-radius:3px;
+	font-weight:bold;
+	font-size:0.9em;
+	box-shadow: 0 0 4px rgba(0,0,0, 0.2);
+	cursor:pointer;
+	border:1px solid #999;
+	padding-top:1px;
+	padding-bottom:1px;
+	padding-left:4px;
+	padding-right:4px;
+}
+.erase_button:hover {
+	background-color:white;
 }

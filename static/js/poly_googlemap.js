@@ -5,6 +5,46 @@ var homes = []
 
 var map
 
+var eraseControlDiv
+
+function EraseControl(controlDiv, map) {
+
+	  // Set CSS styles for the DIV containing the control
+	  // Setting padding to 5 px will offset the control
+	  // from the edge of the map
+	  /*controlDiv.style.padding = '1px';*/
+	  controlDiv.className = 'erase_button'
+	  // Set CSS for the control border
+	  var controlUI = document.createElement('DIV');
+	  /*
+	  controlUI.style.backgroundColor = 'white';
+	  controlUI.style.borderStyle = 'solid';
+	  controlUI.style.borderWidth = '2px';
+	  controlUI.style.cursor = 'pointer';
+	  controlUI.style.textAlign = 'center';
+	  */
+	  controlUI.title = 'Click to set the map to Home';
+	  controlDiv.appendChild(controlUI);
+
+	  // Set CSS for the control interior
+	  var controlText = document.createElement('DIV');
+	  /*
+	  controlText.style.fontFamily = 'Arial,sans-serif';
+	  controlText.style.fontSize = '12px';
+	  controlText.style.paddingLeft = '4px';
+	  controlText.style.paddingRight = '4px';
+	  */
+	  controlText.innerHTML = 'Effacer la zone';
+	  controlUI.appendChild(controlText);
+
+	  // Setup the click event listeners: simply set the map to Chicago
+	  google.maps.event.addDomListener(controlUI, 'click', function() {
+	    //map.setCenter(chicago)
+	    initPath()
+	  });
+}
+
+
 // initialize
 $(function(){
 	var options = {
@@ -23,6 +63,16 @@ $(function(){
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	map = new google.maps.Map(document.getElementById('map'), options);
+	
+ 	eraseControlDiv = document.createElement('DIV');
+	var eraseControl = new EraseControl(eraseControlDiv, map);
+
+	eraseControlDiv.index = 1;
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(eraseControlDiv);
+	$(eraseControlDiv).hide()
+
+	
+
 	var poly = null;
 	var markers = []
 	var has_poly = 'false';
@@ -36,6 +86,7 @@ $(function(){
 		}
 		if(!poly){
 			// create poly
+			$(eraseControlDiv).show()
 			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});
 		}
 		path = poly.getPath();
@@ -62,7 +113,7 @@ $(function(){
 	// getPath from textarea
 	getPath = function(){
 		if($('#id_location').val() != ''){
-			console.log('getpath')
+			$(eraseControlDiv).show()
 			has_poly = 'true';
 			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});  
 			path = poly.getPath();

@@ -111,27 +111,29 @@
 	
 
 
-    <form action="{% url search %}" method="POST" id="search" style="padding-top:10px;background-color:#F6F4F2;box-shadow: 0 0 4px rgba(0,0,0, 0.2);">
+    <form action="{% url search %}" method="POST" id="search" style="padding-top:10px;background:url(/static/img/bg_content.jpg);box-shadow: 0 0 4px rgba(0,0,0, 0.2);">
 
 	
 	<div class="helper">
 		<div class="ex">&nbsp;</div>
 	<div style="padding-top:4px;font-weight:bold;">
-	<div class="non-location-field" style="height:54px;width:247px;margin-right:8px;padding:4px;padding-bottom:0px;min-height:20px; margin-top:4px;padding-top:6px; padding-left:4px;">
-	<div  class="helper_text" style="text-align:center;height:51px">
+	<div class="non-location-field" style="height:54px;width:247px;margin-right:0px;padding:0px;padding-bottom:0px;min-height:20px; margin-top:0px;padding-top:0px; padding-left:4px;">
+	<div  class="helper_text" style="text-align:center;height:50px;margin-top:10px">
 	<!-- <span style="color:black;font-family:AlphaMacAOE">3.</span> -->
-		<button type="submit" value="search" name="search"><span style="color:black;font-family:AlphaMacAOE">3.</span> Lancer la recherche</button>
+		<button type="submit" value="search" class="fancy_button" name="search"><span style="background-color:LightSeaGreen;font-family:TypoSlabserif;"><span style="font-family:AlphaMacAOE">3.</span> Rechercher</span></button>
+		<!--
 		{% if search and user.is_authenticated %}
         	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% else %}
 			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
 		{% endif %}	
+		 -->
 	</div>
 	</div>
 	<div class="location-field" style="padding-bottom:0px;margin-right:265px;margin-bottom:0px;">
-		<div class="helper_text" style="padding:4px;margin-bottom:2px;"><span style="color:black;font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" style="background-color:rgba(255,255,255,0.2);color:black;border:1px solid transparent" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" />
+		<div class="helper_text" ><span style="font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" style="" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" />
 		<br />
-		<span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <a href="javascript:initPath()" style="font-weight:normal;">(effacer)</a></div>
+		<span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <!-- (<a href="javascript:initPath()" style="font-weight:normal;">effacer</a>)  --></div>
 	</div>
 	<div style="clear:both"></div>
 	</div>
@@ -229,7 +231,7 @@
 
 			
 		{% if filter.qs %}
-		<div id="results" style="padding:10px; padding-right:15px;padding-top:0px">
+		<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
 				
 		{% autosort filter.qs as sorted_objects %}
 		{% autopaginate sorted_objects 10 as object_list %}
@@ -241,7 +243,14 @@
 		</div>
 		
 		<div class="atom">
+
+			{% if search and user.is_authenticated %}
+        	<button style="float:right" type="submit" value="save and search" name="save_and_search" class="button save_search"><span class="pen icon"></span>Sauver la recherche</button>
+			{% endif %}	
 			<h3 class="extended_title">Résultats de la recherche</h3>
+
+
+
 			<table>
 				<tr class="result_header">
 					<th></th>
@@ -284,7 +293,14 @@
 		</div>
 		{% else  %}
 	
-		
+		<div class="atom">
+			<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
+			{% if search and user.is_authenticated %}
+        	<button style="float:right" type="submit" value="save and search" name="save_and_search" class="button save_search"><span class="pen icon"></span>Sauver la recherche</button>
+			{% endif %}	
+			<h3 class="extended_title"  style="border:0px solid transparent;">Résultats de la recherche</h3>
+			</div>
+		</div>
 
 		{% endif %}
 
@@ -299,7 +315,7 @@
 			</p>
 			</div>
 			{% endcomment %}
-		<div id="results" style="padding:10px; padding-right:15px;padding-top:0px">
+		<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
 				
 		{% autosort initial_ads as initial_sorted_objects %}
 		{% autopaginate initial_sorted_objects 10 as initial_object_list %}
@@ -311,7 +327,7 @@
 		</div>
 		
 		<div class="atom" >
-			<h3 class="extended_title">Dernières annonces publiées</h3>
+			<h3 class="extended_title" style="border:0px solid transparent;">Dernières annonces publiées</h3>
 			<table>
 				<tr class="result_header">
 					<th></th>

@@ -220,15 +220,17 @@ FIREPLACE_CHOICES = (
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.IntegerField("Surface habitable (m²)", help_text="Loi Carrez pour les appartements ou lots de copropriété.")
+    surface = models.IntegerField("Surface habitable (m²)")
+    surface_carrez = models.IntegerField("Surface Loi Carrez (m²)", null = True, blank = True)
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
                                           max_length = 1, 
-                                          choices = ENERGY_CONSUMPTION_CHOICES)
+                                          choices = ENERGY_CONSUMPTION_CHOICES, null = True, blank = True)
     emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre (kgeqCO2/m².an)", 
                                                     max_length = 1, 
-                                                    choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES)
+                                                    choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES, 
+                                                    null = True, blank = True)
     ground_surface = models.IntegerField('M²', 
                                        null = True, blank = True)
     floor = models.PositiveIntegerField('Etage', null = True, blank = True)

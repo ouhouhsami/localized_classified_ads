@@ -59,7 +59,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
+        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
                      #('location', {'fields': ['location'], 'description': '', 'legend': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),

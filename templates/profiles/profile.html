@@ -75,18 +75,18 @@
 
 
 
-<div id="userena_profile_detail">
+<div id="userena_profile_detail" >
   {% if user.username == profile.user.username %}
 	{% include "userena/menu_snippet.html" %}
   {% endif %}
 
-<div id="block_content">
+<div id="block_content" class="atom" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);">
 
 {% if user.is_authenticated %}
 
 {% ifequal user.username profile.user.username %}
 
-<h3>Vos informations personnelles</h3>
+<h3 class="extended_title">Vos informations personnelles</h3>
 
 <div style="margin-left:20px;margin-right:20px;">
 	<p>
@@ -142,7 +142,7 @@
 
 {% if all_user_ads %}
 <div class="atom">
-<h3>Vos Biens en ventes</h3>
+<h3 class="extended_title">Vos Biens en ventes</h3>
 <table>
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
@@ -160,7 +160,7 @@
 {% endfor %}
 </table>
 </div>
-<br />
+
 {% else %}
 	{% if ads %}
 	<div class="atom">
@@ -187,7 +187,7 @@
 
 {% if searchs %}
 <div class="atom">
-	<h3>Vos Recherches</h3>
+	<h3 class="extended_title">Vos Recherches</h3>
 	<table>
 	{% for search in searchs %}
 		<tr>
@@ -211,7 +211,8 @@ Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vo
 {% endif %}
 <br />
 {% else %}
-<h3>Vous n'avez aucune recherche enregistrée</h3>
+<h3 class="extended_title">Vos Recherches</h3>
+<p>Vous n'avez aucune recherche enregistrée</p>
 {% endif %}
 
 

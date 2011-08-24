@@ -133,7 +133,7 @@
 	<div class="location-field" style="padding-bottom:0px;margin-right:265px;margin-bottom:0px;">
 		<div class="helper_text" ><span style="font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" style="" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" />
 		<br />
-		<span style="color:black;font-family:AlphaMacAOE">2.</span> Dessiner votre zone de recherche en cliquant sur la carte <!-- (<a href="javascript:initPath()" style="font-weight:normal;">effacer</a>)  --></div>
+		<span style="color:black;font-family:AlphaMacAOE">2.</span> Cliquer sur la carte pour dessiner votre zone de recherche<!-- (<a href="javascript:initPath()" style="font-weight:normal;">effacer</a>)  --></div>
 	</div>
 	<div style="clear:both"></div>
 	</div>
@@ -266,7 +266,7 @@
 						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
 						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte"/> 
 						</a>
-						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
+						<a href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
 					</td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>
@@ -343,7 +343,7 @@
 						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
 						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte" /> 
 						</a>
-						<a href="{% url view ad.id %}" target="_blank">consulter l'annonce</a>
+						<a href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
 					</td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>

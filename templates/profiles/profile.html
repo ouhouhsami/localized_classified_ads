@@ -178,8 +178,9 @@
 	{% else %}
 	<div class="atom">
 		{% ifequal user.username profile.user.username %}
-		<h3>Vous n'avez aucun bien en vente visible sur le site</h3>
-		<p>Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
+		<h3 class="extended_title">Biens en vente</h3>
+		<p>Vous n'avez aucun bien en vente visible sur le site.
+		<br />Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
 		{% endifequal %}
 	</div>
 	{% endif %}

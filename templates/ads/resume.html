@@ -1,1 +1,2 @@
-<b>{{ ad.get_habitation_type_display }}</b> - {{ ad.price }}€ - {{ ad.surface }}m<sup>2</sup>
+{% load ads_tag %}
+<b>{{ ad.get_habitation_type_display }}</b> - {{ ad.price|priceformat }} € - {{ ad.surface }} m<sup>2</sup>

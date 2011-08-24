@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 q = QueryDict(home_for_sale_search.search)
                 filter = HomeForSaleAdFilterSet(q or None, search = False)
                 ads = filter.qs.filter(update_date__year = datetime.now().year).filter(update_date__month = datetime.now().month).filter(update_date__day = datetime.now().day)
-                print datetime.now().day
+                #print datetime.now().day
                 if len(ads) > 0:
                     subject = render_to_string('profiles/email_alert_subject.html', { 'search': home_for_sale_search })
                     content = render_to_string('profiles/email_alert.html', { 'ads': ads, 'search': home_for_sale_search, 'user_profile':user_profile  })

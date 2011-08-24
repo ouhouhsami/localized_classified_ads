@@ -2,11 +2,12 @@ Cher {{ user_profile.user.email }},
 
 Voici une sélection de nouveaux biens correspondant à votre recherche: 
 
-<ul>
+
 {% for ad in ads %}
-<li> <a href="http://www.achetersanscom.com{% url view ad.id %}">{{ ad.get_habitation_type_display }}, {{ ad.price }} €, {{ ad.surface }} m², {{ ad.nb_of_rooms }} pièces, {{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}</a></li>
+{{ ad.get_habitation_type_display }}, {{ ad.price }} €, {{ ad.surface }} m², {{ ad.nb_of_rooms }} pièces, {{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}
+http://www.achetersanscom.com{% url view ad.id %} 
+
 {% endfor %}
-</ul>
 
 Pour supprimer cette alerte email ou cette recherche, allez dans votre espace personnel sur AcheterSansCom.com
 

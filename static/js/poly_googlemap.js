@@ -40,6 +40,7 @@ function EraseControl(controlDiv, map) {
 	  // Setup the click event listeners: simply set the map to Chicago
 	  google.maps.event.addDomListener(controlUI, 'click', function() {
 	    //map.setCenter(chicago)
+	    $(eraseControlDiv).hide()
 	    initPath()
 	  });
 }
@@ -47,6 +48,14 @@ function EraseControl(controlDiv, map) {
 
 // initialize
 $(function(){
+	
+	
+	var tt = document.createElement('DIV');
+	tt.className = 'tooltip';
+	var tt_text = document.createElement('DIV');
+	tt_text.innerHTML = "cliquer pour ajouter un point"
+	tt.appendChild(tt_text);
+	
 	var options = {
 		zoom: 12,
 		center: new google.maps.LatLng(48.858, 2.333),
@@ -71,15 +80,16 @@ $(function(){
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(eraseControlDiv);
 	$(eraseControlDiv).hide()
 
-	
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(tt);
+	$(tt).hide()
 
 	var poly = null;
+	var poly_listener = null;
 	var markers = []
 	var has_poly = 'false';
 	var image = new google.maps.MarkerImage('/static/img/marker-edition.png', new google.maps.Size(9, 9), new google.maps.Point(0, 0), new google.maps.Point(5, 5));
 	
 	google.maps.event.addListener(map, 'click', function (event) {
-		console.log(has_poly)
 		if(has_poly == 'true'){
 			initPath()
 			has_poly = 'false'
@@ -88,6 +98,14 @@ $(function(){
 			// create poly
 			$(eraseControlDiv).show()
 			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});
+			poly_listener = google.maps.event.addListener(poly, 'click', function (event) {
+						path = poly.getPath();
+						path.insertAt(path.length, event.latLng);
+						marker = new google.maps.Marker({position: event.latLng, map: map, icon: image});
+						markers.push(marker)
+						poly.setPath(path)
+						setPath()
+			})
 		}
 		path = poly.getPath();
 		path.insertAt(path.length, event.latLng);
@@ -96,6 +114,7 @@ $(function(){
 		poly.setPath(path)
 		setPath()
 	});
+
 	// setPath from textarea
 	setPath = function(){
 		var polygon = "SRID=900913;POLYGON(("
@@ -133,7 +152,10 @@ $(function(){
 	// initPath
 	initPath = function(){
 		poly.setMap(null)
-		poly = null
+		poly = null;
+		/*
+		google.maps.event.removeListener(poly_listener);
+		*/
 		for(var i = 0; i<markers.length; i++){
 			markers[i].setMap(null)
 		}
@@ -156,6 +178,38 @@ $(function(){
 			infowindow.setContent(this.html)
 			infowindow.open(map,this);
 		});
+
+		google.maps.event.addListener(map, 'mouseout', function(e) {
+			$(tt).hide()
+			// remove mouse move listener
+			//google.maps.event.removeListener('mousemove')
+		})
+		google.maps.event.addListener(map, 'mouseover', function(e) {
+			$(tt).show()
+			// add mouse move listener
+
+		})
+		google.maps.event.addListener(map, 'mousemove', function(e) {
+			$(tt).css('top', e.pixel.y+10)
+			$(tt).css('left', e.pixel.x+10)
+			$(tt).css('width', 140)
+			//
+			try
+				{
+					if(poly.getPath().getLength() < 4){
+						if(poly.getPath().getLength() > 1){
+							poly.getPath().pop()
+						}
+						poly.getPath().push(e.latLng)
+					}				
+				}
+			catch(err)
+  				{
+	
+				}
+
+		})		
+
 		homes[i].marker = marker
     }
 	getPath()

@@ -112,12 +112,12 @@ class Ad(models.Model):
                                        help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
-    location = models.PointField(srid=900913, db_index=True)
+    location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)
     create_date = models.DateTimeField(auto_now_add = True) 
     delete_date = models.DateTimeField(null = True, blank = True)
-    visible = models.BooleanField(db_index=True)
+    visible = models.BooleanField()
     objects = models.GeoManager()
 
     class Meta:
@@ -219,11 +219,11 @@ FIREPLACE_CHOICES = (
 
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
-                                       choices = HABITATION_TYPE_CHOICES, db_index=True)
-    surface = models.IntegerField("Surface habitable (m²)", db_index=True)
+                                       choices = HABITATION_TYPE_CHOICES)
+    surface = models.IntegerField("Surface habitable (m²)")
     surface_carrez = models.IntegerField("Surface Loi Carrez (m²)", null = True, blank = True)
-    nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces", db_index=True)
-    nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres", db_index=True)
+    nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
+    nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
                                           max_length = 1, 
                                           choices = ENERGY_CONSUMPTION_CHOICES, null = True, blank = True)

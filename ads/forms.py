@@ -40,6 +40,7 @@ class AdPictureForm(ModelForm):
         model = AdPicture
 
 class AdContactForm(ModelForm):
+    # phone = forms.CharField(label="Votre téléphone (facultatif)", required=False)
     class Meta:
         model = AdContact
         exclude = ['user_profile', 'content_type', 'object_pk']

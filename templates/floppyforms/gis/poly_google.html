@@ -36,7 +36,7 @@ $(document).ready(function(){
 	var geocoder = new google.maps.Geocoder();
 	$("#center_map").hide()
 	$("#center_map").click(function(evt){
-		var address = document.getElementById("address").value;
+		var address = document.getElementById("address").value+' ';
 		if (geocoder) {
 			geocoder.geocode( { 'address': address}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
@@ -44,6 +44,7 @@ $(document).ready(function(){
 				var lat = results[0].geometry.location.lat()
 				initialLocation = new google.maps.LatLng(lat,lon);
 				map.setCenter(initialLocation);
+				map.setZoom(12)
 			} 
 			else 
 			{

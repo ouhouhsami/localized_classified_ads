@@ -17,8 +17,9 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
     user = get_object_or_404(User,
                              username__iexact=username)
     profile = user.get_profile()
-    if not profile.can_view_profile(request.user):
-        return HttpResponseForbidden(_("You don't have permission to view this profile."))
+    print profile
+    #if not profile.can_view_profile(request.user):
+    #    return HttpResponseForbidden(_("You don't have permission to view this profile."))
     # ads below are site specific :( because of decorators ...
     ads = Ad.objects.exclude(delete_date__isnull = False).filter(user_profile = profile)
     #.filter(_relation_object__moderation_status = 1)

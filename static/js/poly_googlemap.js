@@ -53,12 +53,13 @@ $(function(){
 	var tt = document.createElement('DIV');
 	tt.className = 'tooltip';
 	var tt_text = document.createElement('DIV');
-	tt_text.innerHTML = "cliquer pour ajouter un point"
+	$(tt_text).html("Cliquer pour définir le 1<sup>er</sup> point de votre zone de recherche")
 	tt.appendChild(tt_text);
 	
 	var options = {
 		zoom: 12,
-		center: new google.maps.LatLng(48.858, 2.333),
+		/*center: new google.maps.LatLng(48.858, 2.333),*/
+		center: new google.maps.LatLng(48.856, 2.333),
 		mapTypeControl: true,
 		panControl: false,
 		mapTypeControl: false,
@@ -97,7 +98,7 @@ $(function(){
 		if(!poly){
 			// create poly
 			$(eraseControlDiv).show()
-			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});
+			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#FFB82E', map:map});
 			poly_listener = google.maps.event.addListener(poly, 'click', function (event) {
 						path = poly.getPath();
 						path.insertAt(path.length, event.latLng);
@@ -106,6 +107,16 @@ $(function(){
 						poly.setPath(path)
 						setPath()
 			})
+
+			/*
+			google.maps.event.addListener(poly, 'mousemove', function (event) {
+				if(poly.getPath().getLength() > 1){
+					poly.getPath().pop()
+				}
+				poly.getPath().push(event.latLng)
+			})
+			*/
+			
 		}
 		path = poly.getPath();
 		path.insertAt(path.length, event.latLng);
@@ -113,6 +124,11 @@ $(function(){
 		markers.push(marker)
 		poly.setPath(path)
 		setPath()
+		if(poly.getPath().getLength() > 0){
+			$(tt_text).html("Cliquer pour ajouter un point à votre zone de recherche")
+		} else {
+			$(tt_text).html("Cliquer pour définir le 1<sup>er</sup> point de votre zone de recherche")
+		}
 	});
 
 	// setPath from textarea
@@ -134,7 +150,7 @@ $(function(){
 		if($('#id_location').val() != ''){
 			$(eraseControlDiv).show()
 			has_poly = 'true';
-			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#eae56d', map:map});  
+			poly = new google.maps.Polygon({strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#FFB82E', map:map});  
 			path = poly.getPath();
 			var points = $('#id_location').val().split('SRID=900913;POLYGON((')[1].split('))')[0].split(',');
 			var latlngbounds = new google.maps.LatLngBounds( );
@@ -172,8 +188,9 @@ $(function(){
 			position: new google.maps.LatLng(p.y, p.x),
 			map: map,
 			icon: new google.maps.MarkerImage('/static/img/home.png')
-		});
-		marker.html = $('.'+homes[i].id).html()
+	});
+	marker.html = $('.'+homes[i].id).html()
+	
 		google.maps.event.addListener(marker, 'click', function(e) {
 			infowindow.setContent(this.html)
 			infowindow.open(map,this);
@@ -181,33 +198,29 @@ $(function(){
 
 		google.maps.event.addListener(map, 'mouseout', function(e) {
 			$(tt).hide()
-			// remove mouse move listener
-			//google.maps.event.removeListener('mousemove')
+			//poly.setPath(poly.getPath().pop())
 		})
 		google.maps.event.addListener(map, 'mouseover', function(e) {
 			$(tt).show()
-			// add mouse move listener
-
+			//poly.setPath(poly.getPath().push(e.latLng))
 		})
 		google.maps.event.addListener(map, 'mousemove', function(e) {
 			$(tt).css('top', e.pixel.y+10)
 			$(tt).css('left', e.pixel.x+10)
 			$(tt).css('width', 140)
-			//
 			try
 				{
-					if(poly.getPath().getLength() < 4){
+					if(poly.getPath().getLength() < 3){
 						if(poly.getPath().getLength() > 1){
 							poly.getPath().pop()
 						}
 						poly.getPath().push(e.latLng)
-					}				
+					}
 				}
 			catch(err)
   				{
 	
 				}
-
 		})		
 
 		homes[i].marker = marker

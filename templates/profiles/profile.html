@@ -93,7 +93,7 @@
 		<b>Adresse email</b> : {{ user.email }} (<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>)
 	</p>
 	<div class="adson">
-		Votre adresse email n'est pas visible par les utilisateurs d'AcheterSansCom. <br />Elle est visible par le destinataire d'un message envoyé depuis une annonce de bien du site AcheterSansCom.
+		Votre adresse email ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur AcheterSansCom.
 	</div>
 	
 	{% if profile.phone_number %}
@@ -213,7 +213,7 @@ Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vo
 <br />
 {% else %}
 <h3 class="extended_title">Vos Recherches</h3>
-<p>Vous n'avez aucune recherche enregistrée</p>
+<p>Vous n'avez aucune recherche enregistrée.</p>
 {% endif %}
 
 

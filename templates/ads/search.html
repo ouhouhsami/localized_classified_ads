@@ -138,7 +138,7 @@
 	<div style="clear:both"></div>
 	</div>
 	</div>
-	<div style="position:absolute;margin-top:-20px;margin-left:15px; z-index:1"><img src="{{ STATIC_URL }}img/help_arrow.png" /></div >
+	<div style="position:absolute;margin-top:-20px;margin-left:15px; z-index:1"><img src="{{ STATIC_URL }}img/help_arrow.png" alt="help image"/></div >
 
 
 		{% csrf_token %}
@@ -166,7 +166,7 @@
 			{% if fieldset.name != 'location' %}
 			<div class="atom {{ fieldset.classes }}">
 				{% if fieldset.legend != fieldset.name %}
-				<h3 class="atom_title" style="cursor:pointer"><a class="extend">+</span></a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
+				<h3 class="atom_title" style="cursor:pointer; font-weight:normal"><a class="extend">+</a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
 				{% else %}
 				{% endif %}
 				<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
@@ -259,14 +259,15 @@
 					<th>{% anchor surface "Surface (m²)" %}</th>
 					<th>{% anchor nb_of_rooms "Pièces" %}</th>
 					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
+					<th></th>
 				</tr>
 				{% for ad in object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td style="text-align:left">
-						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
-						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte"/> 
+						<a href="#" class="small_button" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img style="margin-bottom:-3px;" height="15" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte"/> Localiser sur la carte
 						</a>
-						<a href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
+						
 					</td>
 					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>
@@ -274,20 +275,28 @@
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
-					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
-					<script>
-						{% if forloop.first %}
-						$(document).ready(function(){
-							if(location_value == new Boolean(0)){
-								// center map on this location
-								map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
-							}
-						})
-						{% endif %}
-					</script>
+					<td>
+						<a  class="small_button"  href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
+					</td>
+
 				</tr>
 				{% endfor %}
 			</table>
+			{% for ad in object_list %}
+				<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}', 'true')</script>
+				{% comment %}
+				<script>
+					{% if forloop.first %}
+					$(document).ready(function(){
+						if(location_value == new Boolean(0)){
+							// center map on this location
+							map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'true')
+						}
+					})
+					{% endif %}
+				</script>
+				{% endcomment %}
+			{% endfor %}
 			{% paginate %}
 		</div>
 		</div>
@@ -336,35 +345,40 @@
 					<th>{% anchor surface "Surface (m²)" %}</th>
 					<th>{% anchor nb_of_rooms "Pièces" %}</th>
 					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
+					<th></th>
 				</tr>
 				{% for ad in initial_object_list %}
 				<tr class="{% cycle 'even' 'odd' %}">
 					<td style="text-align:left">
-						<a href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
-						<img height="15px" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte" /> 
+						<a class="small_button" href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img height="15" style="margin-bottom:-3px;" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte" /> Afficher sur la carte
 						</a>
-						<a href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
 					</td>
-					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
 					<td>{{ ad.get_habitation_type_display }}</td>
 					<td>{{ ad.price|priceformat }}</td>
 					<td>{{ ad.surface }}</td>
 					<td>{{ ad.nb_of_rooms }}</td>
 					<td>{{ ad.nb_of_bedrooms }}</td>
-					<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}')</script>
-					<script>
-						{% if forloop.first %}
-						$(document).ready(function(){
-							if(location_value == new Boolean(0)){
-								// center map on this location
-								map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }})
-							}
-						})
-						{% endif %}
-					</script>
+					<td>
+						<a class="small_button" href="{% url view ad.id %}" target="_blank">Détail de l'annonce</a>
+					</td>
 				</tr>
 				{% endfor %}
 			</table>
+			{% for ad in initial_object_list %}
+				<script type="text/javascript">add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.id %}", 'ad_{{ ad.id }}', 'false')</script>
+				{% comment %}
+				<script type="text/javascript">
+					{% if forloop.first %}
+					$(document).ready(function(){
+						if(location_value == new Boolean(0)){
+							//map.setCenter({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'false')
+						}
+					})
+				{% endif %}
+				</script>
+				{% endcomment %}
+			{% endfor %}
 			{% paginate %}
 		</div>
 		</div>				

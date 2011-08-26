@@ -1,93 +1,64 @@
-{% load static %}
-{% load compress %}
-
+{% load static compress %}
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<title>{% block title %}{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées{% endblock %}</title>
-
 		{% block meta %}
 		<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,annonces immobilières,ventes,achat,location,vendre,louer,parking,achetersanscom,acheter sans com" />
 		<meta name="description" content="Annonces immobilières sans intermédiaires et géolocalisées à la vente." />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Language" content="fr" />
 		{% endblock %}
-		
 		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}favicon.ico">  
 		{% compress css %}
 		{% endcompress %}
 		<link rel="stylesheet" href="{{ STATIC_URL }}jquery-ui-1.8.13/themes/base/jquery.ui.all.css">
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css">
 		<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}css/style.less"> 
-
-		
 		{% compress js %}
 		{% endcompress %}
 		<script src="{{ STATIC_URL }}js/less.js" type="text/javascript"></script>
-		<script src="{{ STATIC_URL }}jquery-ui-1.8.13/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
-		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{ STATIC_URL }}js/jquery.placeholder-enhanced.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 		if(typeof console === "undefined") {
 			console = { log: function() { } };
 		}
 		</script>
-
-		
 		{% block media %}
 		{% endblock %}
-		
 		{% block javascript %}
 		{% endblock %}
-		
 		{% block css %}
 		{% endblock %}
-		
 	</head>
 	<body>
-
 		<div id="header_background">
 			<div id='header'>
 				<div id="registration" class="horizontal_menu">
 					{% if user.is_authenticated %}
-					<a class="signup"  href="{% url userena_profile_detail user.username %}" class="left button"><span class="user icon"></span>Mon compte</a>
-				
-					{% comment %}<a href="{% url add %}" class="login"  class="right button"><span class="plus icon"></span>Proposer un bien</a>{% endcomment %}
+					<a class="signup left button"  href="{% url userena_profile_detail user.username %}"><span class="user icon"></span>Mon compte</a>
+					{% comment %}<a href="{% url add %}" class="login right button"><span class="plus icon"></span>Proposer un bien</a>{% endcomment %}
 					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
 					{% else %}
-					<a class="signup" href="{% url userena_signup %}" class="right button">S'inscrire</a>
-					<a class="login" href="{% url userena_signin %}" class="left button">Se Connecter</a></li>
-					<!-- | -->
-					
+					<a class="signup right button" href="{% url userena_signup %}" >S'inscrire</a>
+					<a class="login left button" href="{% url userena_signin %}" >Se Connecter</a></li>
 					{% endif %}
 				</div>
-				{% comment %}
-				<div id="social_links">
-					<a href="http://twitter.com/#!/achetersanscom"><img src="{{ STATIC_URL }}img/twitter-logo.png"></a>
-					<a href="http://www.facebook.com/album.php?profile=1&id=124133527629884"><img src="{{ STATIC_URL }}img/facebook-logo.png"></a>
-				</div>
-				{% endcomment %}
 				<div class="title">
-				<h1 style="display:inline">
-					<a href="{% url search %}"><img style="margin-bottom:-9px; padding-right:0px; margin-left:-3px" src="{{ STATIC_URL }}img/home.png" />Acheter<span class="u_title">SansCom</span>
-					{% comment %}{{ site.name }}{% endcomment %}
-				</a>
-					<!--<br /><span class="subtitle">Annonces sans intermédiaires</span>-->
-				</h1>
-				<div>
-				</div style="clear:both"></div>
+					<h1 style="display:inline">
+						<a href="{% url search %}">
+							<img alt="logo achetersanscom" style="margin-bottom:-9px; padding-right:0px; margin-left:-3px" src="{{ STATIC_URL }}img/home.png" />
+							Acheter<span class="u_title">SansCom</span>
+						</a>
+					</h1>
+				</div>
 			</div>
 		</div>
-		
-		<div id="site">		
-			
-			{% block subtitle %}		
-			{% endblock %}
-			
 
-			
-				
-			<div id='content'>
+		<div id="site">
+			{% block subtitle %}
+			{% endblock %}
+			<div id="content">
 				{% if messages %}
 				<ul class="messages">
     				{% for message in messages %}
@@ -95,41 +66,34 @@
     				{% endfor %}
 				</ul>
 				{% endif %}
-
-
 				<div id="main_menu">
 					{% block main_menu %}
 					<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>
 					<a href="{% url add %}" class="main_menu_item_unselected" >Proposer un bien</a>
 					{% endblock %}
 				</div>
-				
-
 				<div class="main-content">
 					{% comment %}<h2>{% block content_title %}{% endblock %}</h2>{% endcomment %}
 					{% block content %}
 					{% endblock %}
 				</div>
 			</div>
-			
 			<div style="clear:both"></div>
-		</div>	
+		</div>
+
 		<div id="footer_background">
 			<div id='footer'>
-
-				<p style="margin:0px;">
 				<p style="float:right;margin:0px;">
 					<a href="">Contact</a>
 					<a href="">Mentions légales</a>
 					<a href="">Conditions d'utilisation</a>
-					<a href="http://twitter.com/#!/achetersanscom"><img src="{{ STATIC_URL }}img/small_twitter_icon.png"></a>
-					<a href="http://www.facebook.com/album.php?profile=1&id=124133527629884"><img src="{{ STATIC_URL }}img/small_facebook_icon.png"></a>
+					<a href="http://twitter.com/#!/achetersanscom"><img src="{{ STATIC_URL }}img/small_twitter_icon.png" alt="logo twitter"></a>
+					<a href="http://www.facebook.com/album.php?profile=1&amp;id=124133527629884"><img src="{{ STATIC_URL }}img/small_facebook_icon.png" alt="logo facebook"></a>
 				</p>	
-				<span>© 2011 AcheterSansCom</span>
-				</p> 
+				© 2011 AcheterSansCom
 			</div>
-
 		</div>
+
 		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];

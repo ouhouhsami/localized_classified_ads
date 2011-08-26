@@ -174,32 +174,32 @@
 				<th>Emission de gaz à effets de serre</th>
 			</tr>
 			<tr>
-				<td><div style="background-color:#429e3a; width:40px" class="{%if ad.energy_consumption == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 50</span> <span style="float:right"><b>A</b></span></div></td>
-				<td><div style="background-color:#f3ecfd; width:40px" class="{%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 5</span> <span style="float:right"><b>A</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#429e3a; width:40px" class="{%if ad.energy_consumption == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 50</span> <span style="float:right"><b>A</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#f3ecfd; width:40px" class="{%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 5</span> <span style="float:right"><b>A</b></span></div>{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#4cd540; width:60px" class="{%if ad.energy_consumption == 'B' %}selected{% endif %}"><span style="font-size:0.8em">51 à 90</span> <span style="float:right"><b> B</b></span></div></td>
-				<td><div style="background-color:#d8c0f7; width:60px" class="{%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span style="font-size:0.8em">6 à 10</span> <span style="float:right"><b> B</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#4cd540; width:60px" class="{%if ad.energy_consumption == 'B' %}selected{% endif %}"><span style="font-size:0.8em">51 à 90</span> <span style="float:right"><b> B</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#d8c0f7; width:60px" class="{%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span style="font-size:0.8em">6 à 10</span> <span style="float:right"><b> B</b></span></div>{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#e9ff3f; width:80px" class="{%if ad.energy_consumption == 'C' %}selected{% endif %}"><span style="font-size:0.8em">91 à 150</span> <span style="float:right"><b> C</b></span></div></td>
-				<td><div style="background-color:#c8a7f4; width:80px" class="{%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span style="font-size:0.8em">11 à 20</span> <span style="float:right"><b> C</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#e9ff3f; width:80px" class="{%if ad.energy_consumption == 'C' %}selected{% endif %}"><span style="font-size:0.8em">91 à 150</span> <span style="float:right"><b> C</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#c8a7f4; width:80px" class="{%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span style="font-size:0.8em">11 à 20</span> <span style="float:right"><b> C</b></span></div>{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#ffff18; width:100px" class="{%if ad.energy_consumption == 'D' %}selected{% endif %}"><span style="font-size:0.8em">151 à 230</span> <span style="float:right"><b> D</b></span></div></td>
-				<td><div style="background-color:#bc93f2; width:100px" class="{%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span style="font-size:0.8em">21 à 35</span> <span style="float:right"><b> D</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ffff18; width:100px" class="{%if ad.energy_consumption == 'D' %}selected{% endif %}"><span style="font-size:0.8em">151 à 230</span> <span style="float:right"><b> D</b></span></div>{% else %}Non renseigné{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#bc93f2; width:100px" class="{%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span style="font-size:0.8em">21 à 35</span> <span style="float:right"><b> D</b></span></div>{% else %}Non renseigné{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#ffdb00; width:120px" class="{%if ad.energy_consumption == 'E' %}selected{% endif %}"><span style="font-size:0.8em">231 à 330</span> <span style="float:right"><b> E</b></span></div></td>
-				<td><div style="background-color:#a570ee; width:120px" class="{%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span style="font-size:0.8em">36 à 55</span> <span style="float:right"><b> E</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ffdb00; width:120px" class="{%if ad.energy_consumption == 'E' %}selected{% endif %}"><span style="font-size:0.8em">231 à 330</span> <span style="float:right"><b> E</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#a570ee; width:120px" class="{%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span style="font-size:0.8em">36 à 55</span> <span style="float:right"><b> E</b></span></div>{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#ff9c34; width:140px" class="{%if ad.energy_consumption == 'F' %}selected{% endif %}"><span style="font-size:0.8em">331 à 450</span> <span style="float:right"><b> F</b></span></div></td>
-				<td><div style="background-color:#8b4aea; width:140px" class="{%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span style="font-size:0.8em">56 à 80</span> <span style="float:right"><b> F</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ff9c34; width:140px" class="{%if ad.energy_consumption == 'F' %}selected{% endif %}"><span style="font-size:0.8em">331 à 450</span> <span style="float:right"><b> F</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#8b4aea; width:140px" class="{%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span style="font-size:0.8em">56 à 80</span> <span style="float:right"><b> F</b></span></div>{% endif %}</td>
 			</tr>
 			<tr>
-				<td><div style="background-color:#ff0000; width:160px" class="{%if ad.energy_consumption == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 450</span> <span style="float:right"><b>G</b></span></div></td>
-				<td><div style="background-color:#6200dd; width:160px" class="{%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 80</span> <span style="float:right"><b> G</b></span></div></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ff0000; width:160px" class="{%if ad.energy_consumption == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 450</span> <span style="float:right"><b>G</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#6200dd; width:160px" class="{%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 80</span> <span style="float:right"><b> G</b></span></div>{% endif %}</td>
 			</tr>			
 			
 		</table>

@@ -9,6 +9,8 @@ from moderation.fields import SerializedObjectField
 from django.http import QueryDict
 from moderation.managers import ModerationObjectsManager
 from stdimage import StdImageField
+from autoslug import AutoSlugField
+from jsonfield.fields import JSONField
 
 # GENERIC AD MODELS
 
@@ -112,6 +114,7 @@ class Ad(models.Model):
                                        help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
+    address = JSONField(null=True, blank=True)
     location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)
     update_date = models.DateTimeField(auto_now = True)
@@ -217,6 +220,7 @@ FIREPLACE_CHOICES = (
     #('6', 'sans vis à vis'),
 #)
 
+
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
@@ -277,16 +281,28 @@ class HomeAd(Ad):
     #                               choices = ORIENTATION_CHOICES, 
     #                               null = True, blank = True)
     orientation = models.CharField("Orientation", max_length = 255, null = True, blank = True)
+
+
     class Meta:
         abstract = True
+
+
+
 
 class HomeForSaleAd(HomeAd):
     """HomeFormSaleAd model
 
     """
     price = models.PositiveIntegerField("Prix (€)")
+
+    slug = AutoSlugField(populate_from='get_full_description', always_update=True)
     #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
+    def get_full_description(instance):
+        return "vente-%s-%spieces-%seuros-%sm2" % (instance.get_habitation_type_display(), 
+                                               instance.nb_of_rooms, 
+                                               instance.price, instance.surface)
+
     @models.permalink
     def get_absolute_url(self):
         return ('view', [str(self.id)])  

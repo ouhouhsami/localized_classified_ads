@@ -13,3 +13,5 @@ django-pagination==1.0.7
 -e git://github.com/lukeman/django-sorting.git#egg=django_sorting
 psycopg2==2.4
 django-stdimage==0.2
+django-autoslug
+-e git://github.com/JordanReiter/django-jsonfield.git#egg=django-jsonfield

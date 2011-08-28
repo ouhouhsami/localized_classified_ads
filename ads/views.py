@@ -104,12 +104,13 @@ def delete_search(request, search_id):
         raise Http404
 
 @site_decorator
-def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
-    ad = Ad.objects.get(id = ad_id)
-    map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
+def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
+    #ad = Ad.objects.get(id = ad_id)
+    ad = Ad.objects.get(slug = ad_slug)
+    #map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
     sent_mail = False
-    print ad.delete_date
-    print ad.moderated_object.moderation_status
+    #print ad.delete_date
+    #print ad.moderated_object.moderation_status
     if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
         raise Http404
     contact_form = AdContactForm()
@@ -124,9 +125,9 @@ def view(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             sent_mail = True
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
     if request.is_ajax():
-        return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+        return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form}, context_instance = RequestContext(request))
     else:
-        return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'sent_mail':sent_mail, 'map_widget':map_widget.render('name', '', {})}, context_instance = RequestContext(request))
+        return render_to_response('ads/view.html', {'ad':ad, 'contact_form':contact_form, 'sent_mail':sent_mail}, context_instance = RequestContext(request))
 
 
 @site_decorator

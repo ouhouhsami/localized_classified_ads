@@ -165,13 +165,17 @@
 	</div>
 	{% endif %}
 	
-	<div style="float:right; padding-right:12px; padding-top:3px">
-	<h3>Critères énergétiques</h3>
+	<div style="float:right; padding-right:12px; padding-top:7px">
 		
 		<table class="energy">
 			<tr>
-				<th style="width:230px">Consommation énergétique</th>
-				<th>Emission de gaz à effets de serre</th>
+				<th style="width:230px">Consommation énergétique<br />
+				<span style="font-weight:normal">kWhEP/m².an</span>
+				</th>
+				<th>Emission de gaz à effets de serre
+				<br />
+				<span style="font-weight:normal">kgeqCO2/m².an</span>
+				</th>
 			</tr>
 			<tr>
 				<td>{%if ad.energy_consumption %}<div style="background-color:#429e3a; width:40px" class="{%if ad.energy_consumption == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 50</span> <span style="float:right"><b>A</b></span></div>{% endif %}</td>

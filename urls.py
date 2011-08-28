@@ -18,7 +18,7 @@ admin.autodiscover()
 auto_discover()
 
 urlpatterns = patterns('',
-    url(r'^ads/', include('ads.urls')),
+    url(r'^annonce/', include('ads.urls')),
     url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
        profile_detail, {},
        name='userena_profile_detail'),

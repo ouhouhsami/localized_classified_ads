@@ -34,6 +34,7 @@ $(function(){
 			if (geocoder) {
 				geocoder.geocode( { 'address': address}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
+					$('#id_address').val(JSON.stringify(results[0]['address_components']))
 					var lon = results[0].geometry.location.lng()
 					var lat = results[0].geometry.location.lat()
 					var latlon = new google.maps.LatLng(lat, lon)

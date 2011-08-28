@@ -60,7 +60,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
+        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','address', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
                      #('location', {'fields': ['location'], 'description': '', 'legend': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
@@ -85,7 +85,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
 class HomeForSaleAdForm(HomeAdForm):
     #location = floppyforms.gis.PointField(widget = CustomPointWidget)
-
+    address = forms.CharField(widget=forms.HiddenInput)
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
         #self.fields['location'] = floppyforms.gis.PointField(widget=CustomPointWidget(ads='self.qs'), label="Localisation")
@@ -121,6 +121,11 @@ class HomeForSaleAdForm(HomeAdForm):
 
     class Meta:
         model = HomeForSaleAd
+
+    class Media:
+        js = (
+            '/static/js/json2.js',
+        )
 
 class HomeForRentAdForm(HomeAdForm):
     #location = floppyforms.gis.PointField(widget = CustomPointWidget)

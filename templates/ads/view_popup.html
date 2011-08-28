@@ -8,7 +8,7 @@
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} ch.)
 		<br />
 		{{ ad.price|priceformat }} € - {{ ad.surface }} m<sup>2</sup>
-		</b> <a href="{% url view ad.id %}" target="_blank">Voir le détail</a>
+		</b> <a href="{% url view ad.slug %}" target="_blank">Voir le détail</a>
 	</p>
 	
 	{% comment %}

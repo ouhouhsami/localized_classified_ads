@@ -147,7 +147,7 @@
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
 	<tr class="status_{{ ad.moderated_object.moderation_status}}" >
-		<td style="border-bottom:2px solid white;"><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a></td>
+		<td style="border-bottom:2px solid white;"><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a></td>
 		<td style="border-bottom:2px solid white;">
 			{% if ad.moderated_object.moderation_status == 0 %}Annonce rejetée. Modifiez-la pour la soumettre de nouveau.{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}Annonce en ligne{% endif %}
@@ -169,7 +169,7 @@
 			{% for ad in ads %}
 			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
 			<tr>
-				<td><a href="{% url view ad.id %}">{% include 'ads/resume.html' %}</a> </td>
+				<td><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a> </td>
 			</tr>
 			{% endif %}
 			{% endfor %}

@@ -305,7 +305,7 @@ class HomeForSaleAd(HomeAd):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('view', [str(self.id)])  
+        return ('view', [str(self.slug)])  
     def __unicode__(self):
         return '%s e - %s m2 - %s pieces' % (self.price, self.surface, self.nb_of_rooms)
 

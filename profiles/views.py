@@ -26,7 +26,7 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
     all_user_ads = False
     searchs = False
     if profile.user == request.user:
-        all_user_ads = HomeForSaleAd.unmoderated_objects.filter(user_profile = profile)
+        all_user_ads = HomeForSaleAd.unmoderated_objects.filter(user_profile = profile).exclude(delete_date__isnull = False)
         searchs = AdSearch.objects.filter(user_profile = profile)
     return render_to_response('profiles/profile.html', {'profile':profile, 'ads':ads, 'all_user_ads':all_user_ads, 'searchs':searchs}, context_instance = RequestContext(request))
 

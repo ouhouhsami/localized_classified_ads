@@ -7,7 +7,7 @@
     "fields": {
       "registration_required": false, 
       "title": "A Propos", 
-      "url": "/about/", 
+      "url": "/a-propos/", 
       "template_name": "", 
       "sites": [
         1, 

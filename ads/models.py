@@ -110,8 +110,8 @@ class Ad(models.Model):
     """Ad abstract base model
 
     """
-    title = models.CharField("Titre", max_length = 255, 
-                                       help_text="Titre de votre annonce")
+    #title = models.CharField("Titre", max_length = 255, 
+    #                                   help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
     address = JSONField(null=True, blank=True)

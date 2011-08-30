@@ -48,7 +48,6 @@ function EraseControl(controlDiv, map) {
 // initialize
 $(function () {
 
-
     var tt = document.createElement('DIV');
     tt.className = 'tooltip';
     var tt_text = document.createElement('DIV');
@@ -188,6 +187,7 @@ $(function () {
     initPath = function () {
         poly.setMap(null)
         poly = null;
+        $('#id_location').val('')
 /*
 		google.maps.event.removeListener(poly_listener);
 		*/

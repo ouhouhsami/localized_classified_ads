@@ -17,6 +17,7 @@ class LocationFilter(Filter):
         except:
             qs = qs
         lookup = 'within'
+        # obliged to filter here the date ... bad hack too
         if not value:
             return qs
         if value:

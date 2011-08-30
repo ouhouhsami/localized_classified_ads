@@ -4,10 +4,15 @@
 	<head>
 		<title>{% block title %}{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées{% endblock %}</title>
 		{% block meta %}
-		<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,annonces immobilières,ventes,achat,location,vendre,louer,parking,achetersanscom,acheter sans com" />
-		<meta name="description" content="Annonces immobilières sans intermédiaires et géolocalisées à la vente." />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,
+		                                         annonces immobilières,ventes,achat,location,
+		                                         vendre,louer,parking,achetersanscom,
+		                                         acheter sans com" />
+		<meta name="description" lang="fr" content="AcheterSansCom propose des annonces immobilières 
+		                                  sans intermédiaires et géolocalisées. La mise en ligne 
+		                                  et la consultation des annonces est gratuite." />
 		{% endblock %}
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}favicon.ico">  
 		{% compress css %}
 		{% endcompress %}

@@ -20,7 +20,9 @@ from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.geos import fromstr
 from django.contrib.sites.models import Site
-
+from django.core import serializers
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 import floppyforms
 import django_filters
@@ -70,9 +72,6 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 
                              'Aucune annonce ne correspond à votre recherche. Elargissez votre zone de recherche ou modifiez les critères.')
-        #if nb_of_results == 1:
-        #    messages.add_message(request, messages.INFO, 
-        #                     '1 annonce correspondant à votre recherche')
         if nb_of_results >= 1:
             ann = 'annonces'
             if nb_of_results == 1:
@@ -199,7 +198,11 @@ def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     if request.user == h.user_profile.user:
         h.delete_date = datetime.now()
         h.save()
+        serialized_obj = serializers.serialize('json', [ h, ])
+        print serialized_obj
+        path = default_storage.save('deleted/%s-%s.json' % (h.id, h.slug), ContentFile(serialized_obj))
         messages.add_message(request, messages.INFO, 'Votre annonce a bien été supprimée.')
+        h.delete()
         return redirect('userena_profile_detail', username=request.user.username)
     else:
         raise Http404

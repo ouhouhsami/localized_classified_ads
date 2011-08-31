@@ -5,6 +5,8 @@ from django.views.generic.simple import redirect_to
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.conf import settings
+from django.conf.urls.defaults import *
+from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
 
 from moderation.helpers import auto_discover
 from profiles.forms import UserProfileCustomForm
@@ -13,9 +15,22 @@ from userena import views as userena_views
 from profiles.views import detail as profile_detail
 
 from ads.views import search
+from ads.models import HomeForSaleAd
 
 admin.autodiscover()
 auto_discover()
+
+info_dict = {
+    'queryset': HomeForSaleAd.objects.filter(visible=True),
+    'date_field': 'create_date',
+}
+
+sitemaps = {
+    'flatpages': FlatPageSitemap,
+    'ads': GenericSitemap(info_dict, priority=0.6),
+}
+
+
 
 urlpatterns = patterns('',
     url(r'^annonce/', include('ads.urls')),
@@ -28,6 +43,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('userena.urls')),
     url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )
 
 

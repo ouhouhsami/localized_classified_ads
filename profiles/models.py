@@ -4,6 +4,7 @@ from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from userena.models import UserenaBaseProfile
 
+
 class UserProfile(UserenaBaseProfile):
     """User profile model
 

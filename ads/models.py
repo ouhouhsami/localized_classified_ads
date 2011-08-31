@@ -294,7 +294,6 @@ class HomeForSaleAd(HomeAd):
 
     """
     price = models.PositiveIntegerField("Prix (€)")
-
     slug = AutoSlugField(populate_from='get_full_description', always_update=True)
     #objects = ModerationObjectsManager()
     #objects = models.GeoManager()
@@ -321,44 +320,19 @@ class HomeForRentAd(HomeAd):
     @models.permalink
     def get_absolute_url(self):
         return ('view', [str(self.id)])  
-'''
-class HomeForSaleSearch(models.Model):
-    search = models.CharField(max_length=2550)
-    user_profile = models.ForeignKey(UserProfile)   
-    create_date = models.DateTimeField(auto_now_add = True)   
-    def __unicode__(self):
-        q = QueryDict(self.search)
-        
-        min_price = q.get('price_0', '')
-        max_price = q.get('price_1', '')
-        price = ''
-        if len(min_price) > 0 and len(max_price) > 0:
-            price = u'entre %s et %s €' % (min_price, max_price)
-        elif len(min_price) == 0 and len(max_price) > 0:
-            price = u'inférieur à %s €' % (max_price)
-        elif len(min_price) > 0 and len(max_price) == 0:
-            price = u'supérieur à %s €' % (min_price)
-        
-        min_surface = q.get('surface_0', '')
-        max_surface = q.get('surface_1', '')
-        surface = ''
-        if len(min_surface) > 0 and len(max_surface) > 0:
-            surface = u'entre %s et %s m2' % (min_surface, max_surface)
-        elif len(min_surface) == 0 and len(max_surface) > 0:
-            surface = u'inférieur à %s m2' % (max_surface)
-        elif len(min_surface) > 0 and len(max_surface) == 0:
-            surface = u'supérieur à %s m2' % (min_surface)
-        
-        min_rooms = str(q.get('nb_of_rooms_0', ''))
-        max_rooms = str(q.get('nb_of_rooms_1', ''))
-        rooms = ''
-        if len(min_rooms) > 0 and len(max_rooms) > 0:
-            rooms = u'entre %s et %s pièces' % (min_rooms, max_rooms)
-        elif len(min_rooms) == 0 and len(max_rooms) > 0:
-            rooms = u'inférieur à %s pièces' % (max_rooms)
-        elif len(min_rooms) > 0 and len(max_rooms) == 0:
-            rooms = u'supérieur à %s pièces' % (min_rooms)
 
-        return '%s %s %s' % (price, surface, rooms)
-    #pretty_view = property(_get_pretty_view)        
-'''
+
+from south.modelsinspector import add_introspection_rules
+from stdimage.fields import StdImageField
+rules = [
+     (
+         (StdImageField, ),
+         [],
+         {
+             "size": ["size", {"default": None}],
+             "thumbnail_size": ["thumbnail_size", {"default": None}],
+         },
+     ),
+]
+add_introspection_rules(rules, ["^stdimage\.fields",]) 
+add_introspection_rules([], ['^jsonfield\.fields\.JSONField'])

@@ -42,7 +42,7 @@
 
 <div style="margin-left:20px;margin-right:20px;">
 	<p>
-		<b>Adresse email</b> : {{ user.email }} (<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>)
+		<b>Adresse email</b> : {{ user.email }} {% comment %}(<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>){% endcomment %}
 	</p>
 	<div class="adson">
 		Votre adresse email ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur AcheterSansCom.

@@ -15,24 +15,21 @@ from jsonfield.fields import JSONField
 # GENERIC AD MODELS
 
 class AdPicture(models.Model):
+    """Ad picture model
 
-    #def upload_path(self, filename):
-        # line below to fix : app_label is not model_name, but always ad which is bad
-        # we should have /ad/homeforsalead/id/image.jpg
-        #return 'pictures/%s/%s/%s' % (self.content_type.app_label, self.content_object.id, filename)
-    #    return 'pictures/%s' % (filename)
-
+    """
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    image = StdImageField(upload_to="pictures/", size=(640,500), thumbnail_size=(100, 100))
-    title = models.CharField('Description de la photo', max_length = 255, null = True, blank = True)
-    #image = models.ImageField(upload_to = upload_path)
-    #image = models.ImageField(upload_to='pictures/')
-    
-    #order = models.PositiveIntegerField() 
+    image = StdImageField(upload_to="pictures/", size=(640,500), 
+                          thumbnail_size=(100, 100))
+    title = models.CharField('Description de la photo', max_length = 255, 
+                             null = True, blank = True)
 
 class AdContact(models.Model):
+    """Ad contact model
+
+    """
     user_profile = models.ForeignKey(UserProfile)
     content_type = models.ForeignKey(ContentType)
     object_pk = models.PositiveIntegerField()
@@ -49,14 +46,6 @@ class AdSearch(models.Model):
         q = QueryDict(self.search)
         
         habitation_types_values = q.getlist('habitation_type')
-        '''
-        if len(habitation_types_values) > 0:
-            print habitation_types_values
-            for i in habitation_types_values:
-                habitation_types = HABITATION_TYPE_CHOICES[habitation_types_values]
-        else:
-            habitation_types = ''
-        '''
         search_zone = u'non géolocalisée'
         if len(q['location']) > 0:
             search_zone = u'géolocalisée'
@@ -104,14 +93,13 @@ class AdSearch(models.Model):
         elif len(min_rooms) > 0 and len(max_rooms) == 0:
             rooms = u'- supérieur à %s pièces' % (min_rooms)
 
-        return 'Recherche <i>%s</i> : <b>%s</b> %s %s %s' % (search_zone, habitation_types, price, surface, rooms)
+        return 'Recherche <i>%s</i> : <b>%s</b> %s %s %s' % (search_zone, 
+                                 habitation_types, price, surface, rooms)
 
 class Ad(models.Model):
     """Ad abstract base model
 
     """
-    #title = models.CharField("Titre", max_length = 255, 
-    #                                   help_text="Titre de votre annonce")
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
     address = JSONField(null=True, blank=True)
@@ -185,7 +173,6 @@ HEATING_CHOICES = (
     ('13', 'autres')
 )
 
-# / individuel électrique / collectif gaz / collectif fuel / collectif réseau de chaleur / autres:
 
 KITCHEN_CHOICES = (
     ('1', 'américaine'),
@@ -211,26 +198,18 @@ FIREPLACE_CHOICES = (
     ('2', 'Insert'),
 )
 
-#ORIENTATION_CHOICES = (
-#    ('1', 'sud'),
-#    ('2', 'est'),
-#    ('3', 'nord'),
-#    ('4', 'ouest'),
-    #('5', 'belle vue'),
-    #('6', 'sans vis à vis'),
-#)
-
-
 class HomeAd(Ad):
     habitation_type	= models.CharField("Type de bien", max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
     surface = models.IntegerField("Surface habitable (m²)")
-    surface_carrez = models.IntegerField("Surface Loi Carrez (m²)", null = True, blank = True)
+    surface_carrez = models.IntegerField("Surface Loi Carrez (m²)", 
+                                         null = True, blank = True)
     nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
     nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
     energy_consumption = models.CharField("Consommation énergétique (kWhEP/m².an)", 
                                           max_length = 1, 
-                                          choices = ENERGY_CONSUMPTION_CHOICES, null = True, blank = True)
+                                          choices = ENERGY_CONSUMPTION_CHOICES, 
+                                          null = True, blank = True)
     emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre (kgeqCO2/m².an)", 
                                                     max_length = 1, 
                                                     choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES, 
@@ -247,46 +226,27 @@ class HomeAd(Ad):
     doorman = models.BooleanField("Gardien")
     heating = models.CharField("Chauffage", max_length = 2, 
                                choices = HEATING_CHOICES, null = True, blank = True)
-    #kitchen = models.CharField("Cuisine", max_length = 2,
-    #                           choices = KITCHEN_CHOICES, null = True, blank = True)
     kitchen = models.BooleanField("Cuisine équipée")
     duplex = models.BooleanField("Duplex")
     swimming_pool = models.BooleanField("Piscine")
     alarm = models.BooleanField("Alarme")
     air_conditioning = models.BooleanField("Climatisation")
-    #fireplace = models.BooleanField("Cheminée")
     fireplace = models.CharField("Cheminée", max_length = 2,
                                choices = FIREPLACE_CHOICES, null = True, blank = True)
-    #parquet = models.BooleanField("Parquet")
-    #terrace = models.BooleanField("Terrasse")
-    #balcony = models.BooleanField("Balcon")
     terrace = models.IntegerField("Terrasse", null = True, blank = True)
     balcony = models.IntegerField("Balcon", null = True, blank = True)
     separate_dining_room = models.BooleanField("Cuisine séparée")
-    #living_room = models.BooleanField("Séjour")
-    #separate_toilet = models.BooleanField("Toilettes séparés")
-    #bathroom = models.BooleanField("Salle de bain")
-    #shower = models.BooleanField("Salle d'eau (douche)")
     separate_toilet = models.IntegerField("Toilettes séparés", null = True, blank = True)
     bathroom = models.IntegerField("Salle de bain", null = True, blank = True)
     shower = models.IntegerField("Salle d'eau (douche)", null = True, blank = True)
     separate_entrance = models.BooleanField("Entrée séparée")
     cellar = models.BooleanField("Cave")
-    #cupboards = models.BooleanField("Placards")
     parking = models.CharField("Parking", max_length = 2,
                                choices = PARKING_CHOICES, null = True, blank = True)
-    #open_parking = models.BooleanField("Parking ouvert")
-    #box = models.BooleanField("Parking fermé / garage")
-    #orientation = models.CharField("Orientation", max_length = 1, 
-    #                               choices = ORIENTATION_CHOICES, 
-    #                               null = True, blank = True)
     orientation = models.CharField("Orientation", max_length = 255, null = True, blank = True)
-
 
     class Meta:
         abstract = True
-
-
 
 
 class HomeForSaleAd(HomeAd):
@@ -295,8 +255,6 @@ class HomeForSaleAd(HomeAd):
     """
     price = models.PositiveIntegerField("Prix (€)")
     slug = AutoSlugField(populate_from='get_full_description', always_update=True)
-    #objects = ModerationObjectsManager()
-    #objects = models.GeoManager()
     def get_full_description(instance):
         return "vente-%s-%spieces-%seuros-%sm2" % (instance.get_habitation_type_display(), 
                                                instance.nb_of_rooms, 
@@ -321,7 +279,7 @@ class HomeForRentAd(HomeAd):
     def get_absolute_url(self):
         return ('view', [str(self.id)])  
 
-
+# South definition for custom fields
 from south.modelsinspector import add_introspection_rules
 from stdimage.fields import StdImageField
 rules = [

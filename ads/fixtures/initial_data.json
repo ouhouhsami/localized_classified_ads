@@ -1,5 +1,5 @@
 [
-{"pk": 1, "model": "sites.site", "fields": {"domain": "www.achetersanscom.com", "subdomains": "", "name": "AcheterSansCom", "folder_name": "achetersanscom"}}, 
+{"pk": 1, "model": "sites.site", "fields": {"domain": "achetersanscom.com", "subdomains": "", "name": "AcheterSansCom", "folder_name": "achetersanscom"}}, 
   {
     "pk": 1, 
     "model": "flatpages.flatpage", 

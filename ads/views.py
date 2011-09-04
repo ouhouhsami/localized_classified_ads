@@ -132,12 +132,12 @@ def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
 @site_decorator
 @login_required(login_url='/accounts/signup/')
 def add(request, Ad=None, AdForm=None, AdFilterSet=None):
+    send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
     form = AdForm()
     PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
     picture_formset = PictureFormset()
     if request.method == 'POST':
         form = AdForm(request.POST)
-        print request.POST
         if form.is_valid():
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
@@ -152,6 +152,8 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
             send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
             return HttpResponseRedirect(reverse('edit', args=[instance.id]))
+        #else:
+            #print 'no valid', form.errors
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
 
@@ -159,7 +161,6 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
 @login_required
 def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     h = Ad.unmoderated_objects.get(id = ad_id)
-    print h.moderated_object.changed_object.__dict__
     # hack de merde, je ne comprends pas, sinon il convertit la valeur
     h.location = str(h.location)
     # h = Ad.objects.get(id = ad_id)
@@ -173,10 +174,8 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
             if form.is_valid():
-                print 'ok valid'
                 instance = form.save(commit = False)
                 instance.save()
-                print instance.floor
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
                 if picture_formset.is_valid():
@@ -199,7 +198,6 @@ def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         h.delete_date = datetime.now()
         h.save()
         serialized_obj = serializers.serialize('json', [ h, ])
-        print serialized_obj
         path = default_storage.save('deleted/%s-%s.json' % (h.id, h.slug), ContentFile(serialized_obj))
         messages.add_message(request, messages.INFO, 'Votre annonce a bien été supprimée.')
         h.delete()

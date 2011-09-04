@@ -18,17 +18,11 @@ class UserProfileAdminForm(ModelForm):
 class UserProfileAdmin(admin.ModelAdmin):
     form = UserProfileAdminForm
 
+
 class AdAdmin(ModerationAdmin):
-    ''' TODO: verify is save_model is overidden w/ geo widgets
-    def save_model(self, request, obj, form, change):
-        from moderation.helpers import automoderate
-        automoderate(obj, request.user)
-    '''
-    #location = floppyforms.gis.PointField(widget = PointWidget)
-    #location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget)
     pass
 
-#admin.site.register(UserProfile, UserProfileAdmin)
+
 admin.site.register(HomeForSaleAd, AdAdmin)
 admin.site.register(HomeForRentAd, AdAdmin)
 admin.site.register(AdSearch)

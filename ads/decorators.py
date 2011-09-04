@@ -14,7 +14,6 @@ def site_decorator(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         current_site = Site.objects.get_current()
-        print current_site
         kwargs['Ad'] = PER_SITE_OBJECTS[current_site.name]['ad_model']
         kwargs['AdForm'] = PER_SITE_OBJECTS[current_site.name]['ad_form']
         kwargs['AdFilterSet'] = PER_SITE_OBJECTS[current_site.name]['ad_filterset']

@@ -158,6 +158,9 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
     def clean_nb_of_rooms(self):
         pass
 
+    def nb_of_bedrooms(self):
+        pass
+
     def clean_ground_surface(self):
         pass
 

@@ -16,46 +16,12 @@
 			
 	<script>
 		$(document).ready(function(){	
-			/*
-			var help_text = $("<div class='tooltip'></div>")
-			help_text.hide()
-			var h = help_text.appendTo('#content');
-			h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
-			$('.olControlEditingToolbar > div').click(function(evt){
-				help_text.show()
-				if($(this).attr('class').indexOf("Modify") !=-1 ){
-					h.html("Selectionner la zone que vous avez dessine, et deplacer les ancres pour la modifier")
-				}
-				if($(this).attr('class').indexOf("Draw") !=-1 ){
-					h.html("Cliquez sur la carte pour dessiner le contour de votre zone de recherche.<br />Double-cliquez pour fermer la zone.")
-				}
-				if($(this).attr('class').indexOf("Navigation") !=-1 ){
-					h.html('Selectionner-deplacer la carte')
-				}
-				if($(this).attr('class').indexOf("View") !=-1 ){
-					h.html('Cliquer sur une icône sur la carte pour consulter l\'annonce')
-				}
-			})
-			
-			{% if search %}
-			{% if filter.qs %}
-				h.html('Cliquer sur une icône sur la carte pour consulter l\'annonce')
-			{% endif %}
-			{% endif %}
-					
-			$('#id_location_span_map .olMapViewport').mousemove(function(evt){
-				h.css({'z-index':10000, 'position':'fixed', 'top':evt.pageY+12-$("html").scrollTop(), 'left':evt.pageX+12})	
-			})
-			.mouseenter(function(evt){h.show()})
-			.mouseleave(function(evt){h.hide()})
-			*/
-			//$('.olControlEditingToolbar').mouseover(function(evt){h.hide()})
-			// init less important parameters
 			$('.atom_content').each(function(index) {
 				if($(this).find('.has_value').length == 0){
 					$(this).hide('fast')
 				}else {
 					$(this).parent().find('.icon').removeClass('plus').addClass('cross')
+					$(this).parent().find('.extend').html('-')
 				}
 			})
 			$('.extend').click(function(evt){

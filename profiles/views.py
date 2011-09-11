@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from models import UserProfile
@@ -6,6 +7,10 @@ from ads.models import HomeForSaleAd, AdSearch
 from moderation.models import ModeratedObject
 from django.shortcuts import redirect
 from ads.decorators import site_decorator
+from userena.signals import signup_complete, activation_complete
+from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.contrib.sites.models import Site
 
 @site_decorator
 def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
@@ -29,4 +34,13 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
         all_user_ads = HomeForSaleAd.unmoderated_objects.filter(user_profile = profile).exclude(delete_date__isnull = False)
         searchs = AdSearch.objects.filter(user_profile = profile)
     return render_to_response('profiles/profile.html', {'profile':profile, 'ads':ads, 'all_user_ads':all_user_ads, 'searchs':searchs}, context_instance = RequestContext(request))
+
+@receiver(signup_complete)
+def signup_complete_callback(sender, **kwargs):
+    send_mail('[%s] Nouvelle inscription : %s' % (Site.objects.get_current(), kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+
+
+@receiver(activation_complete)
+def activation_complete_callback(sender, **kwargs):
+    send_mail('[%s] Inscription validee : %s' % (Site.objects.get_current(), kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
 

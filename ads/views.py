@@ -83,7 +83,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
                              '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail ou enregistrer votre recherche.' % (nb_of_results, ann, sign_url))
-    initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1)
+    initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
     ##### ICI AJOUTER L'AFFICHAGE DES CES INITIAL ADS
     return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads, 'initial_ads':initial_ads}, 
                               context_instance = RequestContext(request))
@@ -132,7 +132,6 @@ def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
 @site_decorator
 @login_required(login_url='/accounts/signup/')
 def add(request, Ad=None, AdForm=None, AdFilterSet=None):
-    send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
     form = AdForm()
     PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
     picture_formset = PictureFormset()
@@ -154,6 +153,9 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             return HttpResponseRedirect(reverse('edit', args=[instance.id]))
         #else:
             #print 'no valid', form.errors
+        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+    else:
+        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
 

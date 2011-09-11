@@ -183,26 +183,29 @@
 		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
 		<h4>Situation du logement</h4>
 		<p>
-		{% if ad.floor %}{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}(et dernier){% endif %} étage{% endif %}
+		{% if ad.floor %}
+			{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}(et dernier){% endif %} étage
+			<br />
+		{% endif %}
 		{% if ad.ground_floor %}
-		<br />
 		Rez-de-chaussé
+		<br />
 		{% endif %}
 		{% if ad.duplex %}
-		<br />
 		Duplex
+		<br />
 		{% endif %}
 		{% if ad.ground_surface %}
-		<br />
 		Surface du terrain : {{ ad.ground_surface }} m²
+		<br />
 		{% endif %}
 		{% if ad.not_overlooked %}
-		<br />
 		Sans vis-à-vis
+		<br />
 		{% endif %}
 		{% if ad.orientation %}
-		<br />
 		Orientation : {{ ad.orientation }}
+		<br />
 		{% endif %}
 		</p>
 		{% endif %}

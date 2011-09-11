@@ -142,7 +142,8 @@ class UserSignup(TestCase):
         # this to ensure authorisations for user creation
         call_command('check_permissions')
         resp = self.c.post(reverse('userena_signup'), {'email':'trou@ducul.com', 'password1':'password', 'password2':'password'})
-        self.assertEqual(len(mail.outbox), 1)        
+        # 2 because we trace signup ...
+        self.assertEqual(len(mail.outbox), 2)        
         #print mail.outbox[0].body
         urls = re.findall('http[s]?://www.achetersanscom.com(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', mail.outbox[0].body)
         #print urls[0]

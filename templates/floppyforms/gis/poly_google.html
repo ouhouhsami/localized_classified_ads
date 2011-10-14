@@ -38,7 +38,7 @@ $(document).ready(function(){
 	$("#center_map").click(function(evt){
 		var address = document.getElementById("address").value+' ';
 		if (geocoder) {
-			geocoder.geocode( { 'address': address}, function(results, status) {
+			geocoder.geocode( { 'address': address, 'region':'FR'}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				var lon = results[0].geometry.location.lng()
 				var lat = results[0].geometry.location.lat()

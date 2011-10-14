@@ -1,4 +1,4 @@
-{% load static compress %}
+{% load static compress i18n %}
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -74,6 +74,21 @@
     				{% endfor %}
 				</ul>
 				{% endif %}
+				
+				{% if form.errors %}
+				<ul class="messages">
+					<li class="error"> 
+						{% blocktrans count form.errors|length as counter %}
+							Votre formulaire comporte une erreur. Corrigez-la ci-dessous et validez de nouveau le formulaire.
+						{% plural %}
+							Votre formulaire comporte des erreurs. Corrigez-les ci-dessous et validez de nouveau le formulaire.
+						{% endblocktrans %}
+						<br />
+						Si vous rencontrez des difficultés, envoyez un mail à <a href="mailto:contact@achetersanscom.com">contact@achetersanscom.com</a>, une aide et un support vous serons apportés dans les plus brefs délais.
+						</li>
+				</ul>
+				{% endif %}
+				
 				<div id="main_menu">
 					{% block main_menu %}
 					<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>

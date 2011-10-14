@@ -102,6 +102,7 @@ class Ad(models.Model):
     """
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
+    user_entered_address = models.CharField("Adresse", max_length=2550, help_text="Adresse complète, par exemple <i>5 rue de Verneuil Paris</i>")
     address = JSONField(null=True, blank=True)
     location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)
@@ -210,6 +211,9 @@ class HomeAd(Ad):
                                           max_length = 1, 
                                           choices = ENERGY_CONSUMPTION_CHOICES, 
                                           null = True, blank = True)
+    ad_valorem_tax = models.IntegerField('Taxe foncière (€)', null = True, blank = True, help_text="Montant annuel, sans espace, sans virgule")
+    housing_tax = models.IntegerField('Taxe foncière (€)', null = True, blank = True, help_text="Montant annuel, sans espace, sans virgule")
+    maintenance_charges = models.IntegerField('Charges (€)', null = True, blank = True, help_text="Montant mensuel, sans espace, sans virgule")
     emission_of_greenhouse_gases = models.CharField("Émissions de gaz à effet de serre (kgeqCO2/m².an)", 
                                                     max_length = 1, 
                                                     choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES, 

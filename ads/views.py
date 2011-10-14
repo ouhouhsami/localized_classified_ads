@@ -171,8 +171,6 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
     if h.user_profile.user.username == request.user.username:
         #form = AdForm(h.__dict__)
         form = AdForm(h.moderated_object.changed_object.__dict__)
-        #print form['price']
-        #print h.price
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
             if form.is_valid():
@@ -188,6 +186,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 picture_formset = PictureFormset(instance = h)
                 messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
                 send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
+            # below to force real value of fields
+            h = Ad.unmoderated_objects.get(id = ad_id)
+            form = AdForm(h.moderated_object.changed_object.__dict__)
         return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
         raise Http404

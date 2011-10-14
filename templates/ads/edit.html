@@ -42,6 +42,11 @@
 			})
 			
 			init_form()
+			
+			$('#id_user_entered_address').change(function(evt){
+				$('#address').val($(this).val())
+				$("#center_map").trigger('click')
+			})
 		})
 	</script>
 {% endblock %}
@@ -66,7 +71,8 @@
 		</div>
 	
 	<div class="form">
-		{% csrf_token %}	
+		{% csrf_token %}
+		
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 		{% for fieldset in form.fieldsets %}
 		  {% if fieldset.name != 'description' %}
@@ -88,7 +94,7 @@
 			
 
 			
-			<tr>
+			<tr style="display:none;">
 				<th>{{ field.label_tag }}</th>
 				<td>
 				<div >{{ field }} 

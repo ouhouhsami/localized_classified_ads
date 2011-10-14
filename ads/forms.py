@@ -11,6 +11,9 @@ from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget, GooglePointWidget, BooleanExtendedNumberInput
 from django.utils.safestring import mark_safe
 
+from fields import PriceField, SurfaceField
+
+import floppyforms as forms
 
 class ImageWidget(forms.FileInput):
     template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'
@@ -46,7 +49,10 @@ class AdContactForm(ModelForm):
         exclude = ['user_profile', 'content_type', 'object_pk']
 
 class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
-    #location = floppyforms.gis.PointField(widget = CustomPointWidget)
+    price = PriceField(label="Prix (€)", help_text="Prix sans espace, sans virgule")
+    surface = SurfaceField(label="Surface habitable (m²)", help_text="Surface, sans virgule")
+    surface_carrez = SurfaceField(label="Surface Loi Carrez (m²)", required=False, help_text="Surface Loi Carrez, sans virgule")
+    nb_of_rooms = forms.IntegerField(label="Nombre de pièces", error_messages={'required':'Ce champ est obligatoire.', 'invalid':'Entrez un nombre de pièce.'},)
     location = floppyforms.gis.PointField(label='Adresse', widget = GooglePointWidget, required=True)
     description = forms.CharField(label="", required=False, widget=forms.Textarea(attrs={'rows':7, 'cols':80}))
     balcony = forms.CharField(label="Balcon", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 'detail':"préciser la surface (m²)"}))
@@ -60,7 +66,7 @@ class HomeAdForm(BaseModeratedObjectForm, BetterModelForm):
 
     class Meta:
         exclude = ('user_profile', 'delete_date')
-        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','address', 'location', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
+        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 'address', 'location','ad_valorem_tax','housing_tax','maintenance_charges', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      #('location', {'fields': ['location'], 'legend': 'Localisation', 'description': '<b>Cliquez sur la carte pour localiser votre bien.</b>'}),
                      #('location', {'fields': ['location'], 'description': '', 'legend': ''}),
                      #('price', {'fields' :['price'], 'legend': 'Budget'}),
@@ -121,7 +127,11 @@ class HomeForSaleAdForm(HomeAdForm):
 
     class Meta:
         model = HomeForSaleAd
-
+        widgets = {
+            'nb_of_bedrooms':forms.TextInput,
+            'user_entered_address':forms.TextInput,
+            'habitation_type':forms.Select
+        }
     class Media:
         js = (
             '/static/js/json2.js',

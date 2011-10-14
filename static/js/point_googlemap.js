@@ -32,7 +32,7 @@ $(function(){
 	$("#center_map").click(function(evt){
 		var address = document.getElementById("address").value+' ';
 			if (geocoder) {
-				geocoder.geocode( { 'address': address}, function(results, status) {
+				geocoder.geocode( { 'address': address, 'region':'FR'}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					$('#id_address').val(JSON.stringify(results[0]['address_components']))
 					var lon = results[0].geometry.location.lng()

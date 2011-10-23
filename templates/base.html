@@ -44,7 +44,7 @@
 			<div id='header'>
 				<div id="registration" class="horizontal_menu">
 					{% if user.is_authenticated %}
-					<a class="signup left button"  href="{% url userena_profile_detail user.username %}"><span class="user icon"></span>Mon compte</a>
+					<a class="signup left button" href="{% url userena_profile_detail user.username %}"><span class="user icon"></span>Mon compte</a>
 					{% comment %}<a href="{% url add %}" class="login right button"><span class="plus icon"></span>Proposer un bien</a>{% endcomment %}
 					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
 					{% else %}

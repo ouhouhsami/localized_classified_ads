@@ -9,7 +9,6 @@ PER_SITE_OBJECTS = {
     'LouerSansCom':{'ad_model':HomeForRentAd, 'ad_form': HomeForRentAdForm, 'ad_filterset':HomeForRentAdFilterSet},
 }
 
-
 def site_decorator(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -19,16 +18,3 @@ def site_decorator(f):
         kwargs['AdFilterSet'] = PER_SITE_OBJECTS[current_site.name]['ad_filterset']
         return f(*args, **kwargs)
     return wrapper
-
-'''
-def site_decorator(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        #current_site = Site.objects.get_current()
-        #print current_site
-        kwargs['Ad'] = HomeForSaleAd
-        kwargs['AdForm'] = HomeForSaleAdForm
-        kwargs['AdFilterSet'] = HomeForSaleAdFilterSet
-        return f(*args, **kwargs)
-    return wrapper
-'''

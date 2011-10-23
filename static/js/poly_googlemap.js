@@ -116,7 +116,12 @@ $(function () {
                 poly.setPath(path)
                 setPath()
             })
-
+			google.maps.event.addListener(poly, 'mouseover', function (e) {
+				$(tt).hide()
+			})
+			google.maps.event.addListener(poly, 'mouseout', function (e) {
+				$(tt).show()
+			})
 /*
 			google.maps.event.addListener(poly, 'mousemove', function (event) {
 				if(poly.getPath().getLength() > 1){
@@ -142,6 +147,7 @@ $(function () {
         } else {
             $(tt_text).html("Cliquer pour définir le 1<sup>er</sup> point de votre zone de recherche")
         }
+
     });
 
     // setPath from textarea
@@ -188,9 +194,6 @@ $(function () {
         poly.setMap(null)
         poly = null;
         $('#id_location').val('')
-/*
-		google.maps.event.removeListener(poly_listener);
-		*/
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null)
         }
@@ -216,6 +219,12 @@ $(function () {
             infowindow.setContent(this.html)
             infowindow.open(map, this);
         });
+		google.maps.event.addListener(marker, 'mouseover', function (e) {
+			$(tt).hide()
+		})
+		google.maps.event.addListener(marker, 'mouseout', function (e) {
+			$(tt).show()
+		})
         if(homes[i].visible == 'false'){
             marker.setMap(null)
         }

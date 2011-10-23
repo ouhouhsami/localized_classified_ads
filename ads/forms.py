@@ -37,7 +37,7 @@ class ImageWidget(forms.FileInput):
         return mark_safe(output)
 
 class AdPictureForm(ModelForm):
-    image = forms.ImageField(widget=ImageWidget())
+    image = forms.ImageField(widget=ImageWidget(), required=False)
     #order = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = AdPicture

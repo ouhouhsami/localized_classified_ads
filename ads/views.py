@@ -138,6 +138,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
     if request.method == 'POST':
         form = AdForm(request.POST)
         if form.is_valid():
+            print 'VALID'
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
@@ -148,9 +149,10 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             # here we need to add changed_by to moderated object to get email notification
             instance.moderated_object.changed_by = request.user
             instance.moderated_object.save()
-            messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
+            #messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
             send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
-            return HttpResponseRedirect(reverse('edit', args=[instance.id]))
+            #return HttpResponseRedirect(reverse('edit', args=[instance.id]))
+            return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
         #else:
             #print 'no valid', form.errors
         send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
@@ -174,6 +176,7 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
             if form.is_valid():
+                
                 instance = form.save(commit = False)
                 instance.save()
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
@@ -184,8 +187,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 # because moderated object already know about user from 'add' function
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
-                messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
+                #messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
                 send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
+                return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
             # below to force real value of fields
             h = Ad.unmoderated_objects.get(id = ad_id)
             form = AdForm(h.moderated_object.changed_object.__dict__)
@@ -196,7 +200,7 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
 @site_decorator
 @login_required
 def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
-    h = Ad.objects.get(id = ad_id)
+    h = Ad.unmoderated_objects.get(id = ad_id)
     if request.user == h.user_profile.user:
         h.delete_date = datetime.now()
         h.save()

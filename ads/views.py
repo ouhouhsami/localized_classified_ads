@@ -36,6 +36,16 @@ from widgets import PolygonWidget, CustomPointWidget
 from filters import LocationFilter
 from filtersets import HomeForSaleAdFilterSet
 from decorators import site_decorator
+from django.contrib.gis.utils import GeoIP
+
+# to localize client
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 @site_decorator
 def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
@@ -46,6 +56,11 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
         filter = AdFilterSet(None, search = search)
+        # center map
+        g = GeoIP()
+        ip = get_client_ip(request)
+        latlon = g.lat_lon(ip)
+        #print ip, latlon
     else:
         search = True
         if search_id is not None:

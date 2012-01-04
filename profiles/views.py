@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from models import UserProfile
 from django.contrib.auth.models import User
-from ads.models import HomeForSaleAd, AdSearch
+#from ads.models import HomeForSaleAd, AdSearch
+from ads.models import AdSearch
 from moderation.models import ModeratedObject
 from django.shortcuts import redirect
 from ads.decorators import site_decorator
@@ -11,6 +12,9 @@ from userena.signals import signup_complete, activation_complete
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
+
+from sites.achetersanscom.ads.models import HomeForSaleAd
 
 @site_decorator
 def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
@@ -31,8 +35,9 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
     all_user_ads = False
     searchs = False
     if profile.user == request.user:
-        all_user_ads = HomeForSaleAd.unmoderated_objects.filter(user_profile = profile).exclude(delete_date__isnull = False)
-        searchs = AdSearch.objects.filter(user_profile = profile)
+        all_user_ads = Ad.unmoderated_objects.filter(user_profile = profile).exclude(delete_date__isnull = False)
+        # filter specific search for each site
+        searchs = AdSearch.objects.filter(user_profile = profile, content_type=ContentType.objects.get_for_model(Ad))
     return render_to_response('profiles/profile.html', {'profile':profile, 'ads':ads, 'all_user_ads':all_user_ads, 'searchs':searchs}, context_instance = RequestContext(request))
 
 @receiver(signup_complete)

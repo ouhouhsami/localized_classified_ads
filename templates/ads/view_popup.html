@@ -2,21 +2,10 @@
 {% load l10n %}
 
 <div class="ad_{{ ad.id }}">
-	
-	<!-- <h2>{{ ad.title }}</h2> -->
 	<p><b>
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} ch.)
 		<br />
 		{{ ad.price|priceformat }} € - {{ ad.surface }} m<sup>2</sup>
 		</b> <a href="{% url view ad.slug %}" target="_blank">Voir le détail</a>
 	</p>
-	
-	{% comment %}
-	
-	{% for img in ad.homeforsaleadpicture_set.all %}
-		<img src="{% thumbnail img.image 200 130 %}" />
-	{% endfor %}
-	
-	{% endcomment %}
-
 </div>

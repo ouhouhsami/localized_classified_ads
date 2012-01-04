@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "base-simplepage.html" %}
 {% load ads_tag %}
 {% load i18n %}
 {% load l10n %}
 
-{% block title %}AcheterSansCom | Mon compte{% endblock %}
+{% block title %}{{ site.name }} | Mon compte{% endblock %}
 
 {% block javascript %}
 <script type="text/javascript">
@@ -18,29 +18,32 @@
 </script>
 {% endblock %}
 
-
-
 {% block main_menu %}
 {% endblock %}
 
 {% block content %}
 
+	{% if user.username == profile.user.username %}
+		{% comment %}{% include "userena/menu_snippet.html" %}{% endcomment %}
+	{% endif %}
 
 
-<div id="userena_profile_detail" >
-  {% if user.username == profile.user.username %}
-	{% include "userena/menu_snippet.html" %}
-  {% endif %}
-
-<div id="block_content" class="atom" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);">
+	{% if user.username == profile.user.username %}
+	<ul id="box-nav">
+	    <li class="first selected"><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'View profile' %}</span></a></li>
+	    <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit profile" %}</a></li>
+	    <li class=""><a href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a></li>
+	    <li class="last"><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
+	  </ul>
+	  {% endif %}
 
 {% if user.is_authenticated %}
 
 {% ifequal user.username profile.user.username %}
 
-<h3 class="extended_title">Vos informations personnelles</h3>
+<h3>Vos informations personnelles</h3>
 
-<div style="margin-left:20px;margin-right:20px;">
+<div class="inside">
 	<p>
 		<b>Adresse email</b> : {{ user.email }} {% comment %}(<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>){% endcomment %}
 	</p>
@@ -93,31 +96,27 @@
 {% endif %}
 
 {% if all_user_ads %}
-<div class="atom">
-<h3 class="extended_title">Vos Biens en ventes</h3>
-<table>
+<h3>Vos Biens</h3>
+<table class="list">
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
 	<tr class="status_{{ ad.moderated_object.moderation_status}}" >
-		<td style="border-bottom:2px solid white;"><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a></td>
-		<td style="border-bottom:2px solid white;">
+		<td ><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a></td>
+		<td >
 			{% if ad.moderated_object.moderation_status == 0 %}Annonce rejetée. Modifiez-la pour la soumettre de nouveau.{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}Annonce en ligne{% endif %}
 			{% if ad.moderated_object.moderation_status == 2 %}Annonce en cours de modération{% endif %}
 		</td>
-		<td style="border-bottom:2px solid white;"><a href="{% url edit ad.id %}"><span class="pen icon"></span>Modifier</a></td>
-		<td style="border-bottom:2px solid white;"><a href="{% url delete ad.id %}" class="delete">Supprimer</a></td>
+		<td ><a href="{% url edit ad.id %}">Modifier</a></td>
+		<td ><a href="{% url delete ad.id %}" class="delete">Supprimer</a></td>
 	</tr>
 	{% endif %}
 {% endfor %}
 </table>
-</div>
-
 {% else %}
 	{% if ads %}
-	<div class="atom">
-		<h3>Bien de ce vendeur en ventes</h3>
-		<table>
+		<h3>Biens de ce vendeur</h3>
+		<table class="list">
 			{% for ad in ads %}
 			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
 			<tr>
@@ -126,22 +125,18 @@
 			{% endif %}
 			{% endfor %}
 		</table>
-	</div>
 	{% else %}
-	<div class="atom">
 		{% ifequal user.username profile.user.username %}
 		<h3 class="extended_title">Biens en vente</h3>
 		<p>Vous n'avez aucun bien en vente visible sur le site.
 		<br />Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
 		{% endifequal %}
-	</div>
 	{% endif %}
 {% endif %}
 
 {% if searchs %}
-<div class="atom">
-	<h3 class="extended_title">Vos Recherches</h3>
-	<table>
+	<h3>Vos Recherches</h3>
+	<table class="list">
 	{% for search in searchs %}
 		<tr>
 			<td><a href="{% url search search.id %}" class="button">
@@ -156,22 +151,18 @@
 		</tr>
 	{% endfor %}
 	</table>
-</div>
+<p  class="adson inside" style="margin-top:5px">
 {% if profile.email_alert %}
 Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% else %}
 Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% endif %}
-<br />
+</p>
 {% else %}
 <h3 class="extended_title">Vos Recherches</h3>
 <p>Vous n'avez aucune recherche enregistrée.</p>
 {% endif %}
 
 
-
-</div>
-
-</div>
 
 {% endblock %}

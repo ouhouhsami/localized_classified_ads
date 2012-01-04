@@ -8,7 +8,7 @@ from mockups import Mockup, Factory
 from mockups import generators
 from django.contrib.auth.models import User
 from moderation.models import ModeratedObject
-
+from mockups.generators import ChoiceGenerator
 
 class GeoPointGenerator(generators.Generator):
     def __init__(self, *args, **kwargs):
@@ -18,7 +18,23 @@ class GeoPointGenerator(generators.Generator):
         coord_0 = decimal.Decimal(str(random.randrange(2003750834)/100 - 20037508.34/2))
         coord_1 = decimal.Decimal(str(random.randrange(2003750834)/100 - 20037508.34/2))
         value = 'POINT(%s %s)' % (coord_0, coord_1)
+        value = 'POINT (2.3788227000000002 48.8489782999999989)'
         return value
+
+class SlugGenerator(generators.Generator):
+    def __init__(self, *args, **kwargs):
+        super(SlugGenerator, self).__init__(*args, **kwargs)
+
+    def generate(self):
+        word = ''
+        for i in range(10):
+            word += random.choice('abcdefghijklmnopqrstuvwxyz0123456789')
+        return word
+
+class BooleanGenerator(ChoiceGenerator):
+    #print 'GOOOOOOOOOOOOO'
+    choices = (1, 0)
+
 
 class HomeForSaleAdFactory(Factory):
     description = generators.LoremWordGenerator(20)
@@ -35,34 +51,35 @@ class HomeForSaleAdFactory(Factory):
     #emission_of_greenhouse_gases = generators.ChoiceGenerator(choices = EMISSION_OF_GREENHOUSE_GASES_CHOICES)
     ground_surface = generators.IntegerGenerator(min_value=0, max_value=10000)
     floor = generators.IntegerGenerator(min_value=0, max_value=40)
-    ground_floor = generators.BooleanGenerator()
-    not_overlooked = generators.BooleanGenerator()
-    top_floor = generators.BooleanGenerator()
-    elevator = generators.BooleanGenerator()
-    intercom = generators.BooleanGenerator()
-    digicode = generators.BooleanGenerator()
-    doorman = generators.BooleanGenerator()
+    ground_floor = BooleanGenerator()
+    not_overlooked = BooleanGenerator()
+    top_floor = BooleanGenerator()
+    elevator = BooleanGenerator()
+    intercom = BooleanGenerator()
+    digicode = BooleanGenerator()
+    doorman = BooleanGenerator()
     #heating = generators.ChoiceGenerator(choices = HEATING_CHOICES)
     #kitchen = generators.ChoiceGenerator(choices = KITCHEN_CHOICES)
-    duplex = generators.BooleanGenerator()
-    swimming_pool = generators.BooleanGenerator()
-    alarm = generators.BooleanGenerator()
-    air_conditioning = generators.BooleanGenerator()
-    fireplace = generators.BooleanGenerator()
-    #parquet = generators.BooleanGenerator()
-    terrace = generators.BooleanGenerator()
-    balcony = generators.BooleanGenerator()
-    separate_dining_room = generators.BooleanGenerator()
-    living_room = generators.BooleanGenerator()
-    separate_toilet = generators.BooleanGenerator()
-    bathroom = generators.BooleanGenerator()
-    shower = generators.BooleanGenerator()
-    separate_entrance = generators.BooleanGenerator()
-    cellar = generators.BooleanGenerator()
-    #cupboards = generators.BooleanGenerator()
-    open_parking = generators.BooleanGenerator()
-    box = generators.BooleanGenerator()
+    duplex = BooleanGenerator()
+    swimming_pool = BooleanGenerator()
+    alarm = BooleanGenerator()
+    air_conditioning = BooleanGenerator()
+    fireplace = BooleanGenerator()
+    #parquet = BooleanGenerator()
+    terrace = BooleanGenerator()
+    balcony = BooleanGenerator()
+    separate_dining_room = BooleanGenerator()
+    living_room = BooleanGenerator()
+    separate_toilet = BooleanGenerator()
+    bathroom = BooleanGenerator()
+    shower = BooleanGenerator()
+    separate_entrance = BooleanGenerator()
+    cellar = BooleanGenerator()
+    #cupboards = BooleanGenerator()
+    open_parking = BooleanGenerator()
+    box = BooleanGenerator()
     #orientation = generators.ChoiceGenerator(choices = ORIENTATION_CHOICES)
+    slug = SlugGenerator()
 
 
 class HomeForSaleAdMockup(Mockup):

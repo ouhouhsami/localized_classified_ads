@@ -15,11 +15,12 @@ from userena import views as userena_views
 from profiles.views import detail as profile_detail
 
 from ads.views import search
-from ads.models import HomeForSaleAd
+#from ads.models import HomeForSaleAd
 
 admin.autodiscover()
 auto_discover()
 
+'''
 info_dict = {
     'queryset': HomeForSaleAd.objects.filter(visible=True),
     'date_field': 'create_date',
@@ -29,6 +30,7 @@ sitemaps = {
     'flatpages': FlatPageSitemap,
     'ads': GenericSitemap(info_dict, priority=0.6),
 }
+'''
 
 
 
@@ -38,12 +40,12 @@ urlpatterns = patterns('',
        profile_detail, {},
        name='userena_profile_detail'),
     url(r'^accounts/(?P<username>[\.\w]+)/edit/$',
-       userena_views.profile_edit, {'template_name':'userena/profile_geo_form.html', 'edit_profile_form':UserProfileCustomForm},
+       userena_views.profile_edit, {'template_name':'userena/profile_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),
     url(r'^accounts/', include('userena.urls')),
     url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
-    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    #(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )
 
 

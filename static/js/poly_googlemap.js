@@ -1,59 +1,23 @@
-var source = new Proj4js.Proj('EPSG:4326');
-var dest = new Proj4js.Proj('EPSG:900913');
-var homes = []
-
-var map
-
-var eraseControlDiv
-
-function EraseControl(controlDiv, map) {
-
-    // Set CSS styles for the DIV containing the control
-    // Setting padding to 5 px will offset the control
-    // from the edge of the map
-    /*controlDiv.style.padding = '1px';*/
-    controlDiv.className = 'erase_button'
-    // Set CSS for the control border
-    var controlUI = document.createElement('DIV');
-/*
-	  controlUI.style.backgroundColor = 'white';
-	  controlUI.style.borderStyle = 'solid';
-	  controlUI.style.borderWidth = '2px';
-	  controlUI.style.cursor = 'pointer';
-	  controlUI.style.textAlign = 'center';
-	  */
-    controlUI.title = 'Click to set the map to Home';
-    controlDiv.appendChild(controlUI);
-
-    // Set CSS for the control interior
-    var controlText = document.createElement('DIV');
-/*
-	  controlText.style.fontFamily = 'Arial,sans-serif';
-	  controlText.style.fontSize = '12px';
-	  controlText.style.paddingLeft = '4px';
-	  controlText.style.paddingRight = '4px';
-	  */
-    controlText.innerHTML = 'Effacer la zone';
-    controlUI.appendChild(controlText);
-
-    // Setup the click event listeners: simply set the map to Chicago
-    google.maps.event.addDomListener(controlUI, 'click', function () {
-        //map.setCenter(chicago)
-        $(eraseControlDiv).hide()
-        initPath()
-    });
-}
-
-
-// initialize
-$(function () {
-
-    var tt = document.createElement('DIV');
-    tt.className = 'tooltip';
-    var tt_text = document.createElement('DIV');
-    $(tt_text).html("Cliquer pour définir le 1<sup>er</sup> point de votre zone de recherche")
-    tt.appendChild(tt_text);
-
+var homes = [];
+var map;
+//var polygonStyle = {strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#FFB82E'};
+var drawingManager;
+$(document).ready(function() {
+	addUpdatePathEventListerner = function(){
+		google.maps.event.addListener(overlay.getPath(), 'set_at', function(index){setPathToTextarea();});
+		google.maps.event.addListener(overlay.getPath(), 'insert_at', function(index){setPathToTextarea();});
+		google.maps.event.addListener(overlay.getPath(), 'remove_at', function(index){setPathToTextarea();});		
+	}
+	localizeMe = function(){
+		if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+					map.setCenter(initialLocation);
+				});
+			}else{				
+		}
+	}
+	var overlay = null;
     var options = {
         zoom: 12,
         /*center: new google.maps.LatLng(48.858, 2.333),*/
@@ -72,146 +36,66 @@ $(function () {
         },
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    map = new google.maps.Map(document.getElementById('map'), options);
+	var map = new google.maps.Map(document.getElementById("map"),options);
+	drawingManager = new google.maps.drawing.DrawingManager({
+		drawingControl: false, 
+		drawingMode:google.maps.drawing.OverlayType.POLYGON,
+		polygonOptions: polygonStyle
+	});
+	drawingManager.setMap(map);
+	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+		overlay = event.overlay;
+		overlay.setEditable(true);
+		drawingManager.setOptions({drawingMode:null});
+		setPathToTextarea();
+		addUpdatePathEventListerner();
+	});
+	google.maps.event.addListener(map, 'click', function(event){
+		overlay.setMap(null);
+		overlay = null;
+		drawingManager.setOptions({drawingMode:google.maps.drawing.OverlayType.POLYGON});
+	});
+	setPathToTextarea = function(){
+		var polygon = "SRID=900913;POLYGON(("
+		for (var i = 0; i < overlay.getPath().getLength(); i++) {
+			var p = {'x':overlay.getPath().getAt(i).lng() , 'y':overlay.getPath().getAt(i).lat()}
+			polygon += p.x + " " + p.y + ','
+			if (i == 0) {
+				pZero = p.x + " " + p.y + ")"
+			}
+		}
+		polygon += pZero + ")";
+		$('#id_location').val(polygon);	
+	};
+	getPathFromTextarea = function(){
+		if ($('#id_location').val() != '') {
+			overlay = new google.maps.Polygon(polygonStyle);
+			overlay.setMap(map);
+			path = overlay.getPath();
+			var points = $('#id_location').val().split('SRID=900913;POLYGON((')[1].split('))')[0].split(',');
+			var latlngbounds = new google.maps.LatLngBounds();
+			for (i = 0; i < points.length - 1; i++) {
+				var point = points[i].split(" ")
+				var p = {'x':point[0] , 'y':point[1]}
+				path.insertAt(i, new google.maps.LatLng(p.y, p.x))
+				latlngbounds.extend(new google.maps.LatLng(p.y, p.x));
+			}
+			overlay.setPath(path);
+			overlay.setEditable(true);
+			drawingManager.setOptions({drawingMode:null});
+			addUpdatePathEventListerner()
+			map.fitBounds(latlngbounds);
+		};
+	};
+	getPathFromTextarea();
 
-    eraseControlDiv = document.createElement('DIV');
-    var eraseControl = new EraseControl(eraseControlDiv, map);
-
-    eraseControlDiv.index = 1;
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(eraseControlDiv);
-    $(eraseControlDiv).hide()
-
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(tt);
-    $(tt).hide()
-
-    var poly = null;
-    var poly_listener = null;
-    var markers = []
-    var has_poly = 'false';
-    var image = new google.maps.MarkerImage('/static/img/marker-edition.png', new google.maps.Size(9, 9), new google.maps.Point(0, 0), new google.maps.Point(5, 5));
-
-    google.maps.event.addListener(map, 'click', function (event) {
-        if (has_poly == 'true') {
-            initPath()
-            has_poly = 'false'
-        }
-        if (!poly) {
-            // create poly
-            $(eraseControlDiv).show()
-            poly = new google.maps.Polygon({
-                strokeWeight: 2,
-                strokeColor: '#20B2AA',
-                fillColor: '#FFB82E',
-                map: map
-            });
-            poly_listener = google.maps.event.addListener(poly, 'click', function (event) {
-                path = poly.getPath();
-                path.insertAt(path.length, event.latLng);
-                marker = new google.maps.Marker({
-                    position: event.latLng,
-                    map: map,
-                    icon: image
-                });
-                markers.push(marker)
-                poly.setPath(path)
-                setPath()
-            })
-			google.maps.event.addListener(poly, 'mouseover', function (e) {
-				$(tt).hide()
-			})
-			google.maps.event.addListener(poly, 'mouseout', function (e) {
-				$(tt).show()
-			})
-/*
-			google.maps.event.addListener(poly, 'mousemove', function (event) {
-				if(poly.getPath().getLength() > 1){
-					poly.getPath().pop()
-				}
-				poly.getPath().push(event.latLng)
-			})
-			*/
-
-        }
-        path = poly.getPath();
-        path.insertAt(path.length, event.latLng);
-        marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map,
-            icon: image
-        });
-        markers.push(marker)
-        poly.setPath(path)
-        setPath()
-        if (poly.getPath().getLength() > 0) {
-            $(tt_text).html("Cliquer pour ajouter un point")
-        } else {
-            $(tt_text).html("Cliquer pour définir le 1<sup>er</sup> point de votre zone de recherche")
-        }
-
-    });
-
-    // setPath from textarea
-    setPath = function () {
-        var polygon = "SRID=900913;POLYGON(("
-        for (var i = 0; i < poly.getPath().getLength(); i++) {
-            var p = new Proj4js.Point(path.getAt(i).lng(), path.getAt(i).lat());
-            Proj4js.transform(source, dest, p);
-            polygon += p.x + " " + p.y + ','
-            if (i == 0) {
-                pZero = p.x + " " + p.y + ")"
-            }
-        }
-        polygon += pZero + ")"
-        $('#id_location').val(polygon)
-    }
-    // getPath from textarea
-    getPath = function () {
-        if ($('#id_location').val() != '') {
-            $(eraseControlDiv).show()
-            has_poly = 'true';
-            poly = new google.maps.Polygon({
-                strokeWeight: 2,
-                strokeColor: '#20B2AA',
-                fillColor: '#FFB82E',
-                map: map
-            });
-            path = poly.getPath();
-            var points = $('#id_location').val().split('SRID=900913;POLYGON((')[1].split('))')[0].split(',');
-            var latlngbounds = new google.maps.LatLngBounds();
-            for (i = 0; i < points.length - 1; i++) {
-                var point = points[i].split(" ")
-                var p = new Proj4js.Point(point[0], point[1]);
-                Proj4js.transform(dest, source, p);
-                path.insertAt(i, new google.maps.LatLng(p.y, p.x))
-                latlngbounds.extend(new google.maps.LatLng(p.y, p.x));
-            }
-            poly.setPath(path);
-            map.fitBounds(latlngbounds);
-        };
-    }
-    // initPath
-    initPath = function () {
-        poly.setMap(null)
-        poly = null;
-        $('#id_location').val('')
-        for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(null)
-        }
-        markers = [];
-        has_poly = 'false';
-    }
-
-    // add homes
-    var infowindow = new google.maps.InfoWindow({
-        content: 'Annonce'
-    })
-    for (var i = 0; i < homes.length; i++) {
-        var p = new Proj4js.Point(homes[i].x, homes[i].y);
-        Proj4js.transform(dest, source, p);
+	var infowindow = new google.maps.InfoWindow({ content: 'Annonce'});
+	for (var i = 0; i < homes.length; i++) {
+		var p = {'x':homes[i].x , 'y':homes[i].y}
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(p.y, p.x),
             map: map,
-            icon: new google.maps.MarkerImage('/static/img/home.png')
+            icon: new google.maps.MarkerImage(homes[i].icon)
         });
         marker.html = $('.' + homes[i].id).html()
         google.maps.event.addListener(marker, 'click', function (e) {
@@ -220,10 +104,9 @@ $(function () {
             infowindow.open(map, this);
         });
 		google.maps.event.addListener(marker, 'mouseover', function (e) {
-			$(tt).hide()
 		})
 		google.maps.event.addListener(marker, 'mouseout', function (e) {
-			$(tt).show()
+			/*tooltip hide*/
 		})
         if(homes[i].visible == 'false'){
             marker.setMap(null)
@@ -232,42 +115,39 @@ $(function () {
     }
 
 
-    google.maps.event.addListener(map, 'mouseout', function (e) {
-        $(tt).hide()
-        //poly.setPath(poly.getPath().pop())
-    })
-    google.maps.event.addListener(map, 'mouseover', function (e) {
-        $(tt).show()
-        //poly.setPath(poly.getPath().push(e.latLng))
-    })
-    google.maps.event.addListener(map, 'mousemove', function (e) {
-        $(tt).css('top', e.pixel.y + 10)
-        $(tt).css('left', e.pixel.x + 10)
-        $(tt).css('width', 140)
-        try {
-            if (poly.getPath().getLength() < 3) {
-                if (poly.getPath().getLength() > 1) {
-                    poly.getPath().pop()
-                }
-                poly.getPath().push(e.latLng)
-            }
-        } catch (err) {
+	$("#address").keypress(function(e) {
+   			if (e.which == 13) {
+   				return false;
+   			}
+   	});
+	$('#address').focus(function(evt){
+		$(this).val('')
+	})
+	var geocoder = new google.maps.Geocoder();
+	$("#center_map").hide()
+	$("#center_map").click(function(evt){
+		var address = document.getElementById("address").value+' ';
+		if (geocoder) {
+			geocoder.geocode( { 'address': address, 'region':'FR'}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				var lon = results[0].geometry.location.lng()
+				var lat = results[0].geometry.location.lat()
+				initialLocation = new google.maps.LatLng(lat,lon);
+				map.setCenter(initialLocation);
+				map.setZoom(12)
+			} 
+			else 
+			{
+				//alert("Geocode was not successful for the following reason: " + status);
+			}
+		});
+		}			
+	})
+	$('#address').keyup(function(evt){$("#center_map").trigger('click')});
+});
 
-        }
-    })
-
-
-    getPath()
-})
-
-add_home = function (x, y, url, id, visible) {
-    homes.push({
-        'x': x,
-        'y': y,
-        'url': url,
-        'id': id,
-        'visible': visible
-    })
+add_home = function (x, y, url, id, visible, icon) {
+	homes.push({'x': x, 'y': y, 'url': url, 'id': id, 'visible': visible, 'icon':icon});
 }
 
 open_popup = function (x, y, id) {

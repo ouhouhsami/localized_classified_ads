@@ -6,4 +6,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         mockup = HomeForSaleAdMockup(HomeForSaleAd)
-        entries = mockup.create(2000)        
+        entries = mockup.create(2000)      

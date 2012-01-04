@@ -2,7 +2,7 @@
 from itertools import chain
 
 from django.utils.encoding import force_unicode
-from models import *
+from models import * # incroyable, : si on enleve cet import le titre du site bug est reste tjrs louersanscom
 import floppyforms
 from django.template import loader
 from floppyforms.gis.widgets import BaseGeometryWidget
@@ -132,16 +132,19 @@ class GooglePolygonWidget(Input):
     def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
         self.search = kwargs.get('search', False)
+        self.strokeColor = kwargs.get('strokeColor', '#FF0000')
+        self.fillColor = kwargs.get('fillColor', '#00FF00')
         super(GooglePolygonWidget, self).__init__()
     def get_context_data(self):
         ctx = super(GooglePolygonWidget, self).get_context_data()
         ctx['ads'] = self.ads
         ctx['search'] = self.search
+        ctx['fillColor'] = self.fillColor
+        ctx['strokeColor'] = self.strokeColor
         return ctx
     class Media:
         js = (
-            'http://maps.google.com/maps/api/js?sensor=false',
-            'js/proj4js-combined.js',
+            'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing',
             'js/poly_googlemap.js',
         )
 
@@ -150,10 +153,13 @@ class GooglePointWidget(Input):
     class Media:
         js = (
             'http://maps.google.com/maps/api/js?sensor=false',
-            'js/proj4js-combined.js',
+            #'js/proj4js-combined.js',
             'js/point_googlemap.js',
         )
 
 class BooleanExtendedNumberInput(NumberInput):
     template_name = 'floppyforms/boolean_extended_number_input.html'
     # we should add jquery, but it's on all site pages so ...
+
+class BooleanExtendedInput(Input):
+    template_name = 'floppyforms/boolean_extended_input.html'

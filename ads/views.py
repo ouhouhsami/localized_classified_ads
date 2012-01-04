@@ -1,7 +1,6 @@
 # coding=utf-8
 from datetime import datetime
 
-
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -30,11 +29,19 @@ from django_filters.filters import Filter
 from form_utils.forms import BetterForm
 from profiles.models import UserProfile
 
-from models import HomeForSaleAd, AdSearch, AdPicture
-from forms import AdPictureForm, AdContactForm, HomeForSaleAdForm, HomeForSaleAdFilterSetForm
+from pygeocoder import Geocoder
+from django.contrib.gis.gdal import SpatialReference, CoordTransform
+from django.contrib.gis.geos import Point
+
+
+
+#from models import HomeForSaleAd, AdSearch, AdPicture
+from models import AdSearch, AdPicture
+#from forms import AdPictureForm, AdContactForm, HomeForSaleAdForm, HomeForSaleAdFilterSetForm
+from forms import AdPictureForm, AdContactForm
 from widgets import PolygonWidget, CustomPointWidget
 from filters import LocationFilter
-from filtersets import HomeForSaleAdFilterSet
+#from filtersets import HomeForSaleAdFilterSet
 from decorators import site_decorator
 from django.contrib.gis.utils import GeoIP
 
@@ -52,15 +59,16 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
     """Search view
     
     """
-    total_ads = Ad.objects.all().filter(delete_date__isnull=True).count()
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
-        filter = AdFilterSet(None, search = search)
+        filter = AdFilterSet(None, search=search)
         # center map
         g = GeoIP()
         ip = get_client_ip(request)
         latlon = g.lat_lon(ip)
-        #print ip, latlon
+        initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
+        return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'initial_ads':initial_ads}, 
+                              context_instance = RequestContext(request))
     else:
         search = True
         if search_id is not None:
@@ -98,9 +106,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
                              '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail ou enregistrer votre recherche.' % (nb_of_results, ann, sign_url))
-    initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
-    ##### ICI AJOUTER L'AFFICHAGE DES CES INITIAL ADS
-    return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'total_ads':total_ads, 'initial_ads':initial_ads}, 
+        return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
                               context_instance = RequestContext(request))
 
 @login_required
@@ -119,12 +125,8 @@ def delete_search(request, search_id):
 
 @site_decorator
 def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
-    #ad = Ad.objects.get(id = ad_id)
     ad = Ad.objects.get(slug = ad_slug)
-    #map_widget = CustomPointWidget(ads = [ad], id = "location", controls = False)
     sent_mail = False
-    #print ad.delete_date
-    #print ad.moderated_object.moderation_status
     if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
         raise Http404
     contact_form = AdContactForm()
@@ -156,7 +158,25 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             print 'VALID'
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
+            # add location and address fields
+            print 'OK'
+            geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
+            print '1'
+            instance.address = geocode.raw
+            coordinates = geocode[0].coordinates
+            # if one day we need to change projection
+            #origin_coord = SpatialReference(900913)
+            #target_coord = SpatialReference(4326)
+            #trans = CoordTransform(origin_coord, target_coord)
+            # Point(lon, lat, srid) so we must reverse Geocode result
+            pnt = Point(coordinates[1], coordinates[0], srid=900913)
+            instance.location = pnt
+            print '2'
+            print pnt
+            print instance
             instance.save()
+            print '3 save ok'
+            #print instance.location
             PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
             if picture_formset.is_valid():
@@ -165,14 +185,15 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             instance.moderated_object.changed_by = request.user
             instance.moderated_object.save()
             #messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
-            send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
+            print '3'
+            send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
             #return HttpResponseRedirect(reverse('edit', args=[instance.id]))
             return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
         #else:
-            #print 'no valid', form.errors
-        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+        #    print 'no valid', form.errors
+        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     else:
-        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
 
@@ -190,9 +211,14 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         form = AdForm(h.moderated_object.changed_object.__dict__)
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
-            if form.is_valid():
-                
+            if form.is_valid():           
                 instance = form.save(commit = False)
+                # TODO : if user_entered_address eq, dont compute
+                geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
+                instance.address = geocode.raw
+                coordinates = geocode[0].coordinates
+                pnt = Point(coordinates[1], coordinates[0], srid=900913)
+                instance.location = pnt
                 instance.save()
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)
@@ -203,7 +229,7 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
                 #messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
-                send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=False)
+                send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
                 return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
             # below to force real value of fields
             h = Ad.unmoderated_objects.get(id = ad_id)

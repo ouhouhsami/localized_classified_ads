@@ -1,15 +1,15 @@
-{% extends "base.html" %}
-{% load ads_tag %}
-{% load utils_tags %}
+{% extends "base-simplepage.html" %}
+{% load ads_tag utils_tags %}
 
 {% block title %}{{ site.name }} | Annonce en cours de traitement{% endblock %}
 
 {% block content %}
-<div id="block_content" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);">
-	<p>
-		Votre annonce a été enregistrée, elle va être modérée.<br />
-		Vous serez informé de sa mise en ligne dans quelques instants.<br />
-		Vous pouvez toujours modifier votre annonce depuis <a href="{% url userena_profile_detail user.username %}">votre compte</a>.
-	</p> 
-</div>
-{% endblock %}
+	<h2>Annonce en cours de validation</h2>
+	<div class="inner_content">
+		<p>
+			Votre annonce a été enregistrée, elle va être modérée.<br />
+			Vous serez informé de sa mise en ligne dans quelques instants.<br />
+			Vous pouvez toujours modifier votre annonce depuis <a href="{% url userena_profile_detail user.username %}">votre compte</a>.
+		</p>
+	</div>
+{% endblock content %}

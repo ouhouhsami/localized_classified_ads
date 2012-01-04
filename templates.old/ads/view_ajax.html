@@ -1,0 +1,126 @@
+{% load ads_tag %}
+{% load l10n %}
+
+
+
+<div>
+{% block content %}
+
+<div id="block_content">
+	
+	<h2>{{ ad.title }}</h2>
+	<h3>
+		{{ ad.get_habitation_type_display }}
+		- {{ ad.price }}€
+		- {{ ad.surface }}m<sup>2</sup>
+		- {{ ad.nb_of_rooms }} pièces
+		- {{ ad.nb_of_bedrooms }} chambres
+	</h3>
+	
+	<p><a href="{% url view ad.id %}" >Lien stable vers l'annonce</a></p>
+	
+	{% for img in ad.homeforsaleadpicture_set.all %}
+		<img src="{% thumbnail img.image 200 130 %}" />
+	{% endfor %}
+	<div style="clear:both"></div>
+	<p>
+		{{ ad.description|linebreaksbr  }}
+	</p>
+	<div class="atom" >
+		<h3>Critères énergétiques</h3>
+		<p>
+			Consommation énergétique : {{ ad.get_energy_consumption_display }}	
+			<br />
+			Emission de gaz à effets de serre : {{ ad.emission_of_greenhouse_gases }}
+		</p>
+		{% if ad.floor or ad.orientation %}
+		<h3>Situation du logement</h3>
+		<p>
+		{{ ad.floor }}<sup>e</sup> étage {% if ad.top_floor %}(ce bien est situé au dernier étage){% endif %}
+		<br />
+		Orientation : {{ ad.get_orientation_display }}
+		</p>
+		{% endif %}
+
+		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
+		<h3>A propos de l'immeuble</h3>
+		<p>
+		{% if ad.elevator %}Ascenseur<br />{% endif %}
+		{% if ad.intercom %}Interphone<br />{% endif %}
+		{% if ad.digicode %}Digicode<br />{% endif %}
+		{% if ad.doorman %}Gardien{% endif %}
+		</p>
+		{% endif %}
+
+		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.parquet or ad.terrace or ad.balcony %}
+		<h3>Commodités</h3>
+		<p>
+		{% if ad.heating %}Chauffage : {{ ad.get_heating_display }}<br />{% endif %}
+		{% if ad.kitchen %}Cuisine : {{ ad.get_kitchen_display }}<br />{% endif %}
+		{% if ad.duplex %}Duplex<br />{% endif %}
+		{% if ad.swimming_pool %}Piscine<br />{% endif %}
+		{% if ad.alarm %}Alarme<br />{% endif %}
+		{% if ad.air_conditioning %}Air conditionné<br />{% endif %}
+		{% if ad.fireplace %}Cheminée<br />{% endif %}
+		{% if ad.parquet %}Parquet<br />{% endif %}
+		{% if ad.terrace %}Terrasse<br />{% endif %}
+		{% if ad.balcony %}Balcon{% endif %}
+		</p>
+		{% endif %}
+
+		{% if ad.separate_dining_room or ad.living_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
+		<h3>Pièces</h3>
+		<p>
+		{% if ad.separate_dining_room %}Salle à manger séparée<br />{% endif %}
+		{% if ad.living_room %}Salon<br />{% endif %}
+		{% if ad.separate_toilet %}Toilette séparée<br />{% endif %}
+		{% if ad.bathroom %}Salle de bain<br />{% endif %}
+		{% if ad.shower %}Douche<br />{% endif %}
+		{% if ad.separate_entrance %}Entrée séparée{% endif %}
+		</p>
+		{% endif %}
+
+		{% if ad.cellar or ad.cupboards or ad.open_parking or ad.box %}
+		<h3>Rangements</h3>
+		<p>
+		{% if ad.cellar %}Cave<br />{% endif %}
+		{% if ad.cupboards %}Placards<br />{% endif %}
+		{% if ad.open_parking %}Parking ouvert<br />{% endif %}
+		{% if ad.box %}Boite{% endif %}	
+		</p>
+		{% endif %}
+		</div>
+	<p>
+		<i>
+			Annonce mise en ligne par <a href="{% url userena_profile_detail ad.user_profile.user.username %}">{{ ad.user_profile.user }}</a>
+			<br />
+			Date de création de l'annonce : {{ ad.create_date }}, date de mise à jour : {{ ad.update_date }}
+		</i>
+	</p>
+
+</div>
+
+{% comment %}
+<div class="atom">
+{% if user.is_authenticated %}
+	<form action="" method="POST">
+		<h3>Contacter le vendeur</h3>
+	<table>
+		{% csrf_token %}
+		{{ contact_form.as_table }}
+		<tr>
+			<td></td>
+			<td><button type="submit">Ecrire au vendeur</button></td>
+		</tr>
+	</table>
+	</form>
+{% else %}
+	<div class="content">
+		<p>Pour écrire au vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
+	</div>
+{% endif %}
+</div>
+{% endcomment %}
+
+{% endblock %}
+</div>

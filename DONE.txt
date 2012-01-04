@@ -1,0 +1,364 @@
+
+Correction du 2 janvier 2012
+
+OK - refaire bouton comme avant
+OK - refaire onglet comme avant
+OK - refaire le bandeau 1.2.3
+OK - revoir les mots clefs, 'home staging', 'loi scellier', 'sans frais', 'sans intermédiaire', 'gratuit', 'vendre son appartement'
+OK 1- geoip (=> refonte formulaire)
+OK 2- google drawing (=> refonte template)
+OK 3- responsive design (=> refonte template général)
+OK - refaire le design graphique du bouton submit pour l'ajout d'un bien
+OK - revoir lightbox
+OK - revoir detail annonce
+OK - changer "proposer un bien" en "vendre un bien"
+OK - style 'couleur maitre' en variable
+OK - mettre achetersanscom à côté de louersanscom pour le switch en plus petit
+OK - revoir les messages dans le template
+OK - detail d'une annonce pour louersanscom
+OK - assurer l'unicité du slug des annonces
+
+
+- pour louersanscom : 
+	OK "recherche une location", "proposer une location"
+	critère vendeur : 
+		OK virer parking et autre, 
+		OK adresse, 
+		OK meublé (ou non), 
+		OK loyer (e par mois), 
+		OK charge comprise case à cocher ou montant des charges, 
+		OK surface habitable (carrez et pas carrez), 
+		OK nombre de pice, 
+		OK nombre de chambre, 
+		OK taxe habitation (mais pas foncière), 
+		OK PAS consommation energétique, 
+		OK si meublé, indiquer le type de meuble, électroménager, et de commodités, 
+		OK virer cuisine équipée, 
+		OK virer cave, 
+		OK virer alarme, 
+		OK virer climatisation, 
+		OK virer piscine, 
+		OK virer cheminée, 
+		OK on garde pièces sauf entrée séparée, 
+		information complémentaire devient 'description'
+	filtres  recherche : 
+		OK loyer, 
+		OK surface, 
+		OK virer parking et autre 
+		OK mettre 'type de bien', bien meublé (et non appartement), 
+		OK pas de surface du terrain, 
+		OK pas de situation, 
+		OK plus de 'a propos de l'immeuble' 
+		OK mais garder ascenceur, 
+		OK pas de commodité, 
+		OK pas de pièce, 
+		OK pas de critères énergétiques,
+
+
+OK - bug suppression d'une annonce non modérée.
+OK - lorsque souris sur un icone de résultat de recherche, enlever le tool tip 'cliquer pour dessiner la zone ...'
+OK - lors que l'on enregistre une annonce, on tombe sur une page ou l'on ne la modifie plus
+KO - descendre l'enregistrement à mailing list, au dessous de recherche, quand on a une recherche, ça y est
+
+
+OK - si form pas valid lors de l'ajout : il faut indiquer de nous contacter par mail : "Si vous rencontrez des difficultés, envoyez un mail à contact@achetersanscom.com , une aide et un support vous serons apportés dans les plus brefs délais"
+OK - a mon avis, simplifier l'ajout d'un bien en indiquant qu'un seul champ 'adresse' que l'on verifiera.
+OK - tjrs un entier Ajouter Taxe foncière "Montant annuel, sans espace, sans virgule", Taxe d'habitation "Montant annuel, sans espace, sans virgule" et Charges "Montant mensuel, sans espace, sans virgule": , 
+OK - track de l'utilisateur inscrit puis enregistré
+OK - lors d'un utilisateur sur la page add, envoyer par mail les erreur si form pas valid
+OK - page d'accueil, juste les 10 dernières annonces (et c tout pas plus)
+OK - améliorer pour les maison le 'surface du terrain' 
+
+OK - lorsque valeur dans search : pb : il n'y a pas le - par défaut
+OK - date du serveur
+OK - form search bug nb_of_rooms si rempli !
+OK - verifier que les alertes admin arrivent bien à anne aussi
+OK - page 505
+OK - alert sur 'supprimer'
+OK - effacer la zone doit effacer aussi le textarea !
+OK - Attention aux bien qui sont supprimés !!!
+OK - vérifier le déploiement de mis à jour
+OK - conserver les flatpages
+OK - ajouter le champs adresse ?
+OK - faire en sorte que l'id des ad ce soit 'ALFKD'
+OK - améliorer le style css couleur
+OK - unité sur les consommation energétiques fiche détaillée
+OK - mettre à jour tous ce qui est sur internet
+OK - faire comprendre qu'il faut dessiner sur la carte: pour aide dessin carte : pictogramme juste au dessus de la carte pour comprendre
+OK - les images ne sont pas affichée, peut être enregistrée
+OK- inscrivez vous/message de validation sur le site à changer :"Merci de votre inscription sur Achetersanscom.
+Un message vous a été envoyé sur votre boite mail: merci d'activer le lien afin de valider votre inscription et de profiter de nos services. L'activation nous permet de vérifier que vous êtes bien le propriétaire de cette adresse e-mail.
+Pour des raisons de sécurité, ce lien n'est actif que 7 jours. Au-delà, vous devrez renouveler votre inscription sur Achetersanscom.com"
+OK - et mettre le tout dans un cadre blanc comme la page précédente
+OK - mot de passe oublié/après avoir renseigné l'email, le texte de confirmation est à mettre dans un cadre jaune
+OK - changer la phrase "Vous pouvez maintenantconnexion avec votre nouveau mot de passe. " en "Votre nouveau mot de passe a été enregistré OU Vous pouvez maintenant vous connecter avec votre nouveau mot de passe"
+OK - vérifier que le mail d'acceptation de moderation est bien envoyé au vendeur !
+OK - USERENA_DISABLE_PROFILE_LIST à mettre sur true ?
+OK - il faut vérifier la mise a jour d'une adresse : 'lyon' et appuyer sur espace, ça ne va pas 
+OK - mise à jour zoom 12 lorsque centre carte sur adresse
+OK - activer le site via http//achetersanscom directement
+OK - chiffre handwrintin plus gros
+OK + préciser pourquoi rentrer son numéro de téléphone
+OK - rajouter champs boolean sur ad pour moderation
+OK - alertes : mettre en place le cron job pour alerte annonce et ajouter 'je veux recevoir des mails pour mes recherches ?'
+OK - problème des nom des recherches vides dans l'espace personnel
+proposer un bien:
+OK - Rajouter un champs surface loi carrez pour les appart seulement surface: préciser "surface habitable", rajouter une case pour préciser surface loi carrez afin que l'acheteur qui consulte l'annonce est l'info
+OK - rendre non obligatoire les diagnostiques énergétiques
+OK - sauvegarder votre recherche: après avoir lancé une recherche, me proposer de sauvegarder ma recherche en haut à coté de "inscrivez vous pour recevoir les alertes mail" en mettant "inscrivez vous... OU POUR SAUVGARDER VOTTRE RECHERCHE"
+OK - inscrivez vous: "signup" à changer en "inscription"
+KO - inscrivez vous: si j'ai déjà un compte il me dit juste que j'ai déjà un compte
+OK pour le numéro de téléphone, si le vendeur l'a renseigné, par contre, ça risque d'encourager les appels des agents immobiliers (alors que le mail, on a une trace)
+OK - sauver votre recherche: a bien été sauvergardé mais où ? le dire
+OK j'ai trouvé: "mes recherches" dans "mon compte" mais ma recherche n'a pas d'intitulée, elle s'appelle "--" donc demander sous quel nom sauvegarder la recherche quand lje fais "sauvergarder ma recherche" : étape supplémentaire inutile, le nom de la recherche est une concaténation des critères, si pas de critères alors => j'ai amélioré
+OK en dessous de "votre compte" changer "email" en "Adresse email"
+KO-OK + ajouter une phrase pour les acheteurs  après "vous n'avez aucun bien...OU VOUS N'AVEZ AUCUNE RECHERCHE ET AUCUNE AMLERTE EMAIL ENREGISTREE"
+	que pour les recherches, pas pour les alertes qui est un paramètre global pour toutes les recherches
+OK, parce que la page d'accueil, même en mode connecté, ne propose pas d'embler d'enregistrer la recherche.+en dessous de la phrase "opur ajouter un bien en vente..." mettre "pour enregistrer votre recherche ou vous abonner aux alertes email, cliquez ici" et pointez vers la page d'accueil en mode connecté
+OK, mais je propose mieux le "(modifier)" à côté de l'email. - changer mon adresse email: changer "nouvel email" en "Nouvelle adresse e-mail"
+OK + changer le bouton de validation en "Valider"
+OK + quand je rentre mon adresse mail (la meme), le message d'erreur "Vous êtes déjà connu avec cet e-mail." est avec une puce et empiete sur "Nouvel email"
+
+OK viré,  - connection: pourquoi se souvenir de moi que pendant un mois ?
+OK, 'en cours', nécessite changement de code source mais demande en court - mot de passe oublié: changer "courriel" en "adresse email"
+OK + pourquoi "Votre nom d'utilisateur, au cas où vous l'auriez oublié: 91ded" ?? j'ai pas de nom d'utilisateur moi
+OK + enlever le point d'exclamatioin après "merci d'utiliser notre site"
+OK + mettre cordialement plutot que sincèrement
+OK + signer "L'équipe d'Achetersanscom"
+OK + le lien ne marche pas car pointe sur http// sans www- mot de passe oublié: après avoir rentré l'adresse mail, le message qui apparait recouvre le mot "courriel": à décaler
+
+
+connexion:
+OK mais que pour inscription (pour connexion, a priori, ils savent ce qu'ils font)- Rajouter une phrase explicative  du type "Pour mettre un bien en vente, enregistrer vos recherches ou créer une alerte email, vous devez vous inscrire ou vous connecter".
+OK - modifier votre profil: changer "phone number" en "Numéro de téléphone" et ajouter en gris dans le formulaire le format quel'on veut (numéros collés ou séparés par un espace, un point...?)
+OK - inscrivez vous/message de validation recu par mail à changer :
+	"Bonjour mail@mail.com,
+	Merci de votre inscription sur Achetersanscom.
+	Pour activer votre compte d'utilisateur, veuillez cliquer sur le  lien d'activation suivant :
+	L'activation nous permet de vérifier que vous êtes bien le propriétaire de cette adresse e-mail.
+	Pour des raisons de sécurité, ce lien n'est actif que 7 jours. Au-delà, vous devrez renouveler votre inscription sur Achetersanscom.com
+	Cordialement,
+	L'équipe d'Achetersanscom"
+
+Ajouter un bien:
+OK - accès direct sur page s'inscrire
+
+general layout
+OK EN ATTENTE - "vous êtes à présent connecté" et non 'vous avez été connecté'
+KO - faut-il la liste de recherche à gauche
+OK - onglet 'recherche' et onglet 'proposer un bien'
+OK - enlever le 'root' par défaut dans le formulaire
+AT - intégrer pages contact / mentions légales / conditions d'utilisation
+OK - virer le critère Sejour
+OK - dans pièce 'cuisine séparée' et non 'salle à manger séparée'
+OK - dans commodités : cuisine => cuisine équipée  : indifférent oui non
+OK - dans commodités = ajouter cave et parking, et dans parking = 'ouvert fermé indifférant'
+OK - virer placard (du coup, il ne reste plus rien dans rangements)
+OK - duplex va dans situation
+OK - virer 'parquet'
+OK - m2 est un entier et non un float
+OK - sous titre pas suffisament lisible "Annonces immobilières géolocalisées et sans intermédiaires"
+OK - faut il mettre 'immobilière'
+ciffre handwriting plus gros
+
+recherche (page recherche et fonctionalités)
+OK - attention : filtrer au début les non modérér pour les 'derniere annonces publiées'
+OK - mettre toutes les annonces du site au début, carte avec maison par défaut pour éviter la carte moche
+OK - corriger le bug : zone de recherche et pas de résultats, comment doit s'ouvrir la carte
+OK - pas besoin de fermer la forme, mais bon, comment faire comprendre ça
+OK - mettre icone sur la carte
+OK - bouton pour fermer le popup
+OK - si 0 résultats : proposer 'élargir la zone de recherche'
+OK - attention au key press 'return' pendant la recherche, ça loose pas mal
+OK - changer le 'Inconnu' en "Indifférent"
+OK - bug : liste de résultat, on clique, ça ne s'ouvre pas sur la carte
+OK - changer 'dessiner une zone de recherche' en 'dessiner une zone'
+OK - virer le bouton 'consulter les offres' (carré blanc vide quand il y a une recherche)
+OK - écrire "Dessiner votre zone de recherche en cliquant sur la carte" en haut au dessus de la carte
+OK - mettre en haut "Centrer la carte sur votre localisation ...." et descendre les boutons sur la carte, en bas,à droite (fond transparent)
+OK - mettre "critères optionnels" au dessus de budget ... et une petit barre au dessous de chercher / sauver la recherche
+OK - critères energétiques tout en bas de la liste de critères
+OK - virer surface du terrain des critère de filtrage
+OK - si pas d'annonce, que le 'message django', pas le truc au dessous de la carte qui dit 'Pas d'annonces correspondant à votre recherche', 
+et proposer : "modifier votre recherche"
+OK - "lien stable vers l'annonce" devient 'lien vers l'annonce'
+OK - remettre unités devant les critères d'ordonnancement dans le tableau (euros, m2) et mettre 'type de bien' en première colonne (comme le résumé annnonce)
+OK - revoir le pop up annonce : indiquer que le necessaire et le lien vers le détail
+OK - gérer le référencement : sur les pages annonces : mettre les metas les infos logement
+OK - champs pour alerte mail (faire genre)
+KO - "ville ou ici
+KO - réduire un peu la carte ? et augmenter la colonne de droite
+OK - enlever le 'modifier'
+OK - si popup deja ouvert, ne pas le rouvrir !
+KO - page d'attente de résultat genre SNCF, ça serait génial
+OK - sur liste resultat, directement ouvrir la page détaillée sur le mot 'consulter' et afficher l'endroit depuis l'icone
+OK - affiner le stroke-width de la zone de recherche
+
+page détaillée : 
+OK - mettre l'icone maison, 
+OK - revoir la carte avec joli style
+OK - une fois le mail contact envoyé, ne plus afficher le champs
+OK - vérifier l'affichage des images
+OK - revoir les détail des critères (cave ...)
+OK - si pas d'image, pas de 'cliquer sur les photos'
+OK - si 1 chambre, pas de s
+
+espace personnel
+OK - vérifier la suppression des annonces !
+OK - mettre les biens et recherche l'état 'moderation, ....' de manière claire
+OK - login via mail (pas de login ou alors les deux ? c mieux non )
+OK - le lien d'activation : rajouter WWW devant achetersanscom : http://www.achetersanscom... et non http://achetersanscom
+OK - améliorer 'se deconnecter' la page est moche
+OK - faire que l'on ait toutes nos offres dans le profil privé.
+OK - mettre toutes les recherches en cours dans le profil
+OK - dans le profil, les annonces n'arrivent pas a se filrer avec le moderator ...
+OK - dans mon compte rajouter mail
+OK - dans le mail d'activation, mettre le mail
+OK - 'proposer un bien', si pas connecté, direct 's'enregistrer'
+OK - améliorer le login (plus clair !)
+OK - revoir les templates userena (chgt mail ...)
+
+formulaire ajout
+OK - préciser quels champs sont obligatoire et non remplis !
+OK - revoir le layout du formulaire
+KO - petit input pour nb chambre et pieces
+OK - revoir la hauteur des images
+OK - pb pour nouvelles images
+OK - mettre 'title' de image en 'titre'
+OK - pourquoi description est obligatoire ! vérifier
+OK - selon le type de bien, ne pas proposer toutes les options (maison n'a pas d'étages !)
+OK - entrer l'adresse du bien
+OK - par défaut la maison comme icône
+OK - revoir l'outil image
+OK - "type de bien" en premier champ
+OK - pb global d'enregistremetn et visualisation de l'actuel annonce modifiée pour le propriétaire.
+OK - lorsque modif => tjrs en modération pending !
+OK - envoyer un mail lors de l'activation 
+OK - mettre description ailleurs (en bas) et le nommer 'informations complémentaires'
+OK - mieux définir les champs : les aides sont à côté du nom du champs et pas au dessous
+OK - mettre 'prix (E)' et non le champ d'aide au dessous
+OK - surface => surface hors terrain pour les maisons
+OK - refaire le formulaire pour appartement ou maison (séjour, parquet ... ? rangements ?)
+KO - type d'habitation : ne mettre que appartement et maison ? (parking aussi, autre ???)
+OK - indiquer 'mise en ligne dans quelques instants, lorsque votre annonce va être modérée'
+OK - envoyer un mail lors de l'enregistrement ou de la modification d'une annonce
+OK - encourager la mise en ligne de plan
+OK - la modification de bien ne fonctionne pas
+OK - virer le 'reverse geocoding'
+OK - renommer le champs 'localisation' => 'adresse'
+OK - ajouter un bien -> s'inscrire
+
+
+-> depuis le 31 Juillet 2011
+OK - nom d'utilisateur superflux 
+OK - enlever le '1 annonces de bien en vente, sans comm ... ' dans la page d'accueil lorsque pas d'annonce'
+
+-> fixé jusqu'au 30 juillet 2011
+OK - rappatrier openlayers
+OK - footer clear both pour ne pas qu'on empiète dessus
+OK - pb du upload path
+OK - pb edition profile
+OK - virer l'idée de géolocalisation de profile.
+OK - correction du pb des images
+OK - ajouter django compressor
+OK - generic_inlineformset_factory et AdPicutre !
+OK - lorsque zone de localisation est vide  : centrer la carte sur le premier bien ...
+OK - enlever les erreurs du formulaire de recherche lorsque l'on n'a pas de recherche geolocalisée (! trouver pourquoi surtout), le pb du manager geo et de django-filter (à priori) le pb c le formulaire : si localisation vide et rangefilter : loose !
+KO - icone clicable sans nouveau layer, mais style carte améliore lisibilite
+OK - envoi mail lorsque nouvelle annonce correspond aux critères
+OK - possibilite de generer de ads et user automatiquement
+OK - rajouter la possibilité de 'me localiser' sous la carte pour localiser l'utilisateur (rmq arthur)
+OK - 'Inscrivez-vous à l'alerte email.' en messages, à côté du nombre d'annonces de la recherche
+OK - facebook twitter : liens
+KO - virer les critères inutiles, on prefere les garder
+OK - enlever 'inscrivez vous ou logguer vous pour save vos recherches'
+OK - faire checkbox pour type d'habitation
+OK - unité pour consommation énergétique
+OK - ajouter 'Rez- de chaussé' oui-non
+OK - on rajoute : 'sans vis à vis', et on vire 'belle vue'
+OK - sur 'inscrivez-vous' ajouter 'si vous êtes déjà inscrit, connectez-vous'
+OK - ajouter chauffage autre
+OK - orientation, juste Nord, Sud, Est, Ouest
+OK - 'Situation' et non 'Le logement dans l'immeuble'
+OK - surface du terrain, éviter redondance : juste mettre (m2)
+OK - unité (Euros, M2) à cote du nom Buget (e) et non au dessous
+OK - icone twitter facebook
+OK - zoom initial sur paris (bordure périphérique)
+OK - on enlève le popup de 'se localiser'
+OK - depuis result, directement popup carte, puis ensuite autre page annonce détail (et pas annonce détail)
+OK - pouvoir déplier sur le mot h3 de critère recherche
+OK - lien 'me localiser' 
+OK - lorsque l'on réordonne les résults : repasser les param post ?
+OK - afficher l'icone selectionnée ?
+OK - notify moderator ne fonctionne pas lorsque l'on crée ou modifie une annonce
+OK - refaire fonctionner la geo localisation html5
+OK - revoir la localisation simple d'un bien sur la carte dans le détail d'une annonce
+OK - corriger le pb : lorsque l'on clique sur une maison sur la carte : on lance 10 ajax pour chaque maison présente !!!
+OK - mettre 'mettre en vente un bien' même si pas logué
+OK - revoir approved mail : indiquer la provenance etc.
+OK - si pas de recherche, pas d'affichage de maison sur la carte ?
+OK - restreindre le nombre de bien sur la carte aussi
+OK - ajouter le détail d'une offre non pas en 'popup' mais en inline : entre la carte 
+OK - il faudrait mieux un truc du genre : si zone dessinée : on centre sur la zone, si pas de zone dessinée : on centre sur html5 localisation
+OK - on clique sur une maison : on ouvre l'annonce
+OK - vérifier mail pour modération => utilisateur
+OK - ajouter mail contact@achetersanscom.com
+OK - test mail sur serveur de prod
+OK - pour le bug userena, (ce n'est pas parceque root n'a pas de profile userena)
+OK - vérifier déploiement qui marche (ajout de oui ou non recreation d'un virtualenv)
+OK - depuis openrangefilter : par défaut ouverture des recherches
+OK - indiquer le nombre de biens correspondant à la recherche en 'messages' en haut
+OK - range open ended : https://github.com/subsume/django-filter-actually-maintained/commit/6eeb6350e0c9a741eddcb8fec13ab8a1a2200632
+OK - correction bug view search si recherche ou filtrage des results
+OK - mettre des icone pour les maison
+OK - mettre une icone pour la localisation de l'utilisateur
+OK - vérifier pourquoi la maison ne s'affiche plus sur la carte !
+OK - dans le formulaire d'ajout indiquer les unités
+OK - enlever la date de naissance
+OK - lors de création d'une nouvelle fiche : pas d'enregistrement de la localisation ! 
+OK - dans le détail d'un profile, il faut vérifier que seules les ads valident s'affichent sur le profile
+OK - enlever le tele atlas popup sur carte à l'initialisation
+OK - détails cosommation énergétiques
+OK - faire le style de toutes les pages
+OK - rajouter critères filtrage réponses, classement des résultats dans un tableau https://gist.github.com/386835
+OK - commencer les tests de déploiement
+OK - revoir les templates pour userena : il ne reste plus que la vue du profil : il faut copier/coller/surcharger edit view
+OK - enlever la preview wtk sur la localisation
+OK - defaut : france, mieux : geolocalisation si pas de valeur et pas d'annonces et sinon défaut france/europe
+OK - deploiement
+OK - vérifier que si y'a pas d'annonces, ç marche quand même à cause du sorting
+OK - rediriger la page d'accueil direct sur search, sans passer par un redirect
+OK - gérer django-filter, django-sorting, django-paginator ensemble
+OK - résoudre soucis de webservice google
+OK (mais mal fait)- filtrer le pb de django-filter qui outrepasse l'application de moderation
+OK - pb template login en anglais
+OK - corriger pb localisation point user et ad
+OK - mettre les biens filtrés sur la carte de recherche
+OK - virer le truc de profile idios, il faut mettre un truc facile
+OK - rajouter min max help text to range.
+OK - maison sur la carte de recerche avec click -> detail sur la carte.
+OK - préciser le nom d'une recherche (genre localisation ? prix, entre ... et surface .. nb de pices)
+OK- refaire page de recherche avec critre à droite
+OK - mettre le centrage auto sur la carte de recherche si non loggé ?
+OK - virer la page d'accueil
+OK - reinitialiser la recherche (mettre à zéro)
+OK - + - pour les critères peu important
+OK - virer l'application 'web' qui ne sert plus
+
+OK, mais changé un peu (max 4 photo donc pas possible de mettre les 5 pièces et dehors, d'autant plus que google map peut faire l'extérieur,) - Les champs obligatoires sont identifiés par une *. Nous vous conseillons de renseigner le maximum de champs, d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos (une de chaque pièce ainsi que des vues de l'aspect extérieur de votre bien): en effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète et seront mieux à même de cibler les biens susceptibles de vraiment corresopndre à meur besoin: les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéréssés par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites superflues qui auront peu de chance d'aboutir.
+OK - enlever dans le titre (obligatoires)
+OK - type de bien à mettre en premier
+OK - préciser par une étoile les champs obligatoires (et mettre un renvoi en bas en italique: ce champ est obligatoire"
+OK - si on sélectionne appartement ou parking, enlever surface du terrain
+OK - si on sélectionne maison, enlever "a propos de l'immeuble"
+OK - localisation: mettre deux exemples d'adresse en gris italique à coté du formulaire
+OK + mettre la carte à coté en plus petit et plus zoomé
+OK - parking: mettre "place de parking/box fermé ", si pas de parking on choisit ----
+OK - piscine à mettre en dernier choix dans les commodités
+OK, mais 'Nom de la pièce ou de la vue':- photos: changer title en "préciser la pièce ou la vue représentée sur la photo"
+OK- informations complémentaires: attention cadre qui dépasse à droite
+OK : question de bon sens pour les vendeurs. - orientation: mettre champ libre car ca depend des pieces
+OK  est ce vraiment important ? / compliqué pour l'utilisateur - cheminée: liste de choix: "foyer ouvert/insert", si pas de cheminée, on choisit ---
+OK, juste liste à revoir nous même - chauffage: mettre "individuel gaz/ individuel électrique / collectif gaz / collectif fuel / collectif réseau de chaleur / autres: préciser"
+OK ? est ce vraiment important ? / compliqué, l'utilisateur le rajoutera - balcon et terrasse: oui: préciser surface, sinon ----
+OK ? est ce vraiment imporntant ? / compliqué utilisateur - salle de bain, salle d'eau, toilettes: rajouter combien

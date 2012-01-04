@@ -1,0 +1,26 @@
+body {
+	background-size:100% 52px, 100% 30px;
+}
+#site, #header, #footer {
+	width:800px;
+}
+#header {
+	height:52px;
+}
+#footer {
+	height:30px;
+}
+#main {
+	float:left;
+	width:60%;
+}
+#right_column {
+	float:right;
+	width:40%;
+	min-height:400px;
+}
+
+.userena form {
+	margin:0 0;
+	width:80%;
+}

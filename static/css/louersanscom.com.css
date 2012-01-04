@@ -1,0 +1,36 @@
+header {
+    border-bottom: 5px solid pink;
+}
+
+footer {
+    border-top: 5px solid pink;
+}
+
+.sanscom_font {
+	color:pink;
+}
+
+.bloc_title {
+    background-color: pink;
+}
+
+#address, #localize {
+	border: 1px solid pink;
+}
+
+#header > h1 {
+    background: url("../img/apartment.png") no-repeat scroll 0 10px transparent;
+}
+
+.icon {
+	background: url("../img/apartment.png") no-repeat transparent;
+	background-size: 19px 19px;
+
+}
+
+.userena form input[type="submit"], button[type="submit"] {
+    background-color: #9d81a1;
+}
+
+
+/* #9d81a1 */

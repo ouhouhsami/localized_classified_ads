@@ -1,0 +1,23 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}AcheterSansCom | {% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<form action="" method="post" class="pretty_form">
+  <div class="form">
+	<div class="form_adson" style="margin-top:0px">
+		Pour mettre un bien en vente ou enregistrer vos recherches, vous devez vous inscrire.
+	</div>
+	<h2 class="hightlight_title">Inscription</h2>
+  <fieldset>
+    {% csrf_token %}
+    {% include "userena/form_snippet.html" with submit="Valider" %} 
+  </fieldset>
+  </div>
+	<div class="form_adson">
+	Si vous êtes déjà inscrit, <a href="{% url userena_signin %}">connectez-vous</a>.
+	</div>
+</form>
+
+{% endblock %}

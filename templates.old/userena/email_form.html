@@ -1,0 +1,23 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block content_title %}AcheterSansCom | {% blocktrans with user.username as username %}Account &raquo; {{ username }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+
+<div id="userena_email_change">
+
+{% include "userena/menu_snippet.html" %}
+
+<form action="" method="post" class="pretty_form">
+	<div class="form">
+		<h2 class="hightlight_title">{% trans "Change email address" %}</h2>
+		{% csrf_token %}
+		<fieldset>
+			{% include "userena/form_snippet.html" with submit="Valider"%}
+		</fieldset>
+	</div>
+</form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% load static compress i18n %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>{% block title %}{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées{% endblock %}</title>
+		{% block meta %}
+		<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,
+		                                         annonces immobilières,ventes,achat,location,
+		                                         vendre,louer,parking,achetersanscom,
+		                                         acheter sans com, sans commission" />
+		<meta name="description" lang="fr" content="AcheterSansCom propose des annonces immobilières 
+		                                  sans intermédiaires et géolocalisées. AcheterSansCom permet d'acheter
+		                                  sans agence ou de vendre sans commission. La mise en ligne 
+		                                  et la consultation des annonces est gratuite." />
+		{% endblock %}
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}favicon.ico">
+		<link rel="stylesheet" href="{{ STATIC_URL }}jquery-ui-1.8.13/themes/base/jquery.ui.all.css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css">
+		<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}css/style.less"> <script src="{{ STATIC_URL }}js/less.js" type="text/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="{{ STATIC_URL }}js/jquery.placeholder-enhanced.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		if(typeof console === "undefined") {
+			console = { log: function() { } };
+		}
+		</script>
+		{% block media %}
+		{% endblock %}
+		{% block javascript %}
+		{% endblock %}
+		{% block css %}
+		{% endblock %}
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-17174958-2']);
+		  _gaq.push(['_setDomainName', 'achetersanscom.com']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</head>
+	<body>
+		<div id="header_background">
+			<div id='header'>
+				<div id="registration" class="horizontal_menu">
+					{% if user.is_authenticated %}
+					<a class="signup left button" href="{% url userena_profile_detail user.username %}"><span class="user icon"></span>Mon compte</a>
+					<a href="{% url userena_signout %}" class="right button"><span class="rightarrow icon"></span>Se déconnecter</a>
+					{% else %}
+					<a class="signup right button" href="{% url userena_signup %}" >S'inscrire</a>
+					<a class="login left button" href="{% url userena_signin %}" >Se Connecter</a></li>
+					{% endif %}
+				</div>
+				<div class="title">
+					<h1 style="display:inline">
+						<a href="{% url search %}">
+							<img alt="logo achetersanscom" style="margin-bottom:-9px; padding-right:0px; margin-left:-3px" src="{{ STATIC_URL }}img/home.png" />
+							Acheter<span class="u_title">SansCom</span>
+						</a>
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div id="site">
+			{% block subtitle %}
+			{% endblock %}
+			<div id="content">
+				{% if messages %}
+				<ul class="messages">
+    				{% for message in messages %}
+    				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
+    				{% endfor %}
+				</ul>
+				{% endif %}
+				
+				{% if form.errors %}
+				<ul class="messages">
+					<li class="error"> 
+						{% blocktrans count form.errors|length as counter %}
+							Votre formulaire comporte une erreur. Corrigez-la ci-dessous et validez de nouveau le formulaire.
+						{% plural %}
+							Votre formulaire comporte des erreurs. Corrigez-les ci-dessous et validez de nouveau le formulaire.
+						{% endblocktrans %}
+						<br />
+						Si vous rencontrez des difficultés, envoyez un mail à <a href="mailto:contact@achetersanscom.com">contact@achetersanscom.com</a>, une aide et un support vous serons apportés dans les plus brefs délais.
+						</li>
+				</ul>
+				{% endif %}
+				
+				<div id="main_menu">
+					{% block main_menu %}
+					<a href="{% url search %}" class="main_menu_item_unselected">Rechercher un bien</a>
+					<a href="{% url add %}" class="main_menu_item_unselected" >Proposer un bien</a>
+					{% endblock %}
+				</div>
+				<div class="main-content">
+					{% block content %}
+					{% endblock %}
+				</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+
+		<div id="footer_background">
+			<div id='footer'>
+				<p style="float:right;margin:0px;">
+					<a href="http://www.achetersanscom.com/a-propos/">En savoir plus</a>
+					<a href="http://www.achetersanscom.com/legal/">Mentions légales</a>
+					<a href="http://www.achetersanscom.com/cgu/">Conditions d'utilisation</a>
+					<a href="http://twitter.com/#!/achetersanscom"><img src="{{ STATIC_URL }}img/small_twitter_icon.png" alt="logo twitter"></a>
+					<a href="http://www.facebook.com/album.php?profile=1&amp;id=124133527629884"><img src="{{ STATIC_URL }}img/small_facebook_icon.png" alt="logo facebook"></a>
+				</p>	
+				© 2011 AcheterSansCom
+			</div>
+		</div>
+	</body>
+</html>

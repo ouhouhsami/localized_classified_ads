@@ -1,0 +1,154 @@
+/* --- STYLES DE BASE --- */
+
+/* Page */
+html {
+  font-size: 100%; /* Évite un bug d'IE 6-7. (1) */
+}
+body {
+  margin: 0;
+  padding: 0; /* Remettre à zéro si nécessaire. */
+  /* Pensez à utiliser une collection de polices (2), par ex:
+  font-family: Arial, Helvetica, FreeSans, sans-serif; */
+  font-size: .8em; /* À adapter pour la police choisie. (3) */
+  line-height: 1.4; /* À adapter au design. (4) */
+  color: black;
+  background: white;
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 .5em 0; /* Rapproche le titre du texte. (5) */
+  line-height: 1.2;
+  font-weight: bold; /* Valeur par défaut. (6) */
+  font-style: normal;
+}
+h1 {
+  font-size: 1.75em;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3 {
+  font-size: 1.25em;
+}
+h4 {
+  font-size: 1em;
+}
+
+/* Listes */
+ul, ol {
+  margin: .75em 0 .75em 32px;
+  padding: 0;
+}
+
+/* Paragraphes */
+p {
+  margin: .75em 0; /* Marges plus faibles que par défaut. (7) */
+}
+address {
+  margin: .75em 0;
+  font-style: normal;
+}
+
+/* Liens */
+a {
+  text-decoration: underline;
+}
+a:link {
+  color: #11C;
+}
+a:visited {
+  color: #339;
+}
+a:hover, a:focus, a:active {
+  color: #00F;
+}
+
+/* Pas de bordure autour des images dans les liens */
+a img {
+  border: none;
+}
+
+/* Divers éléments de type en-ligne (8) */
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+}
+
+/* Formulaires */
+form, fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+input, button, select {
+  vertical-align: middle; /* Solution pb. d'alignement. (9) */
+}
+
+
+/* --- STYLES DE BASE SUPPLÉMENTAIRES --- */
+
+/* Met en évidence les abréviations (ayant un attribut title) */
+abbr[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+
+/* Met en évidence les citations */
+blockquote {
+  margin: .75em 0 .75em 20px;
+  padding: 0 0 0 10px;
+  border-left: solid 2px #ddd;
+}
+q, cite {
+  font-style: italic;
+}
+q cite, q q {
+  font-style: normal
+}
+
+/* Supprime les guillemets automatiques (citations courtes) */
+q {
+  quotes: none;
+}
+q:before, q:after {
+  content: ""; /* Nécessaire pour Safari/Chrome */
+}
+
+/* Rapproche les paragraphes dans les listes et citations */
+blockquote p, li p {
+  margin: .5em 0;
+}
+
+/* Styles de base pour les listes de définition */
+dl {
+  margin: .75em 0;
+}
+dt {
+  margin: .75em 0 0 0;
+  font-weight: bold;
+}
+dd {
+  margin: .25em 0 .25em 32px;
+}
+
+/* Mise en forme simple pour les tableaux */
+table {
+  margin: 0;
+  border: 1px solid gray; /* Pas de bordure = "none". */
+  border-collapse: collapse; /* Valeur par défaut: "separate". */
+  border-spacing: 0;
+}
+table td, table th {
+  padding: 4px; /* Pas de retrait autour du texte = "0". */
+  border: 1px solid #ccc; /* Pas de bordure = "none". */
+  vertical-align: top; /* Valeur par défaut: "middle" */
+}
+
+/* Conteneurs sémantiques de HTML 5 */
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section {
+  display: block;
+}

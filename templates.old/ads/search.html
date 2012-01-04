@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+{% load l10n %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load ads_tag %}
+{% load utils_tags %}
+{% load compress %}
+
+{% block media %}
+	
+	
+	{{ filter.form.media.css }}
+	
+	{{ filter.form.media.js }}
+
+
+	<script>
+		$(document).ready(function(){	
+			$('.atom_content').each(function(index) {
+				if($(this).find('.has_value').length == 0){
+					$(this).hide('fast')
+				}else {
+					$(this).parent().find('.icon').removeClass('plus').addClass('cross')
+					$(this).parent().find('.extend').html('-')
+				}
+			})
+			$('.extend').click(function(evt){
+				if($(this).html() == '+'){
+					$(this).html('-')
+					$(this).parent().next().show('fast')
+				}else{
+					$(this).html('+')
+					$(this).parent().next().find(':input').val('').removeAttr('checked').removeAttr('selected')
+					$(this).parent().next().hide('fast')
+				}
+				evt.stopPropagation()
+			})
+			$('.atom_title').click(function(evt){ 
+				$(this).find('.extend').trigger('click')
+			})
+
+    	});
+	</script>
+
+    <script type="text/javascript">
+    $(function (){
+		$('.result_header a').click(function(evt){
+			$("#search").attr('action', $(this).attr('href'))
+			$("#search").submit()
+			return false
+		})
+    });
+    </script>
+
+
+{% endblock %}
+
+
+{% block main_menu %}
+	<a href="{% url search %}" class="main_menu_item_selected">Rechercher un bien</a>
+	<a href="{% url add %}" class="main_menu_item_unselected" >Proposer un bien</a>
+{% endblock %}
+
+
+			{% block subtitle %}
+			{% if search %}
+			{% else %}
+			<p class="subtitle">Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b></p>
+			{% endif %}			
+			{% endblock %}
+
+
+{% block content %}
+
+	{{ filter.form.errors }}
+	
+	
+
+
+    <form action="{% url search %}" method="POST" id="search" style="">
+
+	
+	<div class="helper">
+		<div class="ex">&nbsp;</div>
+	<div style="padding-top:4px;font-weight:bold;">
+	<div class="non-location-field" style="height:54px;width:247px;margin-right:0px;padding:0px;padding-bottom:0px;min-height:20px; margin-top:0px;padding-top:0px; padding-left:4px;">
+	<div  class="helper_text" style="text-align:center;height:50px;margin-top:10px">
+	<!-- <span style="color:black;font-family:AlphaMacAOE">3.</span> -->
+		<button type="submit" value="search" class="fancy_button" name="search"><span style="background-color:LightSeaGreen;font-family:TypoSlabserif;"><span style="font-family:AlphaMacAOE">3.</span> Rechercher</span></button>
+		<!--
+		{% if search and user.is_authenticated %}
+        	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% else %}
+			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% endif %}	
+		 -->
+	</div>
+	</div>
+	<div class="location-field" style="padding-bottom:0px;margin-right:265px;margin-bottom:0px;">
+		<div class="helper_text" ><span style="font-family:AlphaMacAOE">1.</span> Centrer la carte sur votre <a href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" style="" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte" />
+		<br />
+		<span style="color:black;font-family:AlphaMacAOE">2.</span> Cliquer sur la carte pour dessiner votre zone de recherche<!-- (<a href="javascript:initPath()" style="font-weight:normal;">effacer</a>)  --></div>
+	</div>
+	<div style="clear:both"></div>
+	</div>
+	</div>
+	<div style="position:absolute;margin-top:-20px;margin-left:15px; z-index:1"><img src="{{ STATIC_URL }}img/help_arrow.png" alt="help image"/></div >
+
+
+		{% csrf_token %}
+		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
+	
+	<div class="search_form non-location-field" style="padding-top:0px; padding-right: 15px;padding-left:0px;">
+		
+		<!-- FORM ACTIONS -->
+		
+		<!-- 
+		<div class="search_buttons">
+		 <div style="text-align:center"><span class="map_help_number_2" >3.</span> <button type="submit" value="search" name="search">Rechercher</button>
+		</div>
+		{% if search and user.is_authenticated %}
+        	<button type="submit" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% else %}
+			<button type="submit" style="display:none" disabled="disabled" value="save and search" name="save_and_search" class="button"><span class="pen icon"></span>Sauver la recherche</button>
+		{% endif %}	
+		</div>
+		-->	
+		<!-- border-top:1px solid #CACACA; -->
+		<div style="margin-top:10px;padding-top:6px; padding-left:4px;padding-top:0px;margin-top:0px;"><b>Critères optionnels</b></div>
+		<!-- NON LOCATION FIELDS -->	
+		{% for fieldset in filter.form.fieldsets %}
+			{% if fieldset.name != 'location' %}
+			<div class="atom {{ fieldset.classes }}">
+				{% if fieldset.legend != fieldset.name %}
+				<h3 class="atom_title" style="cursor:pointer; font-weight:normal"><a class="extend">+</a> <!-- <a class="pill button extend"><span class="plus icon"></span></a> -->{{ fieldset.legend }}</h3>
+				{% else %}
+				{% endif %}
+				<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
+					{% if fieldset.description %}
+					<p class="description">{{ fieldset.description }}</p>
+					{% endif %}
+						<table>
+							{% for field in fieldset %}
+								{% if field.is_hidden %}
+									{{ field }}
+								{% else %}
+									<tr{{ field.row_attrs }}>
+										<td>{{ field.label_tag }}</td>
+										<td class="{% has_value field %}">
+											{{ field }}
+											{% if field.help_text %}<br />{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}{% endif %}
+											{% if field.errors %}<br />{{ field.errors }}{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</table>
+				</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+		
+	<div style="margin-right:265px;" >
+		
+		<div class="search_form location-field" style="padding-top:0px;margin-top:0px">
+		<!-- LOCATION FIELD -->
+		<div class="atom {{ fieldset.classes }}" >
+			<!-- <p class="special_text"><img src="{{ STATIC_URL }}img/preview-draw.png" style="padding-right:4px; margin-bottom:-8px"><b>{{ filter.form.fieldsets.location.legend }}</b></p>-->
+			<!--<p class="description">{{ filter.form.fieldsets.location.description }}</p> -->
+			
+			<!--<img src="{{ STATIC_URL }}img/bandeau.png" />-->
+			
+			{% for field in filter.form.fieldsets.location %}
+				{% if field.is_hidden %}
+					{{ field }}
+					{% else %}
+					<div style="padding-top:8px; padding-top:0px;"> {{ field }} {{ field.errors }}</div>
+					{% if field.value %}
+					<script>			
+							var location_value = true
+					</script>
+					{% else %}
+					<script>
+							var location_value = false
+					</script>
+					{% endif %}
+					{% endif %}
+			{% endfor %}
+		</div>
+		
+		</div>
+		
+		<!-- RESULTS -->
+
+		{% if search %}
+
+			
+		{% if filter.qs %}
+		<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
+				
+		{% autosort filter.qs as sorted_objects %}
+		{% autopaginate sorted_objects 10 as object_list %}
+
+		<div id="results_detail" style="display:none;visibility:hidden">
+			{% for ad in object_list %}
+				{% include 'ads/view_popup.html' %}
+			{% endfor %}
+		</div>
+		
+		<div class="atom">
+
+			{% if search and user.is_authenticated %}
+        	<button style="float:right" type="submit" value="save and search" name="save_and_search" class="button save_search"><span class="pen icon"></span>Sauver la recherche</button>
+			{% endif %}	
+			<h3 class="extended_title">Résultats de la recherche</h3>
+
+
+
+			<table>
+				<tr class="result_header">
+					<th></th>
+					<th>{% anchor habitation_type "Type de bien" %}</th>
+					<th>{% anchor price "Prix (€)" %}</th>
+					<th>{% anchor surface "Surface (m²)" %}</th>
+					<th>{% anchor nb_of_rooms "Pièces" %}</th>
+					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
+					<th></th>
+				</tr>
+				{% for ad in object_list %}
+				<tr class="{% cycle 'even' 'odd' %}">
+					<td style="text-align:left">
+						<a href="#" class="small_button" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img style="margin-bottom:-3px;" height="15" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte"/> Localiser sur la carte
+						</a>
+						
+					</td>
+					<!--<td class="ad_title"><a href="{% url view ad.id %}" class="ajax">{{ ad.title }}</a></td>-->
+					<td>{{ ad.get_habitation_type_display }}</td>
+					<td>{{ ad.price|priceformat }}</td>
+					<td>{{ ad.surface }}</td>
+					<td>{{ ad.nb_of_rooms }}</td>
+					<td>{{ ad.nb_of_bedrooms }}</td>
+					<td>
+						<a  class="small_button"  href="{% url view ad.slug %}" target="_blank">Détail de l'annonce</a>
+					</td>
+
+				</tr>
+				{% endfor %}
+			</table>
+			{% for ad in object_list %}
+				<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.slug %}", 'ad_{{ ad.id }}', 'true')</script>
+
+			{% endfor %}
+			{% paginate %}
+		</div>
+		</div>
+		{% else  %}
+	
+		<div class="atom">
+			<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
+			{% if search and user.is_authenticated %}
+        	<button style="float:right" type="submit" value="save and search" name="save_and_search" class="button save_search"><span class="pen icon"></span>Sauver la recherche</button>
+			{% endif %}	
+			<h3 class="extended_title"  style="border:0px solid transparent;">Résultats de la recherche</h3>
+			</div>
+		</div>
+
+		{% endif %}
+
+		
+
+		
+		{% else %}
+
+		<div id="results" style="padding:10px; padding-right:0px;padding-top:0px">
+				
+		{% autosort initial_ads as initial_sorted_objects %}
+		{% autopaginate initial_sorted_objects 10 as initial_object_list %}
+
+		<div id="results_detail" style="display:none;visibility:hidden">
+			{% for ad in initial_object_list %}
+				{% include 'ads/view_popup.html' %}
+			{% endfor %}
+		</div>
+		
+		<div class="atom" >
+			<h3 class="extended_title" style="border:0px solid transparent;">Les {{ initial_object_list|length }} dernières annonces publiées</h3>
+			<table>
+				<tr class="result_header">
+					<th></th>
+					<th>{% anchor habitation_type "Type de bien" %}</th>
+					<th>{% anchor price "Prix (€)" %}</th>
+					<th>{% anchor surface "Surface (m²)" %}</th>
+					<th>{% anchor nb_of_rooms "Pièces" %}</th>
+					<th>{% anchor nb_of_bedrooms "Chambres" %}</th>
+					<th></th>
+				</tr>
+				{% for ad in initial_object_list %}
+				<tr class="{% cycle 'even' 'odd' %}">
+					<td style="text-align:left">
+						<a class="small_button" href="#" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;">
+						<img height="15" style="margin-bottom:-3px;" src="{{ STATIC_URL }}img/home.png" title="Cliquer pour localiser l'annonce sur la carte" /> Afficher sur la carte
+						</a>
+					</td>
+					<td>{{ ad.get_habitation_type_display }}</td>
+					<td>{{ ad.price|priceformat }}</td>
+					<td>{{ ad.surface }}</td>
+					<td>{{ ad.nb_of_rooms }}</td>
+					<td>{{ ad.nb_of_bedrooms }}</td>
+					<td>
+						<a class="small_button" href="{% url view ad.slug %}" target="_blank">Détail de l'annonce</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+			{% for ad in initial_object_list %}
+				<script type="text/javascript">add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.slug %}", 'ad_{{ ad.id }}', 'false')</script>
+			{% endfor %}
+			{% paginate %}
+		</div>
+		</div>				
+
+		{% endif %}
+				
+	</div>
+		
+		
+    </form>
+{% endblock %}

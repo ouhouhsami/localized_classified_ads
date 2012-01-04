@@ -1,0 +1,97 @@
+body {
+	margin:0;
+	padding:0;
+	color:black;
+	background:#eff0f2;
+	font-family:Arial;
+}
+#site, #header, #footer {
+	margin:0 auto;
+}
+#header, #header > h1 {
+	line-height:52px;	
+}
+
+#footer {
+	line-height:30px;
+}
+
+header {
+	background-image:-moz-linear-gradient(center bottom , #222222 45%, #505050 100%);
+	border-bottom:5px solid #FFB82E;
+}
+footer {
+	background-image:-moz-linear-gradient(center bottom , #505050 45%, #222222 100%);
+	border-top:5px solid #FFB82E;
+}
+#header > h1, #footer > span {
+	margin:0px;
+	float:left;
+}
+#header > h1 {
+	font-size:2.6em;
+	background: url(../img/home.png) no-repeat 0px 10px;
+	padding-left:32px;
+	text-shadow: 1px 1px 7px #000000;
+}
+
+#header > ul, #footer > ul {
+	float:right;
+}
+#header > ul > li, #footer > ul > li, #menu li {
+	float:left;
+}
+#menu, #header > ul, #footer > ul {
+	list-style:none;
+	margin:0px;
+}
+#footer li {
+	margin-left:15px;
+}
+
+#header li{
+	margin-left:5px;
+	margin-right:5px;
+}
+
+
+#main {
+	
+}
+#right_column {
+	/*background-color:green;*/
+}
+#results {
+	/*background-color:red;*/
+}
+#messages {
+	min-height:55px;
+	padding:0.7em;
+}
+#messages li {
+	font-size:1.3em;
+}
+
+#map {
+	height:300px;
+}
+
+#map, #results, #filters, #out {
+	width:96.25%;
+	margin:2.5%;
+}
+#map, #results {
+	margin-right:1.25%;	
+}
+#filters, #out {
+	margin-left:1.25%;	
+}
+
+#content:after, header:after, #menu:after, #box-nav:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+

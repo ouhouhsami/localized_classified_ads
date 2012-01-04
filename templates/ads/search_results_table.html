@@ -1,0 +1,51 @@
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress %}
+
+
+{% autosort ads_list as sorted_objects %}
+{% autopaginate sorted_objects 10 as object_list %}
+
+<div id="results_detail" style="display:none;visibility:hidden">
+	{% for ad in object_list %}
+		{% include 'ads/view_popup.html' %}
+	{% endfor %}
+</div>
+
+	<div class="bloc_title results"><span style"padding-left:0.7em">{{ title }}</span>
+	{% if search and user.is_authenticated %}
+	<button style="float:right;margin-right:0.26em;margin-top:0.3em" type="submit" value="save and search" name="save_and_search" class="button save_search">
+		Sauver la recherche
+	</button>
+	{% endif %}
+	</div>
+	
+<div id="results">
+	{% if ads_list %}
+	<table>
+		<tr class="result_header">
+			<th></th>
+			{% include 'ads/result_header.html' %}
+			<th></th>
+		</tr>
+		{% for ad in object_list %}
+		<tr class="{% cycle 'even' 'odd' %}">
+			<td style="text-align:left">
+				<a href="#" class="small_button" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"> <span class="icon"></span> Localiser	
+				</a>
+				
+			</td>
+			{% include 'ads/result_item.html' with ad=ad only %}
+			<td>
+				<a  class="small_button" style="padding-left:4px"  href="{% url view ad.slug %}" target="_blank">Détail de l'annonce</a>
+			</td>
+
+		</tr>
+		{% endfor %}
+	</table>
+	{% for ad in object_list %}
+		<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.slug %}", 'ad_{{ ad.id }}', 'true',  ' {{ad.icon}} ')</script>
+	{% endfor %}
+	{% paginate %}
+	{% else %}
+	Pas de résultats, élargissez votre recherche.
+	{% endif %}
+</div>

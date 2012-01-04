@@ -1,0 +1,25 @@
+body {
+	background-size:100% 52px, 100% 30px;
+}
+#site, #header, #footer {
+
+}
+#header {
+	height:52px;
+}
+#footer {
+	height:30px;
+}
+
+#header > ul, #footer > ul {
+	float:none;
+}
+#header > h1, #footer > span {
+	float:none;
+}
+#main {
+	width:100%;
+}
+#right_column {
+	width:100%;
+}

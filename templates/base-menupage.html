@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block site %}
+
+{% block form-top %}
+{% endblock form-top %}
+
+<div id="messages">
+	{% block messages %}
+	<div id="subtitle">Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b></div>
+	{% endblock messages %}
+</div>
+<ul id="menu">
+	{% block menu %}
+	<li><a class="selected">Rechercher un bien</a></li>
+	<li><a class="unselected">Vendre un bien</a></li>
+	{% endblock menu %}
+</ul>
+<div id="content" >
+	{% block content %}
+	<div id="main">
+		{% block map %}
+		{% endblock map %}
+		{% block results %}
+		{% endblock %}
+	</div>
+	<div id="right_column">
+		{% block filters %}
+		{% endblock filters %}
+		{% comment %}
+		<div id="out">
+			<p>Commercials here</p>
+		</div>
+		{% endcomment %}
+	</div>
+	{% endblock content %}
+</div>
+
+{% block form-bottom %}
+{% endblock form-bottom %}
+
+{% endblock site %}

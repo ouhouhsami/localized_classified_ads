@@ -1,0 +1,77 @@
+IMPORTANT LINK
+- http://mapicons.nicolasmollet.com
+
+IMPROVEMENT
+
+
+- refaire le sitemap depuis l'externalisation des applications acheter/louer ...
+- tooltip google drawing
+- main sur icone : pas de dessin possible ?
+- revoir les header des mails envoyés
+- revoir message lorsque ajout de bien
+- aligner critères optionnels et map
+
+- liste de pages : 
+	- recherche un bien (page d'accueil, page sans résultats, page avec résultats)
+	- détail annonce
+	- vendre un bien
+	- s'inscrire
+	- se connecter
+	- mon profil (attention, recherche par catégorie)
+	- modifier le profil
+	- modifier le mot de passe
+	- changer d'email
+
+
+
+Google drawing ...
+
+- staging server
+- finaliser la publi twitter
+- transformer homead en belle application (cf.libération)
+- pour les critères aussi ? les choices : le truc de libé ?
+- 'ajouter un 'nombre de nouveaux bien concernant votre recherche depuis votre dernière visite ?
+- tests unitaires partout
+- faire en sorte que le nombre de pièces soit sous forme de cases à cocher 1 2 3 4 (5 et plus)
+- nettoyage css
+- virer les print
+- gérer les log
+- correction fermeture annonce ipad
+- faire les filtres en ajax
+- versionning type ulysses
+- indexation de la base de données
+- mettre les commodites (genre boulangerie, ecole ... ?)
+- rappatrier le code source
+- si on met un bien en vente: rajouter le chamsp téléphone si pas renseigné quand on rentre une annonce de bien à vendre
+- ajouter le 'autocomplete' pour le champs indiquer une ville
+- pour 'louersanscom' "sous location" - location saisonnière ? ajouter des dates de location et des prix par semaine, ou mois ?
+- passer jquery et autres librairies standard par google, ça économisera ma bande passante !
+- ? formulaire d'ajout on pourrait mettre le reverse ailleurs (par exemple en dessous 'votre bien est situé approximativement à : )
+- validation html
+- vérifier l'indexation générale
+- régler django compressor
+- ajouter le truc check_permissions
+- revoir le factory pour generation add et profiles
+- message au vendeur : 'votre email sera visible' un champs pour le numéro de téléphone facultatif ? pré-rempli avec son téléphone
+- réinitialiser votre mot de passe: dire "entrez un nouveau mot de passe" puis "confirmez votre nouveau mot de passe" puis case "valider" au lieu de "réinitialiser ..."
+- mot de passe oublié/mail recu: changer l'objet du mail en "Réinitialisation du mot de passe sur Achetersanscom"
+- réinitialiser/message de confirmation: à mettre dans un cadre jaune
+- après avoir cliqué sur le lien d'activation : message qui apparait dans un cadre vert (au lieu de jaun clair habituellement): changer la couleur
+- changer le message en "Votre compte a bien été activé. Vous êtes maintenant connecté."
+- panier de l'acheter pour enregistrer des annonces
+- logging sur serveur direct cf.ulysse.
+- ping_google pour le sitemap
+- http://code.google.com/intl/fr/apis/maps/documentation/geocoding/#RegionCodes pour améliorer le recherche que en france
+- geocode server side http://blog.adamfast.com/2011/11/geocoding-turning-text-into-numbers/
+
+- api RESTFULL via django-piston (orienté ressource et non model)
+- django-coverage et notamment slide 87 de http://www.slideshare.net/pydanny/confessions-of-a-joe-developer
+
+BUG
+
+- comment renvoyer le mail d'activation ?
+- https://docs.djangoproject.com/en/dev/topics/http/sessions/#examples pour les messages envoyés aux annonceurs
+- améliorer Parking (sans nb de ch)
+- pack premium (?premiere page ... ?) a faire à 100 annonces
+
+

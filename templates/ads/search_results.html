@@ -1,0 +1,8 @@
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress %}
+
+{% if search %}
+		{% include 'ads/search_results_table.html' with ads_list=filter.qs title="Résultats de la recherche" %}	
+{% else %}
+	{% include 'ads/search_results_table.html' with ads_list=initial_ads title="Les 10 dernières annonces publiées" %}
+{% endif %}
+

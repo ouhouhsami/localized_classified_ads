@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}AcheterSansCom | {{ flatpage.title }}{% endblock %}
+
+{% block main_menu %}
+{% endblock %}
+
+{% block content %}
+<div class="pretty_content">
+	<h2 class="hightlight_title">{{ flatpage.title }}</h2>
+	{% autoescape off %}
+		{{ flatpage.content }}
+	{% endautoescape %}
+</div>
+{% endblock %}

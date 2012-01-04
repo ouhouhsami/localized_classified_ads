@@ -1,0 +1,7 @@
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress %}
+
+<td>{{ ad.get_habitation_type_display }}</td>
+<td>{{ ad.price|priceformat }}</td>
+<td>{{ ad.surface }}</td>
+<td>{{ ad.nb_of_rooms }}</td>
+<td>{{ ad.nb_of_bedrooms }}</td>

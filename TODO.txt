@@ -19,7 +19,6 @@ IMPROVEMENT
 
 
 
-Google drawing ...
 
 - staging server
 - finaliser la publi twitter
@@ -28,7 +27,6 @@ Google drawing ...
 - 'ajouter un 'nombre de nouveaux bien concernant votre recherche depuis votre dernière visite ?
 - tests unitaires partout
 - faire en sorte que le nombre de pièces soit sous forme de cases à cocher 1 2 3 4 (5 et plus)
-- nettoyage css
 - virer les print
 - gérer les log
 - correction fermeture annonce ipad

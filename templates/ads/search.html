@@ -51,11 +51,13 @@
 {% block messages %}
 {% if search %}
 	{% if messages %}
+	<div id="messages">
 	<ul class="messages">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
 		{% endfor %}
 	</ul>
+	</div>
 	{% endif %}
 {% else %}
 <div id="subtitle">Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b></div>

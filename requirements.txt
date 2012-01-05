@@ -1,17 +1,27 @@
-Django==1.3
+Django==1.3.1
 Fabric==1.0.1
 PIL==1.1.7
 South==0.7.3
-django-userena==1.0.2
-django-floppyforms==0.4.6
-django-form-utils==0.2.0
+django-autoslug==1.4.1
 django-compressor==0.9.2
--e git://github.com/subsume/django-filter-actually-maintained.git#egg=django_filter
 django-debug-toolbar==0.8.5
--e git://github.com/dominno/django-moderation.git#egg=django-moderation
+-e git://github.com/subsume/django-filter-actually-maintained.git@2cf55f2dfa3dc62eb10d8d755554090b5b14ffe5#egg=django_filter-dev
+django-floppyforms==0.4.7
+django-form-utils==0.2.0
+django-guardian==1.0.3
+-e git://github.com/JordanReiter/django-jsonfield.git@38e517cf09765d48b5ca2928ada468c70f6cf46e#egg=django_jsonfield-dev
+django-mockups==0.4.8
+django-moderation==0.3.2
 django-pagination==1.0.7
--e git://github.com/lukeman/django-sorting.git#egg=django_sorting
-psycopg2==2.4
+django-smart-extends==0.5.1
+-e git://github.com/lukeman/django-sorting.git@d3456924ff2140c2a3466a2dd9d674486500393e#egg=django_sorting-dev
 django-stdimage==0.2
-django-autoslug
--e git://github.com/JordanReiter/django-jsonfield.git#egg=django-jsonfield
+-e git://github.com/bread-and-pepper/django-userena.git@50b2a6adf71eabfdc06fc28b757e8aac780ce73e#egg=django_userena-dev
+-e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev
+easy-thumbnails==1.0-alpha-20
+numpy==1.6.1
+paramiko==1.7.7.1
+psycopg2==2.4
+pycrypto==2.4.1
+pygeocoder==1.1.4
+wsgiref==0.1.2

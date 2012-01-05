@@ -22,7 +22,8 @@ OK - aligner critères optionnels et map
 OK - revoir les header des mails envoyés
 OKO - tooltip google drawing
 OKO - main sur icone : pas de dessin possible ?
-
+OK - Google drawing ...
+OK - nettoyage css
 
 - pour louersanscom : 
 	OK "recherche une location", "proposer une location"

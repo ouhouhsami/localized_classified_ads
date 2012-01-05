@@ -46,13 +46,16 @@
 
 {% block messages %}
 	{% if messages %}
+	<div id="messages">
 	<ul class="messages">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
 		{% endfor %}
 	</ul>
+	</div>
 	{% endif %}
 	{% if form.errors %}
+	<div id="messages">
 	<div id="form-error" style="color:red;">
 			
 		<ul class="messages">
@@ -63,6 +66,7 @@
 		{% endfor %}
 		{% endcomment %}
 		</ul>
+	</div>
 	</div>
 	{% endif %}
 {% endblock messages %}

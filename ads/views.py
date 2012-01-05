@@ -139,7 +139,7 @@ def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
             instance.save()
             send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current()), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             sent_mail = True
-            messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé au vendeur du bien.')
+            messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé.')
     if request.is_ajax():
         return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form}, context_instance = RequestContext(request))
     else:

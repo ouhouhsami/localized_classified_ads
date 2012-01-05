@@ -65,8 +65,16 @@ footer {
 	/*background-color:red;*/
 }
 #messages {
-	min-height:35px;
-	padding:0.7em;
+	/*min-height:35px;
+	padding:0.7em;*/
+	/*border: 1px solid black;*/
+	/*margin-bottom: 25px;*/
+	margin-top: 10px;
+	min-height: 45px;
+	padding: 0.7em;
+	background-color: #F7F7F7;
+	border-radius: 10px 10px 10px 10px;
+	/*box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);*/
 }
 #messages li {
 	font-size:1.3em;

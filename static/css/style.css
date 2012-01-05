@@ -55,6 +55,7 @@ a, a:active, a:link, a:visited {
 
 #menu {
 	/*margin-left:15px;*/
+	margin-top: 20px;
 }
 #menu li {
 	padding-bottom:0.7em;

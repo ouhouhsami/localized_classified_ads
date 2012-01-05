@@ -5,17 +5,19 @@
 {% block form-top %}
 {% endblock form-top %}
 
-<div id="messages">
+
 	{% block messages %}
 	{% if messages %}
+	<div id="messages">
 	<ul class="messages">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
 		{% endfor %}
 	</ul>
+	</div>
 	{% endif %}
 	{% endblock messages %}
-</div>
+
 <ul id="menu">
 	{% block menu %}
 	{% include 'ads/menu.html' with selected=0 only %}

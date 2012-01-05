@@ -1,21 +1,21 @@
 header {
-    border-bottom: 5px solid pink;
+    border-bottom: 5px solid Pink;
 }
 
 footer {
-    border-top: 5px solid pink;
+    border-top: 5px solid Pink;
 }
 
 .sanscom_font {
-	color:pink;
+	color:Pink;
 }
 
 .bloc_title {
-    background-color: pink;
+    background-color: Pink;
 }
 
 #address, #localize {
-	border: 1px solid pink;
+	border: 1px solid Pink;
 }
 
 #header > h1 {

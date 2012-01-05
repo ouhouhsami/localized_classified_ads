@@ -7,13 +7,18 @@
 
 <div id="messages">
 	{% block messages %}
-	<div id="subtitle">Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b></div>
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 	{% endblock messages %}
 </div>
 <ul id="menu">
 	{% block menu %}
-	<li><a class="selected">Rechercher un bien</a></li>
-	<li><a class="unselected">Vendre un bien</a></li>
+	{% include 'ads/menu.html' with selected=0 only %}
 	{% endblock menu %}
 </ul>
 <div id="content" >

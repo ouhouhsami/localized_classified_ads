@@ -1,6 +1,7 @@
 
 Correction du 2 janvier 2012
 
+OK - versionning du site
 OK - refaire bouton comme avant
 OK - refaire onglet comme avant
 OK - refaire le bandeau 1.2.3
@@ -17,6 +18,10 @@ OK - mettre achetersanscom à côté de louersanscom pour le switch en plus peti
 OK - revoir les messages dans le template
 OK - detail d'une annonce pour louersanscom
 OK - assurer l'unicité du slug des annonces
+OK - aligner critères optionnels et map
+OK - revoir les header des mails envoyés
+OKO - tooltip google drawing
+OKO - main sur icone : pas de dessin possible ?
 
 
 - pour louersanscom : 

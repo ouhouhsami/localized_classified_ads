@@ -43,6 +43,7 @@ $(document).ready(function() {
 		polygonOptions: polygonStyle
 	});
 	drawingManager.setMap(map);
+	drawingManager.setOptions({drawingMode:null});
 	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 		overlay = event.overlay;
 		overlay.setEditable(true);
@@ -51,7 +52,12 @@ $(document).ready(function() {
 		addUpdatePathEventListerner();
 	});
 	google.maps.event.addListener(map, 'click', function(event){
-		overlay.setMap(null);
+		try{
+			overlay.setMap(null);
+		}
+		catch(err){
+			
+		}
 		overlay = null;
 		drawingManager.setOptions({drawingMode:google.maps.drawing.OverlayType.POLYGON});
 	});

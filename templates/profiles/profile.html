@@ -1,4 +1,4 @@
-{% extends "base-simplepage.html" %}
+{% extends "base-menupage.html" %}
 {% load ads_tag %}
 {% load i18n %}
 {% load l10n %}
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div style='border-top-left-radius:10px;padding:20px; padding-top:1px'>
 	{% if user.username == profile.user.username %}
 		{% comment %}{% include "userena/menu_snippet.html" %}{% endcomment %}
 	{% endif %}
@@ -48,7 +48,7 @@
 		<b>Adresse email</b> : {{ user.email }} {% comment %}(<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">modifier</a>){% endcomment %}
 	</p>
 	<div class="adson">
-		Votre adresse email ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur AcheterSansCom.
+		Votre adresse email ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur ce site.
 	</div>
 	
 	{% if profile.phone_number %}
@@ -100,8 +100,11 @@
 <table class="list">
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
-	<tr class="status_{{ ad.moderated_object.moderation_status}}" >
-		<td ><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a></td>
+	<tr class="{% cycle 'even' 'odd' %}" class="status_{{ ad.moderated_object.moderation_status}}" >
+		<td >{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}">{% endif %}
+			{% include 'ads/resume.html' %}
+			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
+		</td>
 		<td >
 			{% if ad.moderated_object.moderation_status == 0 %}Annonce rejetée. Modifiez-la pour la soumettre de nouveau.{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}Annonce en ligne{% endif %}
@@ -116,7 +119,7 @@
 {% else %}
 	{% if ads %}
 		<h3>Biens de ce vendeur</h3>
-		<table class="list">
+		<table class="{% cycle 'even' 'odd' %}" class="list">
 			{% for ad in ads %}
 			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
 			<tr>
@@ -136,9 +139,9 @@
 
 {% if searchs %}
 	<h3>Vos Recherches</h3>
-	<table class="list">
+	<table  class="list">
 	{% for search in searchs %}
-		<tr>
+		<tr class="{% cycle 'even' 'odd' %}">
 			<td><a href="{% url search search.id %}" class="button">
 				{% autoescape off %}{{ search }}{% endautoescape %}
 			</a>
@@ -164,5 +167,5 @@ Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vo
 {% endif %}
 
 
-
+</div>
 {% endblock %}

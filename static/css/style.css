@@ -1,5 +1,5 @@
 
-a, a:active, a:link {
+a, a:active, a:link, a:visited {
 	color:black;
 }
 
@@ -110,6 +110,7 @@ a, a:active, a:link {
 #right_column .bloc_title:first-child {
 	border-top-left-radius:0px;
 	border-bottom-left-radius:0px;
+	box-shadow: 2px 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .userena form input[type=submit], button[type=submit] {
@@ -167,7 +168,7 @@ a, a:active, a:link {
 	cursor:pointer;
 }
 .extend {
-    background-color: #FFFFFF;
+    /*background-color: #FFFFFF;*/
     border: 1px solid #EEEEEE;
     cursor: pointer;
     float: left;
@@ -176,6 +177,10 @@ a, a:active, a:link {
     width: 14px;
 	text-decoration:none;
 	color:black;
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0 0 2px #BBBBBB;
+	border: 1px solid #CCCCCC;
+	margin-top:-1px;
 }
 .extend:hover {
 	color:black;
@@ -216,9 +221,14 @@ a, a:active, a:link {
 	color:#666;
 	font-size:0.9em;
 }
-.edit_form input, .edit_form select{
+.edit_form input{
 	width:90%;
 }
+.edit_form select{
+	width:94%;
+}
+
+
 .edit_form input[type=checkbox]{
 	width:5%;
 }
@@ -227,7 +237,7 @@ a, a:active, a:link {
 	/*color:#20B2AB;*/
 	font-variant:small-caps;
 }
-input {
+input, select {
 	border-radius: 3px 3px 3px 3px;
 	border: 1px solid #BBBBBB;
 	padding:5px;
@@ -276,13 +286,24 @@ form, fieldset {
 }
 
 
-.userena input[type="text"], input[type="password"], input[type="file"], textarea, span.editable {
+.userena input[type="text"], input[type="password"], input[type="file"], span.editable {
     width: 60%;
+}
+
+.edit_form textarea {
+	font-family:Arial;
+	font-size:1em;
+	margin-bottom: 1px;
+	padding: 5px;
+}
+textarea {
+	border: 1px solid #BBBBBB;
+	border-radius: 3px 3px 3px 3px;	
 }
 
 .userena legend {
 	padding-left:0px;
-	display:none;
+	/*display:none;*/
 }
 
 .form_adson, .adson {
@@ -299,8 +320,8 @@ table tr, table td {
 	border:1px solid transparent;
 }
 
-table.list tr:nth-child(even) {background: #efefef}
-table.list tr:nth-child(odd) {background: #fafafa}
+/*table.list tr:nth-child(even) {background: #efefef}*/
+/*table.list tr:nth-child(odd) {background: #fafafa}*/
 
 table.list, .inside {
 	width:95%;
@@ -466,6 +487,14 @@ table th {
 }
 #box-nav li.last:after {
 	content: "";
+}
+
+
+.errorlist {
+	padding:0px;
+	margin:0px;
+	list-style:none;
+	color:red;
 }
 
 

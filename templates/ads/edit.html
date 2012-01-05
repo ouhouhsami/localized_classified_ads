@@ -44,6 +44,32 @@
 	</script>
 {% endblock %}
 
+{% block messages %}
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% if form.errors %}
+	<div id="form-error" style="color:red;">
+			
+		<ul class="messages">
+			<li>Le formulaire comporte des erreurs, indiquée ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce.</li>
+		{% comment %}
+		{% for field in form %}
+		{% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+		{% endfor %}
+		{% endcomment %}
+		</ul>
+	</div>
+	{% endif %}
+{% endblock messages %}
+
+
+
+
 {% block menu %}
 	{% include 'ads/menu.html' with selected=2 only %}
 {% endblock menu %}
@@ -127,12 +153,21 @@
 		        <td>
 					{% if field.field.required %}<div class="required_class" style="float:right">*</div>{% endif %}
 					<span>{{ field }}</span>
-					{% if field.errors %}<br />{{ field.errors }} {% endif %}
-					{% if field.help_text %}<br />
-						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
-					{% endif %}
+				
 				</td>
 		      </tr>
+				{% if field.errors %}
+				<tr style="margin-top:0px;padding-top:0px">
+				<th style="margin-top:0px;padding-top:0px"></th>
+				<td style="margin-top:0px;padding-top:0px">{{ field.errors }}</td>
+				</tr>
+				{% endif %}
+				{% if field.help_text %}
+				<tr style="margin-top:0px;padding-top:0px">
+				<th style="margin-top:0px;padding-top:0px"></th>
+				<td style="margin-top:0px;padding-top:0px">{% autoescape off %}<span class="help" style="margin-top:0px;padding-top:0px">{{ field.help_text }}</span>{% endautoescape %}</td>
+				</tr>
+				{% endif %}
 			{% endif %}
 		    {% endifequal %}
 		    {% endif %}

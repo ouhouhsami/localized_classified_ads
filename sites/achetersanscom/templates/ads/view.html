@@ -2,7 +2,7 @@
 {% load ads_tag %}
 {% load l10n %}
 
-{% block title %}Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} €/mois - {{ ad.surface }} m²{% endblock %}
+{% block title %}Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²{% endblock %}
 
 {% block meta %}
 		<meta name="keywords" lang="fr" content="{{ ad.get_habitation_type_display }},à vendre,sans intermédiaire,{{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }}" />
@@ -59,7 +59,7 @@
 
 	<h2 >
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }})
-		{{ ad.price|priceformat }} €/mois
+		{{ ad.price|priceformat }} €
 		- {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}
 	</h2>
 
@@ -73,51 +73,52 @@
 
 	<div style="clear:both"></div>
 	{% if ad.pictures.all %}
-		<p style="font-size:0.9; color:#555;margin-top:0px"><i>
-		{% if ad.pictures.all|length = 1 %}
-		Cliquez sur la photo pour l'agrandir
-		{% else %}
-		Cliquez sur les photos pour les agrandir
-		{% endif %}
-		</i></p>
+		<p style="font-size:0.9; color:#555;margin-top:0px"><i>Cliquez sur les photos pour les agrandir</i></p>
 	{% endif %}
 	</div>
 	{% endif %}
 		
-
-	{% if sent_mail %}
-	{% else %}
-	<div id="message_block" style="margin-top: 0px;">
-	{% if user.is_authenticated %}
-		<form  action="" method="POST" >
-				<h2>Contacter le vendeur</h2>
-		<table id="message">
-			{% csrf_token %}
-			{{ contact_form.as_table }}
+		<table class="energy" style="">
 			<tr>
-				<td></td>
-				<td ><button type="submit">Envoyer</button></td>
+				<th >Consommation énergétique<br />
+				<span style="font-weight:normal">kWhEP/m².an</span>
+				</th>
+				<th>Emission de gaz à effets de serre
+				<br />
+				<span style="font-weight:normal">kgeqCO2/m².an</span>
+				</th>
 			</tr>
-		{% if ad.user_profile.phone_number %}
 			<tr>
-				<th><label>N° téléphone du vendeur</label></th>
-				<td><input value="{{ ad.user_profile.phone_number }}" readonly="readonly"></td>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#429e3a; width:40px" class="{%if ad.energy_consumption == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 50</span> <span style="float:right"><b>A</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#f3ecfd; width:40px" class="{%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span style="font-size:0.8em">≤ 5</span> <span style="float:right"><b>A</b></span></div>{% endif %}</td>
 			</tr>
-		{% endif %}
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#4cd540; width:60px" class="{%if ad.energy_consumption == 'B' %}selected{% endif %}"><span style="font-size:0.8em">51 à 90</span> <span style="float:right"><b> B</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#d8c0f7; width:60px" class="{%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span style="font-size:0.8em">6 à 10</span> <span style="float:right"><b> B</b></span></div>{% endif %}</td>
+			</tr>
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#e9ff3f; width:80px" class="{%if ad.energy_consumption == 'C' %}selected{% endif %}"><span style="font-size:0.8em">91 à 150</span> <span style="float:right"><b> C</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#c8a7f4; width:80px" class="{%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span style="font-size:0.8em">11 à 20</span> <span style="float:right"><b> C</b></span></div>{% endif %}</td>
+			</tr>
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ffff18; width:100px" class="{%if ad.energy_consumption == 'D' %}selected{% endif %}"><span style="font-size:0.8em">151 à 230</span> <span style="float:right"><b> D</b></span></div>{% else %}Non renseigné{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#bc93f2; width:100px" class="{%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span style="font-size:0.8em">21 à 35</span> <span style="float:right"><b> D</b></span></div>{% else %}Non renseigné{% endif %}</td>
+			</tr>
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ffdb00; width:120px" class="{%if ad.energy_consumption == 'E' %}selected{% endif %}"><span style="font-size:0.8em">231 à 330</span> <span style="float:right"><b> E</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#a570ee; width:120px" class="{%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span style="font-size:0.8em">36 à 55</span> <span style="float:right"><b> E</b></span></div>{% endif %}</td>
+			</tr>
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ff9c34; width:140px" class="{%if ad.energy_consumption == 'F' %}selected{% endif %}"><span style="font-size:0.8em">331 à 450</span> <span style="float:right"><b> F</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#8b4aea; width:140px" class="{%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span style="font-size:0.8em">56 à 80</span> <span style="float:right"><b> F</b></span></div>{% endif %}</td>
+			</tr>
+			<tr>
+				<td>{%if ad.energy_consumption %}<div style="background-color:#ff0000; width:160px" class="{%if ad.energy_consumption == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 450</span> <span style="float:right"><b>G</b></span></div>{% endif %}</td>
+				<td>{%if ad.emission_of_greenhouse_gases %}<div style="background-color:#6200dd; width:160px" class="{%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span style="font-size:0.8em">> 80</span> <span style="float:right"><b> G</b></span></div>{% endif %}</td>
+			</tr>			
+			
 		</table>
-
-		</form>
-
-	{% else %}
-		<div class="content">
-			<p>Pour contacter le vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
-		</div>
-	{% endif %}
-	</div>
-	{% endif %}
-
-		
-	<div style="height:248px" id="map_locate" ></div>
+	<div style="height:231px" id="map_locate" ></div>
 
 	<div style="clear:both"></div>
 
@@ -172,11 +173,9 @@
 		</div>
 
 		<div class="bloc_info">
-		{% if ad.colocation or ad.furnished or  ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
+		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
 		<h4>Commodités</h4>
 		<p>
-		{% if ad.furnished %}Bien Meublé : {{ ad.furnished }}<br />{% endif %}
-		{% if ad.colocation %}Colocation acceptée<br />{% endif %}
 		{% if ad.heating %}Chauffage : {{ ad.get_heating_display }}<br />{% endif %}
 		{% if ad.kitchen %}Cuisine équipée<br />{% endif %}
 		{% if ad.cellar %}Cave<br />{% endif %}
@@ -226,5 +225,34 @@
 
 
 
+{% if sent_mail %}
+{% else %}
+<div id="message_block">
+{% if user.is_authenticated %}
+	<form  action="" method="POST" >
+			<h2>Contacter le vendeur</h2>
+	<table id="message">
+		{% csrf_token %}
+		{{ contact_form.as_table }}
+		<tr>
+			<td></td>
+			<td ><button type="submit">Envoyer</button></td>
+		</tr>
+	{% if ad.user_profile.phone_number %}
+		<tr>
+			<th><label>N° téléphone du vendeur</label></th>
+			<td><input value="{{ ad.user_profile.phone_number }}" readonly="readonly"></td>
+		</tr>
+	{% endif %}
+	</table>
 
+	</form>
+	
+{% else %}
+	<div class="content">
+		<p>Pour contacter le vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
+	</div>
+{% endif %}
+</div>
+{% endif %}
 {% endblock %}

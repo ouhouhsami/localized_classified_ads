@@ -5,11 +5,6 @@ IMPROVEMENT
 
 
 - refaire le sitemap depuis l'externalisation des applications acheter/louer ...
-- tooltip google drawing
-- main sur icone : pas de dessin possible ?
-- revoir les header des mails envoyés
-- revoir message lorsque ajout de bien
-- aligner critères optionnels et map
 
 - liste de pages : 
 	- recherche un bien (page d'accueil, page sans résultats, page avec résultats)

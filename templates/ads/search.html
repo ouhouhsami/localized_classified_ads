@@ -132,7 +132,7 @@
 		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
 	
 	<div class="search_form non-location-field" >
-		<div><b>Critères optionnels</b></div>
+		<div style="padding-left:4px"><b>Critères optionnels</b></div>
 		<!-- NON LOCATION FIELDS -->	
 		{% for fieldset in filter.form.fieldsets %}
 			{% if fieldset.name != 'location' %}

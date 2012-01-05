@@ -65,7 +65,7 @@ footer {
 	/*background-color:red;*/
 }
 #messages {
-	min-height:55px;
+	min-height:35px;
 	padding:0.7em;
 }
 #messages li {
@@ -84,7 +84,8 @@ footer {
 	margin-right:1.25%;	
 }
 #filters, #out {
-	margin-left:1.25%;	
+	margin-left:1.25%;
+	margin-top: 18px;	
 }
 
 #content:after, header:after, #menu:after, #box-nav:after {

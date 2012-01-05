@@ -59,7 +59,7 @@ class Ad(models.Model):
     user_profile = models.ForeignKey(UserProfile)
     description = models.TextField("", null=True, blank=True)
     user_entered_address = models.CharField("Adresse", max_length=2550, 
-                           help_text="Adresse complète, par exemple <i>5 rue de Verneuil Paris</i>")
+                           help_text="Adresse complète, ex. : <i>5 rue de Verneuil Paris</i>")
     address = JSONField(null=True, blank=True)
     location = models.PointField(srid=900913)
     pictures = generic.GenericRelation(AdPicture)

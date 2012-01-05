@@ -84,7 +84,7 @@ form, fieldset {
   border: none;
 }
 input, button, select {
-  vertical-align: middle; /* Solution pb. d'alignement. (9) */
+  /*vertical-align: middle;*/ /* Solution pb. d'alignement. (9) */
 }
 
 

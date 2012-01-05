@@ -211,7 +211,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         form = AdForm(h.moderated_object.changed_object.__dict__)
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
-            if form.is_valid():           
+            print 'je suis la'
+            if form.is_valid():
+                print 'mais pas la'
                 instance = form.save(commit = False)
                 # TODO : if user_entered_address eq, dont compute
                 geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
@@ -231,9 +233,10 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 #messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
                 send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
                 return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
-            # below to force real value of fields
-            h = Ad.unmoderated_objects.get(id = ad_id)
-            form = AdForm(h.moderated_object.changed_object.__dict__)
+                # below to force real value of fields
+                h = Ad.unmoderated_objects.get(id = ad_id)
+                form = AdForm(h.moderated_object.changed_object.__dict__)
+            # if error, here, we return form
         return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
         raise Http404

@@ -11,7 +11,7 @@ django-form-utils==0.2.0
 django-guardian==1.0.3
 -e git://github.com/JordanReiter/django-jsonfield.git@38e517cf09765d48b5ca2928ada468c70f6cf46e#egg=django_jsonfield-dev
 django-mockups==0.4.8
-django-moderation==0.3.2
+-e git://github.com/dominno/django-moderation.git#egg=django-moderation
 django-pagination==1.0.7
 django-smart-extends==0.5.1
 -e git://github.com/lukeman/django-sorting.git@d3456924ff2140c2a3466a2dd9d674486500393e#egg=django_sorting-dev

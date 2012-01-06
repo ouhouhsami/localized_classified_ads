@@ -14,7 +14,7 @@ class SurfaceField(forms.Field):
     def to_python(self, value):
         """Normalize data to surface field"""
         if not value:
-            print 'null value'
+            #print 'null value'
             return None
         try:
             return round(float(str(value).replace(',', '.')))

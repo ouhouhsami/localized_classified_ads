@@ -2,9 +2,9 @@
 import os, sys
 import site
 
-os.environ['VIRTUAL_ENV'] = '/home/achetersanscom/.virtualenvs/achetersanscom/'
+os.environ['VIRTUAL_ENV'] = '/home/%(account_name)s/.virtualenvs/%(virtualenv_name)s/'
 # TODO: variable in venv variable
-venv = '/home/achetersanscom/.virtualenvs/achetersanscom/bin/activate_this.py'
+venv = '/home/%(account_name)s/.virtualenvs/%(virtualenv_name)s/bin/activate_this.py'
 execfile(venv, dict(__file__=venv))
 
 import glob
@@ -13,7 +13,7 @@ for dir in glob.glob(os.environ['VIRTUAL_ENV'] + '/src/*'):
         site.addsitedir(dir)
 
 # hack for django-moderation project
-site.addsitedir('/home/achetersanscom/.virtualenvs/achetersanscom/src/django-moderation/src')
+site.addsitedir('/home/%(account_name)s/.virtualenvs/%(virtualenv_name)s/src/django-moderation/src')
 
 _PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, _PROJECT_DIR)

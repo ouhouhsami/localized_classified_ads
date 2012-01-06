@@ -26,7 +26,7 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
     user = get_object_or_404(User,
                              username__iexact=username)
     profile = user.get_profile()
-    print profile
+    #print profile
     #if not profile.can_view_profile(request.user):
     #    return HttpResponseForbidden(_("You don't have permission to view this profile."))
     # ads below are site specific :( because of decorators ...

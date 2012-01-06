@@ -11,15 +11,16 @@ from fabric.contrib import django
 django.settings_module('localized_classified_ads.settings')
 from django.conf import settings
 
-env.hosts = ['achetersanscom@ssh.alwaysdata.com',]
-env.passwords = {'achetersanscom@ssh.alwaysdata.com':'Sam25sn06', }
+#env.hosts = ['achetersanscom@ssh.alwaysdata.com',]
+#env.passwords = {'achetersanscom@ssh.alwaysdata.com':'Sam25sn06', }
 
 def init_local_db():
     local('./create_template_postgis-1.5.sh')
     try:
         local('dropdb %s' % (settings.DATABASES['default']['NAME']))
     except:
-        print 'no previous db'
+        #print 'no previous db'
+        pass
     local('createdb -T template_postgis %s' % (settings.DATABASES['default']['NAME']))
     local('python manage.py syncdb')
     local('python manage.py migrate')
@@ -30,7 +31,7 @@ def init_local_db():
     local('python manage.py runserver')
     # must have initial site features for use with django-dynamicsites
 
-def deploy(virtualenv=False):
+def deploy(account_name, virtualenv_name, virtualenv=False):
     local('git archive --format=tar master | gzip > localized_classified_ads.tar.gz')
     put('localized_classified_ads.tar.gz', '.')
     run('rm -rf localized_classified_ads')
@@ -42,12 +43,15 @@ def deploy(virtualenv=False):
     if virtualenv:
         #run('rmvirtualenv achetersanscom')
         #run('mkvirtualenv --no-site-packages achetersanscom')
-        run('pip install --upgrade -E achetersanscom -r localized_classified_ads/requirements.txt')
+        run('pip install --upgrade -E %s -r localized_classified_ads/requirements.txt' % (virtualenv_name))
+    with cd('localized_classified_ads/public'):
+        upload_template('public/.htaccess', '.')
+        upload_template('public/django.fcgi', '.', context={'account_name':account_name, 'virtualenv_name':virtualenv_name})
     with cd('localized_classified_ads'):
-        run('workon achetersanscom && python manage.py syncdb')
-        run('workon achetersanscom && python manage.py migrate ads')
-        run('workon achetersanscom && python manage.py collectstatic')
-        run('workon achetersanscom && python create_prems_and_contenttype.py')
+        run('workon %s && python manage.py syncdb' % (virtualenv_name))
+        run('workon %s && python manage.py migrate ads' % (virtualenv_name))
+        run('workon %s && python manage.py collectstatic' % (virtualenv_name))
+        run('workon %s && python create_prems_and_contenttype.py' % (virtualenv_name))
     with cd('localized_classified_ads/public'):
         run('ln -s ../static static')
         run('ln -s ../../media media')

@@ -11,9 +11,10 @@ from django.core.management import call_command
 from moderation.models import ModeratedObject
 
 from profiles.models import UserProfile
-from ads.models import HomeForSaleAd
-from ads.forms import HomeForSaleAdForm
-from ads.filtersets import HomeForSaleAdFilterSet
+
+from sites.achetersanscom.ads.models import HomeForSaleAd
+from sites.achetersanscom.ads.forms import HomeForSaleAdForm
+from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 
 class HomeTestCase(TestCase):
 
@@ -36,7 +37,6 @@ class HomeTestCase(TestCase):
                              price="624000", habitation_type="0", 
                              surface="63", nb_of_rooms="3", 
                              location="POINT (264809.3316514802863821 6249274.9133867248892784)", 
-                             #address="[{u'long_name': u'13', u'short_name': u'13', u'types': [u'street_number']}, {u'long_name': u'Place d Aligre', u'short_name': u'Place d Aligre', u'types': [u'route']}, {u'long_name': u'12\xe8me Arrondissement Paris', u'short_name': u'12\xe8me Arrondissement Paris', u'types': [u'sublocality', u'political']}, {u'long_name': u'Paris', u'short_name': u'Paris', u'types': [u'locality', u'political']}, {u'long_name': u'Paris', u'short_name': u'75', u'types': [u'administrative_area_level_2', u'political']}, {u'long_name': u'\xcele-de-France', u'short_name': u'IdF', u'types': [u'administrative_area_level_1', u'political']}, {u'long_name': u'France', u'short_name': u'FR', u'types': [u'country', u'political']}, {u'long_name': u'75012', u'short_name': u'75012', u'types': [u'postal_code']}]",
                              nb_of_bedrooms="2")
         home.save()
         resp = self.c.get('/')
@@ -66,8 +66,7 @@ class AddAdTestCase(TestCase):
         home = HomeForSaleAd(user_profile=user_profile, 
                              price="624000", habitation_type="0", 
                              surface="63", nb_of_rooms="3", 
-                             location="POINT (264809.3316514802863821 6249274.9133867248892784)", 
-                             #address="[{u'long_name': u'13', u'short_name': u'13', u'types': [u'street_number']}, {u'long_name': u'Place d Aligre', u'short_name': u'Place d Aligre', u'types': [u'route']}, {u'long_name': u'12\xe8me Arrondissement Paris', u'short_name': u'12\xe8me Arrondissement Paris', u'types': [u'sublocality', u'political']}, {u'long_name': u'Paris', u'short_name': u'Paris', u'types': [u'locality', u'political']}, {u'long_name': u'Paris', u'short_name': u'75', u'types': [u'administrative_area_level_2', u'political']}, {u'long_name': u'\xcele-de-France', u'short_name': u'IdF', u'types': [u'administrative_area_level_1', u'political']}, {u'long_name': u'France', u'short_name': u'FR', u'types': [u'country', u'political']}, {u'long_name': u'75012', u'short_name': u'75012', u'types': [u'postal_code']}]",
+                             user_entered_address="5 rue de Verneuil, Paris", 
                              nb_of_bedrooms="2")
         home.save()
         home.moderated_object.approve()
@@ -98,17 +97,13 @@ class AddAdTestCase(TestCase):
         user_profile = UserProfile(user=user)
         user_profile.save()
         self.c.login(username='urbania', password='soushomme')
-        # below important things in post : 'ads-adpicture-content_type-object_id-TOTAL_FORMS'
-        # and 'ads-adpicture-content_type-object_id-INITIAL_FORMS'
-        # value got from PictureFormset.get_default_prefix()
         ad_home = {'user_profile':user_profile, 'price':624000, 
                    'habitation_type':"0", 'surface':63, 'nb_of_rooms':3, 
-                   'location':"POINT (264809.3316514802863821 6249274.9133867248892784)", 
-                   'address':"[{u'long_name': u'13', u'short_name': u'13', u'types': [u'street_number']}, {u'long_name': u'Place d Aligre', u'short_name': u'Place d Aligre', u'types': [u'route']}, {u'long_name': u'12\xe8me Arrondissement Paris', u'short_name': u'12\xe8me Arrondissement Paris', u'types': [u'sublocality', u'political']}, {u'long_name': u'Paris', u'short_name': u'Paris', u'types': [u'locality', u'political']}, {u'long_name': u'Paris', u'short_name': u'75', u'types': [u'administrative_area_level_2', u'political']}, {u'long_name': u'\xcele-de-France', u'short_name': u'IdF', u'types': [u'administrative_area_level_1', u'political']}, {u'long_name': u'France', u'short_name': u'FR', u'types': [u'country', u'political']}, {u'long_name': u'75012', u'short_name': u'75012', u'types': [u'postal_code']}]",
+                   'user_entered_address':"5 rue de Verneuil, Paris", 
                    'nb_of_bedrooms':2,'ads-adpicture-content_type-object_id-TOTAL_FORMS':1, 
                    'ads-adpicture-content_type-object_id-INITIAL_FORMS':0}
         resp = self.c.post(reverse('add'), ad_home)
-        self.assertEqual(resp['Location'], 'http://www.achetersanscom.com/annonce/1/edit')
+        self.assertEqual(resp['Location'], 'http://www.achetersanscom.com/annonce/add/completed/')
         # is mail sent to the user and the moderator
         self.assertEqual(len(mail.outbox), 2)
         resp = self.c.get('/annonce/1/edit')
@@ -149,7 +144,7 @@ class UserSignup(TestCase):
         #print urls[0]
         resp = self.c.get(urls[0])
         self.assertEqual(resp.status_code, 302)
-        print resp['Location']
+        #print resp['Location']
         #print resp
 
 

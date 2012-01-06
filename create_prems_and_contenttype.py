@@ -21,4 +21,4 @@ from django.db.models import get_apps
 for app in get_apps():
     create_permissions(app, None, 2)
 
-print('done!')
+#print('done!')

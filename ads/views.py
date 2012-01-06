@@ -1,7 +1,7 @@
 # coding=utf-8
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.http import QueryDict
@@ -155,13 +155,13 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
     if request.method == 'POST':
         form = AdForm(request.POST)
         if form.is_valid():
-            print 'VALID'
+            #print 'VALID'
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
             # add location and address fields
-            print 'OK'
+            #print 'OK'
             geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
-            print '1'
+            #print '1'
             instance.address = geocode.raw
             coordinates = geocode[0].coordinates
             # if one day we need to change projection
@@ -171,11 +171,11 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             # Point(lon, lat, srid) so we must reverse Geocode result
             pnt = Point(coordinates[1], coordinates[0], srid=900913)
             instance.location = pnt
-            print '2'
-            print pnt
-            print instance
+            #print '2'
+            #print pnt
+            #print instance
             instance.save()
-            print '3 save ok'
+            #print '3 save ok'
             #print instance.location
             PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
@@ -185,10 +185,11 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             instance.moderated_object.changed_by = request.user
             instance.moderated_object.save()
             #messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
-            print '3'
+            #print '3'
             send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
             #return HttpResponseRedirect(reverse('edit', args=[instance.id]))
-            return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
+            #return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
+            return redirect('completed', permanent=True)
         #else:
         #    print 'no valid', form.errors
         send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
@@ -211,9 +212,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         form = AdForm(h.moderated_object.changed_object.__dict__)
         if request.method == 'POST':
             form = AdForm(request.POST, instance = h)
-            print 'je suis la'
+            #print 'je suis la'
             if form.is_valid():
-                print 'mais pas la'
+                #print 'mais pas la'
                 instance = form.save(commit = False)
                 # TODO : if user_entered_address eq, dont compute
                 geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
@@ -232,7 +233,8 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 picture_formset = PictureFormset(instance = h)
                 #messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
                 send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
-                return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
+                #return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
+                return redirect('completed', permanent=True)
                 # below to force real value of fields
                 h = Ad.unmoderated_objects.get(id = ad_id)
                 form = AdForm(h.moderated_object.changed_object.__dict__)
@@ -240,6 +242,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset, 'home':h}, context_instance = RequestContext(request))
     else:
         raise Http404
+
+def completed(request):
+    return render_to_response('ads/validation.html', {}, context_instance=RequestContext(request) )
 
 @site_decorator
 @login_required

@@ -31,7 +31,7 @@ def init_local_db():
     local('python manage.py runserver')
     # must have initial site features for use with django-dynamicsites
 
-def deploy(account_name, virtualenv_name, virtualenv=False):
+def deploy(account_name, virtualenv_name, virtualenv=False, requirements=False):
     local('git archive --format=tar master | gzip > localized_classified_ads.tar.gz')
     put('localized_classified_ads.tar.gz', '.')
     run('rm -rf localized_classified_ads')
@@ -43,23 +43,27 @@ def deploy(account_name, virtualenv_name, virtualenv=False):
     if virtualenv:
         #run('rmvirtualenv achetersanscom')
         #run('mkvirtualenv --no-site-packages achetersanscom')
-        run('pip install --upgrade -E %s -r localized_classified_ads/requirements.txt' % (virtualenv_name))
+        if requirements:
+            run('pip install --upgrade -E %s -r localized_classified_ads/%s' % (virtualenv_name, requirements))
+        else:
+            run('pip install --upgrade -E %s -r localized_classified_ads/requirements.txt' % (virtualenv_name))
     with cd('localized_classified_ads/public'):
-        upload_template('public/.htaccess', '.')
+        upload_template('public/.htaccess', '/home/sanscom/localized_classified_ads/public/')
         upload_template('public/django.fcgi', '.', context={'account_name':account_name, 'virtualenv_name':virtualenv_name})
     with cd('localized_classified_ads'):
-        run('workon %s && python manage.py syncdb' % (virtualenv_name))
-        run('workon %s && python manage.py migrate ads' % (virtualenv_name))
-        run('workon %s && python manage.py collectstatic' % (virtualenv_name))
-        run('workon %s && python create_prems_and_contenttype.py' % (virtualenv_name))
+        with prefix('workon %s' % (virtualenv_name)):
+            run('python manage.py syncdb' % (virtualenv_name))
+            run('python manage.py migrate ads' % (virtualenv_name))
+            run('python manage.py collectstatic' % (virtualenv_name))
+            run('python create_prems_and_contenttype.py' % (virtualenv_name))
     with cd('localized_classified_ads/public'):
         run('ln -s ../static static')
         run('ln -s ../../media media')
     local('rm localized_classified_ads.tar.gz')
 
-def update():
+def update(account_name, virtualenv_name):
     backup_media()
-    deploy()
+    deploy(account_name, virtualenv_name)
     update_media()
 
 def backup_media():

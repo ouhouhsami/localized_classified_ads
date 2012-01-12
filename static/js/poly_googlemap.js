@@ -1,33 +1,34 @@
 var homes = [];
 var map;
-//var polygonStyle = {strokeWeight: 2, strokeColor: '#20B2AA', fillColor: '#FFB82E'};
+
 var drawingManager;
 $(document).ready(function() {
+	
 	addUpdatePathEventListerner = function(){
 		google.maps.event.addListener(overlay.getPath(), 'set_at', function(index){setPathToTextarea();});
-		google.maps.event.addListener(overlay.getPath(), 'insert_at', function(index){setPathToTextarea();});
+		google.maps.event.addListener(overlay.getPath(), 'insert_at', function(index){setPathToTextarea()});
 		google.maps.event.addListener(overlay.getPath(), 'remove_at', function(index){setPathToTextarea();});		
 	}
+	
 	localizeMe = function(){
 		if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
 					map.setCenter(initialLocation);
 				});
-			}else{				
+			}else{
 		}
 	}
 	var overlay = null;
     var options = {
         zoom: 12,
-        /*center: new google.maps.LatLng(48.858, 2.333),*/
-        center: new google.maps.LatLng(48.856, 2.333),
+        center: new google.maps.LatLng(lat, lng),
         mapTypeControl: true,
         panControl: false,
         mapTypeControl: false,
         streetViewControl: false,
         mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
         },
         zoomControl: true,
         zoomControlOptions: {
@@ -36,22 +37,36 @@ $(document).ready(function() {
         },
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+
 	var map = new google.maps.Map(document.getElementById("map"),options);
 	drawingManager = new google.maps.drawing.DrawingManager({
-		drawingControl: false, 
+		/*drawingControl: false, */
 		drawingMode:google.maps.drawing.OverlayType.POLYGON,
-		polygonOptions: polygonStyle
+		polygonOptions: polygonStyle,
+		drawingControlOptions: {
+			position: google.maps.ControlPosition.TOP_LEFT,
+			drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+		}
 	});
 	drawingManager.setMap(map);
 	drawingManager.setOptions({drawingMode:null});
 	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+		try {
+			overlay.setMap(null);
+		}
+		catch(err) {		
+		}
 		overlay = event.overlay;
 		overlay.setEditable(true);
 		drawingManager.setOptions({drawingMode:null});
 		setPathToTextarea();
 		addUpdatePathEventListerner();
+		console.log(overlay)
 	});
+	
+	/*
 	google.maps.event.addListener(map, 'click', function(event){
+		
 		try{
 			overlay.setMap(null);
 		}
@@ -60,7 +75,10 @@ $(document).ready(function() {
 		}
 		overlay = null;
 		drawingManager.setOptions({drawingMode:google.maps.drawing.OverlayType.POLYGON});
+		
 	});
+	*/
+	
 	setPathToTextarea = function(){
 		var polygon = "SRID=900913;POLYGON(("
 		for (var i = 0; i < overlay.getPath().getLength(); i++) {
@@ -91,6 +109,14 @@ $(document).ready(function() {
 			drawingManager.setOptions({drawingMode:null});
 			addUpdatePathEventListerner()
 			map.fitBounds(latlngbounds);
+			/*
+			google.maps.event.addListener(overlay, 'mouseout', function (e) {
+				$(tt).show()
+			})
+			google.maps.event.addListener(overlay, 'mouseover', function (e) {
+				$(tt).hide()
+			})
+			*/
 		};
 	};
 	getPathFromTextarea();
@@ -109,11 +135,14 @@ $(document).ready(function() {
             infowindow.setContent(this.html)
             infowindow.open(map, this);
         });
+		/*
 		google.maps.event.addListener(marker, 'mouseover', function (e) {
+			$(tt).hide();
 		})
 		google.maps.event.addListener(marker, 'mouseout', function (e) {
-			/*tooltip hide*/
+			$(tt).show();
 		})
+		*/
         if(homes[i].visible == 'false'){
             marker.setMap(null)
         }

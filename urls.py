@@ -17,22 +17,26 @@ from profiles.views import detail as profile_detail
 from ads.views import search
 #from ads.models import HomeForSaleAd
 
+from sites.achetersanscom.ads.models import HomeForSaleAd
+from sites.louersanscom.ads.models import HomeForRentAd
+
 admin.autodiscover()
 auto_discover()
 
-'''
-info_dict = {
+home_for_sale_info_dict = {
     'queryset': HomeForSaleAd.objects.filter(visible=True),
+    'date_field': 'create_date',
+}
+home_for_rent_info_dict = {
+    'queryset': HomeForRentAd.objects.filter(visible=True),
     'date_field': 'create_date',
 }
 
 sitemaps = {
     'flatpages': FlatPageSitemap,
-    'ads': GenericSitemap(info_dict, priority=0.6),
+    'homeforsaleads': GenericSitemap(home_for_sale_info_dict, priority=0.6),
+    'homeforrentads': GenericSitemap(home_for_rent_info_dict, priority=0.6),
 }
-'''
-
-
 
 urlpatterns = patterns('',
     url(r'^annonce/', include('ads.urls')),
@@ -45,7 +49,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('userena.urls')),
     url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
-    #(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )
 
 

@@ -1,6 +1,7 @@
 
 Correction du 2 janvier 2012
 
+OK - initialisation map => centrer 
 OK - versionning du site
 OK - refaire bouton comme avant
 OK - refaire onglet comme avant

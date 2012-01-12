@@ -100,7 +100,7 @@
 <table class="list">
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
-	<tr class="{% cycle 'even' 'odd' %}" class="status_{{ ad.moderated_object.moderation_status}}" >
+	<tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
 		<td >{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}">{% endif %}
 			{% include 'ads/resume.html' %}
 			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}

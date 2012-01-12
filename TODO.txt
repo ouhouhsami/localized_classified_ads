@@ -3,8 +3,19 @@ IMPORTANT LINK
 
 IMPROVEMENT
 
+- vérifier pourquoi certaines images semble disparaitre 
+- sitemap a faire en fonction de l'url de base
+- Sémantiquement faible. Pas top en termes d'accessibilité et de SEO.
+- Scripts et styles inlinés : "bruit" SEO, dégradation des performances vécues et réelles (reflows+repaints).
+- Formulaire de recherche : invisible sur le plan ergonomique (je l'ai cherché deux bonnes minutes - un utilisateur n'aura pas cette patience), et codé dans un irrespect total des normes. Inutile d'utiliser un doctype html5 ... ;-)
+- Attributs HTML : il faut faire un choix entre double quotes et single quotes ..
+- Sélecteurs CSS : il faut faire un choix entre l'underscore et le trait d'union.
+- Critères optionnels : "table layout" à la sauce 1997. A changer en urgence.
+- Liste de résultats de recherche : une table oui ! Mais sémantiquement correcte ...
+- Critères optionnels complètement buggés en termes de layout (Firefox 9) : il suffit de déployer tous les panneaux et hop, ça dépasse !
+- Utilisation de CSS3 : les préprocesseurs CSS, c'est bien, mais tout le monde n'utilise pas Chrome 13 et compagnie ... Aussi, il est toujours bien d'avoir un fallback css2 au cas où certaines déclarations ne sont pas supportées ...
 
-- refaire le sitemap depuis l'externalisation des applications acheter/louer ...
+
 
 - liste de pages : 
 	- recherche un bien (page d'accueil, page sans résultats, page avec résultats)

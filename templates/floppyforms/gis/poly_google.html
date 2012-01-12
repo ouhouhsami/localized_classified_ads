@@ -1,5 +1,8 @@
+{% load l10n %}
 <script>
 	var polygonStyle = {strokeWeight: 2, strokeColor: '{{ strokeColor }}', fillColor: '{{ fillColor }}'};
+	var lat = {{ lat|unlocalize }};
+	var lng = {{ lng|unlocalize }};
 </script>
 <div id="map_container">
 	<div id="map"></div>

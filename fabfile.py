@@ -14,6 +14,8 @@ from django.conf import settings
 #env.hosts = ['achetersanscom@ssh.alwaysdata.com',]
 #env.passwords = {'achetersanscom@ssh.alwaysdata.com':'Sam25sn06', }
 
+
+
 def init_local_db():
     local('./create_template_postgis-1.5.sh')
     try:

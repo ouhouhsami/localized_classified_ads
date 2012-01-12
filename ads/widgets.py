@@ -134,6 +134,8 @@ class GooglePolygonWidget(Input):
         self.search = kwargs.get('search', False)
         self.strokeColor = kwargs.get('strokeColor', '#FF0000')
         self.fillColor = kwargs.get('fillColor', '#00FF00')
+        self.lat = kwargs.get('lat', 48.856)
+        self.lng = kwargs.get('lng', 2.333)
         super(GooglePolygonWidget, self).__init__()
     def get_context_data(self):
         ctx = super(GooglePolygonWidget, self).get_context_data()
@@ -141,10 +143,13 @@ class GooglePolygonWidget(Input):
         ctx['search'] = self.search
         ctx['fillColor'] = self.fillColor
         ctx['strokeColor'] = self.strokeColor
+        ctx['lat'] = self.lat
+        ctx['lng'] = self.lng
         return ctx
     class Media:
         js = (
-            'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing',
+            'http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=drawing',
+            'js/googlemap-tooltip.js',
             'js/poly_googlemap.js',
         )
 

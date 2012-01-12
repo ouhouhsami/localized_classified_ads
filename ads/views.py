@@ -65,6 +65,9 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
         # center map
         g = GeoIP()
         ip = get_client_ip(request)
+        # for testing purpose 
+        if ip == '127.0.0.1':
+            ip = '129.102.64.54'
         latlon = g.lat_lon(ip)
         initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
         return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'initial_ads':initial_ads}, 

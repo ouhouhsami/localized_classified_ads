@@ -3,6 +3,9 @@ IMPORTANT LINK
 
 IMPROVEMENT
 
+- mettre à jour dynamicssites lorsque le gars aura mis le setup.py
+- vérifier le chmod +x sur django.fgi
+- revoir la localisation des anciens biens.
 - vérifier pourquoi certaines images semble disparaitre 
 - sitemap a faire en fonction de l'url de base
 - Sémantiquement faible. Pas top en termes d'accessibilité et de SEO.

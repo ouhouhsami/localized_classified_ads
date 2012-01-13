@@ -11,9 +11,14 @@ from fabric.contrib import django
 django.settings_module('localized_classified_ads.settings')
 from django.conf import settings
 
-#env.hosts = ['achetersanscom@ssh.alwaysdata.com',]
-#env.passwords = {'achetersanscom@ssh.alwaysdata.com':'Sam25sn06', }
+env.hosts = ['achetersanscom@ssh.alwaysdata.com',]
+env.passwords = {'achetersanscom@ssh.alwaysdata.com':'Sam25sn06', }
 
+def test():
+    with cd('localized_classified_ads/public/'):
+        print 'ouat'
+        upload_template('public/django.fcgi', '.', context={'account_name':'account_name', 'virtualenv_name':'virtualenv_name'})
+    #upload_template('public/.htaccess', '/home/achetersanscom/localized_classified_ads/public')
 
 
 def init_local_db():
@@ -50,22 +55,22 @@ def deploy(account_name, virtualenv_name, virtualenv=False, requirements=False):
         else:
             run('pip install --upgrade -E %s -r localized_classified_ads/requirements.txt' % (virtualenv_name))
     with cd('localized_classified_ads/public'):
-        upload_template('public/.htaccess', '/home/sanscom/localized_classified_ads/public/')
+        put('public/.htaccess', '.')
         upload_template('public/django.fcgi', '.', context={'account_name':account_name, 'virtualenv_name':virtualenv_name})
     with cd('localized_classified_ads'):
-        with prefix('workon %s' % (virtualenv_name)):
-            run('python manage.py syncdb' % (virtualenv_name))
-            run('python manage.py migrate ads' % (virtualenv_name))
-            run('python manage.py collectstatic' % (virtualenv_name))
-            run('python create_prems_and_contenttype.py' % (virtualenv_name))
+        with prefix('workon achetersanscom'):
+            run('python manage.py syncdb')
+            run('python manage.py migrate ads')
+            run('python manage.py collectstatic')
+            run('python create_prems_and_contenttype.py')
     with cd('localized_classified_ads/public'):
         run('ln -s ../static static')
         run('ln -s ../../media media')
     local('rm localized_classified_ads.tar.gz')
 
-def update(account_name, virtualenv_name):
+def update(account_name, virtualenv_name, virtualenv=False, requirements=False):
     backup_media()
-    deploy(account_name, virtualenv_name)
+    deploy(account_name, virtualenv_name, virtualenv, requirements)
     update_media()
 
 def backup_media():

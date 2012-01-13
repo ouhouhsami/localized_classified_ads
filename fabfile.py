@@ -38,7 +38,7 @@ def init_local_db():
     local('python manage.py runserver')
     # must have initial site features for use with django-dynamicsites
 
-def deploy(account_name, virtualenv_name, virtualenv=False, requirements=False):
+def deploy(account_name="achetersanscom", virtualenv_name="achetersanscom", virtualenv=False, requirements=False):
     local('git archive --format=tar master | gzip > localized_classified_ads.tar.gz')
     put('localized_classified_ads.tar.gz', '.')
     run('rm -rf localized_classified_ads')
@@ -68,7 +68,7 @@ def deploy(account_name, virtualenv_name, virtualenv=False, requirements=False):
         run('ln -s ../../media media')
     local('rm localized_classified_ads.tar.gz')
 
-def update(account_name, virtualenv_name, virtualenv=False, requirements=False):
+def update(account_name="achetersanscom", virtualenv_name="achetersanscom", virtualenv=False, requirements=False):
     backup_media()
     deploy(account_name, virtualenv_name, virtualenv, requirements)
     update_media()

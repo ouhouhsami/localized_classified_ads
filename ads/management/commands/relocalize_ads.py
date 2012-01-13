@@ -1,3 +1,5 @@
+import time
+
 from django.core.management.base import BaseCommand, CommandError
 from sites.achetersanscom.ads.models import HomeForSaleAd
 from pygeocoder import Geocoder
@@ -15,3 +17,4 @@ class Command(BaseCommand):
             pnt = Point(coordinates[1], coordinates[0], srid=900913)
             home.location = pnt
             home.save()
+            time.sleep(1)

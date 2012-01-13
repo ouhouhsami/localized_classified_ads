@@ -46,7 +46,7 @@ def deploy(account_name="achetersanscom", virtualenv_name="achetersanscom", virt
     run('tar -xvzf localized_classified_ads.tar.gz -C localized_classified_ads')
     run('rm localized_classified_ads.tar.gz')
     put('settings.py', 'localized_classified_ads/settings.py')
-    run('chmod +x localized_classified_ads/public/django.fcgi')
+    #run('chmod +x localized_classified_ads/public/django.fcgi')
     if virtualenv:
         #run('rmvirtualenv achetersanscom')
         #run('mkvirtualenv --no-site-packages achetersanscom')
@@ -57,6 +57,7 @@ def deploy(account_name="achetersanscom", virtualenv_name="achetersanscom", virt
     with cd('localized_classified_ads/public'):
         put('public/.htaccess', '.')
         upload_template('public/django.fcgi', '.', context={'account_name':account_name, 'virtualenv_name':virtualenv_name})
+        run('chmod +x django.fcgi')
     with cd('localized_classified_ads'):
         with prefix('workon achetersanscom'):
             run('python manage.py syncdb')

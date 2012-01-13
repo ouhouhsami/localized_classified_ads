@@ -25,6 +25,12 @@ OKO - tooltip google drawing
 OKO - main sur icone : pas de dessin possible ?
 OK - Google drawing ...
 OK - nettoyage css
+OK - vérifier le chmod +x sur django.fgi
+OK - revoir la localisation des anciens biens.
+OK - vérifier pourquoi certaines images semble disparaitre 
+OK - adapter le profile à être plus générique
+
+
 
 - pour louersanscom : 
 	OK "recherche une location", "proposer une location"

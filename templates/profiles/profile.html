@@ -56,7 +56,7 @@
 		
 	</p>
 	<div class="adson">
-		Votre numéro de téléphone est visible sur l'annonce de votre bien mis en vente par les utilisateurs du site AcheterSansCom.
+		Votre numéro de téléphone est visible sur vos annonces par les utilisateurs du site {{ site.name }}.
 	</div>
 	{% else %}
 	<p><b>Téléphone</b> : Non renseigné, <a class="" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">ajouter votre téléphone</a>
@@ -118,7 +118,7 @@
 </table>
 {% else %}
 	{% if ads %}
-		<h3>Biens de ce vendeur</h3>
+		<h3>Annonces de ce vendeur</h3>
 		<table class="{% cycle 'even' 'odd' %}" class="list">
 			{% for ad in ads %}
 			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
@@ -130,9 +130,9 @@
 		</table>
 	{% else %}
 		{% ifequal user.username profile.user.username %}
-		<h3 class="extended_title">Biens en vente</h3>
-		<p>Vous n'avez aucun bien en vente visible sur le site.
-		<br />Pour ajouter un bien en vente, cliquez <a href="{% url add %}">ici</a>.</p>
+		<h3 class="extended_title">Annonces</h3>
+		<p>Vous n'avez aucune annonce sur le site.
+		<br />Pour ajouter une annonce, cliquez <a href="{% url add %}">ici</a>.</p>
 		{% endifequal %}
 	{% endif %}
 {% endif %}
@@ -158,7 +158,7 @@
 {% if profile.email_alert %}
 Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% else %}
-Pour recevoir les alertes email lorsque de nouvelles offres correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+Pour recevoir les alertes email lorsque de nouvelles annonces correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
 {% endif %}
 </p>
 {% else %}

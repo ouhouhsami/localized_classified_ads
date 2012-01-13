@@ -1,0 +1,1 @@
+[{{ site.name }}] Votre annonce a été {% ifequal moderated_object.moderation_status 0 %}rejetée{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}acceptée{% endifequal %}

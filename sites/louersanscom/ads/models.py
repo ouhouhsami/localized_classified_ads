@@ -91,7 +91,7 @@ class HomeForRentAd(Ad):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('view', [str(self.id)])
+        return ('view', [str(self.slug)])
 
     class Meta:
         app_label = 'ads'

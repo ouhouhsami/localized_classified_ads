@@ -4,7 +4,8 @@ IMPORTANT LINK
 IMPROVEMENT
 
 - mettre à jour dynamicssites lorsque le gars aura mis le setup.py
-- revoir les texte de suivi de validation de bien à mettre en français ! ...
+OK - revoir les texte de suivi de validation de bien à mettre en français ! ...
+- style iphone et autres joyeuseté CSS3 
 
 - sitemap a faire en fonction de l'url de base
 - Sémantiquement faible. Pas top en termes d'accessibilité et de SEO.

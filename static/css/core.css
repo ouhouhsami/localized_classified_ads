@@ -17,11 +17,11 @@ body {
 }
 
 header {
-	background-image:-moz-linear-gradient(center bottom , #222222 45%, #505050 100%);
+	background-image:linear-gradient(bottom, #222222 45%, #505050 100%);
 	border-bottom:5px solid #FFB82E;
 }
 footer {
-	background-image:-moz-linear-gradient(center bottom , #505050 45%, #222222 100%);
+	background-image:linear-gradient(bottom, #505050 45%, #222222 100%);
 	border-top:5px solid #FFB82E;
 }
 #header > h1, #footer > span {

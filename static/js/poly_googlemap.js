@@ -61,7 +61,6 @@ $(document).ready(function() {
 		drawingManager.setOptions({drawingMode:null});
 		setPathToTextarea();
 		addUpdatePathEventListerner();
-		console.log(overlay)
 	});
 	
 	/*

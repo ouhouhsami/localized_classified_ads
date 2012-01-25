@@ -17,10 +17,12 @@ body {
 }
 
 header {
+	background-color:#222222;
 	background-image:linear-gradient(bottom, #222222 45%, #505050 100%);
 	border-bottom:5px solid #FFB82E;
 }
 footer {
+	background-color:#222222;
 	background-image:linear-gradient(bottom, #505050 45%, #222222 100%);
 	border-top:5px solid #FFB82E;
 }

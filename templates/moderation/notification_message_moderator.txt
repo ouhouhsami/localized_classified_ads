@@ -1,0 +1,3 @@
+New {{ content_type }} entry needs to be moderated, from {{ moderated_object.changed_object.user_profile.user.email }}
+
+You can moderate here: {{ moderated_object.get_admin_moderate_url }}

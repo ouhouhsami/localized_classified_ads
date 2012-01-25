@@ -17,7 +17,7 @@ OK - nouveau bien a moderer : sur le mail de moderation indiquer le mail de la p
 - bug : afficher lorsque recherche sans geolocalisation : les annonces se retrouvent dans la pampa
 - a T0 : pas d'cione sur la carte, c'est lorsque l'on clique sur geolocaliser que ça s'affiche l'icone
 - faire effet onmouserover sur bouton et submit
-- nouveau texte point 2 : "cliquer sur 'icone dessin' pour dessiner votre zone de recherche""
+OK - nouveau texte point 2 : "cliquer sur 'icone dessin' pour dessiner votre zone de recherche""
 - mettre à jour dynamicssites lorsque le gars aura mis le setup.py
 OK - revoir les texte de suivi de validation de bien à mettre en français ! ...
 - style iphone et autres joyeuseté CSS3 

@@ -497,6 +497,15 @@ table th {
 	list-style:none;
 	color:red;
 }
+
+.draw-icon {
+	background-color:#FFF;
+	padding:4px;
+	margin-bottom:0px;
+	border:1px solid #777;
+	vertical-align: bottom;
+}
+
 /*
 .tooltip {
   background-color: #ffa;

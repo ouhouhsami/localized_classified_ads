@@ -13,7 +13,7 @@ IMPORTANT LINK
 
 IMPROVEMENT
 
-- nouveau bien a moderer : sur le mail de moderation indiquer le mail de la personne
+OK - nouveau bien a moderer : sur le mail de moderation indiquer le mail de la personne
 - bug : afficher lorsque recherche sans geolocalisation : les annonces se retrouvent dans la pampa
 - a T0 : pas d'cione sur la carte, c'est lorsque l'on clique sur geolocaliser que ça s'affiche l'icone
 - faire effet onmouserover sur bouton et submit

@@ -28,7 +28,7 @@ $(document).ready(function() {
         mapTypeControl: false,
         streetViewControl: false,
         mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
         },
         zoomControl: true,
         zoomControlOptions: {

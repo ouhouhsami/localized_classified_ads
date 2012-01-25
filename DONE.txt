@@ -29,7 +29,7 @@ OK - vérifier le chmod +x sur django.fgi
 OK - revoir la localisation des anciens biens.
 OK - vérifier pourquoi certaines images semble disparaitre 
 OK - adapter le profile à être plus générique
-
+OK - correction d'un bug console sous IE 
 
 
 - pour louersanscom : 

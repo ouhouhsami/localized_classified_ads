@@ -42,10 +42,10 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
 
 @receiver(signup_complete)
 def signup_complete_callback(sender, **kwargs):
-    send_mail('[%s] Nouvelle inscription : %s' % (Site.objects.get_current(), kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+    send_mail('[%s] Nouvelle inscription : %s' % (Site.objects.get_current().name, kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
 
 
 @receiver(activation_complete)
 def activation_complete_callback(sender, **kwargs):
-    send_mail('[%s] Inscription validee : %s' % (Site.objects.get_current(), kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
+    send_mail('[%s] Inscription validee : %s' % (Site.objects.get_current().name, kwargs['user'].email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=False)
 

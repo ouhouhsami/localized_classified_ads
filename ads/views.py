@@ -22,6 +22,7 @@ from django.contrib.sites.models import Site
 from django.core import serializers
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
 
 import floppyforms
 import django_filters
@@ -140,7 +141,7 @@ def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
             instance.content_object = ad
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
-            send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current()), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
+            send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current().name), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             sent_mail = True
             messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé.')
     if request.is_ajax():
@@ -158,13 +159,10 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
     if request.method == 'POST':
         form = AdForm(request.POST)
         if form.is_valid():
-            #print 'VALID'
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
             # add location and address fields
-            #print 'OK'
             geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
-            #print '1'
             instance.address = geocode.raw
             coordinates = geocode[0].coordinates
             # if one day we need to change projection
@@ -174,12 +172,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             # Point(lon, lat, srid) so we must reverse Geocode result
             pnt = Point(coordinates[1], coordinates[0], srid=900913)
             instance.location = pnt
-            #print '2'
-            #print pnt
-            #print instance
             instance.save()
-            #print '3 save ok'
-            #print instance.location
             PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
             if picture_formset.is_valid():
@@ -187,17 +180,13 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             # here we need to add changed_by to moderated object to get email notification
             instance.moderated_object.changed_by = request.user
             instance.moderated_object.save()
-            #messages.add_message(request, messages.INFO, 'Votre annonce a bien été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')
-            #print '3'
-            send_mail('[%s] Ajout d\'un bien' % (Site.objects.get_current()), 'Votre annonce a été enregistrée, elle va être modérée. Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
-            #return HttpResponseRedirect(reverse('edit', args=[instance.id]))
-            #return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
+            message = render_to_string('ads/emails/ad_create_email_message.txt', {})
+            subject = render_to_string('ads/emails/ad_create_email_subject.txt', {'site_name':Site.objects.get_current().name})
+            send_mail(subject, message, 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
             return redirect('completed', permanent=True)
-        #else:
-        #    print 'no valid', form.errors
-        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
+        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current().name, request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     else:
-        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current(), request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
+        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current().name, request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
 
@@ -235,7 +224,10 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 # below, to be sure that images are displayed
                 picture_formset = PictureFormset(instance = h)
                 #messages.add_message(request, messages.INFO, 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.')       
-                send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current()), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
+                #send_mail('[%s] Modification d\'un bien' % (Site.objects.get_current().name), 'La modification de votre annonce a été enregistrée, elle va être modérée, Vous serez informé de sa mise en ligne dans quelques instants.', 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
+                message = render_to_string('ads/emails/ad_update_email_message.txt', {})
+                subject = render_to_string('ads/emails/ad_update_email_subject.txt', {'site_name':Site.objects.get_current().name})
+                send_mail(subject, message, 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
                 #return render_to_response('ads/validation.html', {}, context_instance = RequestContext(request) )
                 return redirect('completed', permanent=True)
                 # below to force real value of fields

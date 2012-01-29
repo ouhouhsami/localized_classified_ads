@@ -21,7 +21,6 @@ OK - nouveau texte point 2 : "cliquer sur 'icone dessin' pour dessiner votre zon
 - mettre à jour dynamicssites lorsque le gars aura mis le setup.py
 OK - revoir les texte de suivi de validation de bien à mettre en français ! ...
 - style iphone et autres joyeuseté CSS3 
-- refaire la phrase pour le dessin : il faut à présent cliquer sur l'icone
 - internationaliser le contenu ?
 
 - sitemap a faire en fonction de l'url de base
@@ -32,7 +31,7 @@ OK - revoir les texte de suivi de validation de bien à mettre en français ! ..
 - Sélecteurs CSS : il faut faire un choix entre l'underscore et le trait d'union.
 - Critères optionnels : "table layout" à la sauce 1997. A changer en urgence.
 - Liste de résultats de recherche : une table oui ! Mais sémantiquement correcte ...
-- Critères optionnels complètement buggés en termes de layout (Firefox 9) : il suffit de déployer tous les panneaux et hop, ça dépasse !
+OK - Critères optionnels complètement buggés en termes de layout (Firefox 9) : il suffit de déployer tous les panneaux et hop, ça dépasse !
 - Utilisation de CSS3 : les préprocesseurs CSS, c'est bien, mais tout le monde n'utilise pas Chrome 13 et compagnie ... Aussi, il est toujours bien d'avoir un fallback css2 au cas où certaines déclarations ne sont pas supportées ...
 
 
@@ -62,7 +61,7 @@ OK - revoir les texte de suivi de validation de bien à mettre en français ! ..
 - gérer les log
 - correction fermeture annonce ipad
 - faire les filtres en ajax
-- versionning type ulysses
+- versionning
 - indexation de la base de données
 - mettre les commodites (genre boulangerie, ecole ... ?)
 - rappatrier le code source

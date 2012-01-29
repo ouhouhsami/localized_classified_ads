@@ -181,6 +181,7 @@ $(document).ready(function() {
 });
 
 add_home = function (x, y, url, id, visible, icon) {
+	console.log(visible);
 	homes.push({'x': x, 'y': y, 'url': url, 'id': id, 'visible': visible, 'icon':icon});
 }
 

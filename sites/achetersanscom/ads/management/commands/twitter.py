@@ -4,7 +4,7 @@ import urlparse
 import cgi
 
 from django.core.management.base import BaseCommand, CommandError
-from ads.models import *
+from sites.achetersanscom.ads.models import *
 from django.conf import settings
 from django.template.defaultfilters import urlencode
 from django.contrib.gis.geos import *
@@ -18,7 +18,7 @@ class Command(BaseCommand):
                                   settings.TWITTER_CONSUMER_SECRET)
         client = oauth.Client(consumer, token)
 
-        for ad in HomeForSaleAd.objects.all():
+        for ad in HomeForSaleAd.objects.all().filter(id=3):
             habitation_type = ad.get_habitation_type_display()
             price = ad.price
             surface = int(ad.surface)
@@ -26,7 +26,6 @@ class Command(BaseCommand):
             status = u'#achetersanscom %s - %s€ - %sm² - %s pièces' % (habitation_type, 
                                                     price, surface, rooms)
             pnt = GEOSGeometry('SRID=%s;%s' % (ad.location.srid, ad.location.wkt))
-            pnt.transform(4326)
             latitude = pnt.y
             longitude = pnt.x
             params = 'status=%s&lat=%s&long=%s&display_coordinates=true' % (urlencode(status), latitude, longitude)
@@ -34,5 +33,4 @@ class Command(BaseCommand):
                 'http://api.twitter.com/1/statuses/update.xml?%s' % (params),
                 "POST"
             )
-            
         

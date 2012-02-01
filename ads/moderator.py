@@ -1,6 +1,7 @@
 from moderation import moderation
 from moderation.moderator import GenericModerator
 from moderation.managers import ModerationObjectsManager
+
 from django.contrib.gis.db import models
 
 
@@ -9,4 +10,6 @@ class AdModerator(GenericModerator):
     notify_moderator = True
     notify_user = True
     visibility_column = 'visible'
+
+
 

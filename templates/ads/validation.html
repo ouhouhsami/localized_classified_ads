@@ -5,11 +5,9 @@
 
 {% block content %}
 	<h2>Annonce en cours de validation</h2>
-	<div class="inner_content">
-		<p>
-			Votre annonce a été enregistrée, elle va être modérée.<br />
-			Vous serez informé de sa mise en ligne dans quelques instants.<br />
-			Vous pouvez toujours modifier votre annonce depuis <a href="{% url userena_profile_detail user.username %}">votre compte</a>.
-		</p>
-	</div>
+	<p>
+		Votre annonce a été enregistrée, elle va être modérée.<br />
+		Vous serez informé de sa mise en ligne dans quelques instants.<br />
+		Vous pouvez toujours modifier votre annonce depuis <a href="{% url userena_profile_detail user.username %}">votre compte</a>.
+	</p>
 {% endblock content %}

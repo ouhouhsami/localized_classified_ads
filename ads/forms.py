@@ -7,7 +7,7 @@ from models import *
 import floppyforms
 from form_utils.forms import BetterModelForm, BetterForm
 from django.forms.extras.widgets import SelectDateWidget
-from widgets import CustomPointWidget, GooglePointWidget, BooleanExtendedNumberInput
+from widgets import CustomPointWidget, BooleanExtendedNumberInput
 from django.utils.safestring import mark_safe
 
 from fields import PriceField, SurfaceField

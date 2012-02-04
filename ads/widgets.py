@@ -149,17 +149,7 @@ class GooglePolygonWidget(Input):
     class Media:
         js = (
             'http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=drawing',
-            'js/googlemap-tooltip.js',
             'js/poly_googlemap.js',
-        )
-
-class GooglePointWidget(Input):
-    template_name = 'floppyforms/gis/point_google.html'
-    class Media:
-        js = (
-            'http://maps.google.com/maps/api/js?sensor=false',
-            #'js/proj4js-combined.js',
-            'js/point_googlemap.js',
         )
 
 class BooleanExtendedNumberInput(NumberInput):

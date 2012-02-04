@@ -1,47 +1,16 @@
 {% extends "base-menupage.html" %}
-{% load ads_tag %}
-{% load utils_tags %}
+{% load ads_tag utils_tags %}
 
-{% block title %}{{ site.name }} | Proposer un bien{% endblock %}
+{% block title %}
+	{{ site.name }} | Proposer un bien
+{% endblock %}
 
 {% block media %}
 	{{ form.media }}
 {% endblock %}
 
 {% block javascript %}
-	<script>
-		$(document).ready(function(){
-			var habitation_type = $('#id_habitation_type').val();
-			var correspondance = ['apartment', 'house', '', '', '', '', '', 'parking', 'others'];
-			function init_form(){
-				$('.atom').each(function(evt){
-					if(habitation_type != ''){
-						if(!$(this).hasClass(correspondance[parseInt(habitation_type)])){
-							$(this).hide()
-							$(this).find(':input').val('').removeAttr('checked').removeAttr('selected')
-						}else{
-							$(this).show()
-						}
-					}
-					else{
-						if(!$(this).hasClass('base')){
-							$(this).hide()
-						}
-					}
-				})
-			}				
-			$('#id_habitation_type').change(function(evt){
-				habitation_type = $(this).val()
-				init_form()
-			})
-			init_form()
-			$('#id_user_entered_address').change(function(evt){
-				$('#address').val($(this).val())
-				$("#center_map").trigger('click')
-			})
-			
-		})
-	</script>
+	<script src="{{ STATIC_URL }}js/edit_form.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block messages %}
@@ -55,45 +24,31 @@
 	</div>
 	{% endif %}
 	{% if form.errors %}
-	<div id="messages">
-	<div id="form-error" style="color:red;">
-			
+	<div id="messages" class="important_red">
 		<ul class="messages">
 			<li>Le formulaire comporte des erreurs, indiquée ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce.</li>
-		{% comment %}
-		{% for field in form %}
-		{% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
-		{% endfor %}
-		{% endcomment %}
 		</ul>
-	</div>
 	</div>
 	{% endif %}
 {% endblock messages %}
-
-
-
 
 {% block menu %}
 	{% include 'ads/menu.html' with selected=2 only %}
 {% endblock menu %}
 
-
 {% block content %}
-
 	<form action="" method="POST" class="edit_form" enctype="multipart/form-data">
-		<div class="form_adson" style="margin-top:0px;">
-		Les champs obligatoires sont identifiés par une <span style="color:red">*</span>.
-		<br />Nous vous conseillons de renseigner le maximum de champs, 
-		d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
-		En effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète 
-		et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
-		Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
-		par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
-		superflues qui auront peu de chance d'aboutir.	
+		<div class="form_adson">
+			Les champs obligatoires sont identifiés par une <span class="important_red">*</span>.
+			<br />Nous vous conseillons de renseigner le maximum de champs, 
+			d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
+			En effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète 
+			et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
+			Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
+			par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
+			superflues qui auront peu de chance d'aboutir.	
 		</div>
-	
-	<div class="form">
+		<div class="form">
 		{% csrf_token %}
 		
 		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
@@ -112,33 +67,12 @@
 			{% if field.is_hidden %}
 		      {{ field }}
 		    {% else %}
+			{% comment %}TODO: remove test below{% endcomment %}
 			{% ifequal field.name 'location' %}
-			
-			
-
-			
-			<tr style="display:none;">
-				<th>{{ field.label_tag }}</th>
-				<td>
-				<div >{{ field }} 
-					{% if field.help_text %}<br />
-						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
-						{% endif %}
-						{% if field.errors %}<br />{{ field.errors }}{% endif %}	
-					</div>
-					<div style="clear:both"></div>
-				</td>
-			</tr>
-			
-
-			
 			{% else %}
-			
-			
 			{% if field.field.widget|widget_type == 'CheckboxInput' or field.field.widget|widget_type == 'BooleanExtendedNumberInput' or field.field.widget|widget_type == 'BooleanExtendedInput' %}
 		      <tr{{ field.row_attrs }}>
 		        <th>
-					
 				</th>
 		        <td>
 					{{ field }} {% if field.field.widget|widget_type == 'CheckboxInput' %} <span class="checkbox_label">{{ field.label_tag }}</span> {% endif %}
@@ -155,21 +89,21 @@
 					{{ field.label_tag }}
 				</th>
 		        <td>
-					{% if field.field.required %}<div class="required_class" style="float:right">*</div>{% endif %}
+					{% if field.field.required %}<div class="required_class">*</div>{% endif %}
 					<span>{{ field }}</span>
 				
 				</td>
 		      </tr>
 				{% if field.errors %}
-				<tr style="margin-top:0px;padding-top:0px">
-				<th style="margin-top:0px;padding-top:0px"></th>
-				<td style="margin-top:0px;padding-top:0px">{{ field.errors }}</td>
+				<tr class="top_fit">
+				<th class="top_fit"></th>
+				<td class="top_fit">{{ field.errors }}</td>
 				</tr>
 				{% endif %}
 				{% if field.help_text %}
-				<tr style="margin-top:0px;padding-top:0px">
-				<th style="margin-top:0px;padding-top:0px"></th>
-				<td style="margin-top:0px;padding-top:0px">{% autoescape off %}<span class="help" style="margin-top:0px;padding-top:0px">{{ field.help_text }}</span>{% endautoescape %}</td>
+				<tr class="top_fit">
+				<th class="top_fit"></th>
+				<td class="top_fit">{% autoescape off %}<span class="top_fit help">{{ field.help_text }}</span>{% endautoescape %}</td>
 				</tr>
 				{% endif %}
 			{% endif %}
@@ -186,13 +120,11 @@
 			<h2 class="hightlight_title">Photos</h2>
 			<p>N'hésitez pas à insérer une photo du plan de votre bien.</p>
 			    {{ picture_formset.management_form }}
-    		<ul style="list-style:none">
+    		<ul class="upload_picture">
         		{% for form in picture_formset %}
-        		<li class="upload_picture" style="margin-bottom:10px">
-					{% comment %}{{ form.id }} {{ form.DELETE }} {{ form.title }} {{ form.image }} {% endcomment %}
-					
+        		<li class="upload_picture" >
 					<table>
-						<tr><th style="text-align:left; font-size:1em">Photo n° {{ forloop.counter }}</th><td></td></tr>
+						<tr><th class="upload_photo_title">Photo n° {{ forloop.counter }}</th><td></td></tr>
 						{{ form }}
 					</table>
 				</li>
@@ -231,11 +163,6 @@
 	<td><button type="submit">Envoyer</button></td>
 </tr>
 </table>
-
-
-        
-	</div>
-    </form>
-
-
+</div>
+</form>
 {% endblock content %}

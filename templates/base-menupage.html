@@ -2,48 +2,45 @@
 
 {% block site %}
 
-{% block form-top %}
-{% endblock form-top %}
-
+	{% block form-top %}
+	{% endblock form-top %}
 
 	{% block messages %}
-	{% if messages %}
-	<div id="messages">
-	<ul class="messages">
-		{% for message in messages %}
-		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
-		{% endfor %}
-	</ul>
-	</div>
-	{% endif %}
+		{% if messages %}
+		<div id="messages">
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{% autoescape off %}{{ message }}{% endautoescape %}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
 	{% endblock messages %}
 
-<ul id="menu">
-	{% block menu %}
-	{% include 'ads/menu.html' with selected=0 only %}
-	{% endblock menu %}
-</ul>
-<div id="content" >
-	{% block content %}
-	<div id="main">
-		{% block map %}
-		{% endblock map %}
-		{% block results %}
-		{% endblock %}
-	</div>
-	<div id="right_column">
-		{% block filters %}
-		{% endblock filters %}
-		{% comment %}
-		<div id="out">
-			<p>Commercials here</p>
-		</div>
-		{% endcomment %}
-	</div>
-	{% endblock content %}
-</div>
+	<ul id="menu">
+		{% block menu %}
+		{% include 'ads/menu.html' with selected=0 only %}
+		{% endblock menu %}
+	</ul>
 
-{% block form-bottom %}
-{% endblock form-bottom %}
+	<div id="content">
+		{% block content %}
+		<div id="main">
+			{% block map %}
+			{% endblock map %}
+			{% block results %}
+			{% endblock %}
+		</div>
+		<div id="right_column">
+			{% block filters %}
+			{% endblock filters %}
+		</div>
+		{% endblock content %}
+	</div>
+
+	{% block form-bottom %}
+	{% endblock form-bottom %}
 
 {% endblock site %}

@@ -3,16 +3,10 @@
 <html lang="fr">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		
 		{% block meta %}
-		<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,
-		                                         annonces immobilières,ventes,achat,location,
-		                                         vendre,louer,parking,achetersanscom,
-		                                         acheter sans com, sans commission" />
-		<meta name="description" lang="fr" content="AcheterSansCom propose des annonces immobilières 
-		                                  sans intermédiaires et géolocalisées. AcheterSansCom permet d'acheter
-		                                  sans agence ou de vendre sans commission. La mise en ligne 
-		                                  et la consultation des annonces est gratuite." />
 		{% endblock %}
+		
 		<title>{% block title %}{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées{% endblock %}</title>
 		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}favicon.ico">
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/base.css" />
@@ -23,33 +17,30 @@
 		<link rel="stylesheet" type="text/css" media="screen and (min-width: 970px)" href="{{ STATIC_URL }}css/large-style.css" />
 		<link rel="stylesheet" type="text/css" media="screen and (max-width: 790px)" href="{{ STATIC_URL }}css/small-style.css" />
 		<link rel="stylesheet" type="text/css" media="screen and (min-width: 790px) and (max-width:970px)" href="{{ STATIC_URL }}css/medium-style.css" />
-		
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/{{ site }}.css" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.placeholder-enhanced.min.js"  charset="utf-8"></script>
 		
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" ></script>
-		<script src="{{ STATIC_URL }}js/jquery.placeholder-enhanced.min.js" type="text/javascript" charset="utf-8"></script>
 		{% block media %}
 		{% endblock %}
+		
 		{% block javascript %}
 		{% endblock %}
+		
 		{% block css %}
 		{% endblock %}
 		
 		<script src="{{ STATIC_URL }}js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
-		
 		<script type="text/javascript">
-
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-17174958-2']);
 		  _gaq.push(['_setDomainName', 'achetersanscom.com']);
 		  _gaq.push(['_trackPageview']);
-
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
-
 		</script>
 	</head>
 	<body>
@@ -72,9 +63,7 @@
 			{% block site %}
 			{% endblock site %}
 		</div>
-		<!-- for sticky footer -->
 		<div class="push"></div>
-		<!-- -->
 		</div>
 		<footer>
 			<div id="footer">

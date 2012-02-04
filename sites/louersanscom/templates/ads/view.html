@@ -37,14 +37,8 @@
 				title:"Annonce",
 				icon: new google.maps.MarkerImage('{{ ad.icon }}')
 			});
-			/*$("img[rel]").overlay();*/
+			$('a.gallery').colorbox({rel:'gal'});
     	});
-	</script>
-	
-	<script type="text/javascript">
-	$(function() {
-		$('a.gallery').colorbox({rel:'gal'});
-	});
 	</script>
 {% endblock %}
 	
@@ -73,7 +67,7 @@
 
 	<div style="clear:both"></div>
 	{% if ad.pictures.all %}
-		<p style="font-size:0.9; color:#555;margin-top:0px"><i>
+		<p class="photo_clicktext"><i>
 		{% if ad.pictures.all|length = 1 %}
 		Cliquez sur la photo pour l'agrandir
 		{% else %}
@@ -88,7 +82,7 @@
 	{% if sent_mail %}
 	
 	{% else %}
-	<div id="message_block" style="margin-top: 0px;">
+	<div id="message_block">
 	{% if user.is_authenticated %}
 		<form  action="" method="POST" >
 				<h2>Contacter le vendeur</h2>
@@ -118,7 +112,7 @@
 	{% endif %}
 
 		
-	<div style="height:248px" id="map_locate" ></div>
+	<div id="map_locate" ></div>
 
 	<div style="clear:both"></div>
 

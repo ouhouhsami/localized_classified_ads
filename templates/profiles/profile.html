@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content %}
-<div style='border-top-left-radius:10px;padding:20px; padding-top:1px'>
+<div class="profile_content_style">
 	{% if user.username == profile.user.username %}
 		{% comment %}{% include "userena/menu_snippet.html" %}{% endcomment %}
 	{% endif %}
@@ -154,16 +154,16 @@
 		</tr>
 	{% endfor %}
 	</table>
-<p  class="adson inside" style="margin-top:5px">
-{% if profile.email_alert %}
-Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
-{% else %}
-Pour recevoir les alertes email lorsque de nouvelles annonces correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
-{% endif %}
+<p class="adson inside" >
+	{% if profile.email_alert %}
+	Pour ne plus recevoir les alertes email, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+	{% else %}
+	Pour recevoir les alertes email lorsque de nouvelles annonces correspondront à Vos Recherches, <a class="" href="{% url userena_profile_edit user.username %}">modifiez votre profil</a>.
+	{% endif %}
 </p>
 {% else %}
-<h3 class="extended_title">Vos Recherches</h3>
-<p>Vous n'avez aucune recherche enregistrée.</p>
+	<h3 class="extended_title">Vos Recherches</h3>
+	<p>Vous n'avez aucune recherche enregistrée.</p>
 {% endif %}
 
 

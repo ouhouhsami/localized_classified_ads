@@ -1,0 +1,87 @@
+/* 
+	Style for Energy consumption and Emission of greenhouse gases tables
+*/
+
+
+.energy .detail {
+	font-size:0.8em;
+}
+
+.energy .value {
+	font-weight:bold;
+	float:right;
+}
+
+.energy .unit {
+	font-weight:normal;
+}
+
+.energy_consumption_a {
+	background-color:#429e3a; 
+	width:40px;
+}
+
+.emission_of_greenhouse_gases_a {
+	background-color:#f3ecfd; 
+	width:40px;	
+}
+
+.energy_consumption_b {
+	background-color:#4cd540; 
+	width:60px;
+}
+
+.emission_of_greenhouse_gases_b {
+	background-color:#d8c0f7; 
+	width:60px;	
+}
+
+.energy_consumption_c {
+	background-color:#e9ff3f; 
+	width:80px;
+}
+
+.emission_of_greenhouse_gases_c {
+	background-color:#c8a7f4; 
+	width:80px;	
+}
+
+.energy_consumption_d {
+	background-color:#ffff18; 
+	width:100px;
+}
+
+.emission_of_greenhouse_gases_d {
+	background-color:#bc93f2; 
+	width:100px;	
+}
+
+.energy_consumption_e {
+	background-color:#ffdb00; 
+	width:120px;
+}
+
+.emission_of_greenhouse_gases_e {
+	background-color:#a570ee; 
+	width:120px;	
+}
+
+.energy_consumption_f {
+	background-color:#ff9c34; 
+	width:140px;
+}
+
+.emission_of_greenhouse_gases_f {
+	background-color:#8b4aea; 
+	width:140px;	
+}
+
+.energy_consumption_g {
+	background-color:#ff0000; 
+	width:160px;
+}
+
+.emission_of_greenhouse_gases_g {
+	background-color:#6200dd; 
+	width:160px;	
+}

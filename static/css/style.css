@@ -53,6 +53,14 @@ a, a:active, a:link, a:visited {
 	z-index:0;
 }
 
+.unique {
+	margin-top:20px !important; 
+	border-top-left-radius:10px !important;
+	padding:20px !important; 
+	padding-top:1px !important;
+}
+
+
 #menu {
 	/*margin-left:15px;*/
 	margin-top: 20px;
@@ -223,6 +231,7 @@ a, a:active, a:link, a:visited {
 }
 .required_class {
 	color:red;
+	float:right;
 }
 .help {
 	color:#666;
@@ -360,6 +369,7 @@ button {
 	border:1px solid #ccc;
 	border-radius: 4px 4px 4px 4px;
 	padding:2px;
+	padding-left:4px;
 	/*background-color:white;*/
 	/*height:19px;*/
 	display:block;
@@ -388,6 +398,7 @@ table th {
 }
 .energy {
 	float:right;
+	margin-bottom: 5px;
 }
 
 .energy div {
@@ -423,11 +434,11 @@ table th {
 }
 
 #message_block {
+	margin-top: 0px;
 	float:right;
 	width:460px;
 	background-color:#ddd;
 	border-radius: 10px 10px 10px 10px;
-	margin-top:5px;
 }
 
 #message_block form {
@@ -512,16 +523,77 @@ table th {
 	vertical-align: bottom;
 }
 
-/*
-.tooltip {
-  background-color: #ffa;
-  border: 1px solid #cc9;
-  padding: 3px;
-  font-size: 10px;
-  box-shadow: 2px 2px 11px #666;
-  box-shadow: 2px 2px 11px #666;
+.important_red {
+	color:red !important;
 }
-*/
+
+.top_fit {
+	margin-top:0px;
+	padding-top:0px
+}
+
+.upload_picture{
+	margin-bottom:10px
+}
+
+.upload_photo_title {
+	font-size:1em; 
+	font-weight:bold;
+}
+
+.home_help_text {
+	margin-top:0 ;
+	padding-top:5px ;
+	margin-bottom:0 ;
+	line-height:30px ;
+	font-size:1.2em ;
+}
+
+
+.save_search {
+	float:right;
+	margin-right:0.26em;
+	margin-top:0.25em
+}
+
+.photo_clicktext {
+	font-size:0.9;
+	color:#555;
+	margin-top:0px;
+}
+
+.attr_detail {
+	font-size:0.8;
+	font-style:italic;
+}
+
+.profile_content_style {
+	border-top-left-radius:10px;
+	padding:20px;
+	padding-top:1px;
+}
+
+
+.header_second_link {
+	font-size:0.5em;
+}
+
+.upload_picture {
+	list-style:none;
+}
+
+.search_form_header {
+	padding-left:4px;
+	font-weight:bold;
+}
+
+#center_map {
+	display:none;
+}
+
+#results_detail {
+	display:none;
+}
 
 @media screen and (min-width: 790px) and (max-width:970px){
 	.photo_gallery img {

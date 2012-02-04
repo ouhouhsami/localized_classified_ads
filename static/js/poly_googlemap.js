@@ -170,7 +170,7 @@ $(document).ready(function() {
 				map.setCenter(initialLocation);
 				map.setZoom(12)
 			} 
-			else 
+			else
 			{
 				//alert("Geocode was not successful for the following reason: " + status);
 			}
@@ -181,7 +181,6 @@ $(document).ready(function() {
 });
 
 add_home = function (x, y, url, id, visible, icon) {
-	console.log(visible);
 	homes.push({'x': x, 'y': y, 'url': url, 'id': id, 'visible': visible, 'icon':icon});
 }
 

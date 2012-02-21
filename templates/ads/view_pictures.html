@@ -1,0 +1,20 @@
+{% load ads_tag i18n %}
+{% if ad.pictures.all %}
+<div class="photo_gallery">
+{% for img in ad.pictures.all %}
+	<div class="thumbnail">
+		<a class="gallery" href="{{ img.image.url }}" {% if img.title %}title="{{ img.title }}"{% endif %}>
+			<figure>
+				<img src="{% thumbnail img.image 225 175 %}" rel="#img_{{ img.id }}" {% if img.title %}alt="{{ img.title }}"{% endif %}/>
+				{% if img.title %}<figcaption>{{ img.title }}</figcaption>{% endif %}
+			</figure>
+		</a>
+	</div>
+{% endfor %}
+
+<div style="clear:both"></div>
+{% if ad.pictures.all %}
+	<p class="photo_clicktext"><i>{% trans "Cliquez sur les photos pour les agrandir" %}</i></p>
+{% endif %}
+</div>
+{% endif %}

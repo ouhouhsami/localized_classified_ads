@@ -1,11 +1,11 @@
 {% load ads_tag %}
-{% load l10n %}
+{% load l10n i18n %}
 
 <div class="ad_{{ ad.id }}">
 	<p><b>
-		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièces ({{ ad.nb_of_bedrooms }} ch.)
+		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} {% trans "pièce" %}{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} ch.)
 		<br />
 		{{ ad.price|priceformat }} € - {{ ad.surface }} m<sup>2</sup>
-		</b> <a href="{% url view ad.slug %}" target="_blank">Voir le détail</a>
+		</b> <a href="{% url view ad.slug %}" target="_blank">{% trans "Voir le détail" %}</a>
 	</p>
 </div>

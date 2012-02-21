@@ -1,8 +1,8 @@
 {% extends "base-menupage.html" %}
-{% load ads_tag utils_tags %}
+{% load ads_tag utils_tags i18n %}
 
 {% block title %}
-	{{ site.name }} | Proposer un bien
+	{{ site.name }} | {% trans "Proposer un bien" %}
 {% endblock %}
 
 {% block media %}
@@ -26,7 +26,7 @@
 	{% if form.errors %}
 	<div id="messages" class="important_red">
 		<ul class="messages">
-			<li>Le formulaire comporte des erreurs, indiquée ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce.</li>
+			<li>{% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}</li>
 		</ul>
 	</div>
 	{% endif %}
@@ -39,6 +39,7 @@
 {% block content %}
 	<form action="" method="POST" class="edit_form" enctype="multipart/form-data">
 		<div class="form_adson">
+			{% blocktrans %}
 			Les champs obligatoires sont identifiés par une <span class="important_red">*</span>.
 			<br />Nous vous conseillons de renseigner le maximum de champs, 
 			d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
@@ -46,7 +47,8 @@
 			et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
 			Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
 			par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
-			superflues qui auront peu de chance d'aboutir.	
+			superflues qui auront peu de chance d'aboutir.	 
+			{% endblocktrans %}
 		</div>
 		<div class="form">
 		{% csrf_token %}
@@ -117,14 +119,14 @@
 		{% endfor %}
 
 		<div class="atom house apartment parking others">
-			<h2 class="hightlight_title">Photos</h2>
-			<p>N'hésitez pas à insérer une photo du plan de votre bien.</p>
+			<h2 class="hightlight_title">{% trans "Photos" %}</h2>
+			<p>{% trans "N'hésitez pas à insérer une photo du plan de votre bien." %}</p>
 			    {{ picture_formset.management_form }}
     		<ul class="upload_picture">
         		{% for form in picture_formset %}
         		<li class="upload_picture" >
 					<table>
-						<tr><th class="upload_photo_title">Photo n° {{ forloop.counter }}</th><td></td></tr>
+						<tr><th class="upload_photo_title">{% trans "Photo n°" %} {{ forloop.counter }}</th><td></td></tr>
 						{{ form }}
 					</table>
 				</li>
@@ -160,7 +162,7 @@
 <table>
 <tr class="last">
 	<th></th>
-	<td><button type="submit">Envoyer</button></td>
+	<td><button type="submit">{% trans "Envoyer" %}</button></td>
 </tr>
 </table>
 </div>

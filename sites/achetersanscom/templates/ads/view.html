@@ -1,12 +1,11 @@
 {% extends "base-simplepage.html" %}
-{% load ads_tag %}
-{% load l10n %}
+{% load ads_tag l10n i18n %}
 
-{% block title %}Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²{% endblock %}
+{% block title %}{% trans "Vente" %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²{% endblock %}
 
 {% block meta %}
 		<meta name="keywords" lang="fr" content="{{ ad.get_habitation_type_display }},à vendre,sans intermédiaire,{{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }}" />
-		<meta name="description" lang="fr" content="Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
+		<meta name="description" lang="fr" content="{% trans 'Vente' %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
 {% endblock %}
 
 {% block javascript %}
@@ -57,31 +56,21 @@
 		- {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}
 	</h2>
 
-	{% if ad.pictures.all %}
-	<div class="photo_gallery">
-	{% for img in ad.pictures.all %}
-		<div class="thumbnail">
-			<a class="gallery" href="{{ img.image.url }}"><img src="{% thumbnail img.image 225 175 %}" rel="#img_{{ img.id }}" /></a>
-		</div>
-	{% endfor %}
-
-	<div style="clear:both"></div>
-	{% if ad.pictures.all %}
-		<p class="photo_clicktext"><i>Cliquez sur les photos pour les agrandir</i></p>
-	{% endif %}
-	</div>
-	{% endif %}
+	{% include 'ads/view_pictures.html' %}
 		
 		<table class="energy">
+			<thead>
 			<tr>
-				<th >Consommation énergétique<br />
-				<span class="unit">kWhEP/m².an</span>
+				<th>{% trans "Consommation énergétique" %}<br />
+				<span class="unit">{% trans "kWhEP/m².an" %}</span>
 				</th>
-				<th>Emission de gaz à effets de serre
+				<th>{% trans "Emission de gaz à effets de serre" %}
 				<br />
-				<span class="unit">kgeqCO2/m².an</span>
+				<span class="unit">{% trans "kgeqCO2/m².an" %}</span>
 				</th>
 			</tr>
+			</thead>
+			<tbody>
 			<tr>
 				<td>{%if ad.energy_consumption %}<div class="energy_consumption_a {%if ad.energy_consumption == 'A' %}selected{% endif %}"><span class="detail">≤ 50</span> <span class="value">A</span></div>{% endif %}</td>
 				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_a {%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span class="detail">≤ 5</span> <span class="value">A</span></div>{% endif %}</td>
@@ -110,9 +99,9 @@
 				<td>{%if ad.energy_consumption %}<div class="energy_consumption_g {%if ad.energy_consumption == 'G' %}selected{% endif %}"><span class="detail">> 450</span> <span class="value">G</span></div>{% endif %}</td>
 				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_g {%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span class="detail">> 80</span> <span class="value"> G</span></div>{% endif %}</td>
 			</tr>			
-			
+			</tbody>
 		</table>
-	<div id="map_locate" ></div>
+	<map id="map_locate" ></map>
 
 	<div style="clear:both"></div>
 
@@ -124,30 +113,30 @@
 		
 		<div class="bloc_info">
 		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
-		<h4>Situation du logement</h4>
+		<h4>{% trans "Situation du logement" %}</h4>
 		<p>
 		{% if ad.floor %}
-			{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}(et dernier){% endif %} étage
+			{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}({% trans "et dernier" %}){% endif %} étage
 			<br />
 		{% endif %}
 		{% if ad.ground_floor %}
-		Rez-de-chaussé
+		{% trans "Rez-de-chaussé" %}
 		<br />
 		{% endif %}
 		{% if ad.duplex %}
-		Duplex
+		{% trans "Duplex" %}
 		<br />
 		{% endif %}
 		{% if ad.ground_surface %}
-		Surface du terrain : {{ ad.ground_surface }} m²
+		{% trans "Surface du terrain" %} : {{ ad.ground_surface }} m²
 		<br />
 		{% endif %}
 		{% if ad.not_overlooked %}
-		Sans vis-à-vis
+		{% trans "Sans vis-à-vis" %}
 		<br />
 		{% endif %}
 		{% if ad.orientation %}
-		Orientation : {{ ad.orientation }}
+		{%  trans "Orientation" %} : {{ ad.orientation }}
 		<br />
 		{% endif %}
 		</p>
@@ -156,30 +145,30 @@
 
 		<div class="bloc_info">
 		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
-		<h4>A propos de l'immeuble</h4>
+		<h4>{% trans "A propos de l'immeuble" %}</h4>
 		<p>
-		{% if ad.elevator %}Ascenseur<br />{% endif %}
-		{% if ad.intercom %}Interphone<br />{% endif %}
-		{% if ad.digicode %}Digicode<br />{% endif %}
-		{% if ad.doorman %}Gardien{% endif %}
+		{% if ad.elevator %}{% trans "Ascenseur" %}<br />{% endif %}
+		{% if ad.intercom %}{% trans "Interphone" %}<br />{% endif %}
+		{% if ad.digicode %}{% trans "Digicode" %}<br />{% endif %}
+		{% if ad.doorman %}{% trans "Gardien" %}{% endif %}
 		</p>
 		{% endif %}
 		</div>
 
 		<div class="bloc_info">
 		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
-		<h4>Commodités</h4>
+		<h4>{% trans "Commodités" %}</h4>
 		<p>
-		{% if ad.heating %}Chauffage : {{ ad.get_heating_display }}<br />{% endif %}
-		{% if ad.kitchen %}Cuisine équipée<br />{% endif %}
-		{% if ad.cellar %}Cave<br />{% endif %}
-		{% if ad.parking %}Parking {{ ad.get_parking_display }}<br />{% endif %}
-		{% if ad.swimming_pool %}Piscine<br />{% endif %}
-		{% if ad.alarm %}Alarme<br />{% endif %}
-		{% if ad.air_conditioning %}Air conditionné<br />{% endif %}
-		{% if ad.fireplace %}Cheminée : {{ ad.get_fireplace_display }}<br />{% endif %}
-		{% if ad.terrace %}Terrasse : {{ ad.terrace }} m²<br />{% endif %}
-		{% if ad.balcony %}Balcon : {{ ad.balcony }} m²{% endif %}
+		{% if ad.heating %}{% trans "Chauffage" %} : {{ ad.get_heating_display }}<br />{% endif %}
+		{% if ad.kitchen %}{% trans "Cuisine équipée" %}<br />{% endif %}
+		{% if ad.cellar %}{% trans "Cave" %}<br />{% endif %}
+		{% if ad.parking %}{% trans "Parking" %} {{ ad.get_parking_display }}<br />{% endif %}
+		{% if ad.swimming_pool %}{% trans "Piscine" %}<br />{% endif %}
+		{% if ad.alarm %}{% trans "Alarme" %}<br />{% endif %}
+		{% if ad.air_conditioning %}{% trans "Air conditionné" %}<br />{% endif %}
+		{% if ad.fireplace %}{% trans "Cheminée" %} : {{ ad.get_fireplace_display }}<br />{% endif %}
+		{% if ad.terrace %}{% trans "Terrasse" %} : {{ ad.terrace }} m²<br />{% endif %}
+		{% if ad.balcony %}{% trans "Balcon" %} : {{ ad.balcony }} m²{% endif %}
 		</p>
 		{% endif %}
 		</div>
@@ -188,16 +177,16 @@
 		{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
 		<h4>Pièces</h4>
 		<p>
-		{% if ad.separate_dining_room %}Cuisine séparée<br />{% endif %}
-		{% if ad.separate_toilet %} {{ ad.separate_toilet }} toilette{{ ad.separate_toilet|pluralize }} séparée{{ ad.separate_toilet|pluralize }}<br />{% endif %}
-		{% if ad.bathroom %} {{ ad.bathroom }} salle{{ ad.bathroom|pluralize }} de bain<br />{% endif %}
-		{% if ad.shower %} {{ ad.shower }} douche{{ ad.shower|pluralize }}<br />{% endif %}
-		{% if ad.separate_entrance %}Entrée séparée{% endif %}
+		{% if ad.separate_dining_room %}{% trans "Cuisine séparée" %}<br />{% endif %}
+		{% if ad.separate_toilet %} {{ ad.separate_toilet }} {% trans "toilette" %}{{ ad.separate_toilet|pluralize }} séparée{{ ad.separate_toilet|pluralize }}<br />{% endif %}
+		{% if ad.bathroom %} {{ ad.bathroom }} {% trans "salle de bain" %}<br />{% endif %}
+		{% if ad.shower %} {{ ad.shower }} {% trans "douche" %}{{ ad.shower|pluralize }}<br />{% endif %}
+		{% if ad.separate_entrance %}{% trans "Entrée séparée" %}{% endif %}
 		</p>
 		{% endif %}
 
 		{% if ad.description %}
-		<h4>Informations complémentaires</h4>
+		<h4>{% trans "Informations complémentaires" %}</h4>
 			<p>
 				{{ ad.description|linebreaksbr  }}
 			</p>
@@ -205,7 +194,7 @@
 		{% endif %}	
 		<p>
 			<i>
-				Date de création de l'annonce : {{ ad.create_date }} <br/>Date de mise à jour : {{ ad.update_date }}
+				{% trans "Date de création de l'annonce" %} : {{ ad.create_date }} <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}
 			</i>
 		</p>
 
@@ -224,18 +213,18 @@
 <div id="message_block">
 {% if user.is_authenticated %}
 	<form  action="" method="POST" >
-			<h2>Contacter le vendeur</h2>
+			<h2>{% trans "Contacter le vendeur" %}</h2>
 	<table id="message">
 		{% csrf_token %}
 		{{ contact_form.as_table }}
 		<tr>
 			<td></td>
-			<td ><button type="submit">Envoyer</button></td>
+			<td ><button type="submit">{% trans "Envoyer" %}</button></td>
 		</tr>
 	{% if ad.user_profile.phone_number %}
 		<tr>
-			<th><label>N° téléphone du vendeur</label></th>
-			<td><input value="{{ ad.user_profile.phone_number }}" readonly="readonly"></td>
+			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>
+			<td><address>{{ ad.user_profile.phone_number }}</address></td>
 		</tr>
 	{% endif %}
 	</table>
@@ -244,7 +233,7 @@
 	
 {% else %}
 	<div class="content">
-		<p>Pour contacter le vendeur, <a href="{% url userena_signup %}">inscrivez-vous</a> ou <a href="{% url userena_signin %}">connectez-vous</a> !</p>
+		<p>{% trans "Pour contacter le vendeur" %}, <a href="{% url userena_signup %}">{% trans "inscrivez-vous" %}</a> {% trans "ou" %} <a href="{% url userena_signin %}">{% trans "connectez-vous" %}</a> !</p>
 	</div>
 {% endif %}
 </div>

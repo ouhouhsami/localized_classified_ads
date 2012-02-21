@@ -1,1 +1,2 @@
-[{{ site.name }}] Votre annonce a été {% ifequal moderated_object.moderation_status 0 %}rejetée{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}acceptée{% endifequal %}
+{% load i18n %}
+[{{ site.name }}] {% trans "Votre annonce a été" %} {% ifequal moderated_object.moderation_status 0 %}{% trans "rejetée" %}{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}{% trans "acceptée" %}{% endifequal %}

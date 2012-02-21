@@ -7,12 +7,13 @@
 		{% block meta %}
 		{% endblock %}
 		
-		<title>{% block title %}{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées{% endblock %}</title>
+		<title>{% block title %}{{ site.name }} | {% trans "Annonces immobilières sans intermédiaires et géolocalisées" %}{% endblock %}</title>
 		<link rel="SHORTCUT ICON" href="{{ STATIC_URL }}favicon.ico">
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/base.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/sticky_footer.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/core.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/font.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/form.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/style.css" />
 		<link rel="stylesheet" type="text/css" media="screen and (min-width: 970px)" href="{{ STATIC_URL }}css/large-style.css" />
 		<link rel="stylesheet" type="text/css" media="screen and (max-width: 790px)" href="{{ STATIC_URL }}css/small-style.css" />
@@ -31,6 +32,9 @@
 		{% endblock %}
 		
 		<script src="{{ STATIC_URL }}js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--[if lt IE 9]>
+		<script src="{{ STATIC_URL }}js/html5.js"></script>
+		<![endif]-->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-17174958-2']);
@@ -50,11 +54,11 @@
 			{% include 'site_title.html' %}
 			<ul id="registration">
 				{% if user.is_authenticated %}
-				<li><a href="{% url userena_profile_detail user.username %}" class="focus">Mon compte</a></li>
-				<li><a href="{% url userena_signout %}">Se Déconnecter</a></li>
+				<li><a href="{% url userena_profile_detail user.username %}" class="focus">{% trans "Mon compte" %}</a></li>
+				<li><a href="{% url userena_signout %}">{% trans "Se Déconnecter" %}</a></li>
 				{% else %}
-				<li><a href="{% url userena_signup %}" class="focus">S'Inscrire</a></li>
-				<li><a href="{% url userena_signin %}">Se Connecter</a></li>
+				<li><a href="{% url userena_signup %}" class="focus">{% trans "S'Inscrire" %}</a></li>
+				<li><a href="{% url userena_signin %}">{% trans "Se Connecter" %}</a></li>
 				{% endif %}
 			</ul>
 			</div>
@@ -69,9 +73,9 @@
 			<div id="footer">
 			<span>© 2011 {{ site.name }}</span>
 			<ul>
-				<li><a href="/a-propos/">En savoir plus</a></li>
-				<li><a href="/legal/">Mentions légales</a></li>
-				<li><a href="/cgu/">Conditions d'utilisation</a></li>
+				<li><a href="/a-propos/">{% trans "En savoir plus" %}</a></li>
+				<li><a href="/legal/">{% trans "Mentions légales" %}</a></li>
+				<li><a href="/cgu/">{% trans "Conditions d'utilisation" %}</a></li>
 			</ul>
 			</div>
 		</footer>

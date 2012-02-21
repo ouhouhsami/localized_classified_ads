@@ -1,4 +1,4 @@
-{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress %}
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress i18n %}
 
 {% if search %}
 	{% include 'ads/search_results_table.html' with ads_list=filter.qs title="Résultats de la recherche" visible="true" %}

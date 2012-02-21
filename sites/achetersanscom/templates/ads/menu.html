@@ -1,2 +1,11 @@
-<li><a href="{% url search %}" class="{% if selected == 1 %}selected{% else %}unselected{% endif %}">Rechercher un bien</a></li>
-<li><a href="{% url add %}" class="{% if selected == 2 %}selected{% else %}unselected{% endif %}">Vendre un bien</a></li>
+{% load i18n %}
+<li>
+	<a href="{% url search %}" class="{% if selected == 1 %}selected{% else %}unselected{% endif %}">
+		{% trans "Rechercher un bien" %}
+	</a>
+</li>
+<li>
+	<a href="{% url add %}" class="{% if selected == 2 %}selected{% else %}unselected{% endif %}">
+		{% trans "Vendre un bien" %}
+	</a>
+</li>

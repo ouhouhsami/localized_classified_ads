@@ -18,12 +18,13 @@
 		</div>
 		{% endif %}
 	{% endblock messages %}
-
+	<nav>
 	<ul id="menu">
 		{% block menu %}
 		{% include 'ads/menu.html' with selected=0 only %}
 		{% endblock menu %}
 	</ul>
+	</nav>
 
 	<div id="content">
 		{% block content %}

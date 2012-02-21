@@ -1,13 +1,16 @@
-Cher {{ user.email }},
+{% load i18n %}
+{% blocktrans with email=user.email %}
+Cher {{ email }},
+{% endblocktrans %}
 
-Votre annonce a été {% ifequal moderated_object.moderation_status 0 %}rejetée{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}acceptée{% endifequal %}.
+{% trans "Votre annonce a été" %} {% ifequal moderated_object.moderation_status 0 %}{% trans "rejetée" %}{% endifequal %}{% ifequal moderated_object.moderation_status 1 %}{% trans "acceptée" %}{% endifequal %}.
 
 {% if moderated_object.moderation_reason %}
-Raison : {{ moderated_object.moderation_reason }}
+{% trans "Raison" %} : {{ moderated_object.moderation_reason }}
 {% endif %}
 
 {% if moderated_object.get_absolute_url %}
 {% ifequal moderated_object.moderation_status 1 %}
-Vous pouvez voir votre annonce en ligne ici : http://www.{{ site.domain }}{{ moderated_object.get_absolute_url }}
+{% trans "Vous pouvez voir votre annonce en ligne ici" %} : http://www.{{ site.domain }}{{ moderated_object.get_absolute_url }}
 {% endifequal %}
 {% endif %}

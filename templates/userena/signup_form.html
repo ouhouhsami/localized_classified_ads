@@ -8,7 +8,7 @@
 <form action="" method="post">
   {% csrf_token %}
   <fieldset>
-	<p class="form_adson" >Pour mettre un bien en vente ou enregistrer vos recherches, vous devez vous inscrire.</p>
+	<p class="form_adson"> {% trans "Pour mettre un bien en vente ou enregistrer vos recherches, vous devez vous inscrire." %}</p>
     <legend>Signup</legend>
     {% for field in form %}
     {{ field.errors }}
@@ -26,6 +26,7 @@
     {% endfor %}
   </fieldset>
   <input type="submit" value="{% trans "Signup"%}" />
-    <p class="form_adson" >Si vous êtes déjà inscrit, <a href="{% url userena_signin %}">connectez-vous</a>.</p>
+    {% url userena_signin as userena_signin_url %}
+    <p class="form_adson" >{% blocktrans %}Si vous êtes déjà inscrit, <a href="{{ userena_signin_url }}">connectez-vous</a>.{% endblocktrans %}</p>
 </form>
 {% endblock %}

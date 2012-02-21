@@ -1,1 +1,3 @@
-[{{ site_name }}] Ajout d\'un bien
+{% load i18n %}
+
+[{{ site_name }}] {% trans "Ajout d\'un bien" %}

@@ -113,7 +113,13 @@ a, a:active, a:link, a:visited {
 	font-size:1.2em;
 	height:32px;
 	line-height:32px;
-	padding-left:1.6em;
+	/*padding-left:1.6em;*/
+	padding-left:0.3em;
+	margin-left:0%;
+	border-top-left-radius:0px;
+	border-bottom-left-radius:0px;
+	text-align:left;
+	box-shadow:none;
 }
 
 #right_column .bloc_title:first-child {
@@ -466,6 +472,14 @@ table th {
 	float:left;
 }
 
+.photo_icon {
+	background: url("../img/camera.png") no-repeat transparent;
+	background-size: 19px 19px;
+	width:19px;
+	height:19px;
+	float:right;	
+}
+
 .messages {
 	font-family: TypoSlabserif,sans-serif;
 	list-style:none;
@@ -593,6 +607,21 @@ table th {
 
 #results_detail {
 	display:none;
+}
+
+
+a.gallery {
+	text-decoration:none;	
+}
+
+figure {
+	padding:0px;
+	margin:0px;
+}
+
+figcaption {
+
+	color:#999;
 }
 
 @media screen and (min-width: 790px) and (max-width:970px){

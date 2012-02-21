@@ -1,17 +1,18 @@
 {% extends "kore.html" %}
+{% load i18n %}
 
 {% block meta %}
-	<meta name="keywords" lang="fr" content="logement,appartement,immobilier,maison,
+	<meta name="keywords" lang="fr" content="{% blocktrans %}logement,appartement,immobilier,maison,
 												annonces immobilières,ventes,achat,location,
 												vendre,louer,parking,achetersanscom,
 												acheter sans com,sans commission,sans frais,gratuit,
-												sans intermédiaires,home staging,loi scellier" />
-	<meta name="description" lang="fr" content="AcheterSansCom propose des annonces immobilières 
+												sans intermédiaires,home staging,loi scellier{% endblocktrans %}" />
+	<meta name="description" lang="fr" content="{% blocktrans %}AcheterSansCom propose des annonces immobilières 
 												sans intermédiaires et géolocalisées. AcheterSansCom permet d'acheter
 												sans agence ou de vendre sans commission. La mise en ligne 
-												et la consultation des annonces est gratuite." />
+												et la consultation des annonces est gratuite.{% endblocktrans %}" />
 {% endblock %}
 
 {% block title %}
-	{{ site.name }} | Annonces immobilières sans intermédiaires et géolocalisées
+	{{ site.name }} | {% trans "Annonces immobilières sans intermédiaires et géolocalisées" %}
 {% endblock %}

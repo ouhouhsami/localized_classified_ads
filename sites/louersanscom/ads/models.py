@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from django.db import models
+from django.utils.translation import ugettext as _
 from autoslug import AutoSlugField
 
 from ads.models import Ad
@@ -13,26 +14,25 @@ from ads.models import Ad
 #
 
 HABITATION_TYPE_CHOICES = (
-    ('0', 'Appartement'),
-    ('1', 'Maison'),
+    ('0', _(u'Appartement')),
+    ('1', _(u'Maison')),
 )
 
 
 HEATING_CHOICES = (
-    ('1', 'individuel gaz'),
-    ('2', 'individuel électrique'),
-    ('3', 'collectif gaz'),
-    ('4', 'collectif fuel '),
-    ('5', 'collectif réseau de chaleur'),
-    ('13', 'autres')
+    ('1', _(u'individuel gaz')),
+    ('2', _(u'individuel électrique')),
+    ('3', _(u'collectif gaz')),
+    ('4', _(u'collectif fuel')),
+    ('5', _(u'collectif réseau de chaleur')),
+    ('13', _(u'autres'))
 )
 
 
 
 PARKING_CHOICES = (
-    #('0', 'Non'),
-    ('1', 'Place de parking'),
-    ('2', 'Box fermé'),
+    ('1', _(u'Place de parking')),
+    ('2', _(u'Box fermé')),
 )
 
 
@@ -40,54 +40,54 @@ class HomeForRentAd(Ad):
     """HomeFormRentAd model
 
     """
-    price = models.PositiveIntegerField("Loyer (€/mois)")
+    price = models.PositiveIntegerField(_(u"Loyer (€/mois)"))
     slug = AutoSlugField(populate_from='get_full_description', always_update=True, unique=True)
-    colocation = models.BooleanField("Colocation possible")
-    furnished = models.TextField("Habitation meublée", null=True, blank=True)
-    habitation_type	= models.CharField("Type de bien", max_length = 1, 
+    colocation = models.BooleanField(_(u"Colocation possible"))
+    furnished = models.TextField(_(u"Habitation meublée"), null=True, blank=True)
+    habitation_type	= models.CharField(_(u"Type de bien"), max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.IntegerField("Surface habitable (m²)")
-    surface_carrez = models.IntegerField("Surface Loi Carrez (m²)", 
+    surface = models.IntegerField(_(u"Surface habitable (m²)"))
+    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez (m²)"), 
                                          null = True, blank = True)
-    nb_of_rooms	= models.PositiveIntegerField("Nombre de pièces")
-    nb_of_bedrooms = models.PositiveIntegerField("Nombre de chambres")
-    housing_tax = models.IntegerField('Taxe d\'habitation (€/an)', null = True, 
+    nb_of_rooms	= models.PositiveIntegerField(_(u"Nombre de pièces"))
+    nb_of_bedrooms = models.PositiveIntegerField(_(u"Nombre de chambres"))
+    housing_tax = models.IntegerField(_(u"Taxe d'habitation (€/an)"), null = True, 
                                       blank = True)
-    maintenance_charges = models.IntegerField('Charges (€/mois)', null = True, 
+    maintenance_charges = models.IntegerField(_(u'Charges (€/mois)'), null = True, 
                                               blank = True)
-    ground_surface = models.IntegerField('M²', 
+    ground_surface = models.IntegerField(_(u'M²'), 
                                        null = True, blank = True)
-    floor = models.PositiveIntegerField('Etage', null = True, blank = True)
-    ground_floor = models.BooleanField('Rez de chaussé')
-    top_floor = models.BooleanField('Dernier étage')
-    not_overlooked = models.BooleanField('Sans vis-à-vis')
-    elevator = models.BooleanField("Ascenceur")
-    intercom = models.BooleanField("Interphone")
-    digicode = models.BooleanField("Digicode")
-    doorman = models.BooleanField("Gardien")
-    heating = models.CharField("Chauffage", max_length = 2, 
+    floor = models.PositiveIntegerField(_(u'Etage'), null = True, blank = True)
+    ground_floor = models.BooleanField(_(u'Rez de chaussé'))
+    top_floor = models.BooleanField(_(u'Dernier étage'))
+    not_overlooked = models.BooleanField(_(u'Sans vis-à-vis'))
+    elevator = models.BooleanField(_(u"Ascenceur"))
+    intercom = models.BooleanField(_(u"Interphone"))
+    digicode = models.BooleanField(_(u"Digicode"))
+    doorman = models.BooleanField(_(u"Gardien"))
+    heating = models.CharField(_(u"Chauffage"), max_length = 2, 
                                choices = HEATING_CHOICES, null = True, blank = True)
-    duplex = models.BooleanField("Duplex")
-    terrace = models.IntegerField("Terrasse", null = True, blank = True)
-    balcony = models.IntegerField("Balcon", null = True, blank = True)
-    separate_dining_room = models.BooleanField("Cuisine séparée")
-    separate_toilet = models.IntegerField("Toilettes séparés", null = True, blank = True)
-    bathroom = models.IntegerField("Salle de bain", null = True, blank = True)
-    shower = models.IntegerField("Salle d'eau (douche)", null = True, blank = True)
-    parking = models.CharField("Parking", max_length = 2,
+    duplex = models.BooleanField(_(u"Duplex"))
+    terrace = models.IntegerField(_(u"Terrasse"), null = True, blank = True)
+    balcony = models.IntegerField(_(u"Balcon"), null = True, blank = True)
+    separate_dining_room = models.BooleanField(_(u"Cuisine séparée"))
+    separate_toilet = models.IntegerField(_(u"Toilettes séparés"), null = True, blank = True)
+    bathroom = models.IntegerField(_(u"Salle de bain"), null = True, blank = True)
+    shower = models.IntegerField(_(u"Salle d'eau (douche)"), null = True, blank = True)
+    parking = models.CharField(_(u"Parking"), max_length = 2,
                                choices = PARKING_CHOICES, null = True, blank = True)
-    orientation = models.CharField("Orientation", max_length = 255, null = True, blank = True)
+    orientation = models.CharField(_(u"Orientation"), max_length = 255, null = True, blank = True)
 
     def _icon(self):
         return "/static/img/apartment.png"
     icon = property(_icon)
 
     def get_full_description(instance):
-        return "location-%s-%spieces-%se_par_mois-%sm2" % (instance.get_habitation_type_display(), 
+        return _(u"location-%s-%spieces-%se_par_mois-%sm2") % (instance.get_habitation_type_display(), 
                                                instance.nb_of_rooms, 
                                                instance.price, instance.surface)
     def __unicode__(self):
-        return '%s e par mois - %s m2 - %s pieces' % (self.price, self.surface, self.nb_of_rooms)
+        return _(u'%s e par mois - %s m2 - %s pieces') % (self.price, self.surface, self.nb_of_rooms)
 
     @models.permalink
     def get_absolute_url(self):
@@ -98,9 +98,9 @@ class HomeForRentAd(Ad):
 
 def format_search_resume(q):
     habitation_types_values = q.getlist('habitation_type')
-    search_zone = u'non géolocalisée'
+    search_zone = _(u'non géolocalisée')
     if len(q['location']) > 0:
-        search_zone = u'géolocalisée'
+        search_zone = _(u'géolocalisée')
     habitation_types = ' '
     for i in habitation_types_values:
         if isinstance(i, int):
@@ -110,7 +110,7 @@ def format_search_resume(q):
             else:
                 habitation_types += ', '
         else:
-            habitation_types += u'sans type d\'habitation précisé'
+            habitation_types += _(u'sans type d\'habitation précisé')
     #if len(habitation_types_values) == 0:
     #    habitation_types += u'sans type d\'habitation précisé'
     habitation_types += ''
@@ -130,23 +130,23 @@ def format_search_resume(q):
     max_surface = q.get('surface_1', '')
     surface = ''
     if len(min_surface) > 0 and len(max_surface) > 0:
-        surface = u'- entre %s et %s m²' % (min_surface, max_surface)
+        surface = _(u'- entre %s et %s m²') % (min_surface, max_surface)
     elif len(min_surface) == 0 and len(max_surface) > 0:
-        surface = u'- inférieur à %s m²' % (max_surface)
+        surface = _(u'- inférieur à %s m²') % (max_surface)
     elif len(min_surface) > 0 and len(max_surface) == 0:
-        surface = u'- supérieur à %s m²' % (min_surface)
+        surface = _(u'- supérieur à %s m²') % (min_surface)
     if len(min_surface) == 0 and len(max_surface) == 0:
-        surface = u'- sans critère de surface'
+        surface = _(u'- sans critère de surface')
 
     min_rooms = str(q.get('nb_of_rooms_0', ''))
     max_rooms = str(q.get('nb_of_rooms_1', ''))
     rooms = ''
     if len(min_rooms) > 0 and len(max_rooms) > 0:
-        rooms = u'- entre %s et %s pièces' % (min_rooms, max_rooms)
+        rooms = _(u'- entre %s et %s pièces') % (min_rooms, max_rooms)
     elif len(min_rooms) == 0 and len(max_rooms) > 0:
-        rooms = u'- inférieur à %s pièces' % (max_rooms)
+        rooms = _(u'- inférieur à %s pièces') % (max_rooms)
     elif len(min_rooms) > 0 and len(max_rooms) == 0:
-        rooms = u'- supérieur à %s pièces' % (min_rooms)
+        rooms = _(u'- supérieur à %s pièces') % (min_rooms)
 
-    return 'Recherche <i>%s</i> : <b>%s</b> %s %s %s' % (search_zone, 
+    return _(u'Recherche <i>%s</i> : <b>%s</b> %s %s %s') % (search_zone, 
                              habitation_types, price, surface, rooms)

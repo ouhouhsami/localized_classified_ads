@@ -13,7 +13,7 @@ from autoslug import AutoSlugField
 from jsonfield.fields import JSONField
 from django.contrib.sites.models import Site
 from django.conf import settings
-
+from django.utils.translation import ugettext as _
 
 # GENERIC AD MODELS
 

@@ -2,6 +2,7 @@
 
 from form_utils.forms import BetterModelForm
 from moderation.forms import BaseModeratedObjectForm
+from django.utils.translation import ugettext as _
 
 from django import forms
 
@@ -12,12 +13,12 @@ from ads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
 from models import HomeForRentAd
 
 class HomeForRentAdForm(BaseModeratedObjectForm, BetterModelForm):
-    separate_toilet = forms.CharField(label="Toilettes séparés", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Toilettes séparés", 'detail':"préciser leur nombre"}))
-    bathroom = forms.CharField(label="Salle de bain", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle de bain", 'detail':"préciser leur nombre"}))
-    shower = forms.CharField(label="Salle d'eau (douche)", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle d'eau (douche)", 'detail':"préciser leur nombre"}))
-    furnished = forms.CharField(label="Salle d'eau (douche)", required=False, widget=BooleanExtendedInput(attrs={'label':"Habitation meublée", 'detail':"donner le détail"}))
-    balcony = forms.CharField(label="Balcon", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 'detail':"préciser la surface (m²)"}))
-    terrace = forms.CharField(label="Terrasse", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Terrasse", 'detail':"préciser la surface (m²)"}))
+    separate_toilet = forms.CharField(label=_(u"Toilettes séparés"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Toilettes séparés"), 'detail':_(u"préciser leur nombre")}))
+    bathroom = forms.CharField(label=_(u"Salle de bain"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Salle de bain"), 'detail':_(u"préciser leur nombre")}))
+    shower = forms.CharField(label=_(u"Salle d'eau (douche)"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Salle d'eau (douche)"), 'detail':_(u"préciser leur nombre")}))
+    furnished = forms.CharField(label=_(u"Salle d'eau (douche)"), required=False, widget=BooleanExtendedInput(attrs={'label':_(u"Habitation meublée"), 'detail':_(u"donner le détail")}))
+    balcony = forms.CharField(label=_(u"Balcon"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Balcon"), 'detail':_(u"préciser la surface (m²)")}))
+    terrace = forms.CharField(label=_(u"Terrasse"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Terrasse"), 'detail':_(u"préciser la surface (m²)")}))
 
     def clean_separate_toilet(self):
         data = self.cleaned_data['separate_toilet']

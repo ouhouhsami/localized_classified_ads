@@ -15,7 +15,6 @@ from userena import views as userena_views
 from profiles.views import detail as profile_detail
 
 from ads.views import search
-#from ads.models import HomeForSaleAd
 
 from sites.achetersanscom.ads.models import HomeForSaleAd
 from sites.louersanscom.ads.models import HomeForRentAd

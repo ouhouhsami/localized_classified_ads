@@ -25,8 +25,6 @@ class ImageWidget(forms.FileInput):
     def render(self, name, value, attrs=None):
         input_html = super(forms.FileInput, self).render(name, value, attrs)
         if hasattr(value, 'width') and hasattr(value, 'height'):
-            #image_html = thumbnail(value.name, self.width, self.height)
-            #print value.thumbnail.url()
             output = self.template % {'input': input_html, 'image': value.url,
                                       'image_thumbnail': value.thumbnail.url()}
         else:
@@ -35,12 +33,10 @@ class ImageWidget(forms.FileInput):
 
 class AdPictureForm(ModelForm):
     image = forms.ImageField(widget=ImageWidget(), required=False)
-    #order = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = AdPicture
 
 class AdContactForm(ModelForm):
-    # phone = forms.CharField(label="Votre téléphone (facultatif)", required=False)
     class Meta:
         model = AdContact
         exclude = ['user_profile', 'content_type', 'object_pk']

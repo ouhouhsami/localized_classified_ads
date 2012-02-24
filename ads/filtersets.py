@@ -6,7 +6,7 @@ from django import forms
 from django.forms import widgets
 from filters import LocationFilter, BooleanForNumberFilter
 from widgets import PolygonWidget, IndifferentNullBooleanSelect, GooglePolygonWidget
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext as _
 
 class SpecificRangeWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
@@ -22,4 +22,4 @@ class SpecificRangeWidget(forms.MultiWidget):
         return u' - '.join(rendered_widgets)
 
 
-indifferent_choices = ((u'1', ugettext('Indifferent')),(u'2', ugettext('Yes')),(u'3', ugettext('No')))
+indifferent_choices = ((u'1', _('Indifferent')),(u'2', _('Yes')),(u'3', _('No')))

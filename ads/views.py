@@ -46,6 +46,8 @@ from filters import LocationFilter
 from decorators import site_decorator
 from django.contrib.gis.utils import GeoIP
 
+from django.utils.translation import ugettext as _
+
 # to localize client
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -70,7 +72,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
         if ip == '127.0.0.1':
             ip = '129.102.64.54'
         latlon = g.lat_lon(ip)
-        initial_ads = Ad.objects.all().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
+        initial_ads = Ad.objects.all().select_related().filter(delete_date__isnull=True).filter(_relation_object__moderation_status = 1).order_by('-create_date')[0:10]
         return render_to_response('ads/search.html', {'filter': filter, 'search':search, 'initial_ads':initial_ads}, 
                               context_instance = RequestContext(request))
     else:
@@ -94,22 +96,23 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
             ad_search.save()
             userena_profile_detail_url = reverse('userena_profile_detail', args=[user_profile.user.username])
             messages.add_message(request, messages.INFO,
-                             'Votre recherche a bien été sauvegardée dans <a href="%s">votre compte</a>.' % (userena_profile_detail_url))
-        nb_of_results = filter.qs.count()
+                             _(u'Votre recherche a bien été sauvegardée dans <a href="%s">votre compte</a>.') % (userena_profile_detail_url))
+        # len method is speeder than count()
+        nb_of_results = len(filter.qs)
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 
-                             'Aucune annonce ne correspond à votre recherche. Elargissez votre zone de recherche ou modifiez les critères.')
+                             _(u'Aucune annonce ne correspond à votre recherche. Elargissez votre zone de recherche ou modifiez les critères.'))
         if nb_of_results >= 1:
-            ann = 'annonces'
+            ann = _(u'annonces')
             if nb_of_results == 1:
-                ann = 'annonce'
+                ann = _(u'annonce')
             if request.user.is_authenticated():
                 messages.add_message(request, messages.INFO, 
-                             '%s %s correspondant à votre recherche' % (nb_of_results, ann))
+                             _(u'%s %s correspondant à votre recherche') % (nb_of_results, ann))
             else:
                 sign_url = reverse('userena_signup', args=[])
                 messages.add_message(request, messages.INFO, 
-                             '%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail ou enregistrer votre recherche.' % (nb_of_results, ann, sign_url))
+                             _(u'%s %s correspondant à votre recherche. <a href="%s">Inscrivez-vous</a> pour recevoir les alertes mail ou enregistrer votre recherche.') % (nb_of_results, ann, sign_url))
         return render_to_response('ads/search.html', {'filter': filter, 'search':search}, 
                               context_instance = RequestContext(request))
 
@@ -122,7 +125,7 @@ def delete_search(request, search_id):
     if search.user_profile.user.username == request.user.username:
         search.delete()
         messages.add_message(request, messages.INFO, 
-                             'Votre recherche a bien été supprimée.')
+                             _(u'Votre recherche a bien été supprimée.'))
         return redirect('userena_profile_detail', username=request.user.username)
     else:
         raise Http404
@@ -141,9 +144,9 @@ def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
             instance.content_object = ad
             instance.user_profile = UserProfile.objects.get(user = request.user)
             instance.save()
-            send_mail('[%s] Demande d\'information concernant votre annonce' % (Site.objects.get_current().name), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
+            send_mail(_(u'[%s] Demande d\'information concernant votre annonce') % (Site.objects.get_current().name), instance.message, instance.user_profile.user.email, [ad.user_profile.user.email], fail_silently=False)
             sent_mail = True
-            messages.add_message(request, messages.INFO, 'Votre message a bien été envoyé.')
+            messages.add_message(request, messages.INFO, _(u'Votre message a bien été envoyé.'))
     if request.is_ajax():
         return render_to_response('ads/view_ajax.html', {'ad':ad, 'contact_form':contact_form}, context_instance = RequestContext(request))
     else:
@@ -184,9 +187,9 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             subject = render_to_string('ads/emails/ad_create_email_subject.txt', {'site_name':Site.objects.get_current().name})
             send_mail(subject, message, 'contact@achetersanscom.com', [instance.user_profile.user.email], fail_silently=True)
             return redirect('completed', permanent=True)
-        send_mail("[%s] %s valide l'ajout d'un bien" % (Site.objects.get_current().name, request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
+        send_mail(_(u"[%s] %s valide l'ajout d'un bien") % (Site.objects.get_current().name, request.user.email), "%s" % (form.errors), 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     else:
-        send_mail("[%s] %s est sur la page d'ajout d'un bien" % (Site.objects.get_current().name, request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
+        send_mail(_(u"[%s] %s est sur la page d'ajout d'un bien") % (Site.objects.get_current().name, request.user.email), "", 'contact@achetersanscom.com', ["contact@achetersanscom.com"], fail_silently=True)
     return render_to_response('ads/edit.html', {'form':form, 'picture_formset':picture_formset}, context_instance = RequestContext(request))
 
 
@@ -250,7 +253,7 @@ def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
         h.save()
         serialized_obj = serializers.serialize('json', [ h, ])
         path = default_storage.save('deleted/%s-%s.json' % (h.id, h.slug), ContentFile(serialized_obj))
-        messages.add_message(request, messages.INFO, 'Votre annonce a bien été supprimée.')
+        messages.add_message(request, messages.INFO, _(u'Votre annonce a bien été supprimée.'))
         h.delete()
         return redirect('userena_profile_detail', username=request.user.username)
     else:

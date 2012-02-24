@@ -11,15 +11,17 @@ django-form-utils==0.2.0
 django-guardian==1.0.3
 -e git://github.com/JordanReiter/django-jsonfield.git@38e517cf09765d48b5ca2928ada468c70f6cf46e#egg=django_jsonfield-dev
 django-mockups==0.4.8
--e git://github.com/dominno/django-moderation.git#egg=django-moderation
+django-moderation==0.3.2
 django-pagination==1.0.7
 django-smart-extends==0.5.1
 -e git://github.com/lukeman/django-sorting.git@d3456924ff2140c2a3466a2dd9d674486500393e#egg=django_sorting-dev
 django-stdimage==0.2
--e git://github.com/bread-and-pepper/django-userena.git#egg=django_userena-dev
+-e git://github.com/bread-and-pepper/django-userena.git@76a6e613bb4917fe6c061a760c3ff59a4a5e16f1#egg=django_userena-dev
 -e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev
-easy-thumbnails==1.0-alpha-20
+easy-thumbnails==1.0-alpha-21
+httplib2==0.7.2
 numpy==1.6.1
+-e git://github.com/simplegeo/python-oauth2.git@a83f4a297336b631e75cba102910c19231518159#egg=oauth2-dev
 paramiko==1.7.7.1
 psycopg2==2.4
 pycrypto==2.4.1

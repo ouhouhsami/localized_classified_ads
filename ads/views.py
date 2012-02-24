@@ -165,7 +165,7 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
             # add location and address fields
-            geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
+            geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'].encode('ascii','ignore'))
             instance.address = geocode.raw
             coordinates = geocode[0].coordinates
             # if one day we need to change projection
@@ -212,7 +212,7 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
                 #print 'mais pas la'
                 instance = form.save(commit = False)
                 # TODO : if user_entered_address eq, dont compute
-                geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'])
+                geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'].encode('ascii','ignore'))
                 instance.address = geocode.raw
                 coordinates = geocode[0].coordinates
                 pnt = Point(coordinates[1], coordinates[0], srid=900913)

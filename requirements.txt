@@ -27,3 +27,4 @@ psycopg2==2.4
 pycrypto==2.4.1
 pygeocoder==1.1.4
 wsgiref==0.1.2
+raven>=1.4.6

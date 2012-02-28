@@ -146,9 +146,3 @@ class UserSignup(TestCase):
         self.assertEqual(resp.status_code, 302)
         #print resp['Location']
         #print resp
-
-
-
-
-
-

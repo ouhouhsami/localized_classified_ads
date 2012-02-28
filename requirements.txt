@@ -26,5 +26,6 @@ paramiko==1.7.7.1
 psycopg2==2.4
 pycrypto==2.4.1
 pygeocoder==1.1.4
+raven==1.4.6
+simplejson==2.3.2
 wsgiref==0.1.2
-raven>=1.4.6

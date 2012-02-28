@@ -132,7 +132,10 @@ def delete_search(request, search_id):
 
 @site_decorator
 def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
-    ad = Ad.objects.get(slug = ad_slug)
+    try:
+        ad = Ad.objects.get(slug = ad_slug)
+    except Ad.DoesNotExist:
+        raise Http404
     sent_mail = False
     if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
         raise Http404

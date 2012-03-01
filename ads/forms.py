@@ -9,6 +9,8 @@ from form_utils.forms import BetterModelForm, BetterForm
 from django.forms.extras.widgets import SelectDateWidget
 from widgets import CustomPointWidget, BooleanExtendedNumberInput
 from django.utils.safestring import mark_safe
+from pygeocoder import Geocoder, GeocoderError
+from django.contrib.gis.geos import Point
 
 from fields import PriceField, SurfaceField
 
@@ -41,5 +43,22 @@ class AdContactForm(ModelForm):
         model = AdContact
         exclude = ['user_profile', 'content_type', 'object_pk']
 
+class BaseAdForm(object):
+    def clean(self):
+        if self.cleaned_data.has_key('user_entered_address'):
+            self.cleaned_data['address'] = self.address
+            self.cleaned_data['location'] = self.location
+        return self.cleaned_data
 
+    def clean_user_entered_address(self):
+        data = self.cleaned_data['user_entered_address']
+        try:
+            geocode = Geocoder.geocode(data.encode('ascii','ignore'))
+            self.address = geocode.raw
+            coordinates = geocode[0].coordinates
+            pnt = Point(coordinates[1], coordinates[0], srid=900913)
+            self.location = pnt
+        except GeocoderError:
+            raise forms.ValidationError(u"Indiquer une adresse valide")
+        return data
 

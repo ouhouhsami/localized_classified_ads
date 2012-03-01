@@ -6,11 +6,13 @@ from django import forms
 
 from ads.widgets import BooleanExtendedNumberInput
 from ads.fields import PriceField, SurfaceField
+from ads.forms import BaseAdForm
 
 from models import HomeForSaleAd
 
 
-class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
+class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm, BaseAdForm):
+
     price = PriceField(label="Prix (€)", help_text="Prix sans espace, sans virgule")
     surface = SurfaceField(label="Surface habitable (m²)", help_text="Surface, sans virgule")
     surface_carrez = SurfaceField(label="Surface Loi Carrez (m²)", required=False, help_text="Surface Loi Carrez, sans virgule")
@@ -21,6 +23,8 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm):
     separate_toilet = forms.CharField(label="Toilettes séparés", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Toilettes séparés", 'detail':"préciser leur nombre"}))
     bathroom = forms.CharField(label="Salle de bain", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle de bain", 'detail':"préciser leur nombre"}))
     shower = forms.CharField(label="Salle d'eau (douche)", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle d'eau (douche)", 'detail':"préciser leur nombre"}))
+
+
 
     def clean_balcony(self):
         data = self.cleaned_data['balcony']

@@ -30,7 +30,7 @@ from django_filters.filters import Filter
 from form_utils.forms import BetterForm
 from profiles.models import UserProfile
 
-from pygeocoder import Geocoder
+from pygeocoder import Geocoder, GeocoderError
 from django.contrib.gis.gdal import SpatialReference, CoordTransform
 from django.contrib.gis.geos import Point
 
@@ -167,17 +167,14 @@ def add(request, Ad=None, AdForm=None, AdFilterSet=None):
         if form.is_valid():
             instance = form.save(commit = False)
             instance.user_profile = UserProfile.objects.get(user = request.user)
+            # line below due to the fact that location and address are excluded from adform
+            instance.location = form.cleaned_data['location']
+            instance.address = form.cleaned_data['address']
             # add location and address fields
-            geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'].encode('ascii','ignore'))
-            instance.address = geocode.raw
-            coordinates = geocode[0].coordinates
             # if one day we need to change projection
-            #origin_coord = SpatialReference(900913)
-            #target_coord = SpatialReference(4326)
-            #trans = CoordTransform(origin_coord, target_coord)
-            # Point(lon, lat, srid) so we must reverse Geocode result
-            pnt = Point(coordinates[1], coordinates[0], srid=900913)
-            instance.location = pnt
+            # origin_coord = SpatialReference(900913)
+            # target_coord = SpatialReference(4326)
+            # trans = CoordTransform(origin_coord, target_coord)
             instance.save()
             PictureFormset = generic_inlineformset_factory(AdPicture, extra=4, max_num=4)
             picture_formset = PictureFormset(request.POST, request.FILES, instance = instance)
@@ -214,12 +211,9 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             if form.is_valid():
                 #print 'mais pas la'
                 instance = form.save(commit = False)
-                # TODO : if user_entered_address eq, dont compute
-                geocode = Geocoder.geocode(form.cleaned_data['user_entered_address'].encode('ascii','ignore'))
-                instance.address = geocode.raw
-                coordinates = geocode[0].coordinates
-                pnt = Point(coordinates[1], coordinates[0], srid=900913)
-                instance.location = pnt
+                # line below due to the fact that location and address are excluded from adform
+                instance.location = form.cleaned_data['location']
+                instance.address = form.cleaned_data['address']                
                 instance.save()
                 PictureFormset = generic_inlineformset_factory(AdPicture, form=AdPictureForm, extra=4, max_num=4)
                 picture_formset = PictureFormset(request.POST, request.FILES, instance=instance)

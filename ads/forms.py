@@ -43,11 +43,13 @@ class AdContactForm(ModelForm):
         model = AdContact
         exclude = ['user_profile', 'content_type', 'object_pk']
 
-class BaseAdForm(object):
+class BaseAdForm(ModelForm):
+
     def clean(self):
         if self.cleaned_data.has_key('user_entered_address'):
             self.cleaned_data['address'] = self.address
             self.cleaned_data['location'] = self.location
+            #print '>>>>>>>>>', self.cleaned_data['location']
         return self.cleaned_data
 
     def clean_user_entered_address(self):

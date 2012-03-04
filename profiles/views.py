@@ -30,14 +30,19 @@ def detail(request, username, Ad=None, AdForm=None, AdFilterSet=None):
     #if not profile.can_view_profile(request.user):
     #    return HttpResponseForbidden(_("You don't have permission to view this profile."))
     # ads below are site specific :( because of decorators ...
-    ads = Ad.objects.exclude(delete_date__isnull = False).filter(user_profile = profile)
+    ads = Ad.objects.exclude(delete_date__isnull = False)\
+                    .filter(user_profile = profile)\
+                    .order_by('-create_date')
     #.filter(_relation_object__moderation_status = 1)
     all_user_ads = False
     searchs = False
     if profile.user == request.user:
-        all_user_ads = Ad.unmoderated_objects.filter(user_profile = profile).exclude(delete_date__isnull = False)
+        all_user_ads = Ad.unmoderated_objects.filter(user_profile = profile)\
+                         .exclude(delete_date__isnull = False)\
+                         .order_by('-create_date')
         # filter specific search for each site
-        searchs = AdSearch.objects.filter(user_profile = profile, content_type=ContentType.objects.get_for_model(Ad))
+        searchs = AdSearch.objects.filter(user_profile = profile, 
+                            content_type=ContentType.objects.get_for_model(Ad))
     return render_to_response('profiles/profile.html', {'profile':profile, 'ads':ads, 'all_user_ads':all_user_ads, 'searchs':searchs}, context_instance = RequestContext(request))
 
 @receiver(signup_complete)

@@ -1,5 +1,7 @@
+# coding=utf-8
 from django.conf.urls.defaults import *
-from views import *
+
+from ads.views import *
 
 urlpatterns = patterns('',
     url(r'^search/(?P<search_id>\d+)$', search, name='search'),

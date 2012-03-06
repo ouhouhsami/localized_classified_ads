@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.utils import unittest
 from ads.models import Ad
 

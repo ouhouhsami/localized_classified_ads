@@ -1,6 +1,8 @@
+# coding=utf-8
+from django.contrib.gis.geos import fromstr
 from django_filters.filters import Filter
 import floppyforms 
-from django.contrib.gis.geos import fromstr
+
 
 class LocationFilter(Filter):
     field_class = floppyforms.gis.PolygonField

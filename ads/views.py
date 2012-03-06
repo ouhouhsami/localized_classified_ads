@@ -7,47 +7,32 @@ This module provides CRUD absraction functions.
 
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.template import RequestContext
-from django.http import HttpResponseRedirect, QueryDict
-from django.contrib.gis.geos import Point, Polygon, GEOSGeometry
-from django import forms
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.contrib import messages
-from django.shortcuts import redirect
-from django.forms.models import inlineformset_factory
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.gis.geos import fromstr
 from django.contrib.sites.models import Site
+from django.contrib.gis.utils import GeoIP
+from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.core import serializers
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.http import QueryDict, Http404
+from django.shortcuts import render_to_response, redirect
+from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.contrib.gis.utils import GeoIP
 from django.utils.translation import ugettext as _
-
-import floppyforms
-import django_filters
-from django_filters.filters import Filter
-from form_utils.forms import BetterForm
-
-from pygeocoder import Geocoder, GeocoderError
-from django.contrib.gis.gdal import SpatialReference, CoordTransform
-from django.contrib.gis.geos import Point
 
 from ads.models import AdSearch, AdPicture
 from ads.forms import AdPictureForm, AdContactForm
-from ads.widgets import PolygonWidget, CustomPointWidget
-from ads.filters import LocationFilter
 from ads.decorators import site_decorator
 
-# to localize client
+
 def get_client_ip(request):
+    """
+    Get client IP, used to localize client
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -252,6 +237,7 @@ def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
             #print 'je suis la'
             if form.is_valid():
                 #print 'mais pas la'
+                # test obj.__dict__.update(request.POST) on object? I think not
                 instance = form.save(commit = False)
                 # line below due to the fact that location and address 
                 # are excluded from adform

@@ -1,5 +1,6 @@
 # coding=utf-8
 import floppyforms as forms
+
 from django import forms
 from django.utils.translation import ugettext as _
 

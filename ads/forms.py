@@ -2,17 +2,18 @@
 from django import forms
 from django.contrib.gis.geos import Point, Polygon
 from django.forms import ModelForm
-from moderation.forms import BaseModeratedObjectForm
-from models import *
-import floppyforms
-from form_utils.forms import BetterModelForm, BetterForm
 from django.forms.extras.widgets import SelectDateWidget
-from widgets import CustomPointWidget, BooleanExtendedNumberInput
 from django.utils.safestring import mark_safe
-from pygeocoder import Geocoder, GeocoderError
 from django.contrib.gis.geos import Point
 
-from fields import PriceField, SurfaceField
+import floppyforms
+from form_utils.forms import BetterModelForm, BetterForm
+from moderation.forms import BaseModeratedObjectForm
+from pygeocoder import Geocoder, GeocoderError
+
+from ads.fields import PriceField, SurfaceField
+from ads.widgets import BooleanExtendedNumberInput
+from ads.models import *
 
 class ImageWidget(forms.FileInput):
     template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'

@@ -1,12 +1,15 @@
 # coding=utf-8
+from django import forms
+from django.forms import widgets
+from django.utils.translation import ugettext as _
+
 import django_filters
 from django_filters.filters import Filter
 from django_filters.widgets import RangeWidget
-from django import forms
-from django.forms import widgets
-from filters import LocationFilter, BooleanForNumberFilter
-from widgets import PolygonWidget, IndifferentNullBooleanSelect, GooglePolygonWidget
-from django.utils.translation import ugettext as _
+
+from ads.filters import LocationFilter, BooleanForNumberFilter
+from ads.widgets import IndifferentNullBooleanSelect, GooglePolygonWidget
+
 
 class SpecificRangeWidget(forms.MultiWidget):
     def __init__(self, attrs=None):

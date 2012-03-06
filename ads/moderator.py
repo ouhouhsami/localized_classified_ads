@@ -11,5 +11,3 @@ class AdModerator(GenericModerator):
     notify_user = True
     visibility_column = 'visible'
 
-
-

@@ -1,19 +1,11 @@
 # coding=utf-8
 from django import forms
-from django.contrib.gis.geos import Point, Polygon
 from django.forms import ModelForm
-from django.forms.extras.widgets import SelectDateWidget
 from django.utils.safestring import mark_safe
 from django.contrib.gis.geos import Point
 
-import floppyforms
-from form_utils.forms import BetterModelForm, BetterForm
-from moderation.forms import BaseModeratedObjectForm
 from pygeocoder import Geocoder, GeocoderError
-
-from ads.fields import PriceField, SurfaceField
-from ads.widgets import BooleanExtendedNumberInput
-from ads.models import *
+from ads.models import AdPicture, AdContact
 
 class ImageWidget(forms.FileInput):
     template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'
@@ -50,7 +42,6 @@ class BaseAdForm(ModelForm):
         if self.cleaned_data.has_key('user_entered_address'):
             self.cleaned_data['address'] = self.address
             self.cleaned_data['location'] = self.location
-            #print '>>>>>>>>>', self.cleaned_data['location']
         return self.cleaned_data
 
     def clean_user_entered_address(self):

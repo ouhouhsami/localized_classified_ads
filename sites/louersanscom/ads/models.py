@@ -41,7 +41,6 @@ class HomeForRentAd(Ad):
 
     """
     price = models.PositiveIntegerField(_(u"Loyer (€/mois)"))
-    slug = AutoSlugField(populate_from='get_full_description', always_update=True, unique=True)
     colocation = models.BooleanField(_(u"Colocation possible"))
     furnished = models.TextField(_(u"Habitation meublée"), null=True, blank=True)
     habitation_type	= models.CharField(_(u"Type de bien"), max_length = 1, 

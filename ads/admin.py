@@ -2,6 +2,7 @@
 """
 Ads app admin module
 """
+
 from django.contrib import admin
 from moderation.admin import ModerationAdmin
 from ads.models import AdSearch, AdContact, AdPicture

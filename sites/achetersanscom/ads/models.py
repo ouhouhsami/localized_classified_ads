@@ -75,7 +75,6 @@ class HomeForSaleAd(Ad):
 
     """
     price = models.PositiveIntegerField(_(u"Prix (€)"))
-    slug = AutoSlugField(populate_from='get_full_description', always_update=True, unique=True)
     habitation_type	= models.CharField(_(u"Type de bien"), max_length=1, 
                                        choices=HABITATION_TYPE_CHOICES)
     surface = models.IntegerField(_(u"Surface habitable (m²)"))

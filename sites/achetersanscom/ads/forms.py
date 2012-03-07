@@ -5,7 +5,7 @@ from moderation.forms import BaseModeratedObjectForm
 from django import forms
 
 from ads.widgets import BooleanExtendedNumberInput
-from ads.fields import PriceField, SurfaceField
+from utils.fields import PriceField, SurfaceField
 from ads.forms import BaseAdForm
 
 from models import HomeForSaleAd

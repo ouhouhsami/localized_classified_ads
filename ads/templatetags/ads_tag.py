@@ -8,24 +8,6 @@ from django.utils.formats import number_format
 
 register = template.Library()
 
-'''
-def moderation_status(obj):
-    moderated_obj = ModeratedObject.objects.get_for_instance(obj)
-    return moderated_obj.moderation_status
-
-def moderation_status_label(obj):
-    value = moderation_status(obj)
-    if value == 0:
-        return "Rejeté"
-    if value == 1:
-        return "Approuvé"
-    if value == 2:
-        return "En cours"
-
-register.simple_tag(moderation_status)
-register.simple_tag(moderation_status_label)
-'''
-
 
 def has_value(field):
     #print field.name, field.field.__class__.__name__

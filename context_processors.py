@@ -15,4 +15,6 @@ def google_analytics_context_processor(request):
     results = {}
     current_site = Site.objects.get_current()
     return settings.GOOGLE_ANALYTICS_ACCOUNTS[str(current_site)]
+
+
     

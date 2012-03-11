@@ -41,10 +41,11 @@ def get_client_ip(request):
     return ip
 
 @site_decorator
-def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
-    """Search view
-    
+def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None, **kwargs):
     """
+    Search view
+    """
+    print kwargs
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
         filter = AdFilterSet(None, search=search)
@@ -116,8 +117,8 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None):
 
 @login_required
 def delete_search(request, search_id):
-    """Delete search view
-
+    """
+    Delete search view
     """
     search = AdSearch.objects.get(id = search_id)
     if search.user_profile.user.username == request.user.username:
@@ -128,6 +129,13 @@ def delete_search(request, search_id):
                         username=request.user.username)
     else:
         raise Http404
+
+def ping(request, Ad=None, AdForm=None, AdFilterSet=None):
+    print Ad, AdForm, AdFilterSet
+    from django.conf import settings
+    print settings.SITE_ID
+    raise Http404
+
 
 @site_decorator
 def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):

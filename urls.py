@@ -37,8 +37,13 @@ sitemaps = {
     'homeforrentads': GenericSitemap(home_for_rent_info_dict, priority=0.6),
 }
 
+from sites.achetersanscom.ads.models import HomeForSaleAd, format_search_resume
+from sites.achetersanscom.ads.forms import HomeForSaleAdForm
+from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
+
+
 urlpatterns = patterns('',
-    url(r'^annonce/', include('ads.urls')),
+    url(r'^annonce/', include('ads.urls'), {'Ad':HomeForSaleAd, 'AdForm':HomeForSaleAdForm, 'AdFilterSet':HomeForSaleAdFilterSet}),
     url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
        profile_detail, {},
        name='userena_profile_detail'),

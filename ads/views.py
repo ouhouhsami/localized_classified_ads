@@ -18,15 +18,23 @@ from django.core.mail import send_mail
 from django.core import serializers
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from django.http import QueryDict, Http404
+from django.http import QueryDict, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.utils.decorators import method_decorator
 
-from ads.models import AdSearch, AdPicture
+from ads.models import Ad, AdSearch, AdPicture
 from ads.forms import AdPictureForm, AdContactForm
 from ads.decorators import site_decorator
+
+
+class LoginRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 def get_client_ip(request):
@@ -40,12 +48,12 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+'''
 @site_decorator
 def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None, **kwargs):
     """
     Search view
     """
-    print kwargs
     if request.method != 'POST' and request.GET == {} and search_id is None:
         search = False
         filter = AdFilterSet(None, search=search)
@@ -90,7 +98,7 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None, **kw
             _(u'Votre recherche a bien été sauvegardée '+
               u'dans <a href="%s">votre compte</a>.') 
             % (userena_profile_detail_url))
-        # len method is speeder than count()
+        # len method is speeder than count() !
         nb_of_results = len(filter.qs)
         if nb_of_results == 0:
             messages.add_message(request, messages.INFO, 
@@ -115,193 +123,211 @@ def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None, **kw
                                                       'search':search}, 
                                     context_instance = RequestContext(request))
 
-@login_required
-def delete_search(request, search_id):
+'''
+
+class AdSearchView(ListView):
     """
-    Delete search view
+    Class based ad search view
     """
-    search = AdSearch.objects.get(id = search_id)
-    if search.user_profile.user.username == request.user.username:
-        search.delete()
-        messages.add_message(request, messages.INFO, 
+    model = Ad
+    filterset_class = None
+    search_id = None
+    template_name = 'ads/search.html'
+
+class AdSearchDeleteView(DeleteView):
+    """
+    Class based delete search ad
+    """
+    model = AdSearch
+    
+    def get_object(self, queryset=None):
+        """ Ensure object is owned by request.user. """
+        obj = super(AdSearchDeleteView, self).get_object()
+        if not obj.user_profile.user == self.request.user:
+            raise Http404
+        return obj
+
+    def get_success_url(self):
+        """ Redirect to user account page"""
+        messages.add_message(self.request, messages.INFO, 
                              _(u'Votre recherche a bien été supprimée.'))
-        return redirect('userena_profile_detail', 
-                        username=request.user.username)
-    else:
-        raise Http404
+        return reverse('userena_profile_detail', args=[self.request.user.username])
 
-def ping(request, Ad=None, AdForm=None, AdFilterSet=None):
-    print Ad, AdForm, AdFilterSet
-    from django.conf import settings
-    print settings.SITE_ID
-    raise Http404
+class AdDetailView(DetailView):
+    """
+    Class based detail ad
+    """
+    model = Ad # changed in urls
+    context_object_name = 'ad'
+    template_name = 'ads/view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AdDetailView, self).get_context_data(**kwargs)
+        context['contact_form'] = AdContactForm()
+        context['sent_mail'] = False
+        return context
 
-@site_decorator
-def view(request, ad_slug, Ad=None, AdForm=None, AdFilterSet=None):
-    try:
-        ad = Ad.objects.get(slug = ad_slug)
-    except Ad.DoesNotExist:
-        raise Http404
-    sent_mail = False
-    if ad.delete_date is not None or ad.moderated_object.moderation_status != 1:
-        raise Http404
-    contact_form = AdContactForm()
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
+        """ used for contact message between users """
         contact_form = AdContactForm(request.POST)
         if contact_form.is_valid():
             instance = contact_form.save(commit = False)
-            instance.content_object = ad
+            instance.content_object = self.get_object()
             instance.user_profile = request.user.get_profile()
             instance.save()
             send_mail(_(u'[%s] Demande d\'information concernant votre annonce') \
             % (Site.objects.get_current().name), 
                instance.message, 
                instance.user_profile.user.email, 
-               [ad.user_profile.user.email], 
+               [self.get_object().user_profile.user.email], 
                fail_silently=False)
             sent_mail = True
             messages.add_message(request, messages.INFO, 
                                  _(u'Votre message a bien été envoyé.'))
-    if request.is_ajax():
-        return render_to_response('ads/view_ajax.html', {'ad':ad, 
-                                  'contact_form':contact_form}, 
-                                  context_instance = RequestContext(request))
-    else:
-        return render_to_response('ads/view.html', {'ad':ad, 
+
+        return render_to_response(self.template_name, {'ad':self.get_object(), 
                                   'contact_form':contact_form, 
                                   'sent_mail':sent_mail}, 
                                   context_instance = RequestContext(request))
 
 
-@site_decorator
-@login_required(login_url='/accounts/signup/')
-def add(request, Ad=None, AdForm=None, AdFilterSet=None):
-    form = AdForm()
-    PictureFormset = generic_inlineformset_factory(AdPicture, 
-                                                   extra=4, max_num=4)
-    picture_formset = PictureFormset()
-    if request.method == 'POST':
-        form = AdForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit = False)
-            instance.user_profile = request.user.get_profile()
-            # line below due to the fact that location and address 
-            # are excluded from adform
-            print form.cleaned_data['user_entered_address']
-            instance.location = form.cleaned_data['location']
-            instance.address = form.cleaned_data['address']
-            # add location and address fields
-            # if one day we need to change projection
-            # origin_coord = SpatialReference(900913)
-            # target_coord = SpatialReference(4326)
-            # trans = CoordTransform(origin_coord, target_coord)
-            instance.save()
-            PictureFormset = generic_inlineformset_factory(AdPicture, 
-                                                           extra=4, max_num=4)
-            picture_formset = PictureFormset(request.POST, request.FILES, 
-                                             instance = instance)
-            if picture_formset.is_valid():
-                picture_formset.save()
-            # here we need to add changed_by to moderated object 
-            # to get email notification
-            instance.moderated_object.changed_by = request.user
-            instance.moderated_object.save()
+class AdCreateView(LoginRequiredMixin, CreateView):
+    """
+    Class based create ad
+    """
+    model = Ad # overriden in specific project urls
+    template_name = 'ads/edit.html'
+    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        picture_formset = context['picture_formset']
+        if picture_formset.is_valid():
+            self.object = form.save(commit = False)
+            self.object.user_profile = self.request.user.get_profile()
+            self.object.location = form.cleaned_data['location']
+            self.object.address = form.cleaned_data['address']
+            self.object.save()
+            picture_formset.instance = self.object
+            picture_formset.save()
+            self.object.moderated_object.changed_by = self.request.user
+            self.object.moderated_object.save()
             message = render_to_string('ads/emails/ad_create_email_message.txt')
             subject = render_to_string('ads/emails/ad_create_email_subject.txt', 
                                   {'site_name':Site.objects.get_current().name})
             send_mail(subject, message, 'contact@achetersanscom.com', 
                       [instance.user_profile.user.email], fail_silently=True)
-            return redirect('completed', permanent=True)
+            return HttpResponseRedirect('complete/')
         send_mail(_(u"[%s] %s valide l'ajout d'un bien") % 
-                  (Site.objects.get_current().name, request.user.email), 
+                  (Site.objects.get_current().name, self.request.user.email), 
                   "%s" % (form.errors), 'contact@achetersanscom.com', 
                   ["contact@achetersanscom.com"], fail_silently=True)
-    else:
-        send_mail(_(u"[%s] %s est sur la page d'ajout d'un bien") % 
-                  (Site.objects.get_current().name, request.user.email), "", 
-                  'contact@achetersanscom.com', 
-                  ["contact@achetersanscom.com"], fail_silently=True)
-    return render_to_response('ads/edit.html', {'form':form, 
-                              'picture_formset':picture_formset}, 
-                              context_instance = RequestContext(request))
+        #TODO: if formset not valid
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+    
+    def get_context_data(self, **kwargs):
+        context = super(AdCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            PictureFormset = generic_inlineformset_factory(AdPicture, 
+                                                   extra=4, max_num=4)
+            context['picture_formset'] = PictureFormset(self.request.POST, 
+                                                        self.request.FILES)
+        else:
+            PictureFormset = generic_inlineformset_factory(AdPicture, 
+                                                   extra=4, max_num=4)
+            context['picture_formset'] = PictureFormset()
+        return context
 
 
-@site_decorator
-@login_required
-def edit(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
-    h = Ad.unmoderated_objects.get(id = ad_id)
-    # hack de merde, je ne comprends pas, sinon il convertit la valeur
-    h.location = str(h.location)
-    # h = Ad.objects.get(id = ad_id)
-    PictureFormset = generic_inlineformset_factory(AdPicture, 
-                                        form=AdPictureForm, extra=4, max_num=4)
-    picture_formset = PictureFormset(instance = h)
-    if h.user_profile.user.username == request.user.username:
-        #form = AdForm(h.__dict__)
-        form = AdForm(h.moderated_object.changed_object.__dict__)
-        if request.method == 'POST':
-            form = AdForm(request.POST, instance = h)
-            #print 'je suis la'
-            if form.is_valid():
-                #print 'mais pas la'
-                # test obj.__dict__.update(request.POST) on object? I think not
-                instance = form.save(commit = False)
-                # line below due to the fact that location and address 
-                # are excluded from adform
-                instance.location = form.cleaned_data['location']
-                instance.address = form.cleaned_data['address']                
-                instance.save()
-                PictureFormset = generic_inlineformset_factory(AdPicture, 
-                                        form=AdPictureForm, extra=4, max_num=4)
-                picture_formset = PictureFormset(request.POST, request.FILES, 
-                                                 instance=instance)
-                if picture_formset.is_valid():
-                    picture_formset.save()
-                # here we DONT need to add changed_by to moderated object 
-                # to get email notification because moderated object already 
-                # know about user from 'add' function
-                # below, to be sure that images are displayed
-                picture_formset = PictureFormset(instance = h)
-                message = render_to_string(
-                                  'ads/emails/ad_update_email_message.txt', {})
-                subject = render_to_string(
-                                  'ads/emails/ad_update_email_subject.txt', 
-                                 {'site_name':Site.objects.get_current().name})
-                send_mail(subject, message, 'contact@achetersanscom.com', 
-                          [instance.user_profile.user.email], 
+class AdUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Class base update ad
+    """
+    model = Ad # overriden in specific project urls
+    template_name = 'ads/edit.html'
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        picture_formset = context['picture_formset']
+        if picture_formset.is_valid():
+            self.object = form.save(commit = False)
+            self.object.location = form.cleaned_data['location']
+            self.object.address = form.cleaned_data['address']
+            self.object.save()
+            picture_formset.instance = self.object
+            picture_formset.save()
+            message = render_to_string(
+                              'ads/emails/ad_update_email_message.txt', {})
+            subject = render_to_string(
+                              'ads/emails/ad_update_email_subject.txt', 
+                             {'site_name':Site.objects.get_current().name})
+            send_mail(subject, message, 'contact@achetersanscom.com', 
+                          [self.object.user_profile.user.email], 
                           fail_silently=True)
-                return redirect('completed', permanent=True)
-                # below to force real value of fields
-                h = Ad.unmoderated_objects.get(id = ad_id)
-                form = AdForm(h.moderated_object.changed_object.__dict__)
-            # if error, here, we return form
-        return render_to_response('ads/edit.html', 
-                                  {'form':form, 
-                                   'picture_formset':picture_formset, 
-                                   'home':h}, 
-                                  context_instance = RequestContext(request))
-    else:
-        raise Http404
+            return redirect('complete', permanent=True)
+        #TODO: if formset not valid
+        
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
-def completed(request):
-    return render_to_response('ads/validation.html', {}, 
-                               context_instance=RequestContext(request))
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = self.model.unmoderated_objects.get(id = self.kwargs['pk'])
+        if not obj.user_profile.user == self.request.user:
+            raise Http404
+        # TODO: ugly hack don't understand, if not line below, value is converted
+        obj.location = str(obj.location)
+        return obj
 
-@site_decorator
-@login_required
-def delete(request, ad_id, Ad=None, AdForm=None, AdFilterSet=None):
-    h = Ad.unmoderated_objects.get(id = ad_id)
-    if request.user == h.user_profile.user:
-        h.delete_date = datetime.now()
-        h.save()
-        serialized_obj = serializers.serialize('json', [ h, ])
-        path = default_storage.save('deleted/%s-%s.json' % (h.id, h.slug), 
+    def get_context_data(self, **kwargs):
+        context = super(AdUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            PictureFormset = generic_inlineformset_factory(AdPicture, 
+                                                   extra=4, max_num=4)
+            context['picture_formset'] = PictureFormset(self.request.POST, 
+                                                  self.request.FILES,
+                                                  instance = context['object'])
+        else:
+            PictureFormset = generic_inlineformset_factory(AdPicture, 
+                                                   extra=4, max_num=4)
+            context['picture_formset'] = PictureFormset(instance = context['object'])
+        return context
+
+
+class CompleteView(LoginRequiredMixin, TemplateView):
+    template_name = "ads/validation.html"
+
+class AdDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    Class based delete ad
+    """
+    model = Ad # "normally" overrided in specific project urls
+    template_name = "ads/ad_confirm_delete.html"
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete_date = datetime.now()
+        self.object.save()
+        serialized_obj = serializers.serialize('json', [ self.object, ])
+        path = default_storage.save('deleted/%s-%s.json' % (self.object.id, 
+                                                          self.object.slug), 
                                     ContentFile(serialized_obj))
-        messages.add_message(request, messages.INFO, 
+        self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_queryset(self):
+        return self.model.unmoderated_objects.all()
+
+    def get_object(self, queryset=None):
+        """ Ensure object is owned by request.user. """
+        obj = super(AdDeleteView, self).get_object()
+        if not obj.user_profile.user == self.request.user:
+            raise Http404
+        return obj
+
+    def get_success_url(self):
+        """ Redirect to user account page"""
+        messages.add_message(self.request, messages.INFO, 
                              _(u'Votre annonce a bien été supprimée.'))
-        h.delete()
-        return redirect('userena_profile_detail', 
-                        username=request.user.username)
-    else:
-        raise Http404
+        return reverse('userena_profile_detail', args=[self.request.user.username])

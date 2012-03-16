@@ -32,8 +32,12 @@ class HomeForRentAdFilterSet(NicerFilterSet):
     location = LocationFilter(widget=GooglePolygonWidget(), 
                               label="Localisation", help_text="Localisation", required=False)
     def __init__(self, *args, **kwargs):
-        search = kwargs['search']
-        del kwargs['search']
+        # improve : set default to none if key doesnt exist
+        try:
+            search = kwargs['search']
+            del kwargs['search']
+        except:
+            search = None
         super(HomeForRentAdFilterSet, self).__init__(*args, **kwargs)
         if search:
             self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=search, fillColor="pink", strokeColor="#9d81a1")

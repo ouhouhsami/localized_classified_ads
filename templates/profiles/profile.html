@@ -3,19 +3,6 @@
 
 {% block title %}{{ site.name }} | Mon compte{% endblock %}
 
-{% block javascript %}
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('.delete').click(function(evt){
-			if (confirm("{% trans 'Voulez-vous vraiment supprimer cette annonce ?' %}")) {
-				window.location.href = $(this).attr('href')
- 			}
-			return false;
-		})	
-	})
-</script>
-{% endblock %}
-
 {% block main_menu %}
 {% endblock %}
 

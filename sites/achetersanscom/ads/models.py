@@ -71,7 +71,8 @@ FIREPLACE_CHOICES = (
 )
 
 class HomeForSaleAd(Ad):
-    """HomeFormSaleAd model
+    """
+    HomeFormSaleAd model
 
     """
     price = models.PositiveIntegerField(_(u"Prix (€)"))
@@ -140,7 +141,7 @@ class HomeForSaleAd(Ad):
     def get_absolute_url(self):
         return ('view', [str(self.slug)])  
     def __unicode__(self):
-        return '%s e - %s m2 - %s pieces' % (self.price, self.surface, self.nb_of_rooms)
+        return u'%s € - %s m² - %s pieces' % (self.price, self.surface, self.nb_of_rooms)
     class Meta:
         app_label = 'ads'
 

@@ -43,8 +43,12 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     bathroom = BooleanForNumberFilter(label="Salle de bain", widget = IndifferentNullBooleanSelect())
     shower = BooleanForNumberFilter(label="Salle d'eau (douche)", widget = IndifferentNullBooleanSelect())
     def __init__(self, *args, **kwargs):
-        search = kwargs['search']
-        del kwargs['search']
+        # improve : set default to none if key doesnt exist
+        try:
+            search = kwargs['search']
+            del kwargs['search']
+        except:
+            search = None
         super(HomeForSaleAdFilterSet, self).__init__(*args, **kwargs)
         if search:
             self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=search, fillColor="#FFB82E", strokeColor="#20B2AA")

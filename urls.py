@@ -14,7 +14,7 @@ from profiles.models import UserProfile
 from userena import views as userena_views
 from profiles.views import detail as profile_detail
 
-from ads.views import search
+#from ads.views import search
 
 from sites.achetersanscom.ads.models import HomeForSaleAd
 from sites.louersanscom.ads.models import HomeForRentAd
@@ -37,13 +37,13 @@ sitemaps = {
     'homeforrentads': GenericSitemap(home_for_rent_info_dict, priority=0.6),
 }
 
-from sites.achetersanscom.ads.models import HomeForSaleAd, format_search_resume
-from sites.achetersanscom.ads.forms import HomeForSaleAdForm
-from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
-
+#from sites.achetersanscom.ads.models import HomeForSaleAd, format_search_resume
+#from sites.achetersanscom.ads.forms import HomeForSaleAdForm
+#from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 
 urlpatterns = patterns('',
-    url(r'^annonce/', include('ads.urls'), {'Ad':HomeForSaleAd, 'AdForm':HomeForSaleAdForm, 'AdFilterSet':HomeForSaleAdFilterSet}),
+    #line below is in specific site
+    #url(r'^annonce/', include('ads.urls')),
     url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
        profile_detail, {},
        name='userena_profile_detail'),
@@ -51,11 +51,10 @@ urlpatterns = patterns('',
        userena_views.profile_edit, {'template_name':'userena/profile_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),
     url(r'^accounts/', include('userena.urls')),
-    url(r'^$', search, name='search'),
+    #url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )
-
 
 try:
     from settings_local import *

@@ -14,8 +14,10 @@ from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 urlpatterns = patterns('',
     url(r'^(?P<slug>[-\w]+)$', AdDetailView.as_view(model=HomeForSaleAd), 
                                                             name="view"),
-    # line below is to catch null or not search_id
-    url(r'^search/(?:(?P<search_id>\d+))?$', AdSearchView.as_view(model=HomeForSaleAd, 
+    url(r'^search/$', AdSearchView.as_view(model=HomeForSaleAd, 
+                                         filterset_class=HomeForSaleAdFilterSet), 
+                                                                  name='search'), 
+    url(r'^search/(?P<search_id>\d+)/$', AdSearchView.as_view(model=HomeForSaleAd, 
                                          filterset_class=HomeForSaleAdFilterSet), 
                                                                   name='search'),
     url(r'^delete_search/(?P<pk>\d+)$', AdSearchDeleteView.as_view(), 

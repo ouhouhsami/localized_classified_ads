@@ -23,8 +23,9 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+
 
 from ads.models import Ad, AdSearch, AdPicture
 from ads.forms import AdPictureForm, AdContactForm
@@ -36,7 +37,7 @@ class LoginRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
-
+'''
 def get_client_ip(request):
     """
     Get client IP, used to localize client
@@ -47,92 +48,96 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
-
-'''
-@site_decorator
-def search(request, search_id=None, Ad=None, AdForm=None, AdFilterSet=None, **kwargs):
-    """
-    Search view
-    """
-    if request.method != 'POST' and request.GET == {} and search_id is None:
-        search = False
-        filter = AdFilterSet(None, search=search)
-        # center map
-        g = GeoIP()
-        ip = get_client_ip(request)
-        # for testing purpose 
-        if ip == '127.0.0.1':
-            ip = '129.102.64.54'
-        latlon = g.lat_lon(ip)
-        initial_ads = Ad.objects.select_related()\
-                            .filter(delete_date__isnull=True)\
-                            .filter(_relation_object__moderation_status = 1)\
-                            .order_by('-create_date')[0:10]
-        return render_to_response('ads/search.html', 
-                                  {'filter': filter, 'search':search, 
-                                   'initial_ads':initial_ads}, 
-                                  context_instance = RequestContext(request))
-    else:
-        search = True
-        if search_id is not None:
-            ad_search = AdSearch.objects.get(id = search_id)
-            q = QueryDict(ad_search.search)
-            filter = AdFilterSet(q or None, search = search)
-            if ad_search.user_profile.user != request.user:
-                raise Http404
-        else:
-            filter = AdFilterSet(request.POST or None, search = search)
-        if request.POST.__contains__('save_and_search') and search_id is None:
-            datas = request.POST.copy()
-            del datas['save_and_search']
-            del datas['csrfmiddlewaretoken']
-            search =  datas.urlencode()
-            user_profile = request.user.get_profile()
-            ad_search = AdSearch(search = search,
-                         content_type = ContentType.objects.get_for_model(Ad), 
-                         user_profile = user_profile)
-            ad_search.save()
-            userena_profile_detail_url = reverse('userena_profile_detail', 
-                                             args=[user_profile.user.username])
-            messages.add_message(request, messages.INFO,
-            _(u'Votre recherche a bien été sauvegardée '+
-              u'dans <a href="%s">votre compte</a>.') 
-            % (userena_profile_detail_url))
-        # len method is speeder than count() !
-        nb_of_results = len(filter.qs)
-        if nb_of_results == 0:
-            messages.add_message(request, messages.INFO, 
-            _(u'Aucune annonce ne correspond à votre recherche. '+
-              u'Elargissez votre zone de recherche ou modifiez les critères.'))
-        if nb_of_results >= 1:
-            ann = _(u'annonces')
-            if nb_of_results == 1:
-                ann = _(u'annonce')
-            if request.user.is_authenticated():
-                messages.add_message(request, messages.INFO, 
-                             _(u'%s %s correspondant à votre recherche') % 
-                              (nb_of_results, ann))
-            else:
-                sign_url = reverse('userena_signup', args=[])
-                messages.add_message(request, messages.INFO, 
-                      _(u'%s %s correspondant à votre recherche. '+ 
-                        u'<a href="%s">Inscrivez-vous</a> pour recevoir'+ 
-                        u' les alertes mail ou enregistrer votre recherche.') \
-                           % (nb_of_results, ann, sign_url))
-        return render_to_response('ads/search.html', {'filter': filter,
-                                                      'search':search}, 
-                                    context_instance = RequestContext(request))
-
 '''
 
 class AdSearchView(ListView):
     """
     Class based ad search view
+
+    Not really clean, get-post condition in the above functions
     """
     model = Ad
     filterset_class = None
     search_id = None
     template_name = 'ads/search.html'
+    context_object_name = 'filter'
+    search_id = None
+    
+    def get_queryset(self):
+        # HACK, getattr doesn't work ! don't know why
+        try:
+            self.search_id = self.kwargs['search_id']
+        except:
+            self.search_id = None
+        if self.request.method != 'POST' and self.request.GET == {} and self.search_id is None:
+            search = False
+            filter = self.filterset_class(None, search=search)
+        else:
+            search = True
+            if self.search_id is not None:
+                ad_search = AdSearch.objects.get(id = self.search_id)
+                if ad_search.user_profile.user != self.request.user:
+                    raise Http404
+                q = QueryDict(ad_search.search)
+                filter = self.filterset_class(q or None, search=search)
+            else:
+                filter = self.filterset_class(self.request.POST or None, search=search)
+            ### lot of case here, need to clean
+            if self.request.POST.__contains__('save_and_search') and self.search_id is None:
+                datas = self.request.POST.copy()
+                del datas['save_and_search']
+                del datas['csrfmiddlewaretoken']
+                search =  datas.urlencode()
+                user_profile = self.request.user.get_profile()
+                ad_search = AdSearch(search = search,
+                         content_type = ContentType.objects.get_for_model(self.model), 
+                         user_profile = user_profile)
+                ad_search.save()
+                userena_profile_detail_url = reverse('userena_profile_detail', 
+                                             args=[user_profile.user.username])
+                messages.add_message(self.request, messages.INFO,
+                _(u'Votre recherche a bien été sauvegardée '+
+                  u'dans <a href="%s">votre compte</a>.') 
+                % (userena_profile_detail_url))
+            # len method is speeder than count() !
+            nb_of_results = len(filter.qs)
+            if nb_of_results == 0:
+                messages.add_message(self.request, messages.INFO, 
+                _(u'Aucune annonce ne correspond à votre recherche. '+
+                  u'Elargissez votre zone de recherche ou modifiez les critères.'))
+            if nb_of_results >= 1:
+                ann = _(u'annonces')
+                if nb_of_results == 1:
+                    ann = _(u'annonce')
+                if self.request.user.is_authenticated():
+                    messages.add_message(self.request, messages.INFO, 
+                                 _(u'%s %s correspondant à votre recherche') % 
+                                  (nb_of_results, ann))
+                else:
+                    sign_url = reverse('userena_signup', args=[])
+                    messages.add_message(self.request, messages.INFO, 
+                          _(u'%s %s correspondant à votre recherche. '+ 
+                            u'<a href="%s">Inscrivez-vous</a> pour recevoir'+ 
+                            u' les alertes mail ou enregistrer votre recherche.') \
+                               % (nb_of_results, ann, sign_url))
+        return filter
+
+    def post(self, request, *args, **kwargs):
+        # hack for a kind of post to get dispath
+        # but not sure it works ...
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(AdSearchView, self).get_context_data(**kwargs)
+        if self.request.method != 'POST' and self.request.GET == {} and self.search_id is None:
+            context['search'] = False
+            context['initial_ads'] = self.model.objects.select_related()\
+                            .filter(delete_date__isnull=True)\
+                            .filter(_relation_object__moderation_status = 1)\
+                            .order_by('-create_date')[0:10]
+        else:
+            context['search'] = True
+        return context
 
 class AdSearchDeleteView(DeleteView):
     """

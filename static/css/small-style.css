@@ -23,3 +23,7 @@ body {
 #right_column {
 	width:100%;
 }
+
+#subtitle {
+	font-size: 1.3em;
+}

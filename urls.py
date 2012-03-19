@@ -12,7 +12,6 @@ from moderation.helpers import auto_discover
 from profiles.forms import UserProfileCustomForm
 from profiles.models import UserProfile
 from userena import views as userena_views
-from profiles.views import detail as profile_detail
 
 #from ads.views import search
 
@@ -44,9 +43,9 @@ sitemaps = {
 urlpatterns = patterns('',
     #line below is in specific site
     #url(r'^annonce/', include('ads.urls')),
-    url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
-       profile_detail, {},
-       name='userena_profile_detail'),
+    #url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w]+)/$',
+    #   profile_detail, {},
+    #   name='userena_profile_detail'),
     url(r'^accounts/(?P<username>[\.\w]+)/edit/$',
        userena_views.profile_edit, {'template_name':'userena/profile_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),

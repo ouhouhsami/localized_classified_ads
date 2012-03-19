@@ -121,6 +121,8 @@
 	{% endif %}
 {% endif %}
 
+{% ifequal user.username profile.user.username %}
+
 {% if searchs %}
 	<h3>{% trans "Vos Recherches" %}</h3>
 	<table  class="list">
@@ -151,6 +153,7 @@
 	<p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>
 {% endif %}
 
+{% endifequal %}
 
 </div>
 {% endblock %}

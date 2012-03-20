@@ -50,7 +50,6 @@ urlpatterns = patterns('',
        userena_views.profile_edit, {'template_name':'userena/profile_form.html', 'edit_profile_form':UserProfileCustomForm},
        name='userena_profile_edit'),
     url(r'^accounts/', include('userena.urls')),
-    #url(r'^$', search, name='search'),
     url(r'^admin/', include(admin.site.urls)),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )

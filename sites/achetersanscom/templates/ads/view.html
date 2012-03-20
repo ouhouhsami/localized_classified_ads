@@ -221,10 +221,10 @@
 			<td></td>
 			<td ><button type="submit">{% trans "Envoyer" %}</button></td>
 		</tr>
-	{% if ad.user_profile.phone_number %}
+	{% if ad.user.user_profile.phone_number %}
 		<tr>
 			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>
-			<td><address>{{ ad.user_profile.phone_number }}</address></td>
+			<td><address>{{ ad.user.user_profile.phone_number }}</address></td>
 		</tr>
 	{% endif %}
 	</table>

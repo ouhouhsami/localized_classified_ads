@@ -23,6 +23,7 @@ class UserProfileDetailView(DetailView):
     """
     model = UserProfile
     ad_model = None
+    ad_search_model = None
     template_name = 'profiles/profile.html'
     context_object_name = 'profile'
     slug_field = 'user__username'
@@ -30,15 +31,15 @@ class UserProfileDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         context['ads'] = self.ad_model.objects.exclude(delete_date__isnull = False)\
-                    .filter(user_profile = self.get_object())\
+                    .filter(user = self.get_object().user)\
                     .order_by('-create_date')
         context['all_user_ads'] = False
         context['searchs'] = False
         if self.request.user ==  self.get_object().user:
-            context['all_user_ads'] = self.ad_model.unmoderated_objects.filter(user_profile = self.get_object())\
+            context['all_user_ads'] = self.ad_model.unmoderated_objects.filter(user = self.get_object().user)\
                          .exclude(delete_date__isnull = False)\
                          .order_by('-create_date')
-            context['searchs'] = AdSearch.objects.filter(user_profile = self.get_object(), 
+            context['searchs'] = self.ad_search_model.objects.filter(user = self.get_object().user, 
                             content_type=ContentType.objects.get_for_model(self.ad_model))
         return context
 

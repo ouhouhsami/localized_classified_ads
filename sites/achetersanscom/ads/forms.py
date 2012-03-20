@@ -63,7 +63,7 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm, BaseAdForm):
             'user_entered_address':forms.TextInput,
             'habitation_type':forms.Select
         }
-        exclude = ('user_profile', 'delete_date', 'location', 'address')
+        exclude = ('user', 'delete_date', 'location', 'address')
         fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 'ad_valorem_tax','housing_tax','maintenance_charges', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),
                      ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble', 'classes': ['apartment']}),

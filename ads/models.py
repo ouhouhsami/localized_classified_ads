@@ -1,17 +1,17 @@
 # coding=utf-8
+
 from django.db import models
 from django.contrib.gis.db import models
-from profiles.models import UserProfile
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.http import QueryDict
+from django.contrib.auth.models import User
+
 from stdimage import StdImageField
 from autoslug import AutoSlugField
 from jsonfield.fields import JSONField
-from django.contrib.sites.models import Site
-from django.conf import settings
 
-# GENERIC AD MODELS
+from profiles.models import UserProfile
+
 
 class AdPicture(models.Model):
     """
@@ -26,37 +26,39 @@ class AdPicture(models.Model):
     title = models.CharField('Description de la photo', max_length = 255, 
                              null = True, blank = True)
 
+
 class AdContact(models.Model):
     """
     Ad contact model
 
     """
-    user_profile = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(User)
     content_type = models.ForeignKey(ContentType)
     object_pk = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey(ct_field="content_type",
                                                fk_field="object_pk")
     message = models.TextField('Votre message')
 
+
 class AdSearch(models.Model):
+    """
+    AdSearch base
+
+    Application using this need to have a proxy model 
+    to define unicode string repr of each AdSearch depending on ad fields.
+    """
     search = models.CharField(max_length=2550)
-    user_profile = models.ForeignKey(UserProfile)   
+    user = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add = True)  
     content_type = models.ForeignKey(ContentType)
-    def __unicode__(self):
-        q = QueryDict(self.search)
-        current_site = Site.objects.get_current()
-        format_search_resume = settings.PER_SITE_OBJECTS[current_site.name]\
-                                                       ['format_search_resume']
-        return format_search_resume(q)
-        
+
 
 class Ad(models.Model):
     """
     Ad abstract base model
 
     """
-    user_profile = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(User)
     slug = AutoSlugField(populate_from='get_full_description', 
                          always_update=True, unique=True)
     description = models.TextField("", null=True, blank=True)
@@ -70,6 +72,7 @@ class Ad(models.Model):
     delete_date = models.DateTimeField(null = True, blank = True)
     visible = models.BooleanField()
     objects = models.GeoManager()
+
 
     def get_full_description(instance):
         return instance.slug

@@ -1,10 +1,12 @@
 # coding=utf-8
 
 from django.db import models
+from django.http import QueryDict
 from django.utils.translation import ugettext as _
+
 from autoslug import AutoSlugField
 
-from ads.models import Ad
+from ads.models import Ad, AdSearch
 
 # SPECIFIC AD MODELS 
 
@@ -94,6 +96,14 @@ class HomeForRentAd(Ad):
 
     class Meta:
         app_label = 'ads'
+
+class HomeForRentAdSearch(AdSearch):
+    """this class acts as proxy for AdSearch model"""
+    def __unicode__(self):
+        q = QueryDict(self.search)
+        return format_search_resume(q)
+    class Meta:
+        proxy = True
 
 def format_search_resume(q):
     habitation_types_values = q.getlist('habitation_type')

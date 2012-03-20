@@ -10,7 +10,7 @@ from django.contrib.gis.geos import *
 
 from moderation import moderation
 from models import HomeForSaleAd
-from ads.moderator import AdModerator
+from utils.moderator import AdModerator
 from moderation.signals import post_moderation
 from sites.achetersanscom.ads.models import *
 

@@ -2,7 +2,6 @@
 import re
 from django import template
 from django.conf import settings
-from moderation.models import ModeratedObject
 from django.utils.encoding import force_unicode
 from django.utils.formats import number_format
 

@@ -20,7 +20,7 @@ class Command(BaseCommand):
         #print settings.PER_SITE_OBJECTS
         user_profiles = UserProfile.objects.all()
         for user_profile in user_profiles:
-            research = AdSearch.objects.filter(user_profile = user_profile)
+            research = AdSearch.objects.filter(user = user_profile.user)
             for item in research:
                 if item.content_type.model == 'homeforsalead':
                     current_context = settings.PER_SITE_OBJECTS['AcheterSansCom']

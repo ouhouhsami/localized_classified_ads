@@ -1,0 +1,12 @@
+** externalize ad
+
+1. remove user_profile_id from homeforsalead and homeforrentad
+	alter table ads_homeforrentad drop column user_profile_id;
+	alter table ads_homeforsalead drop column user_profile_id;
+	alter table ads_adcontact drop column user_profile_id;
+	alter table ads_adsearch drop column user_profile_id;
+2. remove moderated objects
+	delete from moderation_moderatedobject
+3. force moderation for existing objects
+	force a save action in admin
+

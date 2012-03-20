@@ -75,7 +75,7 @@ class AdSearchView(ListView):
             search = True
             if self.search_id is not None:
                 ad_search = AdSearch.objects.get(id = self.search_id)
-                if ad_search.user_profile.user != self.request.user:
+                if ad_search.user != self.request.user:
                     raise Http404
                 q = QueryDict(ad_search.search)
                 filter = self.filterset_class(q or None, search=search)
@@ -87,13 +87,13 @@ class AdSearchView(ListView):
                 del datas['save_and_search']
                 del datas['csrfmiddlewaretoken']
                 search =  datas.urlencode()
-                user_profile = self.request.user.get_profile()
+                user = self.request.user
                 ad_search = AdSearch(search = search,
                          content_type = ContentType.objects.get_for_model(self.model), 
-                         user_profile = user_profile)
+                         user = user)
                 ad_search.save()
                 userena_profile_detail_url = reverse('userena_profile_detail', 
-                                             args=[user_profile.user.username])
+                                             args=[user.username])
                 messages.add_message(self.request, messages.INFO,
                 _(u'Votre recherche a bien été sauvegardée '+
                   u'dans <a href="%s">votre compte</a>.') 
@@ -147,7 +147,7 @@ class AdSearchDeleteView(DeleteView):
     def get_object(self, queryset=None):
         """ Ensure object is owned by request.user. """
         obj = super(AdSearchDeleteView, self).get_object()
-        if not obj.user_profile.user == self.request.user:
+        if not obj.user == self.request.user:
             raise Http404
         return obj
 
@@ -177,13 +177,13 @@ class AdDetailView(DetailView):
         if contact_form.is_valid():
             instance = contact_form.save(commit = False)
             instance.content_object = self.get_object()
-            instance.user_profile = request.user.get_profile()
+            instance.user = request.user
             instance.save()
             send_mail(_(u'[%s] Demande d\'information concernant votre annonce') \
             % (Site.objects.get_current().name), 
                instance.message, 
-               instance.user_profile.user.email, 
-               [self.get_object().user_profile.user.email], 
+               instance.user.email, 
+               [self.get_object().user.email], 
                fail_silently=False)
             sent_mail = True
             messages.add_message(request, messages.INFO, 
@@ -207,7 +207,7 @@ class AdCreateView(LoginRequiredMixin, CreateView):
         picture_formset = context['picture_formset']
         if picture_formset.is_valid():
             self.object = form.save(commit = False)
-            self.object.user_profile = self.request.user.get_profile()
+            self.object.user = self.request.user
             self.object.location = form.cleaned_data['location']
             self.object.address = form.cleaned_data['address']
             self.object.save()
@@ -219,7 +219,7 @@ class AdCreateView(LoginRequiredMixin, CreateView):
             subject = render_to_string('ads/emails/ad_create_email_subject.txt', 
                                   {'site_name':Site.objects.get_current().name})
             send_mail(subject, message, 'contact@achetersanscom.com', 
-                      [instance.user_profile.user.email], fail_silently=True)
+                      [instance.user.email], fail_silently=True)
             return HttpResponseRedirect('complete/')
         send_mail(_(u"[%s] %s valide l'ajout d'un bien") % 
                   (Site.objects.get_current().name, self.request.user.email), 
@@ -267,7 +267,7 @@ class AdUpdateView(LoginRequiredMixin, UpdateView):
                               'ads/emails/ad_update_email_subject.txt', 
                              {'site_name':Site.objects.get_current().name})
             send_mail(subject, message, 'contact@achetersanscom.com', 
-                          [self.object.user_profile.user.email], 
+                          [self.object.user.email], 
                           fail_silently=True)
             return redirect('complete', permanent=True)
         #TODO: if formset not valid
@@ -278,7 +278,7 @@ class AdUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         """ Hook to ensure object is owned by request.user. """
         obj = self.model.unmoderated_objects.get(id = self.kwargs['pk'])
-        if not obj.user_profile.user == self.request.user:
+        if not obj.user == self.request.user:
             raise Http404
         # TODO: ugly hack don't understand, if not line below, value is converted
         obj.location = str(obj.location)
@@ -326,7 +326,7 @@ class AdDeleteView(LoginRequiredMixin, DeleteView):
     def get_object(self, queryset=None):
         """ Ensure object is owned by request.user. """
         obj = super(AdDeleteView, self).get_object()
-        if not obj.user_profile.user == self.request.user:
+        if not obj.user == self.request.user:
             raise Http404
         return obj
 

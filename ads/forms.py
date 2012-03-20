@@ -1,4 +1,5 @@
 # coding=utf-8
+
 from django import forms
 from django.forms import ModelForm
 from django.utils.safestring import mark_safe
@@ -34,7 +35,7 @@ class AdPictureForm(ModelForm):
 class AdContactForm(ModelForm):
     class Meta:
         model = AdContact
-        exclude = ['user_profile', 'content_type', 'object_pk']
+        exclude = ['user', 'content_type', 'object_pk']
 
 class BaseAdForm(ModelForm):
 

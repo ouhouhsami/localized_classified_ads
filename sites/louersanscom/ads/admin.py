@@ -1,5 +1,5 @@
 from django.contrib import admin
-from ads.admin import AdAdmin
+from moderation.admin import ModerationAdmin
 from models import HomeForRentAd
 
-admin.site.register(HomeForRentAd, AdAdmin)
+admin.site.register(HomeForRentAd, ModerationAdmin)

@@ -1,3 +1,7 @@
+
+** todo before deploy
+change dynamic-site for urls import ...
+
 ** externalize ad
 
 1. remove user_profile_id from homeforsalead and homeforrentad
@@ -10,3 +14,20 @@
 3. force moderation for existing objects
 	force a save action in admin
 
+from sites.achetersanscom.ads.models import HomeForSaleAd
+from moderation.models import *
+for ad in HomeForSaleAd.objects.all():
+    try:
+        mo = ModeratedObject(content_object=ad)
+        mo.save()
+    except:
+        print ad.id
+
+from sites.louersanscom.ads.models import HomeForRentAd
+from moderation.models import *
+for ad in HomeForRentAd.objects.all():
+    try:
+        mo = ModeratedObject(content_object=ad)
+        mo.save()
+    except:
+        print ad.id

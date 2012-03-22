@@ -10,8 +10,6 @@ from stdimage import StdImageField
 from autoslug import AutoSlugField
 from jsonfield.fields import JSONField
 
-from profiles.models import UserProfile
-
 
 class AdPicture(models.Model):
     """

@@ -1,6 +1,9 @@
 from moderation import moderation
 from moderation.moderator import GenericModerator
 from moderation.managers import ModerationObjectsManager
+from django.db import models
+
+
 
 from django.contrib.gis.db import models
 

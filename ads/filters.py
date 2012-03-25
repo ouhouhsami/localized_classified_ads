@@ -1,6 +1,9 @@
 # coding=utf-8
+""" Ads specific filters for search"""
+
 from django.contrib.gis.geos import fromstr
 from django_filters.filters import Filter
+
 import floppyforms 
 
 
@@ -11,7 +14,7 @@ class LocationFilter(Filter):
         super(LocationFilter, self).__init__(*args, **kwargs)
 
     def filter(self, qs, value):
-        # very very bad hack because of default manager in HomeForSaleAd
+        # very very bad hack because of default manager in Ad
         # try / except is here because of email alert command (don't know why)
         try:
             qs = qs.filter(_relation_object__moderation_status = 1)

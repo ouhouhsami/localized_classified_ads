@@ -1,5 +1,9 @@
 # coding=utf-8
+""" ads test module"""
+
 from django.utils import unittest
+from django.test.client import Client
+
 from ads.models import Ad
 
 
@@ -13,7 +17,12 @@ class TestAdFilterSet(object):
     pass
 
 class AdTestCase(unittest.TestCase):
-    def test_home(self):
-        pass
+    def setUp(self):
+        self.client = Client()
+
+    def test_searchview(self):
+        """Test that home page is reachable"""
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
 
 

@@ -37,6 +37,7 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 '''
+TODO: add this tip to center map on load
 def get_client_ip(request):
     """
     Get client IP, used to localize client

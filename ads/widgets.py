@@ -1,13 +1,32 @@
 # coding=utf-8
-from itertools import chain
+""" ads widgets """
 
+from django import forms
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext
-from django.template import loader
 
-from floppyforms.gis.widgets import BaseGeometryWidget
 from floppyforms.widgets import Input, NumberInput
 import floppyforms
+
+
+class ImageWidget(forms.FileInput):
+    template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'
+
+    def __init__(self, attrs=None, template=None, width=200, height=200):
+        if template is not None:
+            self.template = template
+        self.width = width
+        self.height = height
+        super(ImageWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        input_html = super(forms.FileInput, self).render(name, value, attrs)
+        if hasattr(value, 'width') and hasattr(value, 'height'):
+            output = self.template % {'input': input_html, 'image': value.url,
+                                      'image_thumbnail': value.thumbnail.url()}
+        else:
+            output = input_html
+        return mark_safe(output)
 
 
 class Select(floppyforms.Select, Input):
@@ -70,3 +89,17 @@ class BooleanExtendedNumberInput(NumberInput):
 
 class BooleanExtendedInput(Input):
     template_name = 'floppyforms/boolean_extended_input.html'
+
+class SpecificRangeWidget(forms.MultiWidget):
+    def __init__(self, attrs=None):
+        widgets = (forms.TextInput(attrs={'placeholder':'min'}), 
+                   forms.TextInput(attrs={'placeholder':'max'}))
+        super(SpecificRangeWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return [value.start, value.stop]
+        return [None, None]
+
+    def format_output(self, rendered_widgets):
+        return u' - '.join(rendered_widgets)

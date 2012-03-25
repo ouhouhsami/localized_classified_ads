@@ -8,20 +8,13 @@ import floppyforms
 
 
 class LocationFilter(Filter):
+    """Location filter
+    Used for geo filtering inside shape
+    """
     field_class = floppyforms.gis.PolygonField
 
-    def __init__(self, *args, **kwargs):
-        super(LocationFilter, self).__init__(*args, **kwargs)
-
     def filter(self, qs, value):
-        # very very bad hack because of default manager in Ad
-        # try / except is here because of email alert command (don't know why)
-        try:
-            qs = qs.filter(_relation_object__moderation_status = 1)
-        except:
-            qs = qs
         lookup = 'within'
-        # obliged to filter here the date ... bad hack too
         if not value:
             return qs
         if value:
@@ -29,6 +22,9 @@ class LocationFilter(Filter):
             return qs.filter(**{'%s__%s' % (self.name, lookup): value})
 
 class BooleanForNumberFilter(Filter):
+    """Boolean for number filter
+    Used to filter if a number field is set or not (null or not)
+    """
     def filter(self, qs, value):
         if value is None:
             return qs

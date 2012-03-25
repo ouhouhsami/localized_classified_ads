@@ -4,5 +4,6 @@
 {% trans "Une(des) nouvelle(s) annonce(s) correspondant à votre recherche a(ont) été publiée(s) sur" %} {{ site_name }}
 {% trans "Vous pouvez la(les) consulter en cliquant sur le(s) lien(s) suivant(s)" %} 
 {% for ad in ads %}
-    <a href="http://www.{{ site_name|lower }}.com{% url view ad.slug %}">{{ ad.slug }}</a> 
+    {% comment %}GOOD WAY BUT BELOW I NEED A BAD HACK<a href="http://www.{{ site_name|lower }}.com{% url view ad.slug %}">{{ ad.slug }}</a>{% endcomment %}
+    <a href="http://www.{{ site_name|lower }}.com/annonce/{{ ad.slug }}">{{ ad.slug }}</a>
 {% endfor %}

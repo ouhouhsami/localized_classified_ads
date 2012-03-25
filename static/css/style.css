@@ -624,6 +624,10 @@ figcaption {
 	color:#999;
 }
 
+.content {
+	margin:10px;
+}
+
 @media screen and (min-width: 790px) and (max-width:970px){
 	.photo_gallery img {
 		width:180px;

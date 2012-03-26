@@ -6,6 +6,9 @@ from django.test.client import Client
 
 from ads.models import Ad
 
+"""
+TODO: test if mail is sent to user for moderation
+"""
 
 class TestAd(Ad):
     pass

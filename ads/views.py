@@ -220,7 +220,7 @@ class AdCreateView(LoginRequiredMixin, CreateView):
             subject = render_to_string('ads/emails/ad_create_email_subject.txt', 
                                   {'site_name':Site.objects.get_current().name})
             send_mail(subject, message, 'contact@achetersanscom.com', 
-                      [instance.user.email], fail_silently=True)
+                      [self.object.user.email], fail_silently=True)
             return HttpResponseRedirect('complete/')
         send_mail(_(u"[%s] %s valide l'ajout d'un bien") % 
                   (Site.objects.get_current().name, self.request.user.email), 

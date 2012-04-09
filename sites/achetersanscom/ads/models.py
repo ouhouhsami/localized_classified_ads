@@ -135,10 +135,10 @@ class HomeForSaleAd(Ad):
         return "/static/img/home.png"
     icon = property(_icon)
 
-    def get_full_description(instance):
-        return "vente-%s-%spieces-%seuros-%sm2" % (instance.get_habitation_type_display(), 
-                                               instance.nb_of_rooms, 
-                                               instance.price, instance.surface)
+    def get_full_description(self, instance=None):
+        return "vente-%s-%spieces-%seuros-%sm2" % (self.get_habitation_type_display(), 
+                                               self.nb_of_rooms, 
+                                               self.price, self.surface)
     @models.permalink
     def get_absolute_url(self):
         return ('view', [str(self.slug)])  

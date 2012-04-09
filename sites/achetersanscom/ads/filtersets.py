@@ -8,6 +8,7 @@ from ads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, Speci
 from models import HomeForSaleAd, HABITATION_TYPE_CHOICES
 from forms import HomeForSaleAdFilterSetForm
 
+# TODO: improve: inherit form ads.filtersets !
 class NicerFilterSet(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(NicerFilterSet, self).__init__(*args, **kwargs)        
@@ -18,6 +19,7 @@ class NicerFilterSet(django_filters.FilterSet):
                 # Add "Any" entry to choice fields.
                 field.extra['choices'] = tuple([("", "Tous types"), ] + list(field.extra['choices']))
 
+# TODO: improve: inherit form ads.filtersets !
 class HomeForSaleAdFilterSet(NicerFilterSet):
     price = django_filters.OpenRangeNumericFilter(label="Budget (€)", 
                                        widget=SpecificRangeWidget({'size':'6'}))

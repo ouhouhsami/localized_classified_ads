@@ -69,11 +69,13 @@ class Ad(models.Model):
     create_date = models.DateTimeField(auto_now_add = True) 
     delete_date = models.DateTimeField(null = True, blank = True)
     visible = models.BooleanField()
+
     objects = models.GeoManager()
+    
+    def get_full_description(self, instance=None):
+        """return a resume description for slug"""
+        return self.slug
 
-
-    def get_full_description(instance):
-        return instance.slug
     class Meta:
         abstract = True
     

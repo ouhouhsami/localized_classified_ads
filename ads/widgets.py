@@ -10,6 +10,10 @@ import floppyforms
 
 
 class ImageWidget(forms.FileInput):
+    """
+    Image widget
+    Used for rendering ImagieField in Ad form
+    """
     template = '%(input)s<br /><a href="%(image)s" target="_blank"><img src="%(image_thumbnail)s" /></a>'
 
     def __init__(self, attrs=None, template=None, width=200, height=200):
@@ -46,7 +50,9 @@ class Select(floppyforms.Select, Input):
 
 
 class IndifferentNullBooleanSelect(floppyforms.NullBooleanSelect, Select):
-
+    """
+    Select widget for use with null boolean select field
+    """
     def render(self, name, value, attrs=None, choices=()):
         choices = ((u'1', ugettext(u'Indifférent')),
                    (u'2', ugettext('Yes')),
@@ -59,6 +65,9 @@ class IndifferentNullBooleanSelect(floppyforms.NullBooleanSelect, Select):
 
 
 class GooglePolygonWidget(Input):
+    """
+    Map polygon widget (using Google map api v3)
+    """
     template_name = 'floppyforms/gis/poly_google.html'
     def __init__(self, *args, **kwargs):
         self.ads = kwargs.get('ads', None)
@@ -91,6 +100,9 @@ class BooleanExtendedInput(Input):
     template_name = 'floppyforms/boolean_extended_input.html'
 
 class SpecificRangeWidget(forms.MultiWidget):
+    """ 
+    Specific Range Widget, a range widget with min and max inputs
+    """
     def __init__(self, attrs=None):
         widgets = (forms.TextInput(attrs={'placeholder':'min'}), 
                    forms.TextInput(attrs={'placeholder':'max'}))

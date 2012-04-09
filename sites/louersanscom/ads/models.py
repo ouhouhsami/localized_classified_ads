@@ -83,10 +83,10 @@ class HomeForRentAd(Ad):
         return "/static/img/apartment.png"
     icon = property(_icon)
 
-    def get_full_description(instance):
-        return _(u"location-%s-%spieces-%se_par_mois-%sm2") % (instance.get_habitation_type_display(), 
-                                               instance.nb_of_rooms, 
-                                               instance.price, instance.surface)
+    def get_full_description(self, instance):
+        return _(u"location-%s-%spieces-%se_par_mois-%sm2") % (self.get_habitation_type_display(), 
+                                               self.nb_of_rooms, 
+                                               self.price, self.surface)
     def __unicode__(self):
         return _(u'%s e par mois - %s m2 - %s pieces') % (self.price, self.surface, self.nb_of_rooms)
 

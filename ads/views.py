@@ -133,7 +133,6 @@ class AdSearchView(ListView):
             context['search'] = False
             context['initial_ads'] = self.model.objects.select_related()\
                             .filter(delete_date__isnull=True)\
-                            .filter(_relation_object__moderation_status = 1)\
                             .order_by('-create_date')[0:10]
         else:
             context['search'] = True
@@ -195,6 +194,9 @@ class AdDetailView(DetailView):
                                   'sent_mail':sent_mail}, 
                                   context_instance = RequestContext(request))
 
+    def get_queryset(self):
+        # below should return moderated objects w/ django-moderation
+        return self.model.objects.all()
 
 class AdCreateView(LoginRequiredMixin, CreateView):
     """
@@ -214,6 +216,7 @@ class AdCreateView(LoginRequiredMixin, CreateView):
             self.object.save()
             picture_formset.instance = self.object
             picture_formset.save()
+            #TODO: why must we set this after having saved it a first time
             self.object.moderated_object.changed_by = self.request.user
             self.object.moderated_object.save()
             message = render_to_string('ads/emails/ad_create_email_message.txt')

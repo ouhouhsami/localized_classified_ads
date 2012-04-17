@@ -12,7 +12,7 @@ from ads.forms import BaseAdForm
 
 from models import HomeForRentAd
 
-class HomeForRentAdForm(BaseModeratedObjectForm, BetterModelForm, BaseAdForm):
+class HomeForRentAdForm(BetterModelForm, BaseAdForm):
     # todo add my price and my surface fields
     separate_toilet = forms.CharField(label=_(u"Toilettes séparés"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Toilettes séparés"), 'detail':_(u"préciser leur nombre")}))
     bathroom = forms.CharField(label=_(u"Salle de bain"), required=False, widget=BooleanExtendedNumberInput(attrs={'label':_(u"Salle de bain"), 'detail':_(u"préciser leur nombre")}))

@@ -11,7 +11,7 @@ from ads.forms import BaseAdForm
 from models import HomeForSaleAd
 
 
-class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm, BaseAdForm):
+class HomeForSaleAdForm(BetterModelForm, BaseAdForm):
 
     price = PriceField(label="Prix (€)", help_text="Prix sans espace, sans virgule")
     surface = SurfaceField(label="Surface habitable (m²)", help_text="Surface, sans virgule")
@@ -63,6 +63,7 @@ class HomeForSaleAdForm(BaseModeratedObjectForm, BetterModelForm, BaseAdForm):
             'user_entered_address':forms.TextInput,
             'habitation_type':forms.Select
         }
+        #TODO: line below could be "normally" removed, but need tests
         exclude = ('user', 'delete_date', 'location', 'address')
         fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 'ad_valorem_tax','housing_tax','maintenance_charges', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
                      ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),

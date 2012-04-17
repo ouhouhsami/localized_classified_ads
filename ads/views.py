@@ -28,7 +28,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 
 from ads.models import Ad, AdSearch, AdPicture
-from ads.forms import AdPictureForm, AdContactForm
+from ads.forms import AdPictureForm, AdContactForm, BaseAdForm
 
 
 class LoginRequiredMixin(object):

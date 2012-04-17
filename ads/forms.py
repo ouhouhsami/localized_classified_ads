@@ -6,6 +6,7 @@ from django.forms import ModelForm
 from django.contrib.gis.geos import Point
 
 from pygeocoder import Geocoder, GeocoderError
+from moderation.forms import BaseModeratedObjectForm
 
 from ads.models import AdPicture, AdContact
 from ads.widgets import ImageWidget
@@ -22,7 +23,7 @@ class AdContactForm(ModelForm):
         model = AdContact
         exclude = ['user', 'content_type', 'object_pk']
 
-class BaseAdForm(ModelForm):
+class BaseAdForm(BaseModeratedObjectForm, ModelForm):
     """Base ad form
     Use it with your own Ad instance
     """
@@ -43,4 +44,5 @@ class BaseAdForm(ModelForm):
         except GeocoderError:
             raise forms.ValidationError(u"Indiquer une adresse valide")
         return data
-
+    class Meta:
+        exclude = ('user', 'delete_date', 'location', 'address')

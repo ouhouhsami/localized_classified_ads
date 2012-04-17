@@ -17,7 +17,7 @@ class LocationFilter(Filter):
         lookup = 'within'
         if not value:
             return qs
-        if value:
+        else:
             value = fromstr(value)
             return qs.filter(**{'%s__%s' % (self.name, lookup): value})
 

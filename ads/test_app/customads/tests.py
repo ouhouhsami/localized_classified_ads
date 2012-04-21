@@ -46,19 +46,13 @@ class AdViewsTestCase(unittest.TestCase):
         response = views.AdSearchView.as_view(model=TestAd, 
                                       filterset_class=TestAdFilterSet)(request)
         ads = TestAd.objects.all()
-        print ads
-        print ads[0].visible
-    '''
-    TODO: need to clean post and get view
-    def test_post_adsearchview(self):
-        # client post to the adsearchview, filtering ads
-        request = self.factory.post('/')
-        print request
-        response = views.AdSearchView.as_view(model=TestAd, 
-                                      filterset_class=TestAdFilterSet)(request)
-        #self.assertFalse('initial_ads' in response.context_data)
-    '''
-    
+        #print ads
+        #print ads[0].visible
+        #print response.context_data['filter'].form, 'jljk'
+        print response.context_data['filter'].qs
+        self.assertTrue(response.context_data['search'])
+
+
     def test_adcreateview(self):
         # init 
         request = self.factory.get('/ad/create')

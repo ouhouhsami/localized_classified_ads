@@ -107,7 +107,6 @@ class AdSearchView(ListView):
                   u'dans <a href="%s">votre compte</a>.') 
                 % (userena_profile_detail_url))
             # len method is faster than count() in this case !
-            print filter
             try:
                 nb_of_results = len(filter.qs)
             except:

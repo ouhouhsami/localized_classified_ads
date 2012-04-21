@@ -7,6 +7,7 @@ This module provides CRUD absraction functions.
 
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
 from django.contrib.auth.decorators import login_required
@@ -49,6 +50,13 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 '''
+
+def account_url(request):
+    try:
+        url = settings.ADS_PROFILE_URL % (request.user.username)
+    except:
+        url = settings.ADS_PROFILE_URL
+
 
 class AdSearchView(ListView):
     """
@@ -93,14 +101,17 @@ class AdSearchView(ListView):
                          content_type = ContentType.objects.get_for_model(self.model), 
                          user = user)
                 ad_search.save()
-                userena_profile_detail_url = reverse('userena_profile_detail', 
-                                             args=[user.username])
+                userena_profile_detail_url = account_url(self.request)
                 messages.add_message(self.request, messages.INFO,
                 _(u'Votre recherche a bien été sauvegardée '+
                   u'dans <a href="%s">votre compte</a>.') 
                 % (userena_profile_detail_url))
-            # len method is speeder than count() !
-            nb_of_results = len(filter.qs)
+            # len method is faster than count() in this case !
+            print filter
+            try:
+                nb_of_results = len(filter.qs)
+            except:
+                nb_of_results = 0
             if nb_of_results == 0:
                 messages.add_message(self.request, messages.INFO, 
                 _(u'Aucune annonce ne correspond à votre recherche. '+
@@ -114,7 +125,7 @@ class AdSearchView(ListView):
                                  _(u'%s %s correspondant à votre recherche') % 
                                   (nb_of_results, ann))
                 else:
-                    sign_url = reverse('userena_signup', args=[])
+                    sign_url = settings.ADS_PROFILE_SIGNUP
                     messages.add_message(self.request, messages.INFO, 
                           _(u'%s %s correspondant à votre recherche. '+ 
                             u'<a href="%s">Inscrivez-vous</a> pour recevoir'+ 
@@ -155,7 +166,7 @@ class AdSearchDeleteView(DeleteView):
         """ Redirect to user account page"""
         messages.add_message(self.request, messages.INFO, 
                              _(u'Votre recherche a bien été supprimée.'))
-        return reverse('userena_profile_detail', args=[self.request.user.username])
+        return account_url(self.request)
 
 class AdDetailView(DetailView):
     """
@@ -225,13 +236,13 @@ class AdCreateView(LoginRequiredMixin, CreateView):
             send_mail(subject, message, 'contact@achetersanscom.com', 
                       [self.object.user.email], fail_silently=True)
             return HttpResponseRedirect('complete/')
-        send_mail(_(u"[%s] %s valide l'ajout d'un bien") % 
-                  (Site.objects.get_current().name, self.request.user.email), 
-                  "%s" % (form.errors), 'contact@achetersanscom.com', 
-                  ["contact@achetersanscom.com"], fail_silently=True)
         #TODO: if formset not valid
 
     def form_invalid(self, form):
+        send_mail(_(u"[%s] %s invalid form while creating an ad") % 
+                  (Site.objects.get_current().name, self.request.user.email), 
+                  "%s" % (form.errors), 'contact@achetersanscom.com', 
+                  ["contact@achetersanscom.com"], fail_silently=True)
         return self.render_to_response(self.get_context_data(form=form))
     
     def get_context_data(self, **kwargs):
@@ -338,4 +349,4 @@ class AdDeleteView(LoginRequiredMixin, DeleteView):
         """ Redirect to user account page"""
         messages.add_message(self.request, messages.INFO, 
                              _(u'Votre annonce a bien été supprimée.'))
-        return reverse('userena_profile_detail', args=[self.request.user.username])
+        return account_url(self.request)

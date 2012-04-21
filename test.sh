@@ -1,1 +1,1 @@
-python manage.py test customads --settings=localized_classified_ads.settings_adstests
+python manage.py test ads customads --settings=localized_classified_ads.settings_adstests

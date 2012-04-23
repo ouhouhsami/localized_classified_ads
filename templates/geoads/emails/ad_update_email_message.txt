@@ -1,0 +1,6 @@
+{% load i18n %}
+
+{% blocktrans %}
+La modification de votre annonce a été enregistrée, elle va être modérée, 
+Vous serez informé de sa mise en ligne dans quelques instants.
+{% endblocktrans %}

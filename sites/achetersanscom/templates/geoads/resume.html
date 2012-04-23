@@ -1,0 +1,2 @@
+{% load ads_tag i18n %}
+{{ ad.moderated_object.changed_object.get_habitation_type_display }} {{ ad.moderated_object.changed_object.nb_of_rooms }} {% trans "pièce" %}{{ ad.moderated_object.changed_object.nb_of_rooms|pluralize }} ({{ ad.moderated_object.changed_object.nb_of_bedrooms }} ch.) {{ ad.moderated_object.changed_object.price|priceformat }} € - {{ ad.moderated_object.changed_object.surface }} m<sup>2</sup>

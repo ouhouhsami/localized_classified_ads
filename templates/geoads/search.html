@@ -1,0 +1,117 @@
+{% extends "base-menupage.html" %}
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress form_utils_tags i18n %}
+
+{% block media %}	
+	{{ filter.form.media.css }}
+	{{ filter.form.media.js }}
+	<script src="{{ STATIC_URL }}js/search_form.js" type="text/javascript" charset="utf-8"></script>
+{% endblock media %}
+
+{% block form-top %}
+	<form action="{% url search %}" method="POST" id="search" >
+{% endblock form-top %}
+
+{% block messages %}
+	{% if search %}
+		{% if messages %}
+		<div id="messages">
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{% autoescape off %}{{ message }}{% endautoescape %}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	{% else %}
+		<div id="subtitle">
+			{% blocktrans %}Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}
+		</div>
+	{% endif %}
+{% endblock messages %}
+
+{% block menu %}
+	{% include 'geoads/menu.html' with selected=1 only %}
+{% endblock menu %}
+
+{% block map %}
+	<div class="bloc_title">
+		<ol class="home_help_text">
+			<li>{% blocktrans %}Centrer la carte sur votre <a id="localize" href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte"/>{% endblocktrans %}</li>
+			<li>{% blocktrans %}Cliquer sur <img src="{{ STATIC_URL }}img/drawing.png" class="draw-icon" alt="draw-icon" /> pour dessiner votre zone de recherche{% endblocktrans %}</li>
+		</ol>
+	</div>
+	<map id="maps" name="maps">
+		{% for field in filter.form.fieldsets.location %}
+			{% if field.is_hidden %}
+				{{ field }}
+			{% else %}
+				<div>{{ field }} {{ field.errors }}</div>
+				<script type="text/javascript">
+						var location_value = {% if field.value %}true{% else %}false{% endif %};
+				</script>
+			{% endif %}
+		{% endfor %}
+	</map>
+{% endblock map %}
+
+{% block results %}
+	{% include "geoads/search_results.html" %}
+{% endblock results %}
+
+{% block filters %}
+	<div class="bloc_title">
+		<button type="submit" value="search" class="fancy_button" name="search" id="search_button">
+			3. {% trans "Rechercher" %}
+		</button>
+	</div>
+	<div id="filters">
+		{{ filter.form.errors }}
+		{% csrf_token %}
+		{% if filter.form.non_field_errors %}{{ filter.form.non_field_errors }}{% endif %}
+		<div class="search_form" >
+			<div class="search_form_header">{% trans "Critères optionnels" %}</div>
+			<!-- NON LOCATION FIELDS -->
+			{% comment %}
+				{{ filter.form|render:"ads/search_form.html" }}
+			{% endcomment %}
+			{% for fieldset in filter.form.fieldsets %}
+				{% if fieldset.name != 'location' %}
+				<div class="atom {{ fieldset.classes }}">
+					{% if fieldset.legend != fieldset.name %}
+					<h3 class="atom_title"><a class="extend">+</a>{{ fieldset.legend }}</h3>
+					{% else %}
+					{% endif %}
+					<div class='{% if fieldset.legend != fieldset.name %}atom_content{% endif %}'>
+						{% if fieldset.description %}
+						<p class="description">{{ fieldset.description }}</p>
+						{% endif %}
+							<table>
+								{% for field in fieldset %}
+									{% if field.is_hidden %}
+										{{ field }}
+									{% else %}
+										<tr{{ field.row_attrs }}>
+											<td>{{ field.label_tag }}</td>
+											<td class="{% has_value field %}">
+												{{ field }}
+												{% if field.help_text %}<br />{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}{% endif %}
+												{% if field.errors %}<br />{{ field.errors }}{% endif %}
+											</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</table>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block form-bottom %}
+	</form>
+{% endblock form-bottom %}
+

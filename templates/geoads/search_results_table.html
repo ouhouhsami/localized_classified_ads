@@ -1,0 +1,71 @@
+{% load l10n pagination_tags sorting_tags ads_tag utils_tags compress i18n %}
+
+
+{% autosort ads_list as sorted_objects %}
+{% autopaginate sorted_objects 10 as object_list %}
+
+<div id="results_detail">
+	{% for ad in object_list %}
+		{% include 'geoads/view_popup.html' %}
+	{% endfor %}
+</div>
+
+	{% comment %}
+	<div class="bloc_title results">{% trans title %}
+	{% if search and user.is_authenticated %}
+	<button type="submit" value="save and search" name="save_and_search" class="button save_search">
+		{% trans "Sauver la recherche" %}
+	</button>
+	{% endif %}
+	</div>
+	{% endcomment %}
+	
+<div id="results">
+	{% if ads_list %}
+	<table>
+		<caption>
+			<div class="bloc_title results">{% trans title %}
+			{% if search and user.is_authenticated %}
+			<button type="submit" value="save and search" name="save_and_search" class="button save_search">
+				{% trans "Sauver la recherche" %}
+			</button>
+			{% endif %}
+			</div>
+		</caption>
+		<thead>
+		<tr>
+			<th></th>
+			{% include 'geoads/result_header.html' %}
+			<th></th>
+		</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="7">{% paginate %}</td>
+			</tr>
+		</tfoot>
+		<tbody>
+		{% for ad in object_list %}
+		<tr class="{% cycle 'even' 'odd' %}">
+			<td>
+				<a href="#" class="small_button" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"> <span class="icon"></span> Localiser	
+				</a>
+			</td>
+			{% include 'geoads/result_item.html' with ad=ad only %}
+			<td>
+				<a class="small_button"  href="{% url view ad.slug %}" target="_blank">
+					{% trans "Détail de l'annonce" %} {% if ad.pictures.all %}<span class="photo_icon"></span>{% endif %}
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% for ad in object_list %}
+		<script>add_home({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, "{% url view ad.slug %}", 'ad_{{ ad.id }}', '{{ visible }}',  ' {{ad.icon}} ')</script>
+	{% endfor %}
+	
+	{% else %}
+	{% trans "Pas de résultats, élargissez votre recherche." %}
+	{% endif %}
+</div>

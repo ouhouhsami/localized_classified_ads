@@ -13,8 +13,6 @@ from profiles.forms import UserProfileCustomForm
 from profiles.models import UserProfile
 from userena import views as userena_views
 
-#from ads.views import search
-
 from sites.achetersanscom.ads.models import HomeForSaleAd
 from sites.louersanscom.ads.models import HomeForRentAd
 

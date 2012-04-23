@@ -12,7 +12,7 @@ from django.views.generic import DetailView
 
 from moderation.models import ModeratedObject
 from userena.signals import signup_complete, activation_complete
-from ads.models import AdSearch
+from geoads.models import AdSearch
 
 from profiles.models import UserProfile
 

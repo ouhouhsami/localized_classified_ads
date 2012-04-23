@@ -1,9 +1,0 @@
-{% extends "base-simplepage.html" %}
-
-{% block content %}
-	<p>Souhaitez-vous vraiment supprimer votre alerte :<br /> {% autoescape off %}{{ object }}{% endautoescape %} ?</p>
-	<form action="" method="POST">
-		{% csrf_token %}
-		<input type="submit" value="Oui" /> <input type="button" onclick="history.back()" value="Non" />
-	</form>
-{% endblock content %}

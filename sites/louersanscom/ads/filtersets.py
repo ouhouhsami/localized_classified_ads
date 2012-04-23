@@ -1,8 +1,8 @@
 # coding=utf-8
 import django_filters
 
-from ads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
-from ads.filters import LocationFilter, BooleanForNumberFilter
+from geoads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
+from geoads.filters import LocationFilter, BooleanForNumberFilter
 
 from models import HomeForRentAd
 from forms import HomeForRentAdFilterSetForm

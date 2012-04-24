@@ -6,7 +6,7 @@
 
 <div id="results_detail">
 	{% for ad in object_list %}
-		{% include 'ads/view_popup.html' %}
+		{% include 'geoads/view_popup.html' %}
 	{% endfor %}
 </div>
 
@@ -35,7 +35,7 @@
 		<thead>
 		<tr>
 			<th></th>
-			{% include 'ads/result_header.html' %}
+			{% include 'geoads/result_header.html' %}
 			<th></th>
 		</tr>
 		</thead>
@@ -51,7 +51,7 @@
 				<a href="#" class="small_button" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"> <span class="icon"></span> Localiser	
 				</a>
 			</td>
-			{% include 'ads/result_item.html' with ad=ad only %}
+			{% include 'geoads/result_item.html' with ad=ad only %}
 			<td>
 				<a class="small_button"  href="{% url view ad.slug %}" target="_blank">
 					{% trans "Détail de l'annonce" %} {% if ad.pictures.all %}<span class="photo_icon"></span>{% endif %}

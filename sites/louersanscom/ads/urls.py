@@ -3,7 +3,7 @@ louersanscom urls.py
 
 """
 from django.conf.urls.defaults import patterns, include, url
-from localized_classified_ads.ads.views import AdDetailView, AdSearchView, AdSearchDeleteView, AdUpdateView, AdCreateView, CompleteView, AdDeleteView
+from geoads.views import AdDetailView, AdSearchView, AdSearchDeleteView, AdUpdateView, AdCreateView, CompleteView, AdDeleteView
 
 from sites.louersanscom.ads.models import HomeForRentAd
 from sites.louersanscom.ads.forms import HomeForRentAdForm

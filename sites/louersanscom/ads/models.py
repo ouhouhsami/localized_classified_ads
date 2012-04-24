@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 from autoslug import AutoSlugField
 
-from ads.models import Ad, AdSearch
+from geoads.models import Ad, AdSearch
 
 # SPECIFIC AD MODELS 
 

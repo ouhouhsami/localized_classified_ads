@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.http import QueryDict
 from django.template.loader import render_to_string
 from profiles.models import UserProfile
-from ads.models import AdSearch, Ad
+from geoads.models import AdSearch, Ad
 from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 from sites.louersanscom.ads.filtersets import HomeForRentAdFilterSet
 from moderation.models import ModeratedObject

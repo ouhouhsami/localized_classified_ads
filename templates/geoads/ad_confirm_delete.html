@@ -1,7 +1,7 @@
 {% extends "base-simplepage.html" %}
 
 {% block content %}
-	<p>Souhaitez-vous vraiment supprimer votre annonce : {% include 'ads/resume.html' with ad=object %} ?</p>
+	<p>Souhaitez-vous vraiment supprimer votre annonce : {% include 'geoads/resume.html' with ad=object %} ?</p>
 	<form action="" method="POST">
 		{% csrf_token %}
 		<input type="submit" value="Oui" /> <input type="button" onclick="history.back()" value="Non" />

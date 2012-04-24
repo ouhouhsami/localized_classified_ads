@@ -2,8 +2,8 @@
 import django_filters
 from django.forms import widgets
 
-from ads.filters import LocationFilter, BooleanForNumberFilter
-from ads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
+from geoads.filters import LocationFilter, BooleanForNumberFilter
+from geoads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
 
 from models import HomeForSaleAd, HABITATION_TYPE_CHOICES
 from forms import HomeForSaleAdFilterSetForm

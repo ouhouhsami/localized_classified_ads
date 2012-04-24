@@ -3,7 +3,7 @@ AcheterSansCom urls.py
 
 """
 from django.conf.urls.defaults import patterns, include, url
-from localized_classified_ads.ads.views import (AdSearchView, AdDetailView, 
+from geoads.views import (AdSearchView, AdDetailView, 
                               AdSearchDeleteView, AdCreateView,  AdUpdateView, 
                               CompleteView, AdDeleteView)
 from sites.achetersanscom.ads.models import HomeForSaleAd 

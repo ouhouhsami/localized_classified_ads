@@ -85,7 +85,7 @@
     {% if ad.delete_date == None %}
 	<tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
 		<td >{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}">{% endif %}
-			{% include 'ads/resume.html' %}
+			{% include 'geoads/resume.html' %}
 			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
 		</td>
 		<td >
@@ -106,7 +106,7 @@
 			{% for ad in ads %}
 			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
 			<tr>
-				<td><a href="{% url view ad.slug %}">{% include 'ads/resume.html' %}</a> </td>
+				<td><a href="{% url view ad.slug %}">{% include 'geoads/resume.html' %}</a> </td>
 			</tr>
 			{% endif %}
 			{% endfor %}

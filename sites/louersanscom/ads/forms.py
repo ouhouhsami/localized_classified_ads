@@ -7,8 +7,8 @@ from django.utils.translation import ugettext as _
 from django import forms
 
 
-from ads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
-from ads.forms import BaseAdForm
+from geoads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
+from geoads.forms import BaseAdForm
 
 from models import HomeForRentAd
 

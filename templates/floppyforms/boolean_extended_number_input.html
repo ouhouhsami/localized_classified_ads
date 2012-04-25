@@ -1,5 +1,5 @@
-<input type="checkbox" name="{{ name }}_checkbox" > <span class="checkbox_label"><label>{{ attrs.label }}</label></span> 
-<span class="{{ name }}_detail attr_detail"><br />{{ attrs.detail }}</span>
+<label class="checkbox "><input class="checkboxinput"  type="checkbox" name="{{ name }}_checkbox" > {{ attrs.label }}</label>
+<span class="{{ name }}_detail attr_detail">{{ attrs.detail }}</span>
 <input type="{{ type }}" name="{{ name }}" {% if value %} value="{{ value }}"{% else %} value=""{% endif %}{% if required %} required{% endif %} >
 
 <script>

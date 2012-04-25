@@ -22,10 +22,6 @@ $(document).ready(function(){
 		habitation_type = $(this).val()
 		init_form()
 	})
-	init_form()
-	$('#id_user_entered_address').change(function(evt){
-		$('#address').val($(this).val())
-		$("#center_map").trigger('click')
-	})
-	
+	init_form();
+	$('#pictures').insertBefore($("#description"));
 })

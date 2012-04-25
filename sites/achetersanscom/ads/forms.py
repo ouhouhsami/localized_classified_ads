@@ -1,30 +1,85 @@
 # coding=utf-8
 from form_utils.forms import BetterModelForm
 from moderation.forms import BaseModeratedObjectForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div
+from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText
+
 
 from django import forms
 
 from geoads.widgets import BooleanExtendedNumberInput
 from utils.fields import PriceField, SurfaceField
+from utils.bootstrap import AppendedPrependedText, MultiField
 from geoads.forms import BaseAdForm
 
 from models import HomeForSaleAd
 
 
-class HomeForSaleAdForm(BetterModelForm, BaseAdForm):
+class HomeForSaleAdForm(BaseAdForm):
 
-    price = PriceField(label="Prix (€)", help_text="Prix sans espace, sans virgule")
-    surface = SurfaceField(label="Surface habitable (m²)", help_text="Surface, sans virgule")
-    surface_carrez = SurfaceField(label="Surface Loi Carrez (m²)", required=False, help_text="Surface Loi Carrez, sans virgule")
-    nb_of_rooms = forms.IntegerField(label="Nombre de pièces", error_messages={'required':'Ce champ est obligatoire.', 'invalid':'Entrez un nombre de pièce.'},)
-    description = forms.CharField(label="", required=False, widget=forms.Textarea(attrs={'rows':7, 'cols':80}))
-    balcony = forms.CharField(label="Balcon", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 'detail':"préciser la surface (m²)"}))
-    terrace = forms.CharField(label="Terrasse", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Terrasse", 'detail':"préciser la surface (m²)"}))
-    separate_toilet = forms.CharField(label="Toilettes séparés", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Toilettes séparés", 'detail':"préciser leur nombre"}))
-    bathroom = forms.CharField(label="Salle de bain", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle de bain", 'detail':"préciser leur nombre"}))
-    shower = forms.CharField(label="Salle d'eau (douche)", required=False, widget=BooleanExtendedNumberInput(attrs={'label':"Salle d'eau (douche)", 'detail':"préciser leur nombre"}))
+    price = PriceField(
+        label="Prix", 
+        help_text="Prix sans espace, sans virgule"
+    )
 
+    surface = SurfaceField(
+        label="Surface habitable", 
+        help_text="Surface, sans virgule"
+    )
 
+    surface_carrez = SurfaceField(
+        label="Surface Loi Carrez", 
+        required=False, #why do I need this to false, model no false ?
+        help_text="Surface Loi Carrez, sans virgule"
+    )
+
+    nb_of_rooms = forms.IntegerField(
+        label="Nombre de pièces", 
+        error_messages={'required':'Ce champ est obligatoire.', 
+                        'invalid':'Entrez un nombre de pièce.'},
+    )
+
+    description = forms.CharField(
+        label="Description", 
+        required=False, 
+        widget=forms.Textarea(attrs={'rows':7, 'cols':80})
+    )
+
+    balcony = forms.CharField(
+        label="", 
+        required=False, 
+        widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 
+                              'detail':"préciser la surface (m²)"})
+    )
+
+    terrace = forms.CharField(
+        label="", 
+        required=False, 
+        widget=BooleanExtendedNumberInput(attrs={'label':"Terrasse",
+                              'detail':"préciser la surface (m²)"}))
+
+    separate_toilet = forms.CharField(
+        label="", 
+        required=False, 
+        widget=BooleanExtendedNumberInput(attrs={'label':"Toilettes séparés",
+                                           'detail':"préciser leur nombre"}))
+
+    bathroom = forms.CharField(
+        label="", 
+        required=False, 
+        widget=BooleanExtendedNumberInput(attrs={'label':"Salle de bain", 
+                                            'detail':"préciser leur nombre"}))
+
+    shower = forms.CharField(
+        label="", 
+        required=False, 
+        widget=BooleanExtendedNumberInput(attrs={'label':"Salle d'eau (douche)",
+                                                'detail':"préciser leur nombre"})
+    )
+
+    # clean functions
+    # ugly, this is due to bad widget code
 
     def clean_balcony(self):
         data = self.cleaned_data['balcony']
@@ -56,6 +111,60 @@ class HomeForSaleAdForm(BetterModelForm, BaseAdForm):
             data = None
         return data
 
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-exampleForm'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.form_enctype="multipart/form-data"
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(u'Informations générales',
+                      'habitation_type', AppendedText('price', '€', css_class="input-mini"), 
+                      AppendedText('surface', 'm²', css_class="input-mini"), 
+                      AppendedText('surface_carrez', 'm²', css_class="input-mini"), 
+                      'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 
+                      AppendedText('ad_valorem_tax', '€', css_class="input-mini"),
+                      AppendedText('housing_tax', '€', css_class="input-mini"),
+                      AppendedText('maintenance_charges', '€', css_class="input-mini"), 
+                      'energy_consumption', 'emission_of_greenhouse_gases',
+                      css_class = "atom house apartment parking others base"
+            ),
+            Fieldset(u'Surface du terrain', 'ground_surface', 
+                      css_class = "atom house"
+            ),
+            Fieldset(u'Situation du logement dans l\'immeuble', 'floor', 
+                      MultiField('', 'ground_floor', 
+                                  'top_floor', 'duplex', 'not_overlooked', 
+                                  css_class='control-group', label_class='control-label'),
+                      'orientation',
+                      css_class = "atom apartment"
+            ),
+            Fieldset(u'A propos de l\'immeuble',
+                      MultiField('', 'elevator', 'intercom', 
+                      'digicode', 'doorman'),
+                      css_class = "atom apartment"
+            ),
+            Fieldset(u'Commodités', 'heating', MultiField('', 'kitchen', 'cellar'),
+                      'parking', MultiField('', 'alarm', 'balcony', 'terrace'), 'fireplace', 
+                      MultiField('', 'air_conditioning', 'swimming_pool'),
+                      css_class = "atom apartment house others"
+            ),
+            Fieldset(u'Pièces', MultiField('', 'separate_dining_room', 'separate_toilet', 
+                      'bathroom', 'shower', 'separate_entrance'),
+                      css_class = "atom apartment house others"
+            ),
+            Fieldset(u'Informations complémentaires', 'description',
+                       css_class = "atom house apartment parking others", css_id="description"),
+            FormActions(
+                Submit('submit', 'Envoyer', css_class="btn-primary")
+            ), 
+            
+        )
+
+        super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = HomeForSaleAd
         widgets = {
@@ -64,18 +173,8 @@ class HomeForSaleAdForm(BetterModelForm, BaseAdForm):
             'habitation_type':forms.Select
         }
         #TODO: line below could be "normally" removed, but need tests
-        exclude = ('user', 'delete_date', 'location', 'address')
-        fieldsets = [('title', {'fields': ['habitation_type', 'price', 'surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 'ad_valorem_tax','housing_tax','maintenance_charges', 'energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
-                     ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble', 'classes': ['apartment']}),
-                     ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble', 'classes': ['apartment']}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'alarm', 'balcony', 'terrace', 'fireplace', 'air_conditioning', 'swimming_pool'], 'legend': 'Commodités', 'classes': ['apartment', 'house', 'others']}),
-                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces',  'classes': ['apartment', 'house', 'others']}),
-                     #('storage_space', {'fields' :[], 'legend': 'Rangements'})
-                     ('description', {'fields': ['description'], 'legend':'Informations complémentaires', 'classes':['house', 'apartment', 'parking', 'others']})
-                     ]
-
-
+        exclude = ('user', 'delete_date', 'location', 'address', 'visible')
+        
 
 class HomeForSaleAdFilterSetForm(BetterModelForm):
 

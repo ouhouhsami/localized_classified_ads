@@ -18,28 +18,18 @@
 		</div>
 		{% endif %}
 	{% endblock messages %}
+	
 	<nav>
-	<ul id="menu">
+	<ul class="nav nav-tabs">
 		{% block menu %}
 		{% include 'geoads/menu.html' with selected=0 only %}
 		{% endblock menu %}
 	</ul>
 	</nav>
 
-	<div id="content">
 		{% block content %}
-		<div id="main">
-			{% block map %}
-			{% endblock map %}
-			{% block results %}
-			{% endblock %}
-		</div>
-		<div id="right_column">
-			{% block filters %}
-			{% endblock filters %}
-		</div>
+
 		{% endblock content %}
-	</div>
 
 	{% block form-bottom %}
 	{% endblock form-bottom %}

@@ -1,5 +1,6 @@
 {% extends "base-menupage.html" %}
 {% load l10n pagination_tags sorting_tags ads_tag utils_tags compress form_utils_tags i18n %}
+{% load crispy_forms_tags %}
 
 {% block media %}	
 	{{ filter.form.media.css }}
@@ -25,8 +26,8 @@
 		</div>
 		{% endif %}
 	{% else %}
-		<div id="subtitle">
-			{% blocktrans %}Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}
+		<div class="hero-unit">
+			<h2>{% blocktrans %}Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
 		</div>
 	{% endif %}
 {% endblock messages %}
@@ -35,13 +36,23 @@
 	{% include 'geoads/menu.html' with selected=1 only %}
 {% endblock menu %}
 
-{% block map %}
-	<div class="bloc_title">
+{% block content %}
+<div class="row">
+	<div class="span8">
 		<ol class="home_help_text">
 			<li>{% blocktrans %}Centrer la carte sur votre <a id="localize" href="javascript:localizeMe()">localisation actuelle</a> ou <input type="text" id="address" placeholder="indiquer une adresse"/><input type="button" id="center_map" value="centrer la carte"/>{% endblocktrans %}</li>
 			<li>{% blocktrans %}Cliquer sur <img src="{{ STATIC_URL }}img/drawing.png" class="draw-icon" alt="draw-icon" /> pour dessiner votre zone de recherche{% endblocktrans %}</li>
 		</ol>
 	</div>
+	<div class="span4">
+		<button type="submit" value="search" class="btn" name="search" id="search_button">
+			3. {% trans "Rechercher" %}
+		</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span8">
 	<map id="maps" name="maps">
 		{% for field in filter.form.fieldsets.location %}
 			{% if field.is_hidden %}
@@ -54,18 +65,11 @@
 			{% endif %}
 		{% endfor %}
 	</map>
-{% endblock map %}
 
-{% block results %}
 	{% include "geoads/search_results.html" %}
-{% endblock results %}
-
-{% block filters %}
-	<div class="bloc_title">
-		<button type="submit" value="search" class="fancy_button" name="search" id="search_button">
-			3. {% trans "Rechercher" %}
-		</button>
 	</div>
+	<div class="span4">
+		{{ filter.form|crispy }}
 	<div id="filters">
 		{{ filter.form.errors }}
 		{% csrf_token %}
@@ -73,6 +77,7 @@
 		<div class="search_form" >
 			<div class="search_form_header">{% trans "Critères optionnels" %}</div>
 			<!-- NON LOCATION FIELDS -->
+			
 			{% comment %}
 				{{ filter.form|render:"ads/search_form.html" }}
 			{% endcomment %}
@@ -109,6 +114,7 @@
 				{% endfor %}
 		</div>
 	</div>
+</div>
 {% endblock %}
 
 {% block form-bottom %}

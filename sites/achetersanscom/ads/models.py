@@ -77,11 +77,11 @@ class HomeForSaleAd(Ad):
     HomeFormSaleAd model
 
     """
-    price = models.PositiveIntegerField(_(u"Prix (€)"))
+    price = models.PositiveIntegerField(_(u"Prix"))
     habitation_type	= models.CharField(_(u"Type de bien"), max_length=1, 
                                        choices=HABITATION_TYPE_CHOICES)
-    surface = models.IntegerField(_(u"Surface habitable (m²)"))
-    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez (m²)"), 
+    surface = models.IntegerField(_(u"Surface habitable"))
+    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez"), 
                                          null=True, blank=True)
     nb_of_rooms	= models.PositiveIntegerField(_(u"Nombre de pièces"))
     nb_of_bedrooms = models.PositiveIntegerField(_(u"Nombre de chambres"))
@@ -89,12 +89,12 @@ class HomeForSaleAd(Ad):
                                           max_length=1, 
                                           choices = ENERGY_CONSUMPTION_CHOICES, 
                                           null = True, blank = True)
-    ad_valorem_tax = models.IntegerField(_(u'Taxe foncière (€)'), null = True,
+    ad_valorem_tax = models.IntegerField(_(u'Taxe foncière'), null = True,
                                          blank = True, 
                                          help_text=_(u"Montant annuel, sans espace, sans virgule"))
-    housing_tax = models.IntegerField(_(u"Taxe d'habitation (€)"), null = True, 
+    housing_tax = models.IntegerField(_(u"Taxe d'habitation"), null = True, 
                                       blank = True, help_text=_(u"Montant annuel, sans espace, sans virgule"))
-    maintenance_charges = models.IntegerField(_(u'Charges (€)'), null = True, 
+    maintenance_charges = models.IntegerField(_(u'Charges'), null = True, 
                                               blank = True, help_text=_(u"Montant mensuel, sans espace, sans virgule"))
     emission_of_greenhouse_gases = models.CharField(_(u"Émissions de gaz à effet de serre (kgeqCO2/m².an)"), 
                                                     max_length = 1, 

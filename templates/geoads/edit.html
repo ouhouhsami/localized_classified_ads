@@ -1,5 +1,6 @@
 {% extends "base-menupage.html" %}
 {% load ads_tag utils_tags i18n %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 	{{ site.name }} | {% trans "Proposer un bien" %}
@@ -24,10 +25,8 @@
 	</div>
 	{% endif %}
 	{% if form.errors %}
-	<div id="messages" class="important_red">
-		<ul class="messages">
-			<li>{% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}</li>
-		</ul>
+	<div class="alert alert-error">
+		{% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}
 	</div>
 	{% endif %}
 {% endblock messages %}
@@ -37,134 +36,32 @@
 {% endblock menu %}
 
 {% block content %}
-	<form action="" method="POST" class="edit_form" enctype="multipart/form-data">
-		<div class="form_adson">
-			{% blocktrans %}
-			Les champs obligatoires sont identifiés par une <span class="important_red">*</span>.
-			<br />Nous vous conseillons de renseigner le maximum de champs, 
-			d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
-			En effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète 
-			et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
-			Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
-			par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
-			superflues qui auront peu de chance d'aboutir.	 
-			{% endblocktrans %}
-		</div>
-		<div class="form">
-		{% csrf_token %}
-		
-		{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
-		{% for fieldset in form.fieldsets %}
-		  {% if fieldset.name != 'description' %}
-		    
-		  <div class="atom {{ fieldset.classes }}">
-		  {% if fieldset.legend %}
-		    <h2 class="hightlight_title">{{ fieldset.legend }}</h2>
-		  {% endif %}
-		  {% if fieldset.description %}
-		    <p class="description">{{ fieldset.description }}</p>
-		  {% endif %}
-		  <table>
-		  {% for field in fieldset %}
-			{% if field.is_hidden %}
-		      {{ field }}
-		    {% else %}
-			{% comment %}TODO: remove test below{% endcomment %}
-			{% ifequal field.name 'location' %}
-			{% else %}
-			{% if field.field.widget|widget_type == 'CheckboxInput' or field.field.widget|widget_type == 'BooleanExtendedNumberInput' or field.field.widget|widget_type == 'BooleanExtendedInput' %}
-		      <tr{{ field.row_attrs }}>
-		        <th>
-				</th>
-		        <td>
-					{{ field }} {% if field.field.widget|widget_type == 'CheckboxInput' %} <span class="checkbox_label">{{ field.label_tag }}</span> {% endif %}
-					{% if field.errors %}<br />{{ field.errors }} {% endif %}
-					{% if field.help_text %}<br />
-						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
-					{% endif %}
-				</td>
-		      </tr>
-
-			{% else %}
-		      <tr{{ field.row_attrs }}>
-		        <th>
-					{{ field.label_tag }}
-				</th>
-		        <td>
-					{% if field.field.required %}<div class="required_class">*</div>{% endif %}
-					<span>{{ field }}</span>
-				
-				</td>
-		      </tr>
-				{% if field.errors %}
-				<tr class="top_fit">
-				<th class="top_fit"></th>
-				<td class="top_fit">{{ field.errors }}</td>
-				</tr>
-				{% endif %}
-				{% if field.help_text %}
-				<tr class="top_fit">
-				<th class="top_fit"></th>
-				<td class="top_fit">{% autoescape off %}<span class="top_fit help">{{ field.help_text }}</span>{% endautoescape %}</td>
-				</tr>
-				{% endif %}
-			{% endif %}
-		    {% endifequal %}
-		    {% endif %}
-		  	{% endfor %}
-
-		  </table>
-		  </div>
-			{% endif %}
-		{% endfor %}
-
-		<div class="atom house apartment parking others">
-			<h2 class="hightlight_title">{% trans "Photos" %}</h2>
-			<p>{% trans "N'hésitez pas à insérer une photo du plan de votre bien." %}</p>
-			    {{ picture_formset.management_form }}
-    		<ul class="upload_picture">
-        		{% for form in picture_formset %}
-        		<li class="upload_picture" >
-					<table>
-						<tr><th class="upload_photo_title">{% trans "Photo n°" %} {{ forloop.counter }}</th><td></td></tr>
-						{{ form }}
-					</table>
-				</li>
-        		{% endfor %}
-    		</ul>
-		</div>
-		<div style="clear:both"></div>
-		
-		<div class="atom {{ form.fieldsets.description.classes }}">
-			<h2 class="hightlight_title">{{ form.fieldsets.description.legend }}</h2>
-		  <table>
-		  {% for field in form.fieldsets.description %}
-			{% if field.is_hidden %}
-		      {{ field }}
-		    {% else %}
-			
-		      <tr{{ field.row_attrs }}>
-		        <td>
-					{{ field.label_tag }}
-				</td>
-		        <td>
-					{{ field }} 
-					{% if field.errors %}<br />{{ field.errors }} {% endif %}
-					{% if field.help_text %}<br />
-						{% autoescape off %}<span class="help">{{ field.help_text }}</span>{% endautoescape %}
-					{% endif %}
-				</td>
-		      </tr>
-		    {% endif %}
-		  	{% endfor %}
-		  </table>
-		</div>
-<table>
-<tr class="last">
-	<th></th>
-	<td><button type="submit">{% trans "Envoyer" %}</button></td>
-</tr>
-</table>
-</div>
-</form>
+	<div class="row">
+	
+	<div class="span8 offset2">
+	<div class="alert alert-info">
+		{% blocktrans %}
+		Les champs obligatoires sont identifiés par une <span class="important_red">*</span>.
+		<br />Nous vous conseillons de renseigner le maximum de champs, 
+		d'être exhaustif dans votre description et de fournir un plan de votre bien et plusieurs photos.
+		En effet, les acheteurs sont plus attirés par les biens pour lesquels la description est complète 
+		et seront mieux à même de cibler les biens susceptibles de vraiment correspondre à leurs besoins. 
+		Les acheteurs qui vous contacteront seront ainsi les plus susceptibles d'être vraiment intéressés 
+		par votre bien, cela vous évitera de nombreux appels passés à titre informatifs ou des visites 
+		superflues qui auront peu de chance d'aboutir.	 
+		{% endblocktrans %}
+	</div>
+	
+	<form action="" method="POST" class="well form-horizontal" enctype="multipart/form-data">
+		{% crispy form %}
+		<fieldset class="atom house apartment parking others" id="pictures">
+			<legend>Photos</legend>
+			<div class="alert alert-info">N'hésitez pas à insérer une photo du plan de votre bien.</div>
+			{% crispy picture_formset %}
+		</fieldset>
+	</form>
+	
+	</div>
+	</div>
+	
 {% endblock content %}

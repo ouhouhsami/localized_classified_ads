@@ -42,19 +42,19 @@ class HomeForRentAd(Ad):
     """HomeFormRentAd model
 
     """
-    price = models.PositiveIntegerField(_(u"Loyer (€/mois)"))
+    price = models.PositiveIntegerField(_(u"Loyer"))
     colocation = models.BooleanField(_(u"Colocation possible"))
     furnished = models.TextField(_(u"Habitation meublée"), null=True, blank=True)
     habitation_type	= models.CharField(_(u"Type de bien"), max_length = 1, 
                                        choices = HABITATION_TYPE_CHOICES)
-    surface = models.IntegerField(_(u"Surface habitable (m²)"))
-    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez (m²)"), 
+    surface = models.IntegerField(_(u"Surface habitable"))
+    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez"), 
                                          null = True, blank = True)
     nb_of_rooms	= models.PositiveIntegerField(_(u"Nombre de pièces"))
     nb_of_bedrooms = models.PositiveIntegerField(_(u"Nombre de chambres"))
-    housing_tax = models.IntegerField(_(u"Taxe d'habitation (€/an)"), null = True, 
+    housing_tax = models.IntegerField(_(u"Taxe d'habitation"), null = True, 
                                       blank = True)
-    maintenance_charges = models.IntegerField(_(u'Charges (€/mois)'), null = True, 
+    maintenance_charges = models.IntegerField(_(u'Charges'), null = True, 
                                               blank = True)
     ground_surface = models.IntegerField(_(u'M²'), 
                                        null = True, blank = True)

@@ -1,4 +1,7 @@
-$(document).ready(function(){	
+$(document).ready(function(){
+	/* move map to the right location */
+	$('#div_id_location').appendTo($("#maps"))
+		
 	$('.atom_content').each(function(index) {
 		if($(this).find('.has_value').length == 0){
 			$(this).hide('fast')

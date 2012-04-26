@@ -3,7 +3,7 @@ from form_utils.forms import BetterModelForm
 from moderation.forms import BaseModeratedObjectForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div
-from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText
+from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
 
 
 from django import forms
@@ -113,11 +113,9 @@ class HomeForSaleAdForm(BaseAdForm):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        self.helper.form_id = 'id-exampleForm'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.form_action = ''
-        self.helper.form_enctype="multipart/form-data"
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(u'Informations générales',
@@ -176,7 +174,7 @@ class HomeForSaleAdForm(BaseAdForm):
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
         
 
-class HomeForSaleAdFilterSetForm(BetterModelForm):
+class HomeForSaleAdFilterSetForm(forms.ModelForm):
 
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
@@ -214,13 +212,29 @@ class HomeForSaleAdFilterSetForm(BetterModelForm):
     def clean_location(self):
         pass
 
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(u'Critères optionnels', 'price', 'surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms'),
+            Fieldset(u'Situation', 'floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked'),
+            Fieldset(u'A propos de l\'immeuble', 'elevator', 'intercom', 'digicode', 'doorman'),
+            Fieldset(u'Commodités', 'heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'),
+            Fieldset(u'Pièces', 'separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'),
+            Fieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases'),
+            Field('location', css_id="location", template='bootstrap/map.html')
+        )
+        super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
+
+
     class Meta:
         model = HomeForSaleAd
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre propre zone de recherche cliquant sur la carte'}),
-                     ('general_information', {'fields' : ['price','surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms'], 'classes':['visible']}),
-                     ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked'], 'classes':[], 'legend': 'Situation'}),
-                     ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble'}),
-                     ('conveniences', {'fields' :['heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'], 'legend': 'Commodités'}),
-                     ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'], 'legend': 'Pièces'}),
-                     ('energy', {'fields' :['energy_consumption', 'emission_of_greenhouse_gases'], 'legend': 'Critères énergétiques'}) ]        
+        exclude = ('user', 'delete_date', 'address', 'visible', 
+                   'user_entered_address', 'description', 'ground_surface', 
+                   'orientation', 'housing_tax', 'surface_carrez', 
+                   'maintenance_charges', 'ad_valorem_tax', 'slug', 
+                   'update_date', 'create_date')
 

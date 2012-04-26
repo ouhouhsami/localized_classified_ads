@@ -37,7 +37,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                                          widget = widgets.CheckboxSelectMultiple(),
                                          choices = HABITATION_TYPE_CHOICES)
     location = LocationFilter(widget=GooglePolygonWidget(), 
-                              label="Localisation", help_text="Localisation", required=False)
+                              label="Localisation", required=False)
     balcony = BooleanForNumberFilter(label="Balcon", widget = IndifferentNullBooleanSelect())
     terrace = BooleanForNumberFilter(label="Terrasse", widget = IndifferentNullBooleanSelect())
     separate_toilet = BooleanForNumberFilter(label="Toilettes séparés", widget = IndifferentNullBooleanSelect())
@@ -58,14 +58,3 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm
-        fields = ['price', 'surface', 'habitation_type', 
-                  'location', 'nb_of_rooms', 'nb_of_bedrooms', 
-                  'energy_consumption', 'emission_of_greenhouse_gases', 
-                  'ground_surface', 'floor', 'top_floor', 'not_overlooked', 'ground_floor',
-                  'elevator', 'intercom', 'digicode', 'doorman', 
-                  'elevator', 'heating', 'kitchen', 'duplex', 
-                  'swimming_pool', 'alarm', 'air_conditioning', 
-                  'fireplace', 'terrace', 'balcony', 
-                  'separate_dining_room', 'separate_toilet', 
-                  'bathroom', 'shower', 'separate_entrance', 'cellar', 
-                  'parking']

@@ -1,9 +1,10 @@
-{% extends "base-simplepage.html" %}
+{% extends "base-menupage.html" %}
 
-{% block site %}
-<div id="content" class="userena unique">
-{% block content %}
-
-{% endblock content %}
+{% block userena-content %}
+<div class="row">
+	<div class="span10 offset1">
+	{% block content %}
+	{% endblock %}
+	</div>
 </div>
-{% endblock site %}
+{% endblock %}

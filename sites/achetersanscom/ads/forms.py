@@ -2,7 +2,7 @@
 from form_utils.forms import BetterModelForm
 from moderation.forms import BaseModeratedObjectForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div
+from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div, HTML
 from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
 
 
@@ -10,7 +10,7 @@ from django import forms
 
 from geoads.widgets import BooleanExtendedNumberInput
 from utils.fields import PriceField, SurfaceField
-from utils.bootstrap import AppendedPrependedText, MultiField
+from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
 from geoads.forms import BaseAdForm
 
 from models import HomeForSaleAd
@@ -123,9 +123,9 @@ class HomeForSaleAdForm(BaseAdForm):
                       AppendedText('surface', 'm²', css_class="input-mini"), 
                       AppendedText('surface_carrez', 'm²', css_class="input-mini"), 
                       'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 
-                      AppendedText('ad_valorem_tax', '€', css_class="input-mini"),
-                      AppendedText('housing_tax', '€', css_class="input-mini"),
-                      AppendedText('maintenance_charges', '€', css_class="input-mini"), 
+                      AppendedText('ad_valorem_tax', '€/an', css_class="input-mini"),
+                      AppendedText('housing_tax', '€/an', css_class="input-mini"),
+                      AppendedText('maintenance_charges', '€/an', css_class="input-mini"), 
                       'energy_consumption', 'emission_of_greenhouse_gases',
                       css_class = "atom house apartment parking others base"
             ),
@@ -218,17 +218,30 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_action = ''
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Fieldset(u'Critères optionnels', 'price', 'surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms'),
-            Fieldset(u'Situation', 'floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked'),
-            Fieldset(u'A propos de l\'immeuble', 'elevator', 'intercom', 'digicode', 'doorman'),
-            Fieldset(u'Commodités', 'heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony'),
-            Fieldset(u'Pièces', 'separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance'),
-            Fieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases'),
-            Field('location', css_id="location", template='bootstrap/map.html')
+        self.helper.layout = Div(
+                Div(
+                    Div(
+                        Field('location', css_id="location", template='bootstrap/map.html'),
+                        HTML('{% include "geoads/search_results.html" %}'),
+                        css_id="maps", name="maps", css_class="custom-well"
+                    ), 
+                    css_class="span7"
+                ),
+                Div(
+                    Div(
+                        BootstrapFieldset(u'Critères optionnels', 'price', 'surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms', css_id="general", collapse_in='in'),
+                        BootstrapFieldset(u'Situation', 'floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', css_id="situation", ),
+                        BootstrapFieldset(u'A propos de l\'immeuble', 'elevator', 'intercom', 'digicode', 'doorman', css_id="about", ),
+                        BootstrapFieldset(u'Commodités', 'heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony', css_id="com", ),
+                        BootstrapFieldset(u'Pièces', 'separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance',  css_id="rooms", ),
+                        BootstrapFieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases', css_id="energy",), 
+                        css_class="custom-well"
+                    )
+                    ,css_class="span5"
+                ),
+            css_class="row"
         )
         super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
-
 
     class Meta:
         model = HomeForSaleAd

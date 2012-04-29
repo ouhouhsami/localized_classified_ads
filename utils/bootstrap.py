@@ -1,4 +1,4 @@
-from crispy_forms.layout import Field
+from crispy_forms.layout import Field, Fieldset
 from crispy_forms.utils import render_field
 
 from django.template.loader import render_to_string
@@ -45,3 +45,19 @@ class MultiField(object):
         for field in self.fields:
             fields_output += render_field(field, form, form_style, context, 'bootstrap/multifield.html', self.label_class, layout_object=self)
         return render_to_string(self.template, Context({'multifield': self, 'fields_output': fields_output}))
+
+class BootstrapFieldset(Fieldset):
+
+    template = "bootstrap/layout/fieldset.html"
+
+    def __init__(self, legend, *fields, **kwargs):
+        self.fields = list(fields)
+        self.legend = unicode(legend)
+        self.css_class = kwargs.get('css_class', '')
+        self.css_id = kwargs.get('css_id', None)
+        self.collapse_in = kwargs.get('collapse_in', False)
+        # Overrides class variable with an instance level variable
+        self.template = kwargs.get('template', self.template)
+
+    def set_collapse(self, value):
+        self.collapse_in = value

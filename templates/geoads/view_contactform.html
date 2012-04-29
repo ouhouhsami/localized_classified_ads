@@ -1,0 +1,31 @@
+{% load i18n crispy_forms_tags %}
+{% if sent_mail %}
+{% else %}
+<div id="message_block">
+{% if user.is_authenticated %}
+	<form  action="" method="POST" >
+		<fieldset>
+			<legend>{% trans "Contacter le vendeur" %}</legend>
+	
+		{% csrf_token %}
+		{{ contact_form|crispy }}
+		<div class="form-actions">
+			<button class="btn btn-primary" type="submit">{% trans "Envoyer" %}</button>
+		</div>
+		</fieldset>
+	{% if ad.user.user_profile.phone_number %}
+		<tr>
+			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>
+			<td><address>{{ ad.user.user_profile.phone_number }}</address></td>
+		</tr>
+	{% endif %}
+	
+	</form>
+	
+{% else %}
+	<div class="content">
+		<p>{% trans "Pour contacter le vendeur" %}, <a href="{% url userena_signup %}">{% trans "inscrivez-vous" %}</a> {% trans "ou" %} <a href="{% url userena_signin %}">{% trans "connectez-vous" %}</a> !</p>
+	</div>
+{% endif %}
+</div>
+{% endif %}

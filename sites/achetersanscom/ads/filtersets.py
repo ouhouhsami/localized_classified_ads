@@ -4,9 +4,14 @@ from django.forms import widgets
 
 from geoads.filters import LocationFilter, BooleanForNumberFilter
 from geoads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
+from geoads.templatetags.ads_tag import has_value
+
+from utils.bootstrap import BootstrapFieldset
 
 from models import HomeForSaleAd, HABITATION_TYPE_CHOICES
 from forms import HomeForSaleAdFilterSetForm
+
+
 
 # TODO: improve: inherit form ads.filtersets !
 class NicerFilterSet(django_filters.FilterSet):
@@ -55,6 +60,11 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
             self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=search, fillColor="#FFB82E", strokeColor="#20B2AA")
         else:
             self.form.fields['location'].widget = GooglePolygonWidget(ads=[], search=search, fillColor="#FFB82E", strokeColor="#20B2AA")
+        # here we open collapsible search filter item
+        for f in self.form.helper.layout.fields[1].fields[0].fields:
+            for field in f.fields:
+                if not isinstance(self.form.fields[field], BootstrapFieldset) and has_value(self.form[field]) == 'has_value':
+                    f.set_collapse('in')
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm

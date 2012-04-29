@@ -3,8 +3,8 @@
 from form_utils.forms import BetterModelForm
 from moderation.forms import BaseModeratedObjectForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div
-from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText
+from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div, HTML
+from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
 
 from django.utils.translation import ugettext as _
 from django import forms
@@ -12,7 +12,7 @@ from django import forms
 
 from geoads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
 from geoads.forms import BaseAdForm
-from utils.bootstrap import AppendedPrependedText, MultiField
+from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
 
 from models import HomeForRentAd
 
@@ -143,16 +143,8 @@ class HomeForRentAdForm(BaseAdForm):
     class Meta:
         model = HomeForRentAd
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
-        #fieldsets = [('title', {'fields': ['habitation_type', 'price', 'maintenance_charges','surface', 'surface_carrez', 'nb_of_rooms', 'nb_of_bedrooms', 'user_entered_address', 'colocation', 'furnished', 'housing_tax'], 'legend': 'Informations générales', 'classes':['house', 'apartment', 'parking', 'others', 'base']}),
-        #             ('ground_surface', {'fields' :['ground_surface'], 'legend': 'Surface du terrain', 'classes':['house']}),
-        #             ('about_floor', {'fields' :['floor', 'ground_floor', 'top_floor', 'not_overlooked', 'duplex', 'orientation'], 'legend': 'Situation du logement dans l\'immeuble', 'classes': ['apartment']}),
-        #             ('about_flat', {'fields' :['elevator', 'intercom', 'digicode', 'doorman'], 'legend': 'A propos de l\'immeuble', 'classes': ['apartment']}),
-        #             ('conveniences', {'fields' :['heating', 'parking', 'terrace' ,'balcony'], 'legend': 'Commodités', 'classes': ['apartment', 'house', 'others']}),
-        #             ('rooms', {'fields' :['separate_dining_room', 'separate_toilet', 'bathroom', 'shower'], 'legend': 'Pièces',  'classes': ['apartment', 'house', 'others']}),
-        #             ('description', {'fields': ['description'], 'legend':'Description complémentaire', 'classes':['house', 'apartment', 'parking', 'others']})
-        #            ]
 
-class HomeForRentAdFilterSetForm(BetterModelForm):
+class HomeForRentAdFilterSetForm(forms.ModelForm):
 
     def clean_price(self):
         pass
@@ -181,9 +173,47 @@ class HomeForRentAdFilterSetForm(BetterModelForm):
     def clean_elevator(self):
         pass
 
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.form_tag = False
+        self.helper.layout = Div(
+                Div(
+                    Div(
+                        Field('location', css_id="location", template='bootstrap/map.html'),
+                        HTML('{% include "geoads/search_results.html" %}'),
+                        css_id="maps", name="maps", css_class="custom-well"
+                    ),
+                    css_class="span7"
+                ),
+                Div(
+                    Div(
+                        BootstrapFieldset(u'Critères optionnels', 'habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', css_id="general", collapse_in='in'),
+                        css_class="custom-well"
+                        ), 
+                    css_class="span5"
+                    ),
+            css_class="row"
+        )
+        super(HomeForRentAdFilterSetForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = HomeForRentAd   
-        fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
-                     ('general_information', {'fields' : ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator']}),
-                     ]       
+        #fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
+        #             ('general_information', {'fields' : ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator']}),
+        #             ]
+        # below: not sure it serves ...
+        fields = ('location', 'habitation_type', 'price', 'surface', 
+                   'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 
+                   'furnished', 'elevator')
+        exclude = ('create_date', 'orientation', 'surface_carrez', 
+                   'separate_dining_room', 'user', 'visible', 'terrace', 
+                   'parking', 'separate_toilet', 'doorman', 'not_overlooked'
+                   'update_date', 'bathroom', 'delete_date', 'maintenance_charges',
+                   'description', 'digicode', 'floor', 'duplex', 'intercom', 
+                   'address', 'housing_tax', 'ground_floor', 'heating', 'shower', 
+                   'ground_surface', 'top_floor', 'user_entered_address', 'slug', 
+                   'not_overlooked', 'update_date', 'balcony')       
 

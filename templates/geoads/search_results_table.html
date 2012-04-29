@@ -10,27 +10,18 @@
 	{% endfor %}
 </div>
 
-	{% comment %}
-	<div class="bloc_title results">{% trans title %}
-	{% if search and user.is_authenticated %}
-	<button type="submit" value="save and search" name="save_and_search" class="button save_search">
-		{% trans "Sauver la recherche" %}
-	</button>
-	{% endif %}
-	</div>
-	{% endcomment %}
-	
+
 <div id="results">
 	{% if ads_list %}
 	<table class="table table-striped table-condensed">
 		<caption>
-			<h2 class="bloc_title results">{% trans title %}
+			<h3 class="bloc_title results">{% trans title %}
 			{% if search and user.is_authenticated %}
-			<button type="submit" value="save and search" name="save_and_search" class="button save_search">
+			<button type="submit" value="save and search" name="save_and_search" class="btn" style="float:right">
 				{% trans "Sauver la recherche" %}
 			</button>
 			{% endif %}
-			</h2>
+			</h3>
 		</caption>
 		<thead>
 		<tr>

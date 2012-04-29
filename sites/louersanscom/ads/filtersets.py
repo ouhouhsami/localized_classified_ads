@@ -29,8 +29,7 @@ class HomeForRentAdFilterSet(NicerFilterSet):
     surface = django_filters.OpenRangeNumericFilter(label="Surface (m²)", 
                                        widget=SpecificRangeWidget({'size':'6'}))
     furnished = BooleanForNumberFilter(label="Habitation meublée", widget = IndifferentNullBooleanSelect())
-    location = LocationFilter(widget=GooglePolygonWidget(), 
-                              label="Localisation", help_text="Localisation", required=False)
+    location = LocationFilter(widget=GooglePolygonWidget(), required=False)
     def __init__(self, *args, **kwargs):
         # improve : set default to none if key doesnt exist
         try:
@@ -47,4 +46,4 @@ class HomeForRentAdFilterSet(NicerFilterSet):
     class Meta:
         model = HomeForRentAd
         form = HomeForRentAdFilterSetForm
-        fields = ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', 'location']
+        #fields = ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', 'location']

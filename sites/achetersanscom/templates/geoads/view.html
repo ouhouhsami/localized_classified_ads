@@ -45,73 +45,36 @@
 	<link rel="stylesheet" href="{{ STATIC_URL }}css/energy-style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 {% endblock %}
 
-{% block main_menu %}
-{% endblock %}
 
 {% block content %}
+<div id="content" class="well" style="padding:0px;border:0px">
+<div class="row">
+	
+	<div class="span10 offset1">
 
+
+	<div class="page-header">
 	<h2 >
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }})
 		{{ ad.price|priceformat }} €
 		- {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}
 	</h2>
+	</div>
+	
+	<div class="row">
+		<div class="span6">
+			{% include 'geoads/view_pictures.html' %}
+		</div>
+		<div class="span4">
+			<map id="map_locate" ></map>
+		</div>
+	</div>
+	
 
-	{% include 'geoads/view_pictures.html' %}
-		
-		<table class="energy">
-			<thead>
-			<tr>
-				<th>{% trans "Consommation énergétique" %}<br />
-				<span class="unit">{% trans "kWhEP/m².an" %}</span>
-				</th>
-				<th>{% trans "Emission de gaz à effets de serre" %}
-				<br />
-				<span class="unit">{% trans "kgeqCO2/m².an" %}</span>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_a {%if ad.energy_consumption == 'A' %}selected{% endif %}"><span class="detail">≤ 50</span> <span class="value">A</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_a {%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span class="detail">≤ 5</span> <span class="value">A</span></div>{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_b {%if ad.energy_consumption == 'B' %}selected{% endif %}"><span class="detail">51 à 90</span> <span class="value"> B</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_b {%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span class="detail">6 à 10</span> <span class="value"> B</span></div>{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_c {%if ad.energy_consumption == 'C' %}selected{% endif %}"><span class="detail">91 à 150</span> <span class="value"> C</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_c {%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span class="detail">11 à 20</span> <span class="value"> C</span></div>{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_d {%if ad.energy_consumption == 'D' %}selected{% endif %}"><span class="detail">151 à 230</span> <span class="value"> D</span></div>{% else %}Non renseigné{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_d {%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span class="detail">21 à 35</span> <span class="value"> D</span></div>{% else %}Non renseigné{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_e {%if ad.energy_consumption == 'E' %}selected{% endif %}"><span class="detail">231 à 330</span> <span class="value"> E</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_e {%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span class="detail">36 à 55</span> <span class="value"> E</span></div>{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_f {%if ad.energy_consumption == 'F' %}selected{% endif %}"><span class="detail">331 à 450</span> <span class="value"> F</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_f {%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span class="detail">56 à 80</span> <span class="value"> F</span></div>{% endif %}</td>
-			</tr>
-			<tr>
-				<td>{%if ad.energy_consumption %}<div class="energy_consumption_g {%if ad.energy_consumption == 'G' %}selected{% endif %}"><span class="detail">> 450</span> <span class="value">G</span></div>{% endif %}</td>
-				<td>{%if ad.emission_of_greenhouse_gases %}<div class="emission_of_greenhouse_gases_g {%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span class="detail">> 80</span> <span class="value"> G</span></div>{% endif %}</td>
-			</tr>			
-			</tbody>
-		</table>
-	<map id="map_locate" ></map>
 
-	<div style="clear:both"></div>
+	<div class="row">
 
-	<div class="ad_caracteristics">
-
-		
-		
-		
-		
-		<div class="bloc_info">
+		<div class="span2">
 		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
 		<h4>{% trans "Situation du logement" %}</h4>
 		<p>
@@ -143,7 +106,7 @@
 		{% endif %}
 		</div>
 
-		<div class="bloc_info">
+		<div class="span2">
 		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
 		<h4>{% trans "A propos de l'immeuble" %}</h4>
 		<p>
@@ -155,7 +118,7 @@
 		{% endif %}
 		</div>
 
-		<div class="bloc_info">
+		<div class="span2">
 		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
 		<h4>{% trans "Commodités" %}</h4>
 		<p>
@@ -173,7 +136,7 @@
 		{% endif %}
 		</div>
 
-		<div class="bloc_info">
+		<div class="span2">
 		{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
 		<h4>Pièces</h4>
 		<p>
@@ -184,7 +147,17 @@
 		{% if ad.separate_entrance %}{% trans "Entrée séparée" %}{% endif %}
 		</p>
 		{% endif %}
+		</div>
 
+
+	</div>
+	
+
+	<div class="row">
+		<div class="span4">
+			{% include 'geoads/view_energy.html' %}
+		</div>
+		<div class="span4">
 		{% if ad.description %}
 		<h4>{% trans "Informations complémentaires" %}</h4>
 			<p>
@@ -192,50 +165,18 @@
 			</p>
 			<br />	
 		{% endif %}	
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span4">
+			{% include 'geoads/view_contactform.html' %}
+		</div>
+	</div>
 		<p>
 			<i>
 				{% trans "Date de création de l'annonce" %} : {{ ad.create_date }} <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}
 			</i>
-		</p>
-
-
-		</div>
-		
-		<div style="clear:both"></div>
-		
-		</div>
-	
-
-
-
-{% if sent_mail %}
-{% else %}
-<div id="message_block">
-{% if user.is_authenticated %}
-	<form  action="" method="POST" >
-			<h2>{% trans "Contacter le vendeur" %}</h2>
-	<table id="message">
-		{% csrf_token %}
-		{{ contact_form.as_table }}
-		<tr>
-			<td></td>
-			<td ><button type="submit">{% trans "Envoyer" %}</button></td>
-		</tr>
-	{% if ad.user.user_profile.phone_number %}
-		<tr>
-			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>
-			<td><address>{{ ad.user.user_profile.phone_number }}</address></td>
-		</tr>
-	{% endif %}
-	</table>
-
-	</form>
-	
-{% else %}
-	<div class="content">
-		<p>{% trans "Pour contacter le vendeur" %}, <a href="{% url userena_signup %}">{% trans "inscrivez-vous" %}</a> {% trans "ou" %} <a href="{% url userena_signin %}">{% trans "connectez-vous" %}</a> !</p>
-	</div>
-{% endif %}
+		</p>	
 </div>
-{% endif %}
 {% endblock %}

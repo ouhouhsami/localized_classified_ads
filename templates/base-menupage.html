@@ -1,24 +1,19 @@
 {% extends "base.html" %}
 
 {% block site %}
-
-	{% block form-top %}
-	{% endblock form-top %}
-
 	{% block messages %}
 		{% if messages %}
 		<div id="messages">
-			<ul class="messages">
+			
 				{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+				<div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
 					{% autoescape off %}{{ message }}{% endautoescape %}
-				</li>
+				</div>
 				{% endfor %}
-			</ul>
 		</div>
 		{% endif %}
 	{% endblock messages %}
-	
+	<div id="content"  class="well" style="padding:0px;border:0px">
 	<nav>
 	<ul class="nav nav-tabs">
 		{% block menu %}
@@ -26,12 +21,6 @@
 		{% endblock menu %}
 	</ul>
 	</nav>
-
-		{% block content %}
-
-		{% endblock content %}
-
-	{% block form-bottom %}
-	{% endblock form-bottom %}
-
+		{% block userena-content %}{% block content %}{% endblock %}{% endblock %}
+	</div>
 {% endblock site %}

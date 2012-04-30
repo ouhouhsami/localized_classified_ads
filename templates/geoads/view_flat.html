@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
+<h4>{% trans "A propos de l'immeuble" %}</h4>
+<p>
+{% if ad.elevator %}{% trans "Ascenseur" %}<br />{% endif %}
+{% if ad.intercom %}{% trans "Interphone" %}<br />{% endif %}
+{% if ad.digicode %}{% trans "Digicode" %}<br />{% endif %}
+{% if ad.doorman %}{% trans "Gardien" %}{% endif %}
+</p>
+{% endif %}

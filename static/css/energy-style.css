@@ -12,6 +12,10 @@
 	float:right;
 }
 
+.energy {
+	margin-top:4px;
+}
+
 .energy .unit {
 	font-weight:normal;
 }

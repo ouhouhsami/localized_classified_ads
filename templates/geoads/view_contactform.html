@@ -3,16 +3,13 @@
 {% else %}
 <div id="message_block">
 {% if user.is_authenticated %}
-	<form  action="" method="POST" >
-		<fieldset>
-			<legend>{% trans "Contacter le vendeur" %}</legend>
-	
+	<form  action="" method="POST" class="form-horizontal">
+		<h4>{% trans "Contacter le vendeur" %}</h4>
 		{% csrf_token %}
 		{{ contact_form|crispy }}
 		<div class="form-actions">
-			<button class="btn btn-primary" type="submit">{% trans "Envoyer" %}</button>
+			<button class="btn btn-primary" type="submit">{% trans "Envoyer votre message" %}</button>
 		</div>
-		</fieldset>
 	{% if ad.user.user_profile.phone_number %}
 		<tr>
 			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>

@@ -20,8 +20,8 @@
 				{% endfor %}
 		{% endif %}
 	{% else %}
-		<div class="alert alert-info">
-			<h2>{% blocktrans %}Annonces immobilières <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
+		<div class="alert" style="background-color:transparent;color:black;">
+			<h2 style="text-align:center; font-family: TypoSlabserif;font-weight:normal;font-size:2.3em">{% blocktrans %}Annonces immobilières<br/> <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
 		</div>
 	{% endif %}
 {% endblock messages %}
@@ -45,7 +45,7 @@
 			</div>
 			<div class="span5">
 				<div class="custom-well">
-				<button type="submit" value="search" class="btn" name="search" id="search_button">
+				<button type="submit" value="search" class="btn btn-primary" name="search" id="search_button">
 					3. {% trans "Rechercher" %}
 				</button>
 				</div>

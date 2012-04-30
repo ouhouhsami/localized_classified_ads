@@ -1,154 +1,74 @@
-/* --- STYLES DE BASE --- */
-
-/* Page */
-html {
-  font-size: 100%; /* Évite un bug d'IE 6-7. (1) */
+@font-face {
+	font-family: Cafeta;
+	src: url('../font/cafeta.ttf');
+}
+@font-face {
+	font-family: TypoSlabserif;
+	src: url('../font/TypoSlabserif-Light.ttf');
 }
 body {
-  margin: 0;
-  padding: 0; /* Remettre à zéro si nécessaire. */
-  /* Pensez à utiliser une collection de polices (2), par ex:
-  font-family: Arial, Helvetica, FreeSans, sans-serif; */
-  font-size: .8em; /* À adapter pour la police choisie. (3) */
-  line-height: 1.4; /* À adapter au design. (4) */
-  color: black;
-  background: white;
+	padding-top:60px; 
+	padding-bottom:45px;
+	background-color:#EFF0F2;
 }
 
-/* Titres */
-h1, h2, h3, h4, h5, h6 {
-  margin: 1em 0 .5em 0; /* Rapproche le titre du texte. (5) */
-  line-height: 1.2;
-  font-weight: bold; /* Valeur par défaut. (6) */
-  font-style: normal;
+#content {
+	background-color:#F7F7F7;
 }
-h1 {
-  font-size: 1.75em;
+.nav.nav-tabs {
+	background-color:#EFF0F2;
+	font-weight:bold;
 }
-h2 {
-  font-size: 1.5em;
-}
-h3 {
-  font-size: 1.25em;
-}
-h4 {
-  font-size: 1em;
+.nav.nav-tabs .active a {
+	background-color:#F7F7F7;
 }
 
-/* Listes */
-ul, ol {
-  margin: .75em 0 .75em 32px;
-  padding: 0;
+.navbar.navbar-fixed-top {
+	border-bottom:5px solid #FFB82E;
 }
-
-/* Paragraphes */
-p {
-  margin: .75em 0; /* Marges plus faibles que par défaut. (7) */
+.navbar.navbar-fixed-bottom {
+	border-top:5px solid #FFB82E;
 }
-address {
-  margin: .75em 0;
-  font-style: normal;
+.sanscom_font {
+	color:#FFB82E;
 }
-
-/* Liens */
+.navbar .brand {
+	background: url("../img/home.png") no-repeat scroll 0 0px transparent;
+	margin-left:0px;
+	padding-left:32px;
+}
 a {
-  text-decoration: underline;
+	/*color:#20B2AB;*/
+	/*color:black;*/
 }
-a:link {
-  color: #11C;
+a:hover {
+	/*color:#FFB82E;*/
+	/*color:black;*/
 }
-a:visited {
-  color: #339;
+.alert-info {
+    border-color: transparent;
+    color: #888;
 }
-a:hover, a:focus, a:active {
-  color: #00F;
+.custom-well {
+    background-color: transparent;
+    border: none;
+    border-radius: 0px
+    box-shadow: none;
+    margin-bottom: 0px;
+    min-height: 20px;
+    padding: 10px;
 }
-
-/* Pas de bordure autour des images dans les liens */
-a img {
-  border: none;
+#map {height: 300px;}
+#map_locate {
+	width:100%;
+	height:300px;
 }
-
-/* Divers éléments de type en-ligne (8) */
-em {
-  font-style: italic;
+#map label { width: auto; display:inline; }
+#map img { max-width: none; }
+caption {text-align:left}
+figure {
+	margin:0px;padding:0px
 }
-strong {
-  font-weight: bold;
-}
-
-/* Formulaires */
-form, fieldset {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-input, button, select {
-  /*vertical-align: middle;*/ /* Solution pb. d'alignement. (9) */
-}
-
-
-/* --- STYLES DE BASE SUPPLÉMENTAIRES --- */
-
-/* Met en évidence les abréviations (ayant un attribut title) */
-abbr[title] {
-  border-bottom: 1px dotted;
-  cursor: help;
-}
-
-/* Met en évidence les citations */
-blockquote {
-  margin: .75em 0 .75em 20px;
-  padding: 0 0 0 10px;
-  border-left: solid 2px #ddd;
-}
-q, cite {
-  font-style: italic;
-}
-q cite, q q {
-  font-style: normal
-}
-
-/* Supprime les guillemets automatiques (citations courtes) */
-q {
-  quotes: none;
-}
-q:before, q:after {
-  content: ""; /* Nécessaire pour Safari/Chrome */
-}
-
-/* Rapproche les paragraphes dans les listes et citations */
-blockquote p, li p {
-  margin: .5em 0;
-}
-
-/* Styles de base pour les listes de définition */
-dl {
-  margin: .75em 0;
-}
-dt {
-  margin: .75em 0 0 0;
-  font-weight: bold;
-}
-dd {
-  margin: .25em 0 .25em 32px;
-}
-
-/* Mise en forme simple pour les tableaux */
-table {
-  margin: 0;
-  border: 1px solid gray; /* Pas de bordure = "none". */
-  border-collapse: collapse; /* Valeur par défaut: "separate". */
-  border-spacing: 0;
-}
-table td, table th {
-  padding: 4px; /* Pas de retrait autour du texte = "0". */
-  border: 1px solid #ccc; /* Pas de bordure = "none". */
-  vertical-align: top; /* Valeur par défaut: "middle" */
-}
-
-/* Conteneurs sémantiques de HTML 5 */
-article, aside, dialog, figure, footer, header,
-hgroup, menu, nav, section {
-  display: block;
+.selected {
+	border:2px solid black;
 }

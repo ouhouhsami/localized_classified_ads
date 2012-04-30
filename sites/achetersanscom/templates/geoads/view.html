@@ -1,7 +1,7 @@
 {% extends "base-simplepage.html" %}
 {% load ads_tag l10n i18n %}
 
-{% block title %}{% trans "Vente" %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²{% endblock %}
+{% block title %}{% trans "Vente" %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m² | AcheterSansCom{% endblock %}
 
 {% block meta %}
 		<meta name="keywords" lang="fr" content="{{ ad.get_habitation_type_display }},à vendre,sans intermédiaire,{{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }}" />
@@ -9,174 +9,52 @@
 {% endblock %}
 
 {% block javascript %}
-	<script src="{{ STATIC_URL }}js/jquery.colorbox-min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script>
-	    $(document).ready(function(){
-			var options = {
-				zoom: 12,
-				center: new google.maps.LatLng({{ ad.location.coords.1|unlocalize }}, {{ ad.location.coords.0|unlocalize }}),
-				mapTypeControl: true,
-				panControl: false,
-				mapTypeControl: false,
-				streetViewControl: false,
-				mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
-				zoomControl: true,
-				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.SMALL,
-					position: google.maps.ControlPosition.TOP_RIGHT
-				},
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			var map = new google.maps.Map(document.getElementById('map_locate'), options);
-			var marker = new google.maps.Marker({
-				position: new google.maps.LatLng({{ ad.location.coords.1|unlocalize }}, {{ ad.location.coords.0|unlocalize }}),
-				map: map,
-				title:"Annonce",
-				icon: new google.maps.MarkerImage('{{ ad.icon }}')
-			});
-			$('a.gallery').colorbox({rel:'gal'});
-    	});
-	</script>
+	{% include 'geoads/view_js.html' %}
 {% endblock %}
 	
 {% block css %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}css/colorbox.css" type="text/css" media="screen" charset="utf-8">
 	<link rel="stylesheet" href="{{ STATIC_URL }}css/energy-style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 {% endblock %}
 
+{% block messages %}	
+  {{ block.super }}
+  {% if contact_form.errors %}
+  <div class="alert alert-error">
+    {% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}
+  </div>
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 <div id="content" class="well" style="padding:0px;border:0px">
-<div class="row">
-	
-	<div class="span10 offset1">
+  <div class="row">
+    <div class="span10 offset1">
+      
+      <div class="page-header">
+        <h2>{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}) {{ ad.price|priceformat }} € - {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}</h2>
+      </div>
+      
+      <div class="row">
+        <div class="span6">{% include 'geoads/view_pictures.html' %}</div>
+        <div class="span4"><map id="map_locate" ></map></div>
+      </div>
+      
+      <div class="row">
+        <div class="span2">{% include 'geoads/view_situation.html' %}</div>
+        <div class="span2">{% include 'geoads/view_flat.html' %}</div>
+        <div class="span2">{% include 'geoads/view_commodity.html' %}</div>
+        <div class="span4">{% if ad.description %}<h4>{% trans "Informations complémentaires" %}</h4><p>{{ ad.description|linebreaksbr  }}</p>{% endif %}</div>
+      </div>
+      
+      <div class="row">
+        <div class="span4">{% include 'geoads/view_energy.html' %}</div>
+        <div class="span2">{% include 'geoads/view_rooms.html' %}</div>
+        <div class="span4">{% include 'geoads/view_contactform.html' %}</div>
+      </div>
 
-
-	<div class="page-header">
-	<h2 >
-		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }})
-		{{ ad.price|priceformat }} €
-		- {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}
-	</h2>
-	</div>
-	
-	<div class="row">
-		<div class="span6">
-			{% include 'geoads/view_pictures.html' %}
-		</div>
-		<div class="span4">
-			<map id="map_locate" ></map>
-		</div>
-	</div>
-	
-
-
-	<div class="row">
-
-		<div class="span2">
-		{% if ad.floor or ad.orientation or ad.ground_floor or ad.duplex or ad.not_overlooked or ad.ground_surface %}
-		<h4>{% trans "Situation du logement" %}</h4>
-		<p>
-		{% if ad.floor %}
-			{{ ad.floor }}<sup>e</sup> {% if ad.top_floor %}({% trans "et dernier" %}){% endif %} étage
-			<br />
-		{% endif %}
-		{% if ad.ground_floor %}
-		{% trans "Rez-de-chaussé" %}
-		<br />
-		{% endif %}
-		{% if ad.duplex %}
-		{% trans "Duplex" %}
-		<br />
-		{% endif %}
-		{% if ad.ground_surface %}
-		{% trans "Surface du terrain" %} : {{ ad.ground_surface }} m²
-		<br />
-		{% endif %}
-		{% if ad.not_overlooked %}
-		{% trans "Sans vis-à-vis" %}
-		<br />
-		{% endif %}
-		{% if ad.orientation %}
-		{%  trans "Orientation" %} : {{ ad.orientation }}
-		<br />
-		{% endif %}
-		</p>
-		{% endif %}
-		</div>
-
-		<div class="span2">
-		{% if ad.elevator or ad.intercom or ad.digicode or ad.doorman %}
-		<h4>{% trans "A propos de l'immeuble" %}</h4>
-		<p>
-		{% if ad.elevator %}{% trans "Ascenseur" %}<br />{% endif %}
-		{% if ad.intercom %}{% trans "Interphone" %}<br />{% endif %}
-		{% if ad.digicode %}{% trans "Digicode" %}<br />{% endif %}
-		{% if ad.doorman %}{% trans "Gardien" %}{% endif %}
-		</p>
-		{% endif %}
-		</div>
-
-		<div class="span2">
-		{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
-		<h4>{% trans "Commodités" %}</h4>
-		<p>
-		{% if ad.heating %}{% trans "Chauffage" %} : {{ ad.get_heating_display }}<br />{% endif %}
-		{% if ad.kitchen %}{% trans "Cuisine équipée" %}<br />{% endif %}
-		{% if ad.cellar %}{% trans "Cave" %}<br />{% endif %}
-		{% if ad.parking %}{% trans "Parking" %} {{ ad.get_parking_display }}<br />{% endif %}
-		{% if ad.swimming_pool %}{% trans "Piscine" %}<br />{% endif %}
-		{% if ad.alarm %}{% trans "Alarme" %}<br />{% endif %}
-		{% if ad.air_conditioning %}{% trans "Air conditionné" %}<br />{% endif %}
-		{% if ad.fireplace %}{% trans "Cheminée" %} : {{ ad.get_fireplace_display }}<br />{% endif %}
-		{% if ad.terrace %}{% trans "Terrasse" %} : {{ ad.terrace }} m²<br />{% endif %}
-		{% if ad.balcony %}{% trans "Balcon" %} : {{ ad.balcony }} m²{% endif %}
-		</p>
-		{% endif %}
-		</div>
-
-		<div class="span2">
-		{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
-		<h4>Pièces</h4>
-		<p>
-		{% if ad.separate_dining_room %}{% trans "Cuisine séparée" %}<br />{% endif %}
-		{% if ad.separate_toilet %} {{ ad.separate_toilet }} {% trans "toilette" %}{{ ad.separate_toilet|pluralize }} séparée{{ ad.separate_toilet|pluralize }}<br />{% endif %}
-		{% if ad.bathroom %} {{ ad.bathroom }} {% trans "salle de bain" %}<br />{% endif %}
-		{% if ad.shower %} {{ ad.shower }} {% trans "douche" %}{{ ad.shower|pluralize }}<br />{% endif %}
-		{% if ad.separate_entrance %}{% trans "Entrée séparée" %}{% endif %}
-		</p>
-		{% endif %}
-		</div>
-
-
-	</div>
-	
-
-	<div class="row">
-		<div class="span4">
-			{% include 'geoads/view_energy.html' %}
-		</div>
-		<div class="span4">
-		{% if ad.description %}
-		<h4>{% trans "Informations complémentaires" %}</h4>
-			<p>
-				{{ ad.description|linebreaksbr  }}
-			</p>
-			<br />	
-		{% endif %}	
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="span4">
-			{% include 'geoads/view_contactform.html' %}
-		</div>
-	</div>
-		<p>
-			<i>
-				{% trans "Date de création de l'annonce" %} : {{ ad.create_date }} <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}
-			</i>
-		</p>	
+      <p><i>{% trans "Date de création de l'annonce" %} : {{ ad.create_date }} <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}</i></p>	
+    
+     </div>
+  </div>
 </div>
 {% endblock %}

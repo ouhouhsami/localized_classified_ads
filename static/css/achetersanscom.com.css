@@ -1,3 +1,6 @@
-#map_locate {
-	height:231px	
+.btn-primary {
+	background-image: -moz-linear-gradient(center top , #20B2AB, #20B2AB);
+}
+a{
+	color:#20B2AB;
 }

@@ -1,0 +1,11 @@
+{% load i18n %}
+{% if ad.separate_dining_room or ad.separate_toilet or ad.bathroom or ad.shower or ad.separate_entrance %}
+<h4>Pièces</h4>
+<p>
+{% if ad.separate_dining_room %}{% trans "Cuisine séparée" %}<br />{% endif %}
+{% if ad.separate_toilet %} {{ ad.separate_toilet }} {% trans "toilette" %}{{ ad.separate_toilet|pluralize }} séparée{{ ad.separate_toilet|pluralize }}<br />{% endif %}
+{% if ad.bathroom %} {{ ad.bathroom }} {% trans "salle de bain" %}<br />{% endif %}
+{% if ad.shower %} {{ ad.shower }} {% trans "douche" %}{{ ad.shower|pluralize }}<br />{% endif %}
+{% if ad.separate_entrance %}{% trans "Entrée séparée" %}{% endif %}
+</p>
+{% endif %}

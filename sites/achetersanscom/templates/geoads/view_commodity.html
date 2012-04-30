@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if ad.heating or ad.kitchen or ad.duplex or ad.swimming_pool or ad.alarm or ad.air_conditioning or ad.fireplace or ad.cellar or ad.parking or ad.terrace or ad.balcony %}
+<h4>{% trans "Commodités" %}</h4>
+<p>
+{% if ad.heating %}{% trans "Chauffage" %} : {{ ad.get_heating_display }}<br />{% endif %}
+{% if ad.kitchen %}{% trans "Cuisine équipée" %}<br />{% endif %}
+{% if ad.cellar %}{% trans "Cave" %}<br />{% endif %}
+{% if ad.parking %}{% trans "Parking" %} {{ ad.get_parking_display }}<br />{% endif %}
+{% if ad.swimming_pool %}{% trans "Piscine" %}<br />{% endif %}
+{% if ad.alarm %}{% trans "Alarme" %}<br />{% endif %}
+{% if ad.air_conditioning %}{% trans "Air conditionné" %}<br />{% endif %}
+{% if ad.fireplace %}{% trans "Cheminée" %} : {{ ad.get_fireplace_display }}<br />{% endif %}
+{% if ad.terrace %}{% trans "Terrasse" %} : {{ ad.terrace }} m²<br />{% endif %}
+{% if ad.balcony %}{% trans "Balcon" %} : {{ ad.balcony }} m²{% endif %}
+</p>
+{% endif %}

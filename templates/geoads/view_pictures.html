@@ -1,44 +1,17 @@
 {% load ads_tag i18n %}
 {% if ad.pictures.all %}
-
     <div id="myCarousel" class="carousel">
-    <!-- Carousel items -->
     <div class="carousel-inner">
     {% for img in ad.pictures.all %}
     <div class="{% if forloop.counter = 1 %}active{% endif %} item">
     	<img src="{% thumbnail img.image 580 300 %}" rel="#img_{{ img.id }}" {% if img.title %}alt="{{ img.title }}"{% endif %}/>
-		{% if img.title %}
 		<div class="carousel-caption">
-			<h4>{{ img.title }}</h4>
+			<h4>{% if img.title %}{{ img.title }}{% else %}Photo n°{{forloop.counter}}{% endif %}</h4>
 		</div>
-		{% endif %}
     </div>
     {% endfor %}
     </div>
-    <!-- Carousel nav -->
     <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
     <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
     </div>
-	
-	{% comment %}
-	<div class="span12">
-	<ul class="thumbnails">
-	{% for img in ad.pictures.all %}
-		<li class="span3">
-		<figure>
-		<div class="thumbnail">
-			<a class="gallery" href="{{ img.image.url }}" {% if img.title %}title="{{ img.title }}"{% endif %}>
-				<img src="{% thumbnail img.image 260 180 %}" rel="#img_{{ img.id }}" {% if img.title %}alt="{{ img.title }}"{% endif %}/>
-			</a>
-		</div>
-		<div class="caption">
-			{% if img.title %}<figcaption>{{ img.title }}</figcaption>{% endif %}
-		</div>
-		</figure>
-		</li>
-	{% endfor %}
-	</ul>
-	</div>
-	<p class="photo_clicktext"><i>{% trans "Cliquez sur les photos pour les agrandir" %}</i></p>
-	{% endcomment %}
 {% endif %}

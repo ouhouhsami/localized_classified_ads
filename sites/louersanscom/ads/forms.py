@@ -216,4 +216,5 @@ class HomeForRentAdFilterSetForm(forms.ModelForm):
                    'address', 'housing_tax', 'ground_floor', 'heating', 'shower', 
                    'ground_surface', 'top_floor', 'user_entered_address', 'slug', 
                    'not_overlooked', 'update_date', 'balcony')       
-
+    class Media:
+        js = ('js/collapse-icon.js',)

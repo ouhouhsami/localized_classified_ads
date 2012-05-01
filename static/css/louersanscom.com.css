@@ -1,38 +1,44 @@
-header {
-    border-bottom: 5px solid Pink;
+/*
+.navbar .brand {
+	background: url("../img/apartment.png") no-repeat scroll 0 0px transparent;
+}
+*/
+
+.btn-primary {
+	background-image:none;
+	background-color: #9D81A1;
 }
 
-footer {
-    border-top: 5px solid Pink;
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #9D81A1;
 }
 
+a{
+	/*color:#20B2AB;*/
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #20B2AB;
+    color: #FFFFFF;
+}
+#search_header {
+    background-color: Pink;
+}
+
+.navbar.navbar-fixed-top {
+	border-bottom:5px solid Pink;
+}
+.navbar.navbar-fixed-bottom {
+	border-top:5px solid Pink;
+}
 .sanscom_font {
 	color:Pink;
 }
 
-.bloc_title {
-    background-color: Pink;
+#results h3 {
+	background-color:Pink;
 }
 
-#address, #localize {
-	border: 1px solid Pink;
+.icon-map-custommarker {
+  background-image: url("../img/icon-apartment.png");
+  background-position:0;
 }
-
-#header > h1 {
-    background: url("../img/apartment.png") no-repeat scroll 0 10px transparent;
-}
-
-.icon {
-	background: url("../img/apartment.png") no-repeat transparent;
-	background-size: 19px 19px;
-
-}
-
-.userena form input[type="submit"], button[type="submit"] {
-    background-color: #9d81a1;
-}
-
-#map_locate {
-	height:248px;
-}
-/* #9d81a1 */

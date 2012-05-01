@@ -4,7 +4,7 @@
     <div class="carousel-inner">
     {% for img in ad.pictures.all %}
     <div class="{% if forloop.counter = 1 %}active{% endif %} item">
-    	<img src="{% thumbnail img.image 580 300 %}" rel="#img_{{ img.id }}" {% if img.title %}alt="{{ img.title }}"{% endif %}/>
+    	<img src="{% thumbnail img.image 580 380 %}" rel="#img_{{ img.id }}" {% if img.title %}alt="{{ img.title }}"{% endif %}/>
 		<div class="carousel-caption">
 			<h4>{% if img.title %}{{ img.title }}{% else %}Photo n°{{forloop.counter}}{% endif %}</h4>
 		</div>

@@ -44,6 +44,7 @@
 			<div class="navbar-inner">
 				<div class="container">
 					{% include 'site_title.html' %}
+					{% include 'site_header_right.html' %}
 					<ul class="nav pull-right">
 						{% if user.is_authenticated %}
 						<li><a href="{% url userena_profile_detail user.username %}" class="focus">{% trans "Mon compte" %}</a></li>
@@ -51,11 +52,10 @@
 						{% else %}
 						<li><a href="{% url userena_signup %}" class="focus">{% trans "S'Inscrire" %}</a></li>
 						<li><a href="{% url userena_signin %}">{% trans "Se Connecter" %}</a></li>
-						{% endif %}
 						<li class="divider-vertical"></li>
-						<li><a href="">{% trans "LouerSansCom" %}</a></li>
-						<li><a href="">{% trans "ParkingSansCom" %}</a></li>
+						{% endif %}
 					</ul>
+						
 				</div>
 			</div>
 		</div>

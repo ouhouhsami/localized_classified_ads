@@ -250,4 +250,6 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
                    'orientation', 'housing_tax', 'surface_carrez', 
                    'maintenance_charges', 'ad_valorem_tax', 'slug', 
                    'update_date', 'create_date')
+    class Media:
+        js = ('js/collapse-icon.js',)
 

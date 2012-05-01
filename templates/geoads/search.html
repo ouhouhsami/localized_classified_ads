@@ -8,8 +8,6 @@
 	<script src="{{ STATIC_URL }}js/search_form.js" type="text/javascript" charset="utf-8"></script>
 {% endblock media %}
 
-
-
 {% block messages %}
 	{% if search %}
 		{% if messages %}
@@ -21,7 +19,7 @@
 		{% endif %}
 	{% else %}
 		<div class="alert" style="background-color:transparent;color:black;">
-			<h2 style="text-align:center; font-family: TypoSlabserif;font-weight:normal;font-size:2.3em">{% blocktrans %}Annonces immobilières<br/> <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
+			<h2 id='subtitle'>{% blocktrans %}Annonces immobilières<br/> <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
 		</div>
 	{% endif %}
 {% endblock messages %}
@@ -33,7 +31,7 @@
 {% block content %}
 <form action="{% url search %}" method="POST" id="search" class="form-horizontal" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);" >
 <div class="row" >
-	<div class="span12" style="background-color:#FFB82E">
+	<div class="span12" id="search_header">
 		<div class="row" >
 			<div class="span7">
 				<div class="custom-well">

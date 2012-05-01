@@ -1,11 +1,11 @@
 {% load i18n %}
 <li class="{% if selected == 1 %}active{% else %}{% endif %}">
 	<a href="{% url search %}">
-		{% trans "Locataires" %}
+		{% trans "Acheteurs" %}
 	</a>
 </li>
 <li class="{% if selected == 2 %}active{% else %}{% endif %}">
 	<a href="{% url add %}">
-		{% trans "Propriétaires" %}
+		{% trans "Vendeurs" %}
 	</a>
 </li>

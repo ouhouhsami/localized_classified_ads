@@ -1,0 +1,1 @@
+<div class="input-append"><input type="{{ type }}" name="{{ name }}"{% if value %} value="{{ value }}"{% endif %}{% if required %} required{% endif %}{% for name, value in attrs.iteritems %} {{ name }}{% if value != True %}="{{ value }}"{% endif %}{% endfor %}><span class="add-on">{{ attrs.appended_text }}</span></div>

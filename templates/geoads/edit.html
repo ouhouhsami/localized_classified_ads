@@ -10,18 +10,14 @@
 {% endblock %}
 
 {% block javascript %}
-	<script src="{{ STATIC_URL }}js/edit_form.js" type="text/javascript" charset="utf-8"></script>
+  <script src="{{ STATIC_URL }}js/edit_form.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block messages %}
 	{% if messages %}
-	<div id="messages">
-	<ul class="messages">
 		{% for message in messages %}
-		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% autoescape off %}{{ message }}{% endautoescape %}</li>
+		<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{% autoescape off %}{{ message }}{% endautoescape %}</div>
 		{% endfor %}
-	</ul>
-	</div>
 	{% endif %}
 	{% if form.errors %}
 	<div class="alert alert-error">

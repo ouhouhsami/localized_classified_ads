@@ -39,13 +39,13 @@
 		{% for ad in object_list %}
 		<tr class="{% cycle 'even' 'odd' %}">
 			<td>
-				<a href="#" class="btn btn-small" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"> <span class="icon"></span> Localiser	
+				<a href="#" class="btn btn-small" onclick="open_popup({{ ad.location.coords.0|unlocalize }}, {{ ad.location.coords.1|unlocalize }}, 'ad_{{ ad.id }}'); return false;"> <i class="icon-map-custommarker"></i> Localiser	
 				</a>
 			</td>
 			{% include 'geoads/result_item.html' with ad=ad only %}
 			<td>
 				<a class="btn btn-small"  href="{% url view ad.slug %}" target="_blank">
-					{% trans "Détail" %} {% if ad.pictures.all %}<i class="icon-picture"></i>{% endif %}
+					{% trans "Détail" %} <i class="icon-{% if ad.pictures.all %}picture{% endif %}"></i>
 				</a>
 			</td>
 		</tr>

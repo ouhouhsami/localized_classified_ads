@@ -10,7 +10,7 @@ from utils.bootstrap import BootstrapFieldset
 
 from models import HomeForSaleAd, HABITATION_TYPE_CHOICES
 from forms import HomeForSaleAdFilterSetForm
-
+from utils.widgets import BootstrapSpecificRangeWidget
 
 
 # TODO: improve: inherit form ads.filtersets !
@@ -26,16 +26,16 @@ class NicerFilterSet(django_filters.FilterSet):
 
 # TODO: improve: inherit form ads.filtersets !
 class HomeForSaleAdFilterSet(NicerFilterSet):
-    price = django_filters.OpenRangeNumericFilter(label="Budget (€)", 
-                                       widget=SpecificRangeWidget({'size':'6'}))
-    surface = django_filters.OpenRangeNumericFilter(label="Surface (m²)", 
-                                         widget=SpecificRangeWidget({'size':'6'}))
+    price = django_filters.OpenRangeNumericFilter(label="Budget", 
+                                       widget=BootstrapSpecificRangeWidget({'size':'6'}, '€'))
+    surface = django_filters.OpenRangeNumericFilter(label="Surface", 
+                                         widget=BootstrapSpecificRangeWidget({'size':'6'}, 'm²'))
     nb_of_rooms = django_filters.OpenRangeNumericFilter(label="Nb. de pièces", 
                                          widget=SpecificRangeWidget({'size':'6'}))
     nb_of_bedrooms = django_filters.OpenRangeNumericFilter(label="Nb. de chambres", 
                                          widget=SpecificRangeWidget({'size':'6'}))
-    ground_surface = django_filters.OpenRangeNumericFilter(label="(m²)", 
-                                         widget=SpecificRangeWidget({'size':'6'}))
+    ground_surface = django_filters.OpenRangeNumericFilter(label="", 
+                                         widget=BootstrapSpecificRangeWidget({'size':'6'}, 'm²'))
     floor = django_filters.OpenRangeNumericFilter(label="Etage", 
                                          widget=SpecificRangeWidget({'size':'6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation", 

@@ -1,9 +1,7 @@
 <fieldset class="accordion-group"
-    {% if fieldset.css_class or form_style %}class="{{ fieldset.css_class }} {{ form_style }}"{% endif %}>
-    <div class="accordion-heading">
-      <a href="#{{ fieldset.css_id }}" data-toggle="collapse" class="accordion-toggle">{{ legend|safe }}</a>
-    </div>
-    <div class="collapse {% if fieldset.collapse_in %}{{ fieldset.collapse_in }}{% endif %}" id="{{ fieldset.css_id }}">
-    {{ fields|safe }}
-    </div>
+  {% if fieldset.css_class or form_style %}class="{{ fieldset.css_class }} {{ form_style }}"{% endif %}>
+  <div class="accordion-heading">
+    <a href="#{{ fieldset.css_id }}" data-toggle="collapse" class="accordion-toggle">{% if fieldset.collapse_in %}<i class="icon-chevron icon-chevron-down"></i>{% else %}<i class="icon-chevron icon-chevron-right"></i>{% endif %} {{ legend|safe }}</a>
+  </div>
+  <div class="collapse {% if fieldset.collapse_in %}{{ fieldset.collapse_in }}{% endif %}" id="{{ fieldset.css_id }}">{{ fields|safe }}</div>
 </fieldset>

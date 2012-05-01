@@ -1,6 +1,44 @@
-.btn-primary {
-	background-image: -moz-linear-gradient(center top , #20B2AB, #20B2AB);
+/*
+.navbar .brand {
+	background: url("../img/home.png") no-repeat scroll 0 0px transparent;
 }
+*/
+
+.btn-primary {
+	background-image:none;
+	background-color: #20B2AB;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #20B2AB;
+}
+
 a{
-	color:#20B2AB;
+	/*color:#20B2AB;*/
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #20B2AB;
+    color: #FFFFFF;
+}
+#search_header {
+    background-color: #FFB82E;
+}
+
+.navbar.navbar-fixed-top {
+	border-bottom:5px solid #FFB82E;
+}
+.navbar.navbar-fixed-bottom {
+	border-top:5px solid #FFB82E;
+}
+.sanscom_font {
+	color:#FFB82E;
+}
+
+#results h3 {
+	background-color:#FFB82E;
+}
+
+.icon-map-custommarker {
+  background-image: url("../img/icon-home.png");
+  background-position:0;
 }

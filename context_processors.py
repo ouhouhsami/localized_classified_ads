@@ -12,9 +12,9 @@ def localized_classified_ads_context_processor(request):
     return results
 
 def google_analytics_context_processor(request):
-    results = {}
     current_site = Site.objects.get_current()
     return settings.GOOGLE_ANALYTICS_ACCOUNTS[str(current_site)]
 
-
-    
+def site_specific_styles(request):
+    current_site = Site.objects.get_current()
+    return settings.SITE_SPECIFIC_STYLES[str(current_site)]

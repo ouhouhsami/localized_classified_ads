@@ -17,7 +17,7 @@ $(document).ready(function(){
 				}
 			}
 		})
-	}				
+	}
 	$('#id_habitation_type').change(function(evt){
 		habitation_type = $(this).val()
 		init_form()

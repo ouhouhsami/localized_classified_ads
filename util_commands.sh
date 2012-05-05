@@ -1,0 +1,1 @@
+find -E . -type f -regex ".*\.(css|js|png|jpg)$" -exec basename {} \; | xargs -I {} grep -FIRoh {} .

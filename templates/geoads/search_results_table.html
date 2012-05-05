@@ -15,7 +15,7 @@
 	{% if ads_list %}
 	<table class="table table-striped table-condensed">
 		<caption>
-			<h3 class="bloc_title results">{% trans title %}
+			<h3 class="results" style="padding-left:10px;padding-right:10px">{% trans title %}
 			{% if search and user.is_authenticated %}
 			<button type="submit" value="save and search" name="save_and_search" class="btn" style="float:right">
 				{% trans "Enregistrer la recherche" %}

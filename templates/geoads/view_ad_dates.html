@@ -1,0 +1,2 @@
+{% load i18n %}
+<p><i>{% trans "Date de création de l'annonce" %} : <abbr class="dtlisted" title="{{ ad.create_date|date:'c' }}">{{ ad.create_date }}</abbr> <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}</i></p>

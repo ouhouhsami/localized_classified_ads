@@ -1,0 +1,7 @@
+{% load l10n %}
+<span class="location">
+  <span class="geo">
+    <abbr class="latitude" title="{{ ad.location.coords.1|unlocalize }}"></abbr> 
+    <abbr class="longitude" title="{{ ad.location.coords.0|unlocalize }}"></abbr>
+  </span>
+</span>

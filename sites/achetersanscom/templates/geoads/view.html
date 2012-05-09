@@ -28,15 +28,19 @@
 {% block content %}
 <div id="content" class="well" style="padding:0px;border:0px">
   <div class="row">
-    <div class="span10 offset1">
+    <div class="span10 offset1 hlisting offer-sale">
       
       <div class="page-header">
-        <h2>{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}) {{ ad.price|priceformat }} € - {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}</h2>
+        <h2><span class="summary">{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}) <span class='price'>{{ ad.price|priceformat }} €</span> - {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}</span> <a href="http://{{ site.domain }}{% url view ad.slug %}" class="permalink" rel="self bookmark"><i class="icon-bookmark"></i></a></h2>
       </div>
-      
+
+      <div class="summary">      
       <div class="row">
         <div class="span6">{% include 'geoads/view_pictures.html' %}</div>
-        <div class="span4"><map id="map_locate" ></map></div>
+        <div class="span4">
+          <map id="map_locate" ></map>
+          {% include 'geoads/view_geo.html' %}
+        </div>
       </div>
       
       <div class="row">
@@ -51,10 +55,10 @@
         <div class="span2">{% include 'geoads/view_rooms.html' %}</div>
         <div class="span4">{% include 'geoads/view_contactform.html' %}</div>
       </div>
+      </div>      
+      {% include 'geoads/view_ad_dates.html' %}
 
-      <p><i>{% trans "Date de création de l'annonce" %} : {{ ad.create_date }} <br/>{% trans "Date de mise à jour" %} : {{ ad.update_date }}</i></p>	
-    
-     </div>
+    </div>
   </div>
 </div>
 {% endblock %}

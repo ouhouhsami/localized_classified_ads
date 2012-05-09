@@ -1,4 +1,4 @@
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags utils_tags %}
 {% if sent_mail %}
 {% else %}
 <div id="message_block">
@@ -10,13 +10,13 @@
 		<div class="form-actions">
 			<button class="btn btn-primary" type="submit">{% trans "Envoyer votre message" %}</button>
 		</div>
-	{% if ad.user.user_profile.phone_number %}
-		<tr>
-			<th><label>{% trans "N° téléphone du vendeur" %}</label></th>
-			<td><address>{{ ad.user.user_profile.phone_number }}</address></td>
-		</tr>
-	{% endif %}
 	
+		<div>
+			{% if ad.user.my_profile.phone_number %}
+			<b>{% trans "Téléphone du vendeur" %}</b> : 
+			{{ ad.user.my_profile.phone_number }}<br />
+			{% endif %}
+		</div>
 	</form>
 	
 {% else %}
@@ -26,3 +26,10 @@
 {% endif %}
 </div>
 {% endif %}
+
+<div class="lister vcard">
+  {% if ad.user.my_profile.phone_number %}
+  <abbr title="{{ ad.user.my_profile.phone_number }}" class="tel"></abbr>
+  {% endif %}
+  <abbr title="{{ ad.user.email|email_local_part }}" class="fn"></abbr>
+</div>

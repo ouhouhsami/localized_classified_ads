@@ -1,22 +1,18 @@
 {% extends "base.html" %}
 
 {% block site %}
-
 	{% block messages %}
 		{% if messages %}
 		<div id="messages">
-			<ul class="messages">
 				{% for message in messages %}
-				<li {% if message.tags %}class="{{ message.tags }}"{% endif %}>
+				<div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
 					{% autoescape off %}{{ message }}{% endautoescape %}
-				</li>
+				</div>
 				{% endfor %}
-			</ul>
 		</div>
 		{% endif %}
 	{% endblock messages %}
-
-	{% block content %}
-	{% endblock content %}
-	
+	<div id="content"  class="well" style="border:0px">
+		{% block userena-content %}{% block content %}{% endblock %}{% endblock %}
+	</div>
 {% endblock site %}

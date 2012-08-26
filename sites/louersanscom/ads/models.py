@@ -127,7 +127,7 @@ def format_search_resume(q):
     max_price = q.get('price_1', '')
     price = ''
     if len(min_price) > 0 and len(max_price) > 0:
-        price = u'- entre %s et %s/mois' % (min_price, max_price)
+        price = u'- entre %s et %s €/mois' % (min_price, max_price)
     elif len(min_price) == 0 and len(max_price) > 0:
         price = u'- inférieur à %s €/mois' % (max_price)
     elif len(min_price) > 0 and len(max_price) == 0:

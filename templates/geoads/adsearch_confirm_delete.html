@@ -1,9 +1,17 @@
 {% extends "base-simplepage.html" %}
 
 {% block content %}
-	<p>Souhaitez-vous vraiment supprimer votre alerte :<br /> {% autoescape off %}{{ object }}{% endautoescape %} ?</p>
-	<form action="" method="POST">
+<div class="alert">
+	<form action="" method="POST" class="form-horizontal">
 		{% csrf_token %}
-		<input type="submit" value="Oui" /> <input type="button" onclick="history.back()" value="Non" />
+		<div class="control-group">
+		<div class="controls">
+			Souhaitez-vous vraiment supprimer votre alerte email :<br /> {% autoescape off %}{{ object }}{% endautoescape %} ?
+			<br /><br />
+			<input type="submit" class="btn btn-danger" value="Oui" />
+			<input class="btn" type="button" onclick="history.back()" value="Non" />
+		</div>
+	</div>
 	</form>
+</div>
 {% endblock content %}

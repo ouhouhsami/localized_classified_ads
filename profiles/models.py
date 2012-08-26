@@ -14,4 +14,3 @@ class UserProfile(UserenaBaseProfile):
                                 verbose_name='user',
                                 related_name='my_profile')
     phone_number	= models.CharField("Numéro de téléphone", max_length=255, null = True, blank = True)
-    email_alert		= models.BooleanField("Recevoir les alertes email pour vos recherches")

@@ -49,19 +49,6 @@
 	</p>
 	{% endif %}
 	
-	<p><b>Alertes email</b> : 
-	{% if profile.email_alert %}
-		<a href="{% url userena_profile_edit user.username %}">Me désabonner</a>
-	<br />
-		{% trans "Vous êtes abonné aux alertes email : vous recevrez un mail lorsque de nouvelles offres correspondront à Vos Recherches." %}
-	</p>
-	{% else %}
-		<a href="{% url userena_profile_edit user.username %}">{% trans "M'abonner" %}</a>
-		</p>
-	<div class="adson">
-	{% trans "Vous n'êtes pas abonné aux alertes email pour vos recherches." %}
-	</div>
-		{% endif %}
 	<p><b>{% trans "Mot de passe" %}</b> : 
 		<a href="{% url userena_password_change user.username %}" id="userena_password_change_menu_item">{% trans "Change password" %}</a>
 	</p>
@@ -126,7 +113,7 @@
 
 {% if searchs %}
 	<table  class="table table-condensed table-striped">
-		<thead><tr><th>{% trans "Vos Recherches" %}</th></tr></thead>
+		<thead><tr><th>{% trans "Vos Alertes email" %}</th></tr></thead>
 	{% for search in searchs %}
 		<tr class="{% cycle 'even' 'odd' %}">
 			<td><a href="{% url search search.id %}" class="button">
@@ -140,16 +127,7 @@
 			</td>
 		</tr>
 	{% endfor %}
-
 	</table>
-<div class="alert alert-info" >
-	{% if profile.email_alert %}
-	{% url userena_profile_edit user.username as userena_profile_edit_url %}
-		{% blocktrans %}Pour ne plus recevoir les alertes email, <a class="" href="{{ userena_profile_edit_url }}">modifiez votre profil</a>.{% endblocktrans %}
-	{% else %}
-		{% blocktrans %}Pour recevoir les alertes email lorsque de nouvelles annonces correspondront à Vos Recherches, <a href="{{ userena_profile_edit_url }}">modifiez votre profil</a>.{% endblocktrans %}
-	{% endif %}
-</div>
 {% else %}
 	<h3 class="extended_title">{% trans "Vos Recherches" %}</h3>
 	<p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>

@@ -86,17 +86,17 @@
 			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
 		</td>
 		<td>
-			{% if ad.moderated_object.moderation_status == 0 %}{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}{% endif %}
-			{% if ad.moderated_object.moderation_status == 1 %}{% trans "Annonce en ligne" %}{% endif %}
-			{% if ad.moderated_object.moderation_status == 2 %}{% trans "Annonce en cours de modération" %}{% endif %}
+			{% if ad.moderated_object.moderation_status == 0 %}<span class="label label-important">{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}</span>{% endif %}
+			{% if ad.moderated_object.moderation_status == 1 %}<span class="label label-success">{% trans "Annonce en ligne" %}</span>{% endif %}
+			{% if ad.moderated_object.moderation_status == 2 %}<span class="label label-warning">{% trans "Annonce en cours de modération" %}</span>{% endif %}
 		</td>
-		<td ><a href="{% url edit ad.id %}">{% trans "Modifier" %}</a></td>
-		<td ><a href="{% url delete ad.id %}" class="delete">{% trans "Supprimer" %}</a></td>
+		<td ><a href="{% url edit ad.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a></td>
+		<td ><a href="{% url delete ad.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i> {% trans "Supprimer" %}</a></td>
 	</tr>
 	{% endif %}
 {% endfor %}
 </tbody>
-<tfoot><tr><td><a class="btn" href="{% url add %}">{% trans "Ajouter un bien" %}</a></td></tr></tfoot>
+<tfoot><tr><td><a class="btn btn-primary" href="{% url add %}"><i class="icon-plus-sign icon-white"></i> {% trans "Ajouter un bien" %}</a></td></tr></tfoot>
 </table>
 
 {% else %}
@@ -134,22 +134,22 @@
 			</a>
 			</td>
 			<td>
-			<a href="{% url delete_search search.id %}" class="negative button">
-				{% trans "Supprimer cette recherche" %}
+			<a href="{% url delete_search search.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i>
+				{% trans "Supprimer" %}
 			</a>
 			</td>
 		</tr>
 	{% endfor %}
-	
+
 	</table>
-<p class="adson inside" >
+<div class="alert alert-info" >
 	{% if profile.email_alert %}
 	{% url userena_profile_edit user.username as userena_profile_edit_url %}
 		{% blocktrans %}Pour ne plus recevoir les alertes email, <a class="" href="{{ userena_profile_edit_url }}">modifiez votre profil</a>.{% endblocktrans %}
 	{% else %}
 		{% blocktrans %}Pour recevoir les alertes email lorsque de nouvelles annonces correspondront à Vos Recherches, <a href="{{ userena_profile_edit_url }}">modifiez votre profil</a>.{% endblocktrans %}
 	{% endif %}
-</p>
+</div>
 {% else %}
 	<h3 class="extended_title">{% trans "Vos Recherches" %}</h3>
 	<p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>

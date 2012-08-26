@@ -18,7 +18,7 @@
     <input type="submit" class="btn btn-primary" value="{% trans "Signin" %}" />
   </div>
 <div class="alert alert-info"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">{% trans "Forgot your password?" %}</a></div>
-<div class="alert alert-info"><a href="{% url userena_password_reset %}" title="{% trans "Forgot your password?" %}">Pour vous inscrire, <a href="{% url userena_signup %}">cliquez-ici</a>.</div>
+<div class="alert alert-info">Pour vous inscrire, <a href="{% url userena_signup %}">cliquez-ici</a>.</div>
   {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
 </form>
 {% endblock %}

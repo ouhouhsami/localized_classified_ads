@@ -73,8 +73,11 @@
 {% endif %}
 
 {% if all_user_ads %}
-<h3>{% trans "Vos Biens" %}</h3>
 <table class="table table-condensed table-striped">
+	<thead>
+		<tr><th>{% trans "Vos Biens" %}</th></tr>
+	</thead>
+	<tbody>
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
 	<tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
@@ -82,7 +85,7 @@
 			{% include 'geoads/resume.html' %}
 			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
 		</td>
-		<td >
+		<td>
 			{% if ad.moderated_object.moderation_status == 0 %}{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}{% trans "Annonce en ligne" %}{% endif %}
 			{% if ad.moderated_object.moderation_status == 2 %}{% trans "Annonce en cours de modération" %}{% endif %}
@@ -92,7 +95,10 @@
 	</tr>
 	{% endif %}
 {% endfor %}
+</tbody>
+<tfoot><tr><td><a class="btn" href="{% url add %}">{% trans "Ajouter un bien" %}</a></td></tr></tfoot>
 </table>
+
 {% else %}
 	{% if ads %}
 		<h3>{% trans "Annonces de ce vendeur" %}</h3>
@@ -105,6 +111,7 @@
 			{% endif %}
 			{% endfor %}
 		</table>
+
 	{% else %}
 		{% ifequal user.username profile.user.username %}
 		<h3 class="extended_title">{% trans "Annonces" %}</h3>
@@ -118,8 +125,8 @@
 {% ifequal user.username profile.user.username %}
 
 {% if searchs %}
-	<h3>{% trans "Vos Recherches" %}</h3>
 	<table  class="table table-condensed table-striped">
+		<thead><tr><th>{% trans "Vos Recherches" %}</th></tr></thead>
 	{% for search in searchs %}
 		<tr class="{% cycle 'even' 'odd' %}">
 			<td><a href="{% url search search.id %}" class="button">
@@ -133,6 +140,7 @@
 			</td>
 		</tr>
 	{% endfor %}
+	
 	</table>
 <p class="adson inside" >
 	{% if profile.email_alert %}

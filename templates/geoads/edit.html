@@ -51,7 +51,10 @@
 		<fieldset class="atom house apartment parking others" id="pictures">
 			<legend>Photos</legend>
 			<div class="alert alert-info">N'hésitez pas à insérer une photo du plan de votre bien.</div>
-			{% crispy picture_formset %}
+			{{ picture_formset.management_form }}
+			{% for picture_form in picture_formset %}
+				{% crispy picture_form %}
+			{% endfor %}
 		</fieldset>
 	</form>
 	

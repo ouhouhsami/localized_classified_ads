@@ -4,6 +4,7 @@ import floppyforms as forms
 from django import forms
 from django.utils.translation import ugettext as _
 
+
 class PriceField(forms.Field):
     def to_python(self, value):
         """Normalize data to price field"""
@@ -12,6 +13,7 @@ class PriceField(forms.Field):
             return int(val)
         except:
             raise forms.ValidationError(_("Entrez un prix en euros."))
+
 
 class SurfaceField(forms.Field):
     def to_python(self, value):

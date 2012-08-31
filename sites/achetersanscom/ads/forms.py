@@ -7,8 +7,10 @@ from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Fie
 
 
 from django import forms
+from django.forms import ModelForm
 
 from geoads.widgets import BooleanExtendedNumberInput
+from geoads.models import AdPicture
 from utils.fields import PriceField, SurfaceField
 from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
 from geoads.forms import BaseAdForm
@@ -16,21 +18,55 @@ from geoads.forms import BaseAdForm
 from models import HomeForSaleAd
 
 
+class PrettyAdPictureForm(ModelForm):
+
+    image = forms.ImageField(widget=forms.FileInput)
+
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Div(
+                #HTML(u'<button type="button" class="close" data-dismiss="alert">×</button> <h4>Photo n°{{ forloop.counter }}</h4>'),
+                HTML(u'<h4>Photo n°{{ forloop.counter }}</h4>'),
+                Layout(
+                    Div(
+                        Field('image', template="crispy_forms/no_label_field.html"),
+                        Field('title', placeholder="Description", template="crispy_forms/no_label_field.html"),
+                        Field('DELETE', template="crispy_forms/no_label_field.html"),
+                        css_class="pull-left"
+                    )
+                ),
+                css_class="alert alert-info clearfix", style="background-color:#fff;"
+            ),
+        )
+        super(PrettyAdPictureForm, self).__init__(*args, **kwargs)
+        if self.instance.image:
+            html = "<div class='thumbnail'><img src='%s' width='350px' ></div>" % (self.instance.image.url)
+            self.helper.layout.fields[0].fields[1].fields.append(Div(HTML(html), css_class="pull-right"))
+
+    class Meta:
+        model = AdPicture
+
+
+
 class HomeForSaleAdForm(BaseAdForm):
 
     price = PriceField(
-        label="Prix", 
+        label="Prix",
         help_text="Prix sans espace, sans virgule"
     )
 
     surface = SurfaceField(
-        label="Surface habitable", 
+        label="Surface habitable",
         help_text="Surface, sans virgule"
     )
 
     surface_carrez = SurfaceField(
-        label="Surface Loi Carrez", 
-        required=False, #why do I need this to false, model no false ?
+        label="Surface Loi Carrez",
+        required=False,  # why do I need this to false, model no false ?
         help_text="Surface Loi Carrez, sans virgule"
     )
 
@@ -153,10 +189,10 @@ class HomeForSaleAdForm(BaseAdForm):
                       'bathroom', 'shower', 'separate_entrance'),
                       css_class = "atom apartment house others"
             ),
-            Fieldset(u'Informations complémentaires', 'description',
+            Fieldset(u'Informations complémentaires', Field('description',  template="crispy_forms/no_label_field.html", css_class="input-xxlarge"),
                        css_class = "atom house apartment parking others", css_id="description"),
-            FormActions(
-                Submit('submit', 'Envoyer', css_class="btn-primary")
+            Div(
+                Submit('submit', 'Envoyer', css_class="btn btn-large btn-block btn-primary", style="width:100%")
             ), 
             
         )
@@ -216,7 +252,7 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
-        self.helper.form_action = ''
+        self.helper.form_action = '.'
         self.helper.form_tag = False
         self.helper.layout = Div(
                 Div(

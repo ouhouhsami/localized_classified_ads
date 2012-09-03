@@ -208,21 +208,18 @@ class HomeForSaleAdForm(BaseAdForm):
         }
         #TODO: line below could be "normally" removed, but need tests
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
-        
+
 
 class HomeForSaleAdFilterSetForm(forms.ModelForm):
 
     #def __init__(self, *args, **kwargs):
     #    super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
         #self['location'].value()
-
-
     # CLEAN def for each rangefield, multiplechoice field for validation purpose
     # Longtime bug to solve, cause of filterset link to a form, and form
     # not valid due to special filterfield
     # the thing not solved here is : why errors appear only if location field blank
     # and not if location field filled !
-
 
     def clean_price(self):
         pass
@@ -233,7 +230,7 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
     def clean_nb_of_rooms(self):
         pass
 
-    def nb_of_bedrooms(self):
+    def clean_nb_of_bedrooms(self):
         pass
 
     def clean_ground_surface(self):
@@ -251,7 +248,7 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
-        self.helper.form_method = 'post'
+        self.helper.form_method = 'get'
         self.helper.form_action = '.'
         self.helper.form_tag = False
         self.helper.layout = Div(
@@ -260,17 +257,17 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
                         Field('location', css_id="location", template='bootstrap/map.html'),
                         HTML('{% include "geoads/search_results.html" %}'),
                         css_id="maps", name="maps", css_class="custom-well"
-                    ), 
+                    ),
                     css_class="span7"
                 ),
                 Div(
                     Div(
                         BootstrapFieldset(u'Critères optionnels', 'price', 'surface', 'habitation_type', 'nb_of_rooms', 'nb_of_bedrooms', css_id="general", collapse_in='in'),
-                        BootstrapFieldset(u'Situation', 'floor', 'ground_floor', 'top_floor', 'duplex', 'not_overlooked', css_id="situation", ),
+                        BootstrapFieldset(u'Situation', 'floor', 'ground_floor', 'top_floor', 'not_overlooked', 'duplex', css_id="situation", ),
                         BootstrapFieldset(u'A propos de l\'immeuble', 'elevator', 'intercom', 'digicode', 'doorman', css_id="about", ),
                         BootstrapFieldset(u'Commodités', 'heating', 'kitchen', 'cellar', 'parking', 'swimming_pool', 'alarm', 'air_conditioning', 'fireplace', 'terrace', 'balcony', css_id="com", ),
                         BootstrapFieldset(u'Pièces', 'separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance',  css_id="rooms", ),
-                        BootstrapFieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases', css_id="energy",), 
+                        BootstrapFieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases', css_id="energy",),
                         css_class="custom-well"
                     )
                     ,css_class="span5"
@@ -288,4 +285,3 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
                    'update_date', 'create_date')
     class Media:
         js = ('js/collapse-icon.js',)
-

@@ -176,7 +176,7 @@ class HomeForRentAdFilterSetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
-        self.helper.form_method = 'post'
+        self.helper.form_method = 'get'
         self.helper.form_action = ''
         self.helper.form_tag = False
         self.helper.layout = Div(

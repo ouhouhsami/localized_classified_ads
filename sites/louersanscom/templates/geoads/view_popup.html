@@ -6,6 +6,7 @@
 		{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} {% trans "pièce" %}{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} ch.)
 		<br />
 		{{ ad.price|priceformat }} €/mois - {{ ad.surface }} m<sup>2</sup>
-		</b> <a href="{% url view ad.slug %}" target="_blank">{% trans "Voir le détail" %}</a>
+		</b>
+		<br /> <a href="{% url view ad.slug %}" target="_blank">{% trans "Voir le détail" %}</a>
 	</p>
 </div>

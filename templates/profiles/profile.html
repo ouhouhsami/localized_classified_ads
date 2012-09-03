@@ -23,10 +23,9 @@
 
 {% ifequal user.username profile.user.username %}
 
-<div class="well">
+
 <h3>{% trans "Vos informations personnelles" %}</h3>
 
-<div class="inside">
 	<p>
 		<b>{% trans "Adresse électronique" %}</b> : {{ user.email }} {% comment %}(<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">{% trans "modifier" %}</a>){% endcomment %}
 		<br />
@@ -48,27 +47,22 @@
 	{% endif %}
 	</p>
 	{% endif %}
-	
-	<p><b>{% trans "Mot de passe" %}</b> : 
-		<a href="{% url userena_password_change user.username %}" id="userena_password_change_menu_item">{% trans "Change password" %}</a>
-	</p>
 
-</div>
-</div>
 {% endifequal %}
-
+<hr />
 {% endif %}
 
 {% if all_user_ads %}
 <table class="table table-condensed table-striped">
 	<thead>
-		<tr><th>{% trans "Vos Biens" %}</th></tr>
+		<tr><th><h4>{% trans "Vos Biens" %}</h4></th></tr>
 	</thead>
 	<tbody>
 {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
 	<tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
-		<td >{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}">{% endif %}
+		<td>
+			{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}"><i class="icon-arrow-right"></i>{% endif %}
 			{% include 'geoads/resume.html' %}
 			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
 		</td>
@@ -76,6 +70,9 @@
 			{% if ad.moderated_object.moderation_status == 0 %}<span class="label label-important">{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}</span>{% endif %}
 			{% if ad.moderated_object.moderation_status == 1 %}<span class="label label-success">{% trans "Annonce en ligne" %}</span>{% endif %}
 			{% if ad.moderated_object.moderation_status == 2 %}<span class="label label-warning">{% trans "Annonce en cours de modération" %}</span>{% endif %}
+		</td>
+		<td>
+			<span class="badge">{{ ad.ad_search_results.all|length }} acheteur{{ ad.ad_search_results.all|length|pluralize:"s" }} potentiel{{ ad.ad_search_results.all|length|pluralize:"s" }}</span>
 		</td>
 		<td ><a href="{% url edit ad.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a></td>
 		<td ><a href="{% url delete ad.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i> {% trans "Supprimer" %}</a></td>
@@ -98,7 +95,6 @@
 			{% endif %}
 			{% endfor %}
 		</table>
-
 	{% else %}
 		{% ifequal user.username profile.user.username %}
 		<h3 class="extended_title">{% trans "Annonces" %}</h3>
@@ -113,12 +109,17 @@
 
 {% if searchs %}
 	<table  class="table table-condensed table-striped">
-		<thead><tr><th>{% trans "Vos Alertes email" %}</th></tr></thead>
+		<thead>
+			<tr><th><h4>{% trans "Vos Alertes email" %}</h4></th></tr>
+		</thead>
 	{% for search in searchs %}
 		<tr class="{% cycle 'even' 'odd' %}">
-			<td><a href="{% url search search.id %}" class="button">
+			<td><a href="{% url search search.id %}" ><i class="icon-arrow-right"></i>
 				{% autoescape off %}{{ search }}{% endautoescape %}
 			</a>
+			</td>
+			<td>
+				<span class="badge">{{ search.adsearchresult_set.all|length }} annonce{{ search.adsearchresult_set.all|length|pluralize:"s" }}</span>
 			</td>
 			<td>
 			<a href="{% url delete_search search.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i>

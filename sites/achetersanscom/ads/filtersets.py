@@ -25,11 +25,13 @@ class NicerFilterSet(django_filters.FilterSet):
                 field.extra['choices'] = tuple([("", "Tous types"), ] + list(field.extra['choices']))
 
 # TODO: improve: inherit form ads.filtersets !
+
+
 class HomeForSaleAdFilterSet(NicerFilterSet):
-    price = django_filters.OpenRangeNumericFilter(label="Budget", 
-                                       widget=BootstrapSpecificRangeWidget({'size':'6'}, '€'))
-    surface = django_filters.OpenRangeNumericFilter(label="Surface", 
-                                         widget=BootstrapSpecificRangeWidget({'size':'6'}, 'm²'))
+    price = django_filters.OpenRangeNumericFilter(label="Budget",
+                            widget=BootstrapSpecificRangeWidget({'size': '6'}, '€'))
+    surface = django_filters.OpenRangeNumericFilter(label="Surface",
+                            widget=BootstrapSpecificRangeWidget({'size': '6'}, 'm²'))
     nb_of_rooms = django_filters.OpenRangeNumericFilter(label="Nb. de pièces", 
                                          widget=SpecificRangeWidget({'size':'6'}))
     nb_of_bedrooms = django_filters.OpenRangeNumericFilter(label="Nb. de chambres", 
@@ -65,6 +67,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
             for field in f.fields:
                 if not isinstance(self.form.fields[field], BootstrapFieldset) and has_value(self.form[field]) == 'has_value':
                     f.set_collapse('in')
+
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm

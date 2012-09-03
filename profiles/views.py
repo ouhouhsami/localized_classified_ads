@@ -32,6 +32,7 @@ class UserProfileDetailView(DetailView):
             context['all_user_ads'] = self.ad_model.unmoderated_objects.filter(user=self.get_object().user)\
                          .exclude(delete_date__isnull=False)\
                          .order_by('-create_date')
+
             context['searchs'] = self.ad_search_model.objects.filter(user=self.get_object().user,
                             content_type=ContentType.objects.get_for_model(self.ad_model))
         return context

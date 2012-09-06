@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 from autoslug import AutoSlugField
 
-from geoads.models import Ad, AdSearch
+from geoads.models import Ad, AdSearch, AdSearchResult
 
 # SPECIFIC AD MODELS 
 
@@ -97,13 +97,35 @@ class HomeForRentAd(Ad):
     class Meta:
         app_label = 'ads'
 
+
 class HomeForRentAdSearch(AdSearch):
     """this class acts as proxy for AdSearch model"""
     def __unicode__(self):
         q = QueryDict(self.search)
         return format_search_resume(q)
+
     class Meta:
         proxy = True
+
+
+class HomeForRentAdSearchResult(AdSearchResult):
+    """
+    this class acts as proxy for AdPotentialBuyersView model
+    this is a way to get the above __unicode__ for related HomeForSaleAdSearch instance
+    """
+    @property
+    def ad_search(self):
+        # joel cross proposition
+        # http://stackoverflow.com/questions/3891880/django-proxy-model-and-foreignkey
+        return HomeForRentAdSearch.objects.get(id=self.ad_search_id)
+        # below approach should be better, without hitting db may be, but doesn't work
+        #new_inst = HomeForSaleAdSearch()
+        #new_inst.__dict__ = super(HomeForSaleAdSearch, self).ad_search.__dict__
+        #return new_inst
+
+    class Meta:
+        proxy = True
+
 
 def format_search_resume(q):
     habitation_types_values = q.getlist('habitation_type')

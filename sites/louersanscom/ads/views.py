@@ -7,7 +7,7 @@ from sites.louersanscom.ads.models import HomeForRentAd
 from sites.louersanscom.ads.filtersets import HomeForRentAdFilterSet
 
 
-SUPP_MSG = _(u'<br/> <a class="btn btn-mini">Inscrivez-vous</a> pour \
+SUPP_MSG = _(u'<br/> <a class="btn btn-primary">Inscrivez-vous</a> pour \
             créer une alerte email ou déposer une demande de location \
             et être contacté directement par les propriétaires.')
 

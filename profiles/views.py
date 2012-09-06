@@ -1,4 +1,7 @@
 # coding=utf-8
+
+import logging
+
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.contrib.sites.models import Site
@@ -6,8 +9,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic import DetailView
 
 from userena.signals import signup_complete, activation_complete
-
 from profiles.models import UserProfile
+
+logger = logging.getLogger(__name__)
 
 
 class UserProfileDetailView(DetailView):
@@ -32,9 +36,11 @@ class UserProfileDetailView(DetailView):
             context['all_user_ads'] = self.ad_model.unmoderated_objects.filter(user=self.get_object().user)\
                          .exclude(delete_date__isnull=False)\
                          .order_by('-create_date')
-
-            context['searchs'] = self.ad_search_model.objects.filter(user=self.get_object().user,
+            searchs = self.ad_search_model.objects.filter(user=self.get_object().user,
                             content_type=ContentType.objects.get_for_model(self.ad_model))
+            logger.info(self.request.user.last_login)
+            context['searchs'] = searchs
+            # here we annotate searchs with new home
         return context
 
 

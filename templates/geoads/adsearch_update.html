@@ -1,0 +1,14 @@
+{% extends "base-simplepage.html" %}
+
+{% block content %}
+	<form action="" method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{% autoescape off %}{{ object }}{% endautoescape %} 
+		{{ form }}
+		<div class="control-group">
+		<div class="controls">
+			<input type="submit" class="btn btn-primary" value="Oui" />
+		</div>
+	</div>
+	</form>
+{% endblock content %}

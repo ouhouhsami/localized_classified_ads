@@ -1,140 +1,136 @@
-{% extends "userena/base_userena.html" %}
+{% extends "base-simplepage.html" %}
 {% load ads_tag i18n l10n %}
 
 {% block title %}{{ site.name }} | Mon compte{% endblock %}
 
 {% block content %}
-<div class="profile_content_style">
-	{% if user.username == profile.user.username %}
-		{% comment %}{% include "userena/menu_snippet.html" %}{% endcomment %}
-	{% endif %}
+
+  {% if user.is_authenticated %}
+
+  {% ifequal user.username profile.user.username %}
+
+  <h3>{% trans "Vos informations personnelles" %}</h3>
+
+  <p>
+    <b>{% trans "Adresse électronique" %}</b> : {{ user.email }} <a class="btn btn-mini" href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a>
+    <br />
+    {% trans "Votre adresse électronique ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur ce site." %}
+  </p>
+
+  {% if profile.phone_number %}
+  <p><b>{% trans "Téléphone" %}</b> : {{ profile.phone_number }} <a class="btn btn-mini" href="{% url userena_profile_edit user.username %}">{% trans "Modifier votre numéro de téléphone" %}</a>
+    <br />
+    {% trans "Votre numéro de téléphone est visible sur vos annonces par les utilisateurs du site" %} {{ site.name }}.
+  </p>
+  {% else %}
+  <p>
+    <b>Téléphone</b> : {% trans "Non renseigné" %} <a class="btn btn-mini" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">{% trans "Ajouter votre téléphone" %}</a>
+    {% if all_user_ads %}
+    <br />
+    {% trans "Les acheteurs ne peuvent vous contacter que par message électronique." %}
+    {% endif %}
+  </p>
+  {% endif %}
+
+  {% endifequal %}
+  
+  <p>
+    <b>{% trans "Mot de passe" %}</b>: <a class="btn btn-mini" href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a>
+  </p>
+
+  <hr />
+  {% endif %}
 
 
-	{% if user.username == profile.user.username %}
-	<ul class="nav nav-pills">
-	    <li class="active"><a href="{% url userena_profile_detail user.username %}"><span>{% trans 'View profile' %}</span></a></li>
-	    <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit profile" %}</a></li>
-	    <li ><a href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a></li>
-	    <li ><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
-	  </ul>
-	  {% endif %}
-
-{% if user.is_authenticated %}
-
-{% ifequal user.username profile.user.username %}
-
-
-<h3>{% trans "Vos informations personnelles" %}</h3>
-
-	<p>
-		<b>{% trans "Adresse électronique" %}</b> : {{ user.email }} {% comment %}(<a class="" href="{% url userena_email_change user.username %}" id="userena_email_change_menu_item">{% trans "modifier" %}</a>){% endcomment %}
-		<br />
-		{% trans "Votre adresse électronique ne sera visible qu'en cas de contact avec un utilisateur possédant un compte sur ce site." %}
-	</p>
-	
-	{% if profile.phone_number %}
-	<p><b>{% trans "Téléphone" %}</b> : {{ profile.phone_number }} (<a class="" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">{% trans "modifier" %}</a>)
-		<br />
-		{% trans "Votre numéro de téléphone est visible sur vos annonces par les utilisateurs du site" %} {{ site.name }}.
-	</p>
-	{% else %}
-	<p><b>Téléphone</b> : {% trans "Non renseigné" %}, <a class="" href="{% url userena_profile_edit user.username %}" id="userena_profile_edit_menu_item">{% trans "ajouter votre téléphone" %}</a>
-		
-
-	{% if all_user_ads %}
-	<br />
-		{% trans "Les acheteurs ne peuvent vous contacter que par message électronique." %}
-	{% endif %}
-	</p>
-	{% endif %}
-
-{% endifequal %}
-<hr />
-{% endif %}
-
-{% if all_user_ads %}
-<table class="table table-condensed table-striped">
-	<thead>
-		<tr><th><h4>{% trans "Vos Biens" %}</h4></th></tr>
-	</thead>
-	<tbody>
-{% for ad in all_user_ads %}
+  {% if all_user_ads %}
+  <table class="table table-condensed table-striped">
+   <thead>
+    <tr><th><h4>{% trans "Vos Biens" %}</h4></th></tr>
+  </thead>
+  <tbody>
+    {% for ad in all_user_ads %}
     {% if ad.delete_date == None %}
-	<tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
-		<td>
-			{% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}"><i class="icon-arrow-right"></i>{% endif %}
-			{% include 'geoads/resume.html' %}
-			{% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
-		</td>
-		<td>
-			{% if ad.moderated_object.moderation_status == 0 %}<span class="label label-important">{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}</span>{% endif %}
-			{% if ad.moderated_object.moderation_status == 1 %}<span class="label label-success">{% trans "Annonce en ligne" %}</span>{% endif %}
-			{% if ad.moderated_object.moderation_status == 2 %}<span class="label label-warning">{% trans "Annonce en cours de modération" %}</span>{% endif %}
-		</td>
-		<td>
-			<span class="badge">{{ ad.ad_search_results.all|length }} acheteur{{ ad.ad_search_results.all|length|pluralize:"s" }} potentiel{{ ad.ad_search_results.all|length|pluralize:"s" }}</span>
-		</td>
-		<td ><a href="{% url edit ad.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a></td>
-		<td ><a href="{% url delete ad.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i> {% trans "Supprimer" %}</a></td>
-	</tr>
-	{% endif %}
-{% endfor %}
-</tbody>
-<tfoot><tr><td><a class="btn btn-primary" href="{% url add %}"><i class="icon-plus-sign icon-white"></i> {% trans "Ajouter un bien" %}</a></td></tr></tfoot>
+    <tr class="{% cycle 'even' 'odd' %} status_{{ ad.moderated_object.moderation_status}}" >
+      <td>
+       {% if ad.moderated_object.moderation_status == 1 %}<a href="{% url view ad.slug %}"><i class="icon-arrow-right"></i>{% endif %}
+       {% include 'geoads/resume.html' %}
+       {% if ad.moderated_object.moderation_status == 1 %}</a>{% endif %}
+     </td>
+     <td>
+       {% if ad.moderated_object.moderation_status == 0 %}<span class="label label-important">{% trans "Annonce rejetée, modifiez-la pour la soumettre de nouveau" %}</span>{% endif %}
+       {% if ad.moderated_object.moderation_status == 1 %}<span class="label label-success">{% trans "Annonce en ligne" %}</span>{% endif %}
+       {% if ad.moderated_object.moderation_status == 2 %}<span class="label label-warning">{% trans "Annonce en cours de modération" %}</span>{% endif %}
+     </td>
+     <td>
+       <a class="badge" href="{% url contact_buyers ad.id %}">REMOVE NON PUBLIC SEARCH{{ ad.ad_search_results.all|length }} acheteur{{ ad.ad_search_results.all|length|pluralize:"s" }} potentiel{{ ad.ad_search_results.all|length|pluralize:"s" }}</a>
+     </td>
+     <td ><a href="{% url edit ad.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a></td>
+     <td ><a href="{% url delete ad.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i> {% trans "Supprimer" %}</a></td>
+   </tr>
+   {% endif %}
+   {% endfor %}
+ </tbody>
+ <tfoot><tr><td><a class="btn btn-primary" href="{% url add %}"><i class="icon-plus-sign icon-white"></i> {% trans "Ajouter un bien" %}</a></td></tr></tfoot>
 </table>
 
 {% else %}
-	{% if ads %}
-		<h3>{% trans "Annonces de ce vendeur" %}</h3>
-		<table class="{% cycle 'even' 'odd' %}" class="list">
-			{% for ad in ads %}
-			{% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
-			<tr>
-				<td><a href="{% url view ad.slug %}">{% include 'geoads/resume.html' %}</a> </td>
-			</tr>
-			{% endif %}
-			{% endfor %}
-		</table>
-	{% else %}
-		{% ifequal user.username profile.user.username %}
-		<h3 class="extended_title">{% trans "Annonces" %}</h3>
-		<p>{% trans "Vous n'avez aucune annonce sur le site." %}
-			{% url add as add_url %}
-		<br />{% blocktrans %}Pour ajouter une annonce, cliquez <a href="{{ add_url }}">ici</a>.{% endblocktrans %}</p>
-		{% endifequal %}
-	{% endif %}
+{% if ads %}
+<h3>{% trans "Annonces de ce vendeur" %}</h3>
+<table class="{% cycle 'even' 'odd' %}" class="list">
+ {% for ad in ads %}
+ {% if ad.moderated_object.moderation_status == 1 and ad.delete_date == None %}
+ <tr>
+  <td><a href="{% url view ad.slug %}">{% include 'geoads/resume.html' %}</a> </td>
+</tr>
 {% endif %}
-
-{% ifequal user.username profile.user.username %}
-
-{% if searchs %}
-	<table  class="table table-condensed table-striped">
-		<thead>
-			<tr><th><h4>{% trans "Vos Alertes email" %}</h4></th></tr>
-		</thead>
-	{% for search in searchs %}
-		<tr class="{% cycle 'even' 'odd' %}">
-			<td><a href="{% url search search.id %}" ><i class="icon-arrow-right"></i>
-				{% autoescape off %}{{ search }}{% endautoescape %}
-			</a>
-			</td>
-			<td>
-				<span class="badge">{{ search.adsearchresult_set.all|length }} annonce{{ search.adsearchresult_set.all|length|pluralize:"s" }}</span>
-			</td>
-			<td>
-			<a href="{% url delete_search search.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i>
-				{% trans "Supprimer" %}
-			</a>
-			</td>
-		</tr>
-	{% endfor %}
-	</table>
+{% endfor %}
+</table>
 {% else %}
-	<h3 class="extended_title">{% trans "Vos Recherches" %}</h3>
-	<p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>
+{% ifequal user.username profile.user.username %}
+<h3 class="extended_title">{% trans "Annonces" %}</h3>
+<p>{% trans "Vous n'avez aucune annonce sur le site." %}
+ {% url add as add_url %}
+ <br />{% blocktrans %}Pour ajouter une annonce, cliquez <a href="{{ add_url }}">ici</a>.{% endblocktrans %}</p>
+ {% endifequal %}
+ {% endif %}
+ {% endif %}
+
+ {% ifequal user.username profile.user.username %}
+
+ {% if searchs %}
+ <table  class="table table-condensed table-striped">
+  <thead>
+   <tr><th><h4>{% trans "Vos Recherches" %}</h4></th></tr>
+ </thead>
+ {% for search in searchs %}
+ <tr class="{% cycle 'even' 'odd' %}">
+   <td><a href="{% url search search.id %}" ><i class="icon-arrow-right"></i>
+    {% autoescape off %}{{ search }}{% endautoescape %}
+  </a>
+</td>
+<td>
+  {% if search.public %}<span class="label label-success">{% trans "Public" %}</span>{% endif %}
+  {% if not search.public %}<span class="label label-warning">{% trans "Privé" %}</span>{% endif %}
+</td>
+<td>
+  <span class="badge">{{ search.adsearchresult_set.all|length }} annonce{{ search.adsearchresult_set.all|length|pluralize:"s" }}</span>
+</td>
+<td> 
+  <a href="{% url update_search search.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a> 
+</td>
+<td>
+ <a href="{% url delete_search search.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i>
+  {% trans "Supprimer" %}
+</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<h3 class="extended_title">{% trans "Vos Recherches" %}</h3>
+<p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>
 {% endif %}
 
 {% endifequal %}
 
-</div>
 {% endblock %}

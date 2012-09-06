@@ -1,0 +1,36 @@
+{% extends "base-simplepage.html" %}
+{% load ads_tag i18n l10n %}
+
+{% block title %}{{ site.name }} | {% trans 'Acheteurs potentiels' %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+	<h2><small>{% trans "Acheteurs potentiels" %}</small> {{ object }}</h2>
+</div>
+
+{% for ad_search_result in object_list %}
+<div class="row">
+	<div class="span8">
+		<h4>{% trans "Ce que recherche l'acheteur potentiel" %}</h4>
+		{% autoescape off %}{{ ad_search_result.ad_search }}{% endautoescape %}
+		{% if ad_search_result.ad_search.description %}
+		<h5>Message du potentiel acheteur</h5>
+		{{ ad_search_result.ad_search.description|linebreaks }}
+		{% endif %}
+	</div>
+	<div class="span2">
+		{% if ad_search_result.contacted %}
+		<span class="label label-warning">Déjà contacté</span>
+		{% else %}
+		{% endif %}
+		<form class="form-horizontal" method="POST" action="{{ ad_search_result.form_action }}">
+			{% csrf_token %} 
+			{{ ad_search_result.form.as_p }}
+			<input type="submit" class="btn" value="Contacter cet acheteur"/> 
+		</form>
+	</div>
+</div>
+<hr />
+{% endfor %}
+
+{% endblock %}

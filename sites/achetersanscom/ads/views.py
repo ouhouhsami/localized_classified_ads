@@ -7,7 +7,7 @@ from sites.achetersanscom.ads.models import HomeForSaleAd
 from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 
 
-SUPP_MSG = _(u'<br/> <a class="btn btn-mini">Inscrivez-vous</a> pour \
+SUPP_MSG = _(u'<br/> <a class="btn btn-primary">Inscrivez-vous</a> pour \
             créer une alerte email ou déposer une annonce de recherche \
             et être contacté directement par les propriétaires.')
 

@@ -1,4 +1,4 @@
-Django==1.3.1
+Django==1.4.1
 Fabric==1.0.1
 PIL==1.1.7
 South==0.7.3
@@ -6,18 +6,19 @@ coverage==3.5.1
 django-autoslug==1.4.1
 django-compressor==0.9.2
 django-coverage==1.2.2
--e git://github.com/maraujop/django-crispy-forms.git@1c78d6cc1cc51343032be8e2103e9152128e768e#egg=django_crispy_forms-dev
+django-crispy-forms==1.1.4
 django-debug-toolbar==0.8.5
 -e git://github.com/subsume/django-filter-actually-maintained.git@2cf55f2dfa3dc62eb10d8d755554090b5b14ffe5#egg=django_filter-dev
 django-floppyforms==0.4.7
 django-form-utils==0.2.0
--e git://github.com/ouhouhsami/django-geoads.git@c493a047521932df6534f77a856cf3f0ff622596#egg=django_geoads-dev
+-e git+http://github.com/ouhouhsami/django-geoads.git@bf6f8be98278cd6ac8e2c1d31b713214cb90913e#egg=django_geoads-dev
 django-guardian==1.0.3
 -e git://github.com/JordanReiter/django-jsonfield.git@38e517cf09765d48b5ca2928ada468c70f6cf46e#egg=django_jsonfield-dev
 django-mockups==0.4.8
-django-moderation==0.3.2
+-e git://github.com/dominno/django-moderation.git#egg=django-moderation
 django-pagination==1.0.7
 -e git+https://github.com/ouhouhsami/django-sorting.git@ed3f1d1af93f3aa14381411c363a8fb9505c7061#egg=django_sorting-dev
+django-stdimage==0.2
 -e git://github.com/bread-and-pepper/django-userena.git@65533e250a206e7ca0c2bfda67831363c1594fca#egg=django_userena-dev
 -e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev
 easy-thumbnails==1.0-alpha-21

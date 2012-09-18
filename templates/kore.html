@@ -49,16 +49,25 @@
 				{% include 'site_header_right.html' %}
 				<ul class="nav pull-right">
 					{% if user.is_authenticated %}
-					<li><a href="{% url userena_profile_detail user.username %}" class="focus">{% trans "Mon compte" %}</a></li>
-					<li><a href="{% url userena_signout %}">{% trans "Se Déconnecter" %}</a></li>
+					<li>
+						<a href="{% url userena_profile_detail user.username %}" class="focus">{% trans "Mon compte" %}</a>
+					</li>
+					<li>
+						<a href="{% url userena_signout %}">{% trans "Se Déconnecter" %}</a>
+					</li>
 					{% else %}
-					<li><a href="{% url userena_signup %}" id="signup" class="focus" data-content="Inscrivez-vous pour créer une alerte email ou déposer une annonce de recherche pour être contacter directement par les vendeurs." rel="popover" data-original-title="Pourquoi s'inscrire ?">{% trans "S'Inscrire" %}</a></li>
+					<li>
+						<a href="{% url userena_signup %}" id="signup" class="focus" data-content="Inscrivez-vous pour créer une alerte email ou déposer une annonce de recherche pour être contacter directement par les vendeurs." rel="popover" data-original-title="Pourquoi s'inscrire ?">{% trans "S'Inscrire" %}
+						</a>
+					</li>
 					<script>  
-					$(function ()  
-						{ $("#signup").popover({'placement':'bottom'});  
+					$(document).ready(function() {
+						$("#signup").popover({'placement':'bottom', 'trigger':'hover'});
 					});  
 					</script> 
-					<li><a href="{% url userena_signin %}">{% trans "Se Connecter" %}</a></li>
+					<li>
+						<a href="{% url userena_signin %}">{% trans "Se Connecter" %}</a>
+					</li>
 					<li class="divider-vertical"></li>
 					{% endif %}
 				</ul>

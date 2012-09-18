@@ -17,7 +17,6 @@ django-guardian==1.0.3
 django-mockups==0.4.8
 django-moderation==0.3.2
 django-pagination==1.0.7
-django-smart-extends==0.5.1
 -e git+https://github.com/ouhouhsami/django-sorting.git@ed3f1d1af93f3aa14381411c363a8fb9505c7061#egg=django_sorting-dev
 -e git://github.com/bread-and-pepper/django-userena.git@65533e250a206e7ca0c2bfda67831363c1594fca#egg=django_userena-dev
 -e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev

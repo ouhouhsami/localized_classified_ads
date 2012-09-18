@@ -1,13 +1,21 @@
 # coding=utf-8
+import logging
+
 from django.db import models
 from django.http import QueryDict
 from django.utils.translation import ugettext as _
+from django.dispatch import receiver
+from django.contrib.sites.models import Site
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.template.loader import render_to_string
 
 from autoslug import AutoSlugField
 
+
 from geoads.models import Ad, AdSearch, AdSearchResult
 
-
+logger = logging.getLogger(__name__)
 #
 # HOME FOR SALE AD MODEL
 #
@@ -132,6 +140,8 @@ class HomeForSaleAd(Ad):
                                choices=PARKING_CHOICES, null=True, blank=True)
     orientation = models.CharField(_(u"Orientation"), max_length=255, null=True, blank=True)
 
+    #objects = ModeratedAdManager()
+
     def _icon(self):
         return "/static/img/home.png"
     icon = property(_icon)
@@ -184,6 +194,7 @@ class HomeForSaleAdSearchResult(AdSearchResult):
 
 
 def format_search_resume(q):
+    # c'est moche, c'est moche, c'est moche
     habitation_types_values = q.getlist('habitation_type')
     search_zone = _(u'non géolocalisée')
     if len(q['location']) > 0:
@@ -234,3 +245,24 @@ def format_search_resume(q):
 
     return _('Recherche <i>%s</i> : <b>%s</b> %s %s %s') % (search_zone,
                              habitation_types, price, surface, rooms)
+
+
+# TODO below is duplicated with the same in HomeForRent !
+@receiver(post_save, sender=HomeForSaleAd)
+def home_for_sale_ad_post_save_handler(sender, instance, created, **kwargs):
+    logger.info('Home for sale ad instance %s was saved' % (instance))
+    if created:
+        message = render_to_string('geoads/emails/ad_create_email_message.txt')
+        subject = render_to_string('geoads/emails/ad_create_email_subject.txt',
+                          {'site_name': Site.objects.get_current().name})
+        send_mail(subject, message, 'contact@achetersanscom.com',
+              [instance.user.email], fail_silently=True)
+    else:
+        message = render_to_string(
+                  'geoads/emails/ad_update_email_message.txt', {})
+        subject = render_to_string(
+                  'geoads/emails/ad_update_email_subject.txt',
+                         {'site_name': Site.objects.get_current().name})
+        send_mail(subject, message, 'contact@achetersanscom.com',
+                  [instance.user.email],
+                          fail_silently=True)

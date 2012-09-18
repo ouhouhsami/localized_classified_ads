@@ -3,6 +3,11 @@
 from django.db import models
 from django.http import QueryDict
 from django.utils.translation import ugettext as _
+from django.dispatch import receiver
+from django.contrib.sites.models import Site
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.template.loader import render_to_string
 
 from autoslug import AutoSlugField
 
@@ -44,21 +49,22 @@ class HomeForRentAd(Ad):
     """
     price = models.PositiveIntegerField(_(u"Loyer"))
     colocation = models.BooleanField(_(u"Colocation possible"))
-    furnished = models.TextField(_(u"Habitation meublée"), null=True, blank=True)
-    habitation_type	= models.CharField(_(u"Type de bien"), max_length = 1, 
-                                       choices = HABITATION_TYPE_CHOICES)
+    furnished = models.TextField(_(u"Habitation meublée"),
+        null=True, blank=True)
+    habitation_type = models.CharField(_(u"Type de bien"), max_length=1,
+        choices=HABITATION_TYPE_CHOICES)
     surface = models.IntegerField(_(u"Surface habitable"))
-    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez"), 
-                                         null = True, blank = True)
-    nb_of_rooms	= models.PositiveIntegerField(_(u"Nombre de pièces"))
+    surface_carrez = models.IntegerField(_(u"Surface Loi Carrez"),
+        null=True, blank=True)
+    nb_of_rooms = models.PositiveIntegerField(_(u"Nombre de pièces"))
     nb_of_bedrooms = models.PositiveIntegerField(_(u"Nombre de chambres"))
-    housing_tax = models.IntegerField(_(u"Taxe d'habitation"), null = True, 
-                                      blank = True)
-    maintenance_charges = models.IntegerField(_(u'Charges'), null = True, 
-                                              blank = True)
-    ground_surface = models.IntegerField(_(u'M²'), 
-                                       null = True, blank = True)
-    floor = models.PositiveIntegerField(_(u'Etage'), null = True, blank = True)
+    housing_tax = models.IntegerField(_(u"Taxe d'habitation"), null=True,
+        blank=True)
+    maintenance_charges = models.IntegerField(_(u'Charges'), null=True,
+        blank=True)
+    ground_surface = models.IntegerField(_(u'M²'),
+        null=True, blank=True)
+    floor = models.PositiveIntegerField(_(u'Etage'), null=True, blank=True)
     ground_floor = models.BooleanField(_(u'Rez de chaussé'))
     top_floor = models.BooleanField(_(u'Dernier étage'))
     not_overlooked = models.BooleanField(_(u'Sans vis-à-vis'))
@@ -66,18 +72,19 @@ class HomeForRentAd(Ad):
     intercom = models.BooleanField(_(u"Interphone"))
     digicode = models.BooleanField(_(u"Digicode"))
     doorman = models.BooleanField(_(u"Gardien"))
-    heating = models.CharField(_(u"Chauffage"), max_length = 2, 
-                               choices = HEATING_CHOICES, null = True, blank = True)
+    heating = models.CharField(_(u"Chauffage"), max_length=2,
+        choices=HEATING_CHOICES, null=True, blank=True)
     duplex = models.BooleanField(_(u"Duplex"))
-    terrace = models.IntegerField(_(u"Terrasse"), null = True, blank = True)
-    balcony = models.IntegerField(_(u"Balcon"), null = True, blank = True)
+    terrace = models.IntegerField(_(u"Terrasse"), null=True, blank=True)
+    balcony = models.IntegerField(_(u"Balcon"), null=True, blank=True)
     separate_dining_room = models.BooleanField(_(u"Cuisine séparée"))
-    separate_toilet = models.IntegerField(_(u"Toilettes séparés"), null = True, blank = True)
-    bathroom = models.IntegerField(_(u"Salle de bain"), null = True, blank = True)
-    shower = models.IntegerField(_(u"Salle d'eau (douche)"), null = True, blank = True)
-    parking = models.CharField(_(u"Parking"), max_length = 2,
-                               choices = PARKING_CHOICES, null = True, blank = True)
-    orientation = models.CharField(_(u"Orientation"), max_length = 255, null = True, blank = True)
+    separate_toilet = models.IntegerField(_(u"Toilettes séparés"), null=True, blank=True)
+    bathroom = models.IntegerField(_(u"Salle de bain"), null=True, blank=True)
+    shower = models.IntegerField(_(u"Salle d'eau (douche)"), null=True, blank=True)
+    parking = models.CharField(_(u"Parking"), max_length=2,
+        choices=PARKING_CHOICES, null=True, blank=True)
+    orientation = models.CharField(_(u"Orientation"), max_length=255,
+        null=True, blank=True)
 
     def _icon(self):
         return "/static/img/apartment.png"
@@ -179,5 +186,25 @@ def format_search_resume(q):
     elif len(min_rooms) > 0 and len(max_rooms) == 0:
         rooms = _(u'- supérieur à %s pièces') % (min_rooms)
 
-    return _(u'Recherche <i>%s</i> : <b>%s</b> %s %s %s') % (search_zone, 
+    return _(u'Recherche <i>%s</i> : <b>%s</b> %s %s %s') % (search_zone,
                              habitation_types, price, surface, rooms)
+
+
+# TODO below is duplicated with the same in HomeForSale !
+@receiver(post_save, sender=HomeForRentAd)
+def home_for_rent_ad_post_save_handler(sender, instance, created, **kwargs):
+    if created:
+        message = render_to_string('geoads/emails/ad_create_email_message.txt')
+        subject = render_to_string('geoads/emails/ad_create_email_subject.txt',
+                          {'site_name': Site.objects.get_current().name})
+        send_mail(subject, message, 'contact@achetersanscom.com',
+              [instance.user.email], fail_silently=True)
+    else:
+        message = render_to_string(
+                  'geoads/emails/ad_update_email_message.txt', {})
+        subject = render_to_string(
+                  'geoads/emails/ad_update_email_subject.txt',
+                         {'site_name': Site.objects.get_current().name})
+        send_mail(subject, message, 'contact@achetersanscom.com',
+                  [instance.user.email],
+                          fail_silently=True)

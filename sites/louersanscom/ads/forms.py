@@ -15,8 +15,9 @@ from geoads.forms import BaseAdForm
 from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
 
 from models import HomeForRentAd
+from utils.forms import BaseModeratedAdForm
 
-class HomeForRentAdForm(BaseAdForm):
+class HomeForRentAdForm(BaseModeratedAdForm):
     # todo add my price and my surface fields
     
     separate_toilet = forms.CharField(
@@ -50,7 +51,7 @@ class HomeForRentAdForm(BaseAdForm):
             attrs={'label':_(u"Habitation meublée"), 
                    'detail':_(u"donner le détail")})
     )
-    
+
     balcony = forms.CharField(
         label='', 
         required=False, 
@@ -137,6 +138,9 @@ class HomeForRentAdForm(BaseAdForm):
                        css_class='atom apartment house others'),
             Fieldset(u'Informations complémentaires', 'description',
                        css_class = "atom house apartment parking others", css_id="description"),
+            Div(
+                Submit('submit', 'Envoyer', css_class="btn btn-large btn-block btn-primary", style="width:100%")
+            )
         )
         super(HomeForRentAdForm, self).__init__(*args, **kwargs)
 

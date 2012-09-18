@@ -1,6 +1,6 @@
 {% load l10n pagination_tags sorting_tags ads_tag utils_tags compress i18n %}
 
-{% if search %}
+{% if not initial_ads %}
 	{% include 'geoads/search_results_table.html' with ads_list=filter.qs title="Résultats de la recherche" visible="true" %}
 {% else %}
 	{% include 'geoads/search_results_table.html' with ads_list=initial_ads title="Les 10 dernières annonces publiées" visible="false" %}

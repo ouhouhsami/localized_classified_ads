@@ -1,20 +1,19 @@
 # coding=utf-8
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse_lazy
 
 from geoads.views import AdSearchView
 
 from sites.achetersanscom.ads.models import HomeForSaleAd
-from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 
 
-SUPP_MSG = _(u'<br/> <a class="btn btn-primary">Inscrivez-vous</a> pour \
+SUPP_MSG = _(u'<br/> <a class="btn btn-primary" href="%s">Inscrivez-vous</a> pour \
             créer une alerte email ou déposer une annonce de recherche \
-            et être contacté directement par les propriétaires.')
+            et être contacté directement par les propriétaires.' % reverse_lazy('userena_signup'))
 
 
 class HomeForSaleAdSearchView(AdSearchView):
     model = HomeForSaleAd
-    filterset_class = HomeForSaleAdFilterSet
 
     def get_no_results_msg(self):
         msg = super(HomeForSaleAdSearchView, self).get_no_results_msg()

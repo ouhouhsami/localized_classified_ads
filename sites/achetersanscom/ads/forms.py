@@ -16,6 +16,7 @@ from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
 from geoads.forms import BaseAdForm
 
 from models import HomeForSaleAd
+from utils.forms import BaseModeratedAdForm
 
 
 class PrettyAdPictureForm(ModelForm):
@@ -52,7 +53,7 @@ class PrettyAdPictureForm(ModelForm):
 
 
 
-class HomeForSaleAdForm(BaseAdForm):
+class HomeForSaleAdForm(BaseModeratedAdForm):
 
     price = PriceField(
         label="Prix",
@@ -165,27 +166,27 @@ class HomeForSaleAdForm(BaseAdForm):
                       'energy_consumption', 'emission_of_greenhouse_gases',
                       css_class = "atom house apartment parking others base"
             ),
-            Fieldset(u'Surface du terrain', 'ground_surface', 
+            Fieldset(u'Surface du terrain', 'ground_surface',
                       css_class = "atom house"
             ),
-            Fieldset(u'Situation du logement dans l\'immeuble', 'floor', 
-                      MultiField('', 'ground_floor', 
-                                  'top_floor', 'duplex', 'not_overlooked', 
+            Fieldset(u'Situation du logement dans l\'immeuble', 'floor',
+                      MultiField('', 'ground_floor',
+                                  'top_floor', 'duplex', 'not_overlooked',
                                   css_class='control-group', label_class='control-label'),
                       'orientation',
                       css_class = "atom apartment"
             ),
             Fieldset(u'A propos de l\'immeuble',
-                      MultiField('', 'elevator', 'intercom', 
+                      MultiField('', 'elevator', 'intercom',
                       'digicode', 'doorman'),
                       css_class = "atom apartment"
             ),
             Fieldset(u'Commodités', 'heating', MultiField('', 'kitchen', 'cellar'),
-                      'parking', MultiField('', 'alarm', 'balcony', 'terrace'), 'fireplace', 
+                      'parking', MultiField('', 'alarm', 'balcony', 'terrace'), 'fireplace',
                       MultiField('', 'air_conditioning', 'swimming_pool'),
                       css_class = "atom apartment house others"
             ),
-            Fieldset(u'Pièces', MultiField('', 'separate_dining_room', 'separate_toilet', 
+            Fieldset(u'Pièces', MultiField('', 'separate_dining_room', 'separate_toilet',
                       'bathroom', 'shower', 'separate_entrance'),
                       css_class = "atom apartment house others"
             ),
@@ -193,8 +194,7 @@ class HomeForSaleAdForm(BaseAdForm):
                        css_class = "atom house apartment parking others", css_id="description"),
             Div(
                 Submit('submit', 'Envoyer', css_class="btn btn-large btn-block btn-primary", style="width:100%")
-            ), 
-            
+            ),
         )
 
         super(HomeForSaleAdForm, self).__init__(*args, **kwargs)

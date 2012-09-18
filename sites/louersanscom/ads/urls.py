@@ -3,12 +3,15 @@ louersanscom urls.py
 
 """
 from django.conf.urls.defaults import patterns, url
-from geoads.views import AdDetailView, AdSearchView, AdSearchDeleteView, AdUpdateView, AdSearchUpdateView, AdCreateView, CompleteView, AdDeleteView, AdPotentialBuyersView, AdPotentialBuyerContactView
+from geoads.views import (AdDetailView, AdSearchDeleteView, 
+    AdUpdateView, AdSearchUpdateView, AdCreateView, CompleteView, 
+    AdDeleteView, AdPotentialBuyersView, AdPotentialBuyerContactView)
 
 from sites.louersanscom.ads.models import HomeForRentAd, HomeForRentAdSearch, HomeForRentAdSearchResult
 from sites.louersanscom.ads.forms import HomeForRentAdForm
 from sites.louersanscom.ads.views import HomeForRentAdSearchView
 
+from utils.views import ModeratedAdUpdateView
 
 
 urlpatterns = patterns('',
@@ -26,7 +29,7 @@ urlpatterns = patterns('',
                                         form_class=HomeForRentAdForm),
                                                              name='add'),
     url(r'^add/complete/$', CompleteView.as_view(), name='complete'),
-    url(r'^(?P<pk>\d+)/edit$', AdUpdateView.as_view(model=HomeForRentAd,
+    url(r'^(?P<pk>\d+)/edit$', ModeratedAdUpdateView.as_view(model=HomeForRentAd,
                                         form_class=HomeForRentAdForm),
                                                             name='edit'),
     url(r'^(?P<pk>\d+)/delete$', AdDeleteView.as_view(model=HomeForRentAd),

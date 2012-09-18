@@ -12,6 +12,8 @@ from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 from sites.achetersanscom.ads.views import HomeForSaleAdSearchView
 from sites.achetersanscom.ads.forms import PrettyAdPictureForm
 
+from utils.views import ModeratedAdUpdateView
+
 
 urlpatterns = patterns('',
     url(r'^(?P<slug>[-\w]+)$', AdDetailView.as_view(model=HomeForSaleAd),
@@ -26,7 +28,7 @@ urlpatterns = patterns('',
                                         form_class=HomeForSaleAdForm, ad_picture_form=PrettyAdPictureForm),
                                                              name='add'),
     url(r'^add/complete/$', CompleteView.as_view(), name='complete'),
-    url(r'^(?P<pk>\d+)/edit$', AdUpdateView.as_view(model=HomeForSaleAd,
+    url(r'^(?P<pk>\d+)/edit$', ModeratedAdUpdateView.as_view(model=HomeForSaleAd,
                                         form_class=HomeForSaleAdForm, ad_picture_form=PrettyAdPictureForm),
                                                             name='edit'),
     url(r'^(?P<pk>\d+)/delete$', AdDeleteView.as_view(model=HomeForSaleAd),

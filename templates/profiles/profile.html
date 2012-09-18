@@ -5,6 +5,11 @@
 
 {% block content %}
 
+
+  {% comment %}
+  USER PROFILE PERSONAL INFORMATION
+  {% endcomment %}
+
   {% if user.is_authenticated %}
 
   {% ifequal user.username profile.user.username %}
@@ -42,6 +47,10 @@
   {% endif %}
 
 
+  {% comment %}
+  USER PROFILE ADS
+  {% endcomment %}
+
   {% if all_user_ads %}
   <table class="table table-condensed table-striped">
    <thead>
@@ -62,7 +71,9 @@
        {% if ad.moderated_object.moderation_status == 2 %}<span class="label label-warning">{% trans "Annonce en cours de modération" %}</span>{% endif %}
      </td>
      <td>
-       <a class="badge" href="{% url contact_buyers ad.id %}">REMOVE NON PUBLIC SEARCH{{ ad.ad_search_results.all|length }} acheteur{{ ad.ad_search_results.all|length|pluralize:"s" }} potentiel{{ ad.ad_search_results.all|length|pluralize:"s" }}</a>
+        {% if ad.moderated_object.moderation_status == 1 %}
+       <a class="badge" href="{% url contact_buyers ad.id %}">{{ ad.ad_search_results.all|public|length }} acheteur{{ ad.ad_search_results.all|length|pluralize:"s" }} potentiel{{ ad.ad_search_results.all|length|pluralize:"s" }}</a>
+       {% endif %}
      </td>
      <td ><a href="{% url edit ad.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a></td>
      <td ><a href="{% url delete ad.id %}" class="btn btn-mini btn-danger delete"><i class="icon-remove icon-white"></i> {% trans "Supprimer" %}</a></td>
@@ -87,15 +98,18 @@
 </table>
 {% else %}
 {% ifequal user.username profile.user.username %}
-<h3 class="extended_title">{% trans "Annonces" %}</h3>
-<p>{% trans "Vous n'avez aucune annonce sur le site." %}
- {% url add as add_url %}
- <br />{% blocktrans %}Pour ajouter une annonce, cliquez <a href="{{ add_url }}">ici</a>.{% endblocktrans %}</p>
+<h4>{% trans "Vos Biens" %}</h4>
+<p>{% trans "Vous n'avez aucune annonce sur le site." %} <a class="btn btn-primary" href="{% url add %}"><i class="icon-plus-sign icon-white"></i> {% trans "Ajouter un bien" %}</a></p>
  {% endifequal %}
  {% endif %}
  {% endif %}
 
  {% ifequal user.username profile.user.username %}
+
+  {% comment %}
+  USER PROFILE SEARCHS
+  {% endcomment %}
+
 
  {% if searchs %}
  <table  class="table table-condensed table-striped">
@@ -113,7 +127,7 @@
   {% if not search.public %}<span class="label label-warning">{% trans "Privé" %}</span>{% endif %}
 </td>
 <td>
-  <span class="badge">{{ search.adsearchresult_set.all|length }} annonce{{ search.adsearchresult_set.all|length|pluralize:"s" }}</span>
+  <a href="{% url search search.id %}" class="badge">{{ search.adsearchresult_set.all|length }} annonce{{ search.adsearchresult_set.all|length|pluralize:"s" }}</a>
 </td>
 <td> 
   <a href="{% url update_search search.id %}" class="btn btn-mini"><i class="icon-pencil"></i> {% trans "Modifier" %}</a> 
@@ -127,7 +141,7 @@
 {% endfor %}
 </table>
 {% else %}
-<h3 class="extended_title">{% trans "Vos Recherches" %}</h3>
+<h4>{% trans "Vos Recherches" %}</h4>
 <p>{% trans "Vous n'avez aucune recherche enregistrée." %}</p>
 {% endif %}
 

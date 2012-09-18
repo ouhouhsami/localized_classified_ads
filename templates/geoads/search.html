@@ -9,7 +9,14 @@
 {% endblock media %}
 
 {% block messages %}
-{% if search %}
+{% if initial_ads %}
+
+<div class="alert hidden-phone" style="background-color:transparent;color:black;">
+	<h2 id='subtitle'>{% blocktrans %}Annonces immobilières<br/> <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
+</div>
+
+{% else %}
+
 {% if messages %}
 {% for message in messages %}
 <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
@@ -17,10 +24,7 @@
 </div>
 {% endfor %}
 {% endif %}
-{% else %}
-<div class="alert hidden-phone" style="background-color:transparent;color:black;">
-	<h2 id='subtitle'>{% blocktrans %}Annonces immobilières<br/> <b>sans intermédiaires</b> & <b>géolocalisées</b>{% endblocktrans %}</h2>
-</div>
+
 {% endif %}
 
 {% if ad_search_form and user.is_authenticated %}

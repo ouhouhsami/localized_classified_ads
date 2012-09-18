@@ -37,7 +37,7 @@ class UserProfileDetailView(DetailView):
                          .exclude(delete_date__isnull=False)\
                          .order_by('-create_date')
             searchs = self.ad_search_model.objects.filter(user=self.get_object().user,
-                            content_type=ContentType.objects.get_for_model(self.ad_model))
+                            content_type=ContentType.objects.get_for_model(self.ad_model)).order_by('-create_date')
             logger.info(self.request.user.last_login)
             context['searchs'] = searchs
             # here we annotate searchs with new home

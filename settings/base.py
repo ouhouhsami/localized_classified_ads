@@ -111,9 +111,9 @@ MIDDLEWARE_CLASSES = (
     'django_sorting.middleware.SortingMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'dynamicsites.middleware.DynamicSitesMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'dynamicsites.middleware.DynamicSitesMiddleware',
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',

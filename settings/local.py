@@ -56,22 +56,6 @@ EMAIL_HOST_USER = ''
 
 TWITTER_NOTIFICATION = False
 
-MIDDLEWARE_CLASSES = (
-    #'johnny.middleware.LocalStoreClearMiddleware',
-    #'johnny.middleware.QueryCacheMiddleware',
-    #'memorymiddleware.memoryMiddleware', # this to profile memory leaks etc.
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django_sorting.middleware.SortingMiddleware',
-    'pagination.middleware.PaginationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'dynamicsites.middleware.DynamicSitesMiddleware',
-)
-
 ENV_HOSTNAMES = {
     'achetersanscom.dev': 'www.achetersanscom.com',
     'louersanscom.dev': 'www.louersanscom.com'

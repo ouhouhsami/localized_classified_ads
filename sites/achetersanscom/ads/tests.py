@@ -188,5 +188,18 @@ class SignalTestCase(AcheterSansComBaseTestCase):
         home_search.delete()
         home.delete()
 
-    #def tearDown(self):
-    #    pass
+'''
+class StaticPageTestCase(AcheterSansComBaseTestCase):
+
+    def test_header(self):
+        # test if header of static page is set to the current sites
+        resp = self.c.get('/a-propos/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'site_title.html')
+        print resp.templates
+        for t in resp.templates:
+            print t.name
+        from django.template.loader import render_to_string
+        rendered = render_to_string('site_title.html')
+        print rendered
+'''

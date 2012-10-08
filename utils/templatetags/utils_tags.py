@@ -1,10 +1,15 @@
 # coding=utf-8
-from django.forms import ChoiceField, FileField
-
 from django import template
+#from django.forms import ChoiceField, FileField
 
 register = template.Library()
 
+
+@register.filter(name='email_local_part')
+def email_local_part(mail):
+    return mail.split('@')[0].replace('.', ' ')
+
+'''
 @register.filter(name='field_value')
 def field_value(field):
 	""" 
@@ -23,6 +28,7 @@ def field_value(field):
 		val = ''
 	return val
 
+
 @register.filter(name='display_value')
 def display_value(field): 
 	""" 
@@ -35,10 +41,9 @@ def display_value(field):
 				return desc 
 	return value
 	
+
 @register.filter(name='widget_type')
 def widget_type(ob):
     return ob.__class__.__name__
+'''
 
-@register.filter(name='email_local_part')
-def email_local_part(mail):
-    return mail.split('@')[0].replace('.', ' ')

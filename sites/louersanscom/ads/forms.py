@@ -12,14 +12,15 @@ from django import forms
 
 from geoads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
 from geoads.forms import BaseAdForm
-from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
+from utils.bootstrap import MultiField, BootstrapFieldset
 
 from models import HomeForRentAd
 from utils.forms import BaseModeratedAdForm
 
+
 class HomeForRentAdForm(BaseModeratedAdForm):
     # todo add my price and my surface fields
-    
+
     separate_toilet = forms.CharField(
         label='', 
         required=False, 

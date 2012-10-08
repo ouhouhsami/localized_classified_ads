@@ -5,12 +5,13 @@ from django.conf import settings
 from django.template.defaultfilters import urlencode
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.signals import post_save
 
 from moderation.moderator import GenericModerator
 from moderation import moderation
 from moderation.signals import post_moderation
 
-from geoads.utils import updateadsearchresults
+from geoads.signals import ad_post_save_handler
 
 from sites.louersanscom.ads.models import HomeForRentAd
 from sites.louersanscom.ads.filtersets import HomeForRentAdFilterSet
@@ -26,19 +27,25 @@ class AdModerator(GenericModerator):
     visibility_column = 'visible'
     moderation_manager_class = ModeratedAdManager  # allow geomanager + moderationmanager
 
+
 moderation.register(HomeForRentAd, AdModerator)
 moderation.register(HomeForSaleAd, AdModerator)
 
 
+# need to remove signal ad and subclass ad_post_save_handler
+post_save.disconnect(ad_post_save_handler, sender=HomeForRentAd, dispatch_uid="ad_post_save_handler_HomeForRentAd")
+post_save.disconnect(ad_post_save_handler, sender=HomeForSaleAd, dispatch_uid="ad_post_save_handler_HomeForSaleAd")
+
 
 def post_moderation_abstract_handler(sender, instance, status, **kwargs):
+    # here I call signal function coming form django-geoads
+    ad_post_save_handler(sender, instance, **kwargs)
+    #
     content_type = ContentType.objects.get_for_model(instance)
     if content_type.model == 'homeforsalead':
         search_filter = HomeForSaleAdFilterSet
     if content_type.model == 'homeforrentad':
         search_filter = HomeForRentAdFilterSet
-    updateadsearchresults(instance, status, search_filter)
-    #update_adsearchresults(instance, status, search_filter)
     if status == 1:
         # send on twitter
         token = oauth.Token(key=settings.TWITTER_ACCESS_TOKEN_KEY,
@@ -57,7 +64,8 @@ def post_moderation_abstract_handler(sender, instance, status, **kwargs):
         latitude = pnt.y
         longitude = pnt.x
         params = 'status=%s&lat=%s&long=%s&display_coordinates=true' % (urlencode(status), latitude, longitude)
-        if not settings.DEBUG:
+        #print params
+        if not settings.DEBUG and settings.TWITTER_NOTIFICATION:
             resp, content = client.request(
                 'http://api.twitter.com/1/statuses/update.xml?%s' % (params),
                 "POST"

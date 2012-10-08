@@ -15,6 +15,8 @@ from autoslug import AutoSlugField
 
 from geoads.models import Ad, AdSearch, AdSearchResult
 
+from utils.models import ModeratedAd
+
 logger = logging.getLogger(__name__)
 #
 # HOME FOR SALE AD MODEL
@@ -81,7 +83,7 @@ FIREPLACE_CHOICES = (
 )
 
 
-class HomeForSaleAd(Ad):
+class HomeForSaleAd(ModeratedAd):
     """
     HomeFormSaleAd model
 
@@ -250,7 +252,8 @@ def format_search_resume(q):
 # TODO below is duplicated with the same in HomeForRent !
 @receiver(post_save, sender=HomeForSaleAd)
 def home_for_sale_ad_post_save_handler(sender, instance, created, **kwargs):
-    logger.info('Home for sale ad instance %s was saved' % (instance))
+    # here we should test if changes in instance and moderated_object to send or not notification
+    logger.info('Post save signal for Home for sale ad instance %s was saved' % (instance))
     if created:
         message = render_to_string('geoads/emails/ad_create_email_message.txt')
         subject = render_to_string('geoads/emails/ad_create_email_subject.txt',
@@ -266,3 +269,10 @@ def home_for_sale_ad_post_save_handler(sender, instance, created, **kwargs):
         send_mail(subject, message, 'contact@achetersanscom.com',
                   [instance.user.email],
                           fail_silently=True)
+
+# VERY IMPORTANT TO PLACE THIS IMPORT AT THE BOTTOM
+# so that abstract class and subclass signal dispatcher
+# is available for this model
+# and also the signal disconnect, and connect for moderation
+from geoads.receivers import *
+from utils.moderator import *

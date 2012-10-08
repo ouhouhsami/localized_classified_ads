@@ -41,6 +41,8 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation",
                                          widget=widgets.CheckboxSelectMultiple(),
                                          choices=HABITATION_TYPE_CHOICES)
+    # c'est dommage d'overrider tout alors que dans geoads filterset j'ai défini locationfilter 
+    # pour les Point
     location = LocationFilter(widget=GooglePolygonWidget(),
                               label="Localisation", required=False)
     balcony = BooleanForNumberFilter(label="Balcon", widget=IndifferentNullBooleanSelect())

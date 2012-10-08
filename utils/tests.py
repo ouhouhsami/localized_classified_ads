@@ -6,11 +6,11 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from utils.templatetags.utils_tags import email_local_part
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class EmailToNameTest(TestCase):
+
+    def test_email_local_part(self):
+        email = "saul.goodman@breakingbad.com"
+        self.assertEquals(email_local_part(email), 'saul goodman')

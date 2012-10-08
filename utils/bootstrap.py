@@ -1,26 +1,8 @@
 from django.template.loader import render_to_string
 from django.template import Context
 
-from crispy_forms.layout import Field, Fieldset
+from crispy_forms.layout import Fieldset
 from crispy_forms.utils import render_field
-
-
-class AppendedPrependedText(Field):
-    template = "bootstrap/layout/appended_prepended_text.html"
-
-    def __init__(self, field, prepended_text, appended_text, *args, **kwargs):
-        self.appended_text = appended_text
-        self.prepended_text = prepended_text
-        if 'active' in kwargs:
-            self.active = kwargs.pop('active')
-
-        super(AppendedPrependedText, self).__init__(field, *args, **kwargs)
-
-    def render(self, form, form_style, context):
-        context.update({'crispy_appended_text': self.appended_text,
-                        'crispy_prepended_text': self.prepended_text,
-                        'active': getattr(self, "active", False)})
-        return render_field(self.field, form, form_style, context, template=self.template, attrs=self.attrs)
 
 
 class MultiField(object):

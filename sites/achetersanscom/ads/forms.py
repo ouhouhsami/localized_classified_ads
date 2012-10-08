@@ -12,7 +12,7 @@ from django.forms import ModelForm
 from geoads.widgets import BooleanExtendedNumberInput
 from geoads.models import AdPicture
 from utils.fields import PriceField, SurfaceField
-from utils.bootstrap import AppendedPrependedText, MultiField, BootstrapFieldset
+from utils.bootstrap import MultiField, BootstrapFieldset
 from geoads.forms import BaseAdForm
 
 from models import HomeForSaleAd

@@ -20,7 +20,9 @@ django-pagination==1.0.7
 -e git+https://github.com/ouhouhsami/django-sorting.git@ed3f1d1af93f3aa14381411c363a8fb9505c7061#egg=django_sorting-dev
 django-stdimage==0.2
 -e git://github.com/bread-and-pepper/django-userena.git@65533e250a206e7ca0c2bfda67831363c1594fca#egg=django_userena-dev
--e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev
+#-e hg+http://bitbucket.org/ladyrassilon/django-dynamicsites/@47dd78d31a1488186baef9d25692d288dbc06d23#egg=dynamicsites-dev
+#-e hg+http://bitbucket.org/uysrc/django-dynamicsites#egg=django_dynamicsites
+-e hg+http://bitbucket.org/Adys/django-dynamicsites#egg=django_dynamicsites
 easy-thumbnails==1.0-alpha-21
 httplib2==0.7.2
 logilab-astng==0.23.1

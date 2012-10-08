@@ -13,6 +13,8 @@ from autoslug import AutoSlugField
 
 from geoads.models import Ad, AdSearch, AdSearchResult
 
+from utils.models import ModeratedAd
+
 # SPECIFIC AD MODELS 
 
 
@@ -43,8 +45,9 @@ PARKING_CHOICES = (
 )
 
 
-class HomeForRentAd(Ad):
-    """HomeFormRentAd model
+class HomeForRentAd(ModeratedAd):
+    """
+    HomeFormRentAd model
 
     """
     price = models.PositiveIntegerField(_(u"Loyer"))
@@ -208,3 +211,10 @@ def home_for_rent_ad_post_save_handler(sender, instance, created, **kwargs):
         send_mail(subject, message, 'contact@achetersanscom.com',
                   [instance.user.email],
                           fail_silently=True)
+
+# VERY IMPORTANT TO PLACE THIS IMPORT AT THE BOTTOM
+# so that abstract class and subclass signal dispatcher
+# is available for this model
+# and also the signal disconnect, and connect for moderation
+from geoads.receivers import *
+from utils.moderator import *

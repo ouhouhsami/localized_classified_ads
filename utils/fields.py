@@ -12,7 +12,7 @@ class PriceField(forms.Field):
             val = str(value).replace('.', '').replace(' ', '').replace(',', '')
             return int(val)
         except:
-            raise forms.ValidationError(_("Entrez un prix en euros."))
+            raise forms.ValidationError(_(u"Entrez un prix en euros."))
 
 
 class SurfaceField(forms.Field):
@@ -23,4 +23,4 @@ class SurfaceField(forms.Field):
         try:
             return round(float(str(value).replace(',', '.')))
         except:
-            raise forms.ValidationError(_("Entrez une surface en mètre carré."))
+            raise forms.ValidationError(_(u"Entrez une surface en mètres carré."))

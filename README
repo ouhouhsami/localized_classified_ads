@@ -1,0 +1,4 @@
+ATTENTION : vérifier que dynamic-sites est le bon !
+avec connection=None, prepared=False dans fields.py
+
+Ajouter factory_boy dans les requirements

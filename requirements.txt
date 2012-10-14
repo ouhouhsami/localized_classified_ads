@@ -38,3 +38,4 @@ raven==1.4.6
 simplejson==2.3.2
 wsgiref==0.1.2
 factory_boy
+requests

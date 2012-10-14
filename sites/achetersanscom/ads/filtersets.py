@@ -3,7 +3,8 @@ import django_filters
 from django.forms import widgets
 
 from geoads.filters import LocationFilter, BooleanForNumberFilter
-from geoads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
+from geoads.widgets import (GooglePolygonWidget, LeafletWidget,
+    IndifferentNullBooleanSelect, SpecificRangeWidget)
 from geoads.templatetags.ads_tag import has_value
 from geoads.filtersets import AdFilterSet
 
@@ -43,7 +44,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                                          choices=HABITATION_TYPE_CHOICES)
     # c'est dommage d'overrider tout alors que dans geoads filterset j'ai défini locationfilter 
     # pour les Point
-    location = LocationFilter(widget=GooglePolygonWidget(),
+    location = LocationFilter(widget=LeafletWidget(),
                               label="Localisation", required=False)
     balcony = BooleanForNumberFilter(label="Balcon", widget=IndifferentNullBooleanSelect())
     terrace = BooleanForNumberFilter(label="Terrasse", widget=IndifferentNullBooleanSelect())
@@ -57,7 +58,7 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
         #    self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=self.search, fillColor="#FFB82E", strokeColor="#20B2AA")
         #else:
         #    self.form.fields['location'].widget = GooglePolygonWidget(ads=[], search=self.search, fillColor="#FFB82E", strokeColor="#20B2AA")
-        self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, fillColor="#FFB82E", strokeColor="#20B2AA")
+        self.form.fields['location'].widget = LeafletWidget(ads=self.qs, fillColor="#FFB82E", strokeColor="#20B2AA")
         # here we open collapsible search filter item
         for f in self.form.helper.layout.fields[1].fields[0].fields:
             for field in f.fields:

@@ -23,7 +23,7 @@ COVERAGE_MODULE_EXCLUDES = ['tests$', 'settings$', 'urls$', 'locale$',
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(SITE_ROOT, 'coverage_report')
 
-BYPASS_GEOCODE = True
+BYPASS_GEOCODE = False
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

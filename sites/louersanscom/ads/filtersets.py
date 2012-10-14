@@ -1,7 +1,7 @@
 # coding=utf-8
 import django_filters
 
-from geoads.widgets import GooglePolygonWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
+from geoads.widgets import GooglePolygonWidget, LeafletWidget, IndifferentNullBooleanSelect, SpecificRangeWidget
 from geoads.filters import LocationFilter, BooleanForNumberFilter
 
 from models import HomeForRentAd
@@ -32,7 +32,7 @@ class HomeForRentAdFilterSet(NicerFilterSet):
     surface = django_filters.OpenRangeNumericFilter(label="Surface",
                                        widget=BootstrapSpecificRangeWidget({'size': '6'}, 'm²'))
     furnished = BooleanForNumberFilter(label="Habitation meublée", widget=IndifferentNullBooleanSelect())
-    location = LocationFilter(widget=GooglePolygonWidget(), required=False)
+    location = LocationFilter(widget=LeafletWidget(), required=False)
 
     def __init__(self, *args, **kwargs):
         super(HomeForRentAdFilterSet, self).__init__(*args, **kwargs)
@@ -40,7 +40,7 @@ class HomeForRentAdFilterSet(NicerFilterSet):
         #    self.form.fields['location'].widget = GooglePolygonWidget(ads=self.qs, search=self.search, fillColor="pink", strokeColor="#9d81a1")
         #else:
         #    self.form.fields['location'].widget = GooglePolygonWidget(ads=[], search=self.search, fillColor="pink", strokeColor="#9d81a1")
-        self.form.fields['location'].widget = GooglePolygonWidget(ads=[], fillColor="pink", strokeColor="#9d81a1")
+        self.form.fields['location'].widget = LeafletWidget(ads=[], fillColor="pink", strokeColor="#9d81a1")
 
     class Meta:
         model = HomeForRentAd

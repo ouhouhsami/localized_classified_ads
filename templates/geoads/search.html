@@ -53,16 +53,18 @@
 					<div class="custom-well">
 						<ol class="home_help_text">
 							<li>{% blocktrans %}
-								<form class="form-inline form-search">
-									<label style="font-size:0.8em; font-weight:bold">Centrer la carte sur votre <a id="localize" class="btn" href="javascript:localizeMe()">localisation actuelle</a> ou </label>
+								<form class="form-inline form-search" style="margin:0 0 0">
+									<label style="">Centrer la carte sur votre <a id="localize" class="btn" href="javascript:localizeMe()" data-loading-text="localisation en cours …">localisation actuelle</a> ou </label>
 								 <div class="input-append">
 									<input type="text" class="span2 search-query" id="address" placeholder="indiquer une adresse">
-									<button type="submit" id="center_map" class="btn">Search</button>
+									<button type="submit" id="center_map" class="btn" data-loading-text="en cours …">
+										Centrer
+									</button>
 								</div>
 							</form>
 								{% endblocktrans %}
 							</li>
-							<li>{% blocktrans %}Cliquer sur <img src="{{ STATIC_URL }}img/drawing.png" class="draw-icon" alt="draw-icon" /> pour dessiner votre zone de recherche{% endblocktrans %}</li>
+							<li>{% blocktrans %}Cliquer sur <div style="width:20px;float:none;display:inline-block;vertical-align:middle" class="leaflet-control-draw leaflet-control"><a class="leaflet-control-draw-polygon" href="#" title="undefined"></a></div> pour dessiner votre zone de recherche{% endblocktrans %}</li>
 						</ol>
 					</div>
 				</div>

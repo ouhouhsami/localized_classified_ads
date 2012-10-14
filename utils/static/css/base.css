@@ -76,13 +76,13 @@ figure {
 }
 
 #search_header {
-	font-family: TypoSlabserif;
+	/*font-family: TypoSlabserif;
 	font-weight:bold;
-	font-size:1.2em;
+	font-size:1.2em;*/
 }
 #results h3 {
-	font-family: TypoSlabserif;
-	font-weight:bold;
+	/*font-family: TypoSlabserif;
+	font-weight:bold;*/
 }
 
 #search_button {
@@ -106,4 +106,9 @@ figure {
 
 #address {
 	/*background: rgba(255, 255, 255, 0.6);*/
+}
+
+
+.home_help_text{
+	margin:0 0 0 25px;
 }

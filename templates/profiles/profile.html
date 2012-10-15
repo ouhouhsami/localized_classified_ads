@@ -5,16 +5,11 @@
 
 {% block content %}
 
-
-  {% comment %}
-  USER PROFILE PERSONAL INFORMATION
-  {% endcomment %}
-
   {% if user.is_authenticated %}
 
   {% ifequal user.username profile.user.username %}
 
-  <h3 class="page-header" style="margin: 0 0 30px;">{% trans "Vos informations personnelles" %}</h3>
+  <h3 class="page-header" style="margin: 0 0 30px;">{% trans "Vos Informations Personnelles" %}</h3>
 
   <p>
     <b>{% trans "Adresse électronique" %}</b> : {{ user.email }} <a class="btn btn-mini" href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a>

@@ -9,7 +9,7 @@ django-coverage==1.2.2
 django-crispy-forms==1.1.4
 django-debug-toolbar==0.8.5
 -e git://github.com/subsume/django-filter-actually-maintained.git@2cf55f2dfa3dc62eb10d8d755554090b5b14ffe5#egg=django_filter-dev
-django-floppyforms==0.4.7
+django-floppyforms==1.0
 django-form-utils==0.2.0
 -e git+http://github.com/ouhouhsami/django-geoads.git#egg=django_geoads-dev
 django-guardian==1.0.3

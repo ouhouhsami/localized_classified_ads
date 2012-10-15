@@ -140,7 +140,7 @@ class HomeForRentAdForm(BaseModeratedAdForm):
             Fieldset(u'Informations complémentaires', 'description',
                        css_class = "atom house apartment parking others", css_id="description"),
             Div(
-                Submit('submit', 'Envoyer', css_class="btn btn-large btn-block btn-primary", style="width:100%")
+                Submit('submit', "Enregistrer l'annonce", css_class="btn btn-large btn-block btn-primary", style="width:100%")
             )
         )
         super(HomeForRentAdForm, self).__init__(*args, **kwargs)

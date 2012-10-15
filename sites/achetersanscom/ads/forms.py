@@ -18,10 +18,12 @@ from geoads.forms import BaseAdForm
 from models import HomeForSaleAd
 from utils.forms import BaseModeratedAdForm
 
+import floppyforms as forms
+
 
 class PrettyAdPictureForm(ModelForm):
 
-    image = forms.ImageField(widget=forms.FileInput)
+    image = forms.ImageField(widget=forms.FileInput, required=False)
 
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +52,6 @@ class PrettyAdPictureForm(ModelForm):
 
     class Meta:
         model = AdPicture
-
 
 
 class HomeForSaleAdForm(BaseModeratedAdForm):
@@ -156,7 +157,7 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(u'Informations générales',
-                      'habitation_type', AppendedText('price', '€', css_class="input-mini"), 
+                      'habitation_type', AppendedText('price', '€', css_class="input-mini", html5_required = True), 
                       AppendedText('surface', 'm²', css_class="input-mini"), 
                       AppendedText('surface_carrez', 'm²', css_class="input-mini"), 
                       'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 
@@ -193,7 +194,7 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
             Fieldset(u'Informations complémentaires', Field('description',  template="crispy_forms/no_label_field.html", css_class="input-xxlarge"),
                        css_class = "atom house apartment parking others", css_id="description"),
             Div(
-                Submit('submit', 'Envoyer', css_class="btn btn-large btn-block btn-primary", style="width:100%")
+                Submit('submit', "Enregister l'annonce", css_class="btn btn-large btn-block btn-primary", style="width:100%")
             ),
         )
 

@@ -35,8 +35,6 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
                                          widget=SpecificRangeWidget({'size': '6'}))
     nb_of_bedrooms = django_filters.OpenRangeNumericFilter(label="Nb. de chambres",
                                          widget=SpecificRangeWidget({'size': '6'}))
-    ground_surface = django_filters.OpenRangeNumericFilter(label="",
-                                         widget=BootstrapSpecificRangeWidget({'size': '6'}, 'm²'))
     floor = django_filters.OpenRangeNumericFilter(label="Etage",
                                          widget=SpecificRangeWidget({'size': '6'}))
     habitation_type = django_filters.MultipleChoiceFilter(label="Type d'habitation",
@@ -68,3 +66,9 @@ class HomeForSaleAdFilterSet(NicerFilterSet):
     class Meta:
         model = HomeForSaleAd
         form = HomeForSaleAdFilterSetForm
+        # here we exclude for crispy-form render fields off
+        exclude = ('user', 'delete_date', 'address', 'visible',
+           'user_entered_address', 'description', 'ground_surface',
+           'orientation', 'housing_tax', 'surface_carrez',
+           'maintenance_charges', 'ad_valorem_tax', 'slug',
+           'update_date', 'create_date')

@@ -155,9 +155,10 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
         self.helper.form_method = 'post'
         self.helper.form_action = ''
         self.helper.form_tag = False
+        self.helper.html5_required = True
         self.helper.layout = Layout(
             Fieldset(u'Informations générales',
-                      'habitation_type', AppendedText('price', '€', css_class="input-mini", html5_required = True), 
+                      'habitation_type', AppendedText('price', '€', css_class="input-mini"), 
                       AppendedText('surface', 'm²', css_class="input-mini"), 
                       AppendedText('surface_carrez', 'm²', css_class="input-mini"), 
                       'nb_of_rooms', 'nb_of_bedrooms','user_entered_address', 
@@ -197,6 +198,7 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
                 Submit('submit', "Enregister l'annonce", css_class="btn btn-large btn-block btn-primary", style="width:100%")
             ),
         )
+        
 
         super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
 
@@ -234,9 +236,6 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
     def clean_nb_of_bedrooms(self):
         pass
 
-    def clean_ground_surface(self):
-        pass
-
     def clean_floor(self):
         pass
 
@@ -270,8 +269,8 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
                         BootstrapFieldset(u'Pièces', 'separate_dining_room', 'separate_toilet', 'bathroom', 'shower', 'separate_entrance',  css_id="rooms", ),
                         BootstrapFieldset(u'Critères énergétiques', 'energy_consumption', 'emission_of_greenhouse_gases', css_id="energy",),
                         css_class="custom-well"
-                    )
-                    ,css_class="span5"
+                    ),
+                    css_class="span5"
                 ),
             css_class="row"
         )
@@ -279,10 +278,12 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        exclude = ('user', 'delete_date', 'address', 'visible', 
-                   'user_entered_address', 'description', 'ground_surface', 
-                   'orientation', 'housing_tax', 'surface_carrez', 
-                   'maintenance_charges', 'ad_valorem_tax', 'slug', 
+        # here, we exclude for form validation purposes
+        exclude = ('user', 'delete_date', 'address', 'visible',
+                   'user_entered_address', 'description', 'ground_surface',
+                   'orientation', 'housing_tax', 'surface_carrez',
+                   'maintenance_charges', 'ad_valorem_tax', 'slug',
                    'update_date', 'create_date')
+
     class Media:
         js = ('js/collapse-icon.js',)

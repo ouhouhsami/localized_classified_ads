@@ -111,6 +111,7 @@ class HomeForRentAdForm(BaseModeratedAdForm):
         self.helper.form_method = 'post'
         self.helper.form_action = ''
         self.helper.form_tag = False
+        self.helper.html5_required = True
         self.helper.layout = Layout(
             Fieldset(u'Informations générales',
                      'habitation_type', AppendedText('price', '€/mois', css_class="input-mini"), 
@@ -206,10 +207,7 @@ class HomeForRentAdFilterSetForm(forms.ModelForm):
 
     class Meta:
         model = HomeForRentAd   
-        #fieldsets = [('location', {'fields': ['location'], 'legend': 'Dessiner votre zone de recherche en cliquant sur la carte'}),
-        #             ('general_information', {'fields' : ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator']}),
-        #             ]
-        # below: not sure it serves ...
+        # here, we exclude for form validation purposes
         fields = ('location', 'habitation_type', 'price', 'surface', 
                    'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 
                    'furnished', 'elevator')

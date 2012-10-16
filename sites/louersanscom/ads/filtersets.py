@@ -45,4 +45,5 @@ class HomeForRentAdFilterSet(NicerFilterSet):
     class Meta:
         model = HomeForRentAd
         form = HomeForRentAdFilterSetForm
-        #fields = ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', 'location']
+        # here we filter for crispy-form render fields off
+        fields = ['habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', 'location']

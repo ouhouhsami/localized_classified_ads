@@ -4,14 +4,32 @@
 }
 */
 
-.btn-primary {
+/*.btn-primary {
 	background-image:none;
 	background-color: #20B2AB;
 }
+*/
 
+/*.btn-primary {
+    background-color: #006DCC;
+    background-image: -moz-linear-gradient(center top , #0088CC, #0044CC);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: #0044CC;
+    color: #FFFFFF;
+}
+*/
+
+/*
 .btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
     background-color: #20B2AB;
 }
+*/
 
 a{
 	/*color:#20B2AB;*/

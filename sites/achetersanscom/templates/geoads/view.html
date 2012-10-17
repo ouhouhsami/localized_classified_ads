@@ -4,37 +4,36 @@
 {% block title %}{% trans "Vente" %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m² | AcheterSansCom{% endblock %}
 
 {% block meta %}
-		<meta name="keywords" lang="fr" content="{{ ad.get_habitation_type_display }},à vendre,sans intermédiaire,{{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }}" />
-		<meta name="description" lang="fr" content="{% trans 'Vente' %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
+<meta name="keywords" lang="fr" content="{{ ad.get_habitation_type_display }},à vendre,sans intermédiaire,{{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }}" />
+<meta name="description" lang="fr" content="{% trans 'Vente' %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
 {% endblock %}
 
 {% block javascript %}
-	{% include 'geoads/view_js.html' %}
+{% include 'geoads/view_js.html' %}
 {% endblock %}
-	
+
 {% block css %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}css/energy-style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/energy-style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 {% endblock %}
 
 {% block messages %}	
-  {{ block.super }}
-  {% if contact_form.errors %}
-  <div class="alert alert-error">
-    {% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}
-  </div>
-  {% endif %}
+{{ block.super }}
+{% if contact_form.errors %}
+<div class="alert alert-error">
+  {% trans "Le formulaire comporte des erreurs, indiquées ci-dessous en rouge. Veuillez les corriger et soumettre à nouveau votre annonce." %}
+</div>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-<div id="content" class="well" style="padding:0px;border:0px">
-  <div class="row">
-    <div class="span10 offset1 hlisting offer-sale">
-      
-      <div class="page-header">
-        <h2><span class="summary">{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} ({{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}) <span class='price'>{{ ad.price|priceformat }} €</span> - {{ ad.surface }} m² {% if ad.surface_carrez %}(loi Carrez : {{ ad.surface_carrez }} m²){% endif %}</span> <a href="http://{{ site.domain }}{% url view ad.slug %}" class="permalink" rel="self bookmark"><i class="icon-bookmark"></i></a></h2>
-      </div>
+<div class="row">
+  <div class="span10 offset1 hlisting offer-sale">
 
-      <div class="summary">      
+    <div class="page-header">
+      <h3><span class="summary">{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - <span class='price'>{{ ad.price|priceformat }} €</span> - {{ ad.surface }} m² </span> <small style="font-size:0.8em">{{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}{% if ad.surface_carrez %}, {{ ad.surface_carrez }} m² loi Carrez{% endif %}</small></h3>
+    </div>
+
+    <div class="summary">      
       <div class="row">
         <div class="span6">{% include 'geoads/view_pictures.html' %}</div>
         <div class="span4">
@@ -42,23 +41,22 @@
           {% include 'geoads/view_geo.html' %}
         </div>
       </div>
-      
+      <hr />
       <div class="row">
         <div class="span2">{% include 'geoads/view_situation.html' %}</div>
         <div class="span2">{% include 'geoads/view_flat.html' %}</div>
         <div class="span2">{% include 'geoads/view_commodity.html' %}</div>
         <div class="span4">{% if ad.description %}<h4>{% trans "Informations complémentaires" %}</h4><p>{{ ad.description|linebreaksbr  }}</p>{% endif %}</div>
       </div>
-      
+      <hr />
       <div class="row">
         <div class="span4">{% include 'geoads/view_energy.html' %}</div>
         <div class="span2">{% include 'geoads/view_rooms.html' %}</div>
         <div class="span4">{% include 'geoads/view_contactform.html' %}</div>
       </div>
-      </div>      
-      {% include 'geoads/view_ad_dates.html' %}
+    </div>      
+    {% include 'geoads/view_ad_dates.html' %}
 
-    </div>
   </div>
 </div>
 {% endblock %}

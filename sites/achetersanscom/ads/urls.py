@@ -10,10 +10,11 @@ from sites.achetersanscom.ads.views import HomeForSaleAdSearchView
 from sites.achetersanscom.ads.forms import PrettyAdPictureForm
 
 from utils.views import ModeratedAdUpdateView, CustomAdDeleteView
+from utils.forms import HomeContactForm
 
 
 urlpatterns = patterns('',
-    url(r'^(?P<slug>[-\w]+)$', AdDetailView.as_view(model=HomeForSaleAd), name="view"),
+    url(r'^(?P<slug>[-\w]+)$', AdDetailView.as_view(model=HomeForSaleAd, contact_form=HomeContactForm), name="view"),
     url(r'^search/$', HomeForSaleAdSearchView.as_view(), name='search'),
     url(r'^search/(?P<search_id>\d+)/$', HomeForSaleAdSearchView.as_view(), name='search'),
     url(r'^delete_search/(?P<pk>\d+)$', AdSearchDeleteView.as_view(model=HomeForSaleAdSearch), name='delete_search'),

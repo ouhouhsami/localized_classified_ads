@@ -1,23 +1,23 @@
 {% load i18n %}
 <div class="row">
 	<div class="span2">
-		<b>{% trans "Consommation énergétique" %}</b><br />
+		<h4>{% trans "Consommation énergétique" %}</h4>
 		<span class="unit">{% trans "kWhEP/m².an" %}</span>
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_a {%if ad.energy_consumption == 'A' %}selected{% endif %}"><span class="detail">≤ 50</span> <span class="value">A</span></div>{% endif %}
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_b {%if ad.energy_consumption == 'B' %}selected{% endif %}"><span class="detail">51 à 90</span> <span class="value"> B</span></div>{% endif %}
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_c {%if ad.energy_consumption == 'C' %}selected{% endif %}"><span class="detail">91 à 150</span> <span class="value"> C</span></div>{% endif %}
-		{%if ad.energy_consumption %}<div class="energy energy_consumption_d {%if ad.energy_consumption == 'D' %}selected{% endif %}"><span class="detail">151 à 230</span> <span class="value"> D</span></div>{% else %}Non renseigné{% endif %}
+		{%if ad.energy_consumption %}<div class="energy energy_consumption_d {%if ad.energy_consumption == 'D' %}selected{% endif %}"><span class="detail">151 à 230</span> <span class="value"> D</span></div>{% else %}<div>Non renseigné</div>{% endif %}
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_e {%if ad.energy_consumption == 'E' %}selected{% endif %}"><span class="detail">231 à 330</span> <span class="value"> E</span></div>{% endif %}
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_f {%if ad.energy_consumption == 'F' %}selected{% endif %}"><span class="detail">331 à 450</span> <span class="value"> F</span></div>{% endif %}
 		{%if ad.energy_consumption %}<div class="energy energy_consumption_g {%if ad.energy_consumption == 'G' %}selected{% endif %}"><span class="detail">> 450</span> <span class="value">G</span></div>{% endif %}
 	</div>
 	<div class="span2">
-		<b>{% trans "Emission de gaz à effets de serre" %}</b><br />
+		<h4>{% trans "Emission de gaz à effets de serre" %}</h4>
 		<span class="unit">{% trans "kgeqCO2/m².an" %}</span>
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_a {%if ad.emission_of_greenhouse_gases == 'A' %}selected{% endif %}"><span class="detail">≤ 5</span> <span class="value">A</span></div>{% endif %}
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_b {%if ad.emission_of_greenhouse_gases == 'B' %}selected{% endif %}"><span class="detail">6 à 10</span> <span class="value"> B</span></div>{% endif %}
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_c {%if ad.emission_of_greenhouse_gases == 'C' %}selected{% endif %}"><span class="detail">11 à 20</span> <span class="value"> C</span></div>{% endif %}
-		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_d {%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span class="detail">21 à 35</span> <span class="value"> D</span></div>{% else %}Non renseigné{% endif %}
+		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_d {%if ad.emission_of_greenhouse_gases == 'D' %}selected{% endif %}"><span class="detail">21 à 35</span> <span class="value"> D</span></div>{% else %}<div>Non renseigné</div>{% endif %}
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_e {%if ad.emission_of_greenhouse_gases == 'E' %}selected{% endif %}"><span class="detail">36 à 55</span> <span class="value"> E</span></div>{% endif %}
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_f {%if ad.emission_of_greenhouse_gases == 'F' %}selected{% endif %}"><span class="detail">56 à 80</span> <span class="value"> F</span></div>{% endif %}
 		{%if ad.emission_of_greenhouse_gases %}<div class="energy emission_of_greenhouse_gases_g {%if ad.emission_of_greenhouse_gases == 'G' %}selected{% endif %}"><span class="detail">> 80</span> <span class="value"> G</span></div>{% endif %}

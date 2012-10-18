@@ -2,11 +2,12 @@
 {% load l10n pagination_tags sorting_tags ads_tag utils_tags compress form_utils_tags i18n %}
 {% load crispy_forms_tags %}
 
-{% block media %}	
-{{ filter.form.media.css }}
-{{ filter.form.media.js }}
-<script src="{{ STATIC_URL }}js/search_form.js" type="text/javascript" charset="utf-8"></script>
-<script src="{{ STATIC_URL }}js/map-interaction.js" type="text/javascript" charset="utf-8"></script>
+{% block media %}
+	{{ block.super }}	
+	{{ filter.form.media.css }}
+	{{ filter.form.media.js }}
+	<script src="{{ STATIC_URL }}js/search_form.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{{ STATIC_URL }}js/map-interaction.js" type="text/javascript" charset="utf-8"></script>
 {% endblock media %}
 
 {% block messages %}

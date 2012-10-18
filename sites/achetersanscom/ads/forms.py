@@ -178,6 +178,9 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
         #logger.debug('class Meta of HomeForSaleAdForm')
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
 
+    class Media:
+        js = ('js/edit_form.js',)
+
 
 class HomeForSaleAdFilterSetForm(forms.ModelForm):
 

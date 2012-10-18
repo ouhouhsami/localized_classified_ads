@@ -8,11 +8,9 @@
 <meta name="description" lang="fr" content="{% trans 'Vente' %} {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
 {% endblock %}
 
-{% block javascript %}
+{% block media %}
+{{ block.super }}
 {% include 'geoads/view_js.html' %}
-{% endblock %}
-
-{% block css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/energy-style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 {% endblock %}
 

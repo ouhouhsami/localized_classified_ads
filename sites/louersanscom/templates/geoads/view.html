@@ -8,7 +8,8 @@
   <meta name="description" lang="fr" content="Vente {{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} {% trans 'pièce' %}{{ ad.nb_of_rooms|pluralize }} - {{ ad.price|priceformat }} € - {{ ad.surface }} m²" />
 {% endblock %}
 
-{% block javascript %}
+{% block media %}
+  {{ block.super }}
   {% include 'geoads/view_js.html' %}
 {% endblock %}
 

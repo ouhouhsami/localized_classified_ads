@@ -12,21 +12,13 @@
 	</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
+	{% block media %}
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/base.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}{{ SPECIFIC_STYLE }}" />
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.min.css" />
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"  charset="utf-8"></script>
-
-	{% block media %}
-	{% endblock %}
-
-	{% block javascript %}
-	{% endblock %}
-
-	{% block css %}
 	{% endblock %}
 
 	<script type="text/javascript">

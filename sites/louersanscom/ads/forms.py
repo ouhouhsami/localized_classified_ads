@@ -145,6 +145,9 @@ class HomeForRentAdForm(BaseModeratedAdForm):
         model = HomeForRentAd
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
 
+    class Media:
+        js = ('js/edit_form.js',)
+
 
 class HomeForRentAdFilterSetForm(forms.ModelForm):
 

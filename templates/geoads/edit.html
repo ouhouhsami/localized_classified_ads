@@ -6,11 +6,8 @@
 {% endblock %}
 
 {% block media %}
+	{{ block.super }}
 	{{ form.media }}
-{% endblock %}
-
-{% block javascript %}
-  <script src="{{ STATIC_URL }}js/edit_form.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block messages %}

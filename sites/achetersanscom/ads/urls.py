@@ -7,10 +7,9 @@ from geoads.views import (AdDetailView, AdSearchUpdateView, AdPotentialBuyerCont
 from sites.achetersanscom.ads.models import HomeForSaleAd, HomeForSaleAdSearch, HomeForSaleAdSearchResult
 from sites.achetersanscom.ads.forms import HomeForSaleAdForm
 from sites.achetersanscom.ads.views import HomeForSaleAdSearchView
-from sites.achetersanscom.ads.forms import PrettyAdPictureForm
 
 from utils.views import ModeratedAdUpdateView, CustomAdDeleteView
-from utils.forms import HomeContactForm
+from utils.forms import HomeContactForm, PrettyAdPictureForm
 
 
 urlpatterns = patterns('',

@@ -1,44 +1,3 @@
-/*
-.navbar .brand {
-	background: url("../img/home.png") no-repeat scroll 0 0px transparent;
-}
-*/
-
-/*.btn-primary {
-	background-image:none;
-	background-color: #20B2AB;
-}
-*/
-
-/*.btn-primary {
-    background-color: #006DCC;
-    background-image: -moz-linear-gradient(center top , #0088CC, #0044CC);
-    background-repeat: repeat-x;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color: #FFFFFF;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
-.btn-primary:hover {
-    background-color: #0044CC;
-    color: #FFFFFF;
-}
-*/
-
-/*
-.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
-    background-color: #20B2AB;
-}
-*/
-
-a{
-	/*color:#20B2AB;*/
-}
-.nav-pills > .active > a, .nav-pills > .active > a:hover {
-    background-color: #20B2AB;
-    color: #FFFFFF;
-}
-
 #search_header {
     background-color: #FFB82E;
 }
@@ -53,11 +12,7 @@ a{
 	color:#FFB82E;
 }
 
-#results h3 {
-	/*background-color:#FFB82E;*/
-}
-
 .icon-map-custommarker {
   background-image: url("../img/icon-home.png");
-  background-position:0;
+  background-position: 0;
 }

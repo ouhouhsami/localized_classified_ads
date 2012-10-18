@@ -1,17 +1,12 @@
 # coding=utf-8
-
-from form_utils.forms import BetterModelForm
-from moderation.forms import BaseModeratedObjectForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div, HTML
-from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
+from crispy_forms.layout import Submit, Layout, Fieldset, Div, HTML
+from crispy_forms.bootstrap import AppendedText, Field
 
 from django.utils.translation import ugettext as _
 from django import forms
 
-
 from geoads.widgets import BooleanExtendedNumberInput, BooleanExtendedInput
-from geoads.forms import BaseAdForm
 from utils.bootstrap import MultiField, BootstrapFieldset
 
 from models import HomeForRentAd
@@ -22,51 +17,51 @@ class HomeForRentAdForm(BaseModeratedAdForm):
     # todo add my price and my surface fields
 
     separate_toilet = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedNumberInput(
-            attrs={'label':_(u"Toilettes séparés"), 
-                   'detail':_(u"préciser leur nombre")})
+            attrs={'label': _(u"Toilettes séparés"),
+                   'detail': _(u"préciser leur nombre")})
     )
 
     bathroom = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedNumberInput(
-            attrs={'label':_(u"Salle de bain"), 
-                   'detail':_(u"préciser leur nombre")})
+            attrs={'label': _(u"Salle de bain"),
+                   'detail': _(u"préciser leur nombre")})
     )
 
     shower = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedNumberInput(
-            attrs={'label':_(u"Salle d'eau (douche)"), 
-                   'detail':_(u"préciser leur nombre")})
+            attrs={'label': _(u"Salle d'eau (douche)"),
+                   'detail': _(u"préciser leur nombre")})
     )
 
     furnished = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedInput(
-            attrs={'label':_(u"Habitation meublée"), 
-                   'detail':_(u"donner le détail")})
+            attrs={'label': _(u"Habitation meublée"),
+                   'detail': _(u"donner le détail")})
     )
 
     balcony = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedNumberInput(
-            attrs={'label':_(u"Balcon"), 
-                    'detail':_(u"préciser la surface (m²)")})
+            attrs={'label': _(u"Balcon"),
+                    'detail': _(u"préciser la surface (m²)")})
     )
-    
+
     terrace = forms.CharField(
-        label='', 
-        required=False, 
+        label='',
+        required=False,
         widget=BooleanExtendedNumberInput(
-             attrs={'label':_(u"Terrasse"), 
-                    'detail':_(u"préciser la surface (m²)")})
+             attrs={'label': _(u"Terrasse"),
+                    'detail': _(u"préciser la surface (m²)")})
     )
 
     def clean_separate_toilet(self):
@@ -150,34 +145,8 @@ class HomeForRentAdForm(BaseModeratedAdForm):
         model = HomeForRentAd
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
 
+
 class HomeForRentAdFilterSetForm(forms.ModelForm):
-
-    def clean_price(self):
-        pass
-
-    def clean_surface(self):
-        pass
-
-    def clean_nb_of_rooms(self):
-        pass
-
-    def nb_of_bedrooms(self):
-        pass
-
-    def clean_habitation_type(self):
-        pass
-
-    def clean_location(self):
-        pass
-
-    def clean_colocation(self):
-        pass
-
-    def clean_furnished(self):
-        pass
-
-    def clean_elevator(self):
-        pass
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
@@ -198,7 +167,7 @@ class HomeForRentAdFilterSetForm(forms.ModelForm):
                     Div(
                         BootstrapFieldset(u'Critères optionnels', 'habitation_type', 'price', 'surface', 'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 'furnished', 'elevator', css_id="general", collapse_in='in'),
                         css_class="custom-well"
-                        ), 
+                        ),
                     css_class="span5"
                     ),
             css_class="row"
@@ -206,18 +175,8 @@ class HomeForRentAdFilterSetForm(forms.ModelForm):
         super(HomeForRentAdFilterSetForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = HomeForRentAd   
-        # here, we exclude for form validation purposes
-        fields = ('location', 'habitation_type', 'price', 'surface', 
-                   'nb_of_rooms', 'nb_of_bedrooms',  'colocation', 
-                   'furnished', 'elevator')
-        exclude = ('create_date', 'orientation', 'surface_carrez', 
-                   'separate_dining_room', 'user', 'visible', 'terrace', 
-                   'parking', 'separate_toilet', 'doorman', 'not_overlooked'
-                   'update_date', 'bathroom', 'delete_date', 'maintenance_charges',
-                   'description', 'digicode', 'floor', 'duplex', 'intercom', 
-                   'address', 'housing_tax', 'ground_floor', 'heating', 'shower', 
-                   'ground_surface', 'top_floor', 'user_entered_address', 'slug', 
-                   'not_overlooked', 'update_date', 'balcony')       
+        model = HomeForRentAd
+        fields = ('location', )  # don't know why I need to put this field, but well ... if it's the only bug
+
     class Media:
         js = ('js/collapse-icon.js',)

@@ -1,9 +1,3 @@
-/*
-.navbar .brand {
-	background: url("../img/apartment.png") no-repeat scroll 0 0px transparent;
-}
-*/
-
 .btn-primary {
 	background-image:none;
 	background-color: #9D81A1;
@@ -13,13 +7,6 @@
     background-color: #9D81A1;
 }
 
-a{
-	/*color:#20B2AB;*/
-}
-.nav-pills > .active > a, .nav-pills > .active > a:hover {
-    background-color: #9D81A1;
-    color: #FFFFFF;
-}
 #search_header {
     background-color: Pink;
 }
@@ -32,10 +19,6 @@ a{
 }
 .sanscom_font {
 	color:Pink;
-}
-
-#results h3 {
-	/*background-color:Pink;*/
 }
 
 .icon-map-custommarker {

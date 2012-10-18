@@ -1,57 +1,23 @@
 # coding=utf-8
-from form_utils.forms import BetterModelForm
-from moderation.forms import BaseModeratedObjectForm
+import logging
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div, HTML
-from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
-
+from crispy_forms.layout import Submit, Layout, Fieldset, Div, HTML
+from crispy_forms.bootstrap import AppendedText, Field
 
 from django import forms
-from django.forms import ModelForm
+
 
 from geoads.widgets import BooleanExtendedNumberInput
-from geoads.models import AdPicture
+
 from utils.fields import PriceField, SurfaceField
 from utils.bootstrap import MultiField, BootstrapFieldset
-from geoads.forms import BaseAdForm
 
 from models import HomeForSaleAd
 from utils.forms import BaseModeratedAdForm
 
 import floppyforms as forms
 
-
-class PrettyAdPictureForm(ModelForm):
-
-    image = forms.ImageField(widget=forms.FileInput, required=False)
-
-
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Div(
-                #HTML(u'<button type="button" class="close" data-dismiss="alert">×</button> <h4>Photo n°{{ forloop.counter }}</h4>'),
-                HTML(u'<h4>Photo n°{{ forloop.counter }}</h4>'),
-                Layout(
-                    Div(
-                        Field('image', template="crispy_forms/no_label_field.html"),
-                        Field('title', placeholder="Description", template="crispy_forms/no_label_field.html"),
-                        Field('DELETE', template="crispy_forms/no_label_field.html"),
-                        css_class="pull-left"
-                    )
-                ),
-                css_class="alert alert-info clearfix", style="background-color:#fff;"
-            ),
-        )
-        super(PrettyAdPictureForm, self).__init__(*args, **kwargs)
-        if self.instance.image:
-            html = "<div class='thumbnail'><img src='%s' width='350px' ></div>" % (self.instance.image.url)
-            self.helper.layout.fields[0].fields[1].fields.append(Div(HTML(html), css_class="pull-right"))
-
-    class Meta:
-        model = AdPicture
+logger = logging.getLogger(__name__)
 
 
 class HomeForSaleAdForm(BaseModeratedAdForm):
@@ -74,28 +40,28 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
 
     nb_of_rooms = forms.IntegerField(
         label="Nombre de pièces", 
-        error_messages={'required':'Ce champ est obligatoire.', 
+        error_messages={'required': 'Ce champ est obligatoire.', 
                         'invalid':'Entrez un nombre de pièce.'},
     )
 
     description = forms.CharField(
         label="Description", 
         required=False, 
-        widget=forms.Textarea(attrs={'rows':7, 'cols':80})
+        widget=forms.Textarea(attrs={'rows': 7, 'cols': 80})
     )
 
     balcony = forms.CharField(
         label="", 
         required=False, 
-        widget=BooleanExtendedNumberInput(attrs={'label':"Balcon", 
-                              'detail':"préciser la surface (m²)"})
+        widget=BooleanExtendedNumberInput(attrs={'label': "Balcon",
+                              'detail': "préciser la surface (m²)"})
     )
 
     terrace = forms.CharField(
         label="", 
         required=False, 
-        widget=BooleanExtendedNumberInput(attrs={'label':"Terrasse",
-                              'detail':"préciser la surface (m²)"}))
+        widget=BooleanExtendedNumberInput(attrs={'label': "Terrasse",
+                              'detail': "préciser la surface (m²)"}))
 
     separate_toilet = forms.CharField(
         label="", 
@@ -198,52 +164,22 @@ class HomeForSaleAdForm(BaseModeratedAdForm):
                 Submit('submit', "Enregister l'annonce", css_class="btn btn-large btn-block btn-primary", style="width:100%")
             ),
         )
-        
 
         super(HomeForSaleAdForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = HomeForSaleAd
         widgets = {
-            'nb_of_bedrooms':forms.TextInput,
-            'user_entered_address':forms.TextInput,
-            'habitation_type':forms.Select
+            'nb_of_bedrooms': forms.TextInput,
+            'user_entered_address': forms.TextInput,
+            'habitation_type': forms.Select
         }
         #TODO: line below could be "normally" removed, but need tests
+        #logger.debug('class Meta of HomeForSaleAdForm')
         exclude = ('user', 'delete_date', 'location', 'address', 'visible')
 
 
 class HomeForSaleAdFilterSetForm(forms.ModelForm):
-
-    #def __init__(self, *args, **kwargs):
-    #    super(HomeForSaleAdFilterSetForm, self).__init__(*args, **kwargs)
-        #self['location'].value()
-    # CLEAN def for each rangefield, multiplechoice field for validation purpose
-    # Longtime bug to solve, cause of filterset link to a form, and form
-    # not valid due to special filterfield
-    # the thing not solved here is : why errors appear only if location field blank
-    # and not if location field filled !
-
-    def clean_price(self):
-        pass
-
-    def clean_surface(self):
-        pass
-
-    def clean_nb_of_rooms(self):
-        pass
-
-    def clean_nb_of_bedrooms(self):
-        pass
-
-    def clean_floor(self):
-        pass
-
-    def clean_habitation_type(self):
-        pass
-
-    def clean_location(self):
-        pass
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
@@ -278,12 +214,8 @@ class HomeForSaleAdFilterSetForm(forms.ModelForm):
 
     class Meta:
         model = HomeForSaleAd
-        # here, we exclude for form validation purposes
-        exclude = ('user', 'delete_date', 'address', 'visible',
-                   'user_entered_address', 'description', 'ground_surface',
-                   'orientation', 'housing_tax', 'surface_carrez',
-                   'maintenance_charges', 'ad_valorem_tax', 'slug',
-                   'update_date', 'create_date')
+        logger.debug('class Meta of HomeForSaleAdFilterSetForm')
+        fields = ('location', )  # don't know why I need to put this field, but well ... if it's the only bug
 
     class Media:
         js = ('js/collapse-icon.js',)

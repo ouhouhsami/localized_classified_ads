@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n compress %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,12 +13,15 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
 	{% block media %}
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
+
+	{% compress css %}
+	<link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}{{ SPECIFIC_STYLE }}" charset="utf-8">
 	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/base.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}{{ SPECIFIC_STYLE }}" />
-	<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.min.css" />
+	<link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}bootstrap/less/responsive.less" charset="utf-8">
+	{% endcompress %}
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"  charset="utf-8"></script>
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 	{% endblock %}
 
 	<script type="text/javascript">

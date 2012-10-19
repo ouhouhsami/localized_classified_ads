@@ -1,0 +1,28 @@
+@import "../bootstrap/less/bootstrap.less";
+
+// Custom var
+@linkColor: #20B2AB;  // override default bootstrap color
+@secondColor: #FFB82E;  // create a second color for theme 
+
+// override default img bootstrap location
+@iconSpritePath:          "../bootstrap/img/glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../bootstrap/img/glyphicons-halflings-white.png";
+
+#search_header {
+    background-color: @secondColor;
+}
+
+.navbar.navbar-fixed-top {
+	border-bottom:5px solid @secondColor;
+}
+.navbar.navbar-fixed-bottom {
+	border-top:5px solid @secondColor;
+}
+.sanscom_font {
+	color:@secondColor;
+}
+
+.icon-map-custommarker {
+  background-image: url("../img/icon-home.png");
+  background-position: 0;
+}

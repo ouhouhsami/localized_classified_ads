@@ -21,9 +21,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 )
 
-#below to test ?
-#from sites.achetersanscom.ads.urls import urlpatterns as userena_profile_edit
-#urlpatterns += userena_profile_edit
 
 if settings.DEBUG == True:
     urlpatterns += (url(r'^media/(?P<path>.*)$',

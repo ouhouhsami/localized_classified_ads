@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 import logging
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Fieldset, Div, HTML

@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 import logging
 import django_filters
 from django.forms import widgets

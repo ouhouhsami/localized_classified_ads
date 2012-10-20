@@ -1,22 +1,27 @@
-# coding=utf-8
-
+#-*- coding: utf-8 -*-
 from django.forms import ModelForm
 
 from geoads.forms import BaseAdForm, AdContactForm
 from geoads.models import AdPicture
 from moderation.forms import BaseModeratedObjectForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder, Div, HTML
-from crispy_forms.bootstrap import FormActions, AppendedText, PrependedText, Field
+from crispy_forms.layout import Layout, Fieldset, Div, HTML
+from crispy_forms.bootstrap import Field
 
 import floppyforms as forms
 
 
 class BaseModeratedAdForm(BaseModeratedObjectForm, BaseAdForm):
+    """
+    Base Moderated Ad Form
+    """
     pass
 
 
 class HomeContactForm(AdContactForm):
+    """
+    Base contact form
+    """
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_class = 'form'
@@ -33,7 +38,9 @@ class HomeContactForm(AdContactForm):
 
 
 class PrettyAdPictureForm(ModelForm):
-
+    """
+    Pretty Ad Picture Form
+    """
     image = forms.ImageField(widget=forms.FileInput, required=False)
 
     def __init__(self, *args, **kwargs):

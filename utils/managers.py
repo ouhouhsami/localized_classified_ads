@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 from moderation.managers import ModerationObjectsManager
 from django.contrib.gis.db.models import GeoManager
 

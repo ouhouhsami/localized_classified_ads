@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 import mockups
 from models import UserProfile
 from mockups import Mockup, Factory

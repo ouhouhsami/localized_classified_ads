@@ -1,7 +1,5 @@
-# coding=utf-8
-
+#-*- coding: utf-8 -*-
 from django.db import models
-
 from geoads.models import Ad
 
 

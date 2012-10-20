@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 import django_filters
 
 from geoads.widgets import LeafletWidget, IndifferentNullBooleanSelect, SpecificRangeWidget

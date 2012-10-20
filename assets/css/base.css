@@ -14,6 +14,11 @@ body {
 	background-color:#EFF0F2;
 }
 
+.results {
+	font-family: TypoSlabserif;
+	font-weight: normal;
+}
+
 #content {
 	background-color:#F7F7F7;
 }

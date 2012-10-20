@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from django.template.loader import render_to_string
 from django.template import Context
 
@@ -6,7 +7,9 @@ from crispy_forms.utils import render_field
 
 
 class MultiField(object):
-    """ multiField container. Renders to a multiField <div> """
+    """
+    MultiField container. Renders to a multiField <div>
+    """
     template = "bootstrap/layout/multifield.html"
 
     def __init__(self, label, *fields, **kwargs):

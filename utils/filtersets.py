@@ -1,5 +1,6 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 import django_filters
+
 from geoads.widgets import IndifferentNullBooleanSelect
 from geoads.filtersets import AdFilterSet
 

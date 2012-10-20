@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.http import Http404
 from django.core.files.storage import default_storage
 from django.core import serializers
@@ -11,7 +12,6 @@ from geoads.views import AdUpdateView, AdDeleteView
 class ModeratedAdUpdateView(AdUpdateView):
     """
     Class base update moderated ad
-
     """
     def get_object(self, queryset=None):
         """ Hook to ensure object is owned by request.user. """

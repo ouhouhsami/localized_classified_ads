@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*- coding: utf-8 -*-
 import oauth2 as oauth
 
 from django.conf import settings
@@ -41,11 +41,8 @@ def post_moderation_abstract_handler(sender, instance, status, **kwargs):
     # here I call signal function coming form django-geoads
     ad_post_save_handler(sender, instance, **kwargs)
     #
-    content_type = ContentType.objects.get_for_model(instance)
-    if content_type.model == 'homeforsalead':
-        search_filter = HomeForSaleAdFilterSet
-    if content_type.model == 'homeforrentad':
-        search_filter = HomeForRentAdFilterSet
+    #tip: ContentType.objects.get_for_model(instance)
+    #tip: here we could get instance.filterset
     if status == 1:
         # send on twitter
         token = oauth.Token(key=settings.TWITTER_ACCESS_TOKEN_KEY,

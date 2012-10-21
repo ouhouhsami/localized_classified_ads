@@ -4,7 +4,7 @@ import oauth2 as oauth
 from django.conf import settings
 from django.template.defaultfilters import urlencode
 from django.contrib.gis.geos import GEOSGeometry
-from django.contrib.contenttypes.models import ContentType
+#from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
 
 from moderation.moderator import GenericModerator
@@ -14,9 +14,7 @@ from moderation.signals import post_moderation
 from geoads.signals import ad_post_save_handler
 
 from sites.louersanscom.ads.models import HomeForRentAd
-from sites.louersanscom.ads.filtersets import HomeForRentAdFilterSet
 from sites.achetersanscom.ads.models import HomeForSaleAd
-from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
 from utils.managers import ModeratedAdManager
 
 

@@ -7,6 +7,11 @@ from moderation.helpers import auto_discover
 from profiles.forms import UserProfileCustomForm, SignupFormExtra
 from userena import views as userena_views
 
+# below : kind of 'autodiscover' to associate ad filterset class to ad model class
+# it's a bit tricky, and we would better do a register function for that
+from sites.achetersanscom.ads.filtersets import HomeForSaleAdFilterSet
+from sites.louersanscom.ads.filtersets import HomeForRentAdFilterSet
+
 
 admin.autodiscover()
 auto_discover()

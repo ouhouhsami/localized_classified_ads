@@ -7,7 +7,7 @@ from geoads.views import AdSearchView
 from sites.louersanscom.ads.models import HomeForRentAd
 
 
-SUPP_MSG = _(u'<br/> <a class="btn btn-primary">Inscrivez-vous</a> pour \
+SUPP_MSG = _(u'<br/> <a class="btn btn-primary" href="%s">Inscrivez-vous</a> pour \
             créer une alerte email ou déposer une demande de location \
             et être contacté directement par les propriétaires.' % reverse_lazy('userena_signup'))
 

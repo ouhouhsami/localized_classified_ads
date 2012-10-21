@@ -15,6 +15,7 @@ from geoads.models import Ad, AdSearch, AdSearchResult
 
 from utils.models import ModeratedAd
 
+
 # SPECIFIC AD MODELS 
 
 

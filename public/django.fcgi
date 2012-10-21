@@ -1,4 +1,4 @@
-#!/usr/bin/eval PATH=/home/achetersanscom/nodejs/lib/node_modules/recess/node_modules/less/bin/lessc:/home/achetersanscom/nodejs/bin:$PATH python
+#!/usr/bin/eval PATH=/home/achetersanscom/nodejs/bin:$PATH python
 import os, sys
 import site
 

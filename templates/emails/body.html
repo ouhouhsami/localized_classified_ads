@@ -1,0 +1,82 @@
+<body style="margin: 0; padding: 0; background: #dddddd;-webkit-text-size-adjust: 100%;">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="outer" style="position: relative; background-color: #dddddd;">
+		<tbody>
+			<tr>
+				<td>
+					<table align="center" cellpadding="0" cellspacing="0" border="0" width="670" style="border: 0px; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; background-color: #dddddd;position: relative; background-color: #eeeeee; border-bottom: 1px solid #cccccc">
+						<tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333;">
+							<td style="height:77px; width:80px; text-align:center">
+								<img src="cid:logo" />
+							</td>
+							<td style="height:77px; font-size: 14px; font-weight: bold; color: #000000;">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr>
+											<td class="main_name" style="font-size: 14px; font-weight: bold; color: #000000;">{% block to %}{{ user.email }},{% endblock %} </td>
+										</tr>
+										<tr>
+											<td class="subtitle" style="font-size: 14px; color: #666666;">{% block subject %}{{ subject }}{% endblock %}</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" cellpadding="0" cellspacing="0" border="0" width="670" style="border: 0px; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; background-color: #f7f7f7;position: relative; background-color: #ffffff;">
+						<tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333;">
+							<td style="width:80px">
+								&nbsp;
+							</td>
+							<td>
+								<div style="margin-top:25px; margin-bottom:25px">
+								<div style="word-wrap: break-word; color: #333; font-size: 22px; font-family: Georgia, 'Times New Roman', Times, serif; line-height: 26px;">
+									{% block content %}{{ content }}{% endblock %}
+								</div>
+								<div>
+									{% block from %}{{ from }}{% endblock %}
+								</div>
+								<div>
+									{% block subcontent %}{% endblock %}
+								</div>
+							</div>
+							</td>
+							<td style="width:80px">
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table align="center" bgcolor="#eeeeee" border="0" cellpadding="0" cellspacing="0" width="670" class="frame footer" style="background-color: #eeeeee; border-top-color: #EFF0F2; border-top-style: solid; border-top-width: 1px; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+						<tr>
+							<td><img src="cid:shadow" width="100%" height="8px" /></td>
+							<td><img src="cid:shadow" width="100%" height="8px" /></td>
+							<td><img src="cid:shadow" width="100%" height="8px" /></td>
+						</tr>
+						<tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333;">
+							<td style="height:77px; width:80px">
+								&nbsp;
+							</td>
+							<td class="footer_body media_footer" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 17px; color: #777; text-shadow: 0 1px 0 #f7f7f7;">
+								<div>
+									<a href="http://{{ site.domain }}" class="address" style="border: none; color: #0084b4; text-decoration: none;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-decoration: none; font-size: 11px; line-height: 17px; color: #999999; text-shadow: 0 1px 0 #f7f7f7;">
+										{{ site.name }}
+									</a>
+								</div>
+							</td>
+							<td style="width:80px">
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>

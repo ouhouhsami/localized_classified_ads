@@ -11,7 +11,7 @@ from moderation.moderator import GenericModerator
 from moderation import moderation
 from moderation.signals import post_moderation
 
-from geoads.signals import ad_post_save_handler
+from geoads.events import ad_post_save_handler
 
 from sites.louersanscom.ads.models import HomeForRentAd
 from sites.achetersanscom.ads.models import HomeForSaleAd

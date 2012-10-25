@@ -198,16 +198,16 @@ def format_search_resume(q):
 @receiver(post_save, sender=HomeForRentAd)
 def home_for_rent_ad_post_save_handler(sender, instance, created, **kwargs):
     if created:
-        message = render_to_string('geoads/emails/ad_create_email_message.txt')
-        subject = render_to_string('geoads/emails/ad_create_email_subject.txt',
+        message = render_to_string('emails/ad_create_email_message.txt')
+        subject = render_to_string('emails/ad_create_email_subject.txt',
                           {'site_name': Site.objects.get_current().name})
         send_mail(subject, message, 'contact@achetersanscom.com',
               [instance.user.email], fail_silently=True)
     else:
         message = render_to_string(
-                  'geoads/emails/ad_update_email_message.txt', {})
+                  'emails/ad_update_email_message.txt', {})
         subject = render_to_string(
-                  'geoads/emails/ad_update_email_subject.txt',
+                  'emails/ad_update_email_subject.txt',
                          {'site_name': Site.objects.get_current().name})
         send_mail(subject, message, 'contact@achetersanscom.com',
                   [instance.user.email],

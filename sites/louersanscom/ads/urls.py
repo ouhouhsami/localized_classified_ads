@@ -12,7 +12,8 @@ from sites.louersanscom.ads.forms import HomeForRentAdForm
 from sites.louersanscom.ads.views import HomeForRentAdSearchView
 
 from utils.views import ModeratedAdUpdateView, CustomAdDeleteView
-from utils.forms import HomeContactForm, PrettyAdPictureForm
+from utils.forms import PrettyAdPictureForm
+from homeads.forms import HomeContactForm
 
 urlpatterns = patterns('',
     url(r'^(?P<slug>[-\w]+)$', AdDetailView.as_view(model=HomeForRentAd, contact_form=HomeContactForm),

@@ -1,0 +1,17 @@
+{% extends "emails/body.html" %}
+
+{% block to %}{{ to }},{% endblock %}
+
+{% block subject %}Vous avez un nouveau message à propos de votre recherche, de la part du vendeur de cette annonce : <br /><a href="http://{{ site.domain}}{% url view ad.slug %}" style="color:{{ linkColor }}; text-decoration:none">{{ ad }}</a>{% endblock %}
+
+{% block content %}
+	{{ message|linebreaks }}
+{% endblock %}
+
+{% block subcontent %}
+	<hr style="height: 1px; border: 0px; margin: 0px; background-color: #e8e8e8; width: 520px;margin-top:10px;"/>
+	<div style="color: #666; font-size: 14px; margin-top:10px;">Vous pouvez répondre directement à cet email
+	</div>
+{% endblock %}
+
+{% block from %}<span style="color:{{ secondColor }}">{{ from }}</span>{% endblock %}

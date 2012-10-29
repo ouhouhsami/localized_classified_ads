@@ -9,7 +9,8 @@ from sites.achetersanscom.ads.forms import HomeForSaleAdForm
 from sites.achetersanscom.ads.views import HomeForSaleAdSearchView
 
 from utils.views import ModeratedAdUpdateView, CustomAdDeleteView
-from utils.forms import HomeContactForm, PrettyAdPictureForm
+from utils.forms import PrettyAdPictureForm
+from homeads.forms import HomeContactForm
 
 
 urlpatterns = patterns('',

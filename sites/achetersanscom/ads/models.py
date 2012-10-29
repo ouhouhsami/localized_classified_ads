@@ -275,4 +275,4 @@ def home_for_sale_ad_post_save_handler(sender, instance, created, **kwargs):
 # is available for this model
 # and also the signal disconnect, and connect for moderation
 from geoads.receivers import *
-from utils.moderator import *
+from homeads.moderator import *

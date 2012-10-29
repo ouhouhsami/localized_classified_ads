@@ -30,7 +30,6 @@
     <div class="page-header">
       <h3><span class="summary">{{ ad.get_habitation_type_display }} {{ ad.nb_of_rooms }} pièce{{ ad.nb_of_rooms|pluralize }} - <span class='price'>{{ ad.price|priceformat }} €</span> - {{ ad.surface }} m² </span> <small style="font-size:0.8em">{{ ad.nb_of_bedrooms }} chambre{{ ad.nb_of_bedrooms|pluralize }}{% if ad.surface_carrez %}, {{ ad.surface_carrez }} m² loi Carrez{% endif %}</small></h3>
     </div>
-
     <div class="summary">      
       <div class="row">
         <div class="span6">{% include 'geoads/view_pictures.html' %}</div>
@@ -52,7 +51,8 @@
         <div class="span2">{% include 'geoads/view_rooms.html' %}</div>
         <div class="span4">{% include 'geoads/view_contactform.html' %}</div>
       </div>
-    </div>      
+    </div> 
+    <hr />     
     {% include 'geoads/view_ad_dates.html' %}
 
   </div>

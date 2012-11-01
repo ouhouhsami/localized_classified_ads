@@ -14,9 +14,11 @@ class AdEmailMultiAlternatives(EmailMultiAlternatives):
     default_context = None
     template_name = None
     subject = None
+    ad = None
 
     def __init__(self, email_context, recipients, sender=None,
-        email_images=()):
+        email_images=(), ad=None):
+        self.ad = ad
         if not sender:
             sender = settings.DEFAULT_FROM_EMAIL
         context = Context(dict(self.get_default_context().items() +
@@ -52,4 +54,3 @@ class AdEmailMultiAlternatives(EmailMultiAlternatives):
     def get_default_images(self):
         if self.default_files is None:
             return ()
-

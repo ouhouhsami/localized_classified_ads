@@ -1,0 +1,9 @@
+{% extends 'emails/body.txt' %}
+{% block to %}{{ to }},{% endblock %}
+{% block content %}
+L'annonce que vous venez de soumettre est en cours de modération.
+Vous recevrez un email lorsqu'elle sera mise en ligne sur le site.
+{% endblock %}
+{% block from %}
+{{ from }}
+{% endblock %}

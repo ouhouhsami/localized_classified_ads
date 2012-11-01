@@ -1,22 +1,19 @@
 #-*- coding: utf-8 -*-
+import logging
 
 from django.db import models
 from django.http import QueryDict
 from django.utils.translation import ugettext as _
-from django.dispatch import receiver
-from django.contrib.sites.models import Site
-from django.core.mail import send_mail
 from django.db.models.signals import post_save
-from django.template.loader import render_to_string
 
-from autoslug import AutoSlugField
-
-from geoads.models import Ad, AdSearch, AdSearchResult
+from geoads.models import AdSearch, AdSearchResult
+from homeads.models import home_ad_post_save_handler
 
 from utils.models import ModeratedAd
 
+logger = logging.getLogger(__name__)
 
-# SPECIFIC AD MODELS 
+# SPECIFIC AD MODELS
 
 
 #
@@ -37,7 +34,6 @@ HEATING_CHOICES = (
     ('5', _(u'collectif réseau de chaleur')),
     ('13', _(u'autres'))
 )
-
 
 
 PARKING_CHOICES = (
@@ -194,24 +190,7 @@ def format_search_resume(q):
                              habitation_types, price, surface, rooms)
 
 
-# TODO below is duplicated with the same in HomeForSale !
-@receiver(post_save, sender=HomeForRentAd)
-def home_for_rent_ad_post_save_handler(sender, instance, created, **kwargs):
-    if created:
-        message = render_to_string('emails/ad_create_email_message.txt')
-        subject = render_to_string('emails/ad_create_email_subject.txt',
-                          {'site_name': Site.objects.get_current().name})
-        send_mail(subject, message, 'contact@achetersanscom.com',
-              [instance.user.email], fail_silently=True)
-    else:
-        message = render_to_string(
-                  'emails/ad_update_email_message.txt', {})
-        subject = render_to_string(
-                  'emails/ad_update_email_subject.txt',
-                         {'site_name': Site.objects.get_current().name})
-        send_mail(subject, message, 'contact@achetersanscom.com',
-                  [instance.user.email],
-                          fail_silently=True)
+post_save.connect(home_ad_post_save_handler, sender=HomeForRentAd, dispatch_uid="post_save_home_for_rent")
 
 # VERY IMPORTANT TO PLACE THIS IMPORT AT THE BOTTOM
 # so that abstract class and subclass signal dispatcher

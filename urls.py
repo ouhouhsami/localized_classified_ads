@@ -23,6 +23,7 @@ urlpatterns = patterns('',
         name='userena_profile_edit'),
     url(r'^accounts/signup/', userena_views.signup, {'signup_form': SignupFormExtra}),
     url(r'^accounts/', include('userena.urls')),
+    (r'^admin/rq/', include('django_rq_dashboard.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 

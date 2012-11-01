@@ -4,16 +4,11 @@ import logging
 from django.db import models
 from django.http import QueryDict
 from django.utils.translation import ugettext as _
-from django.dispatch import receiver
-from django.contrib.sites.models import Site
-from django.core.mail import send_mail
 from django.db.models.signals import post_save
-from django.template.loader import render_to_string
 
-from autoslug import AutoSlugField
+from geoads.models import AdSearch, AdSearchResult
+from homeads.models import home_ad_post_save_handler
 
-
-from geoads.models import Ad, AdSearch, AdSearchResult
 
 from utils.models import ModeratedAd
 
@@ -249,26 +244,7 @@ def format_search_resume(q):
                              habitation_types, price, surface, rooms)
 
 
-# TODO below is duplicated with the same in HomeForRent !
-@receiver(post_save, sender=HomeForSaleAd)
-def home_for_sale_ad_post_save_handler(sender, instance, created, **kwargs):
-    # here we should test if changes in instance and moderated_object to send or not notification
-    logger.info('Post save signal for Home for sale ad instance %s was saved' % (instance))
-    if created:
-        message = render_to_string('geoads/emails/ad_create_email_message.txt')
-        subject = render_to_string('geoads/emails/ad_create_email_subject.txt',
-                          {'site_name': Site.objects.get_current().name})
-        send_mail(subject, message, 'contact@achetersanscom.com',
-              [instance.user.email], fail_silently=True)
-    else:
-        message = render_to_string(
-                  'geoads/emails/ad_update_email_message.txt', {})
-        subject = render_to_string(
-                  'geoads/emails/ad_update_email_subject.txt',
-                         {'site_name': Site.objects.get_current().name})
-        send_mail(subject, message, 'contact@achetersanscom.com',
-                  [instance.user.email],
-                          fail_silently=True)
+post_save.connect(home_ad_post_save_handler, sender=HomeForSaleAd, dispatch_uid="post_save_home_for_sale")
 
 # VERY IMPORTANT TO PLACE THIS IMPORT AT THE BOTTOM
 # so that abstract class and subclass signal dispatcher

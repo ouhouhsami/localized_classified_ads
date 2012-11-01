@@ -39,3 +39,6 @@ simplejson==2.3.2
 wsgiref==0.1.2
 factory_boy
 requests
+rq
+django-rq
+django-rq-dashboard

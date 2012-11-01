@@ -1,0 +1,13 @@
+{% extends "emails/body.html" %}
+
+{% block to %}{{ to }}{% endblock %}
+
+{% block content %}
+	L'annonce que vous venez de soumettre est en cours de modération.
+{% endblock %}
+
+{% block subcontent %}
+	<hr style="height: 1px; border: 0px; margin: 0px; background-color: #e8e8e8; width: 520px;margin-top:10px;"/>
+	<div style="color: #666; font-size: 14px; margin-top:10px;">Vous recevrez un email lorsqu'elle sera mise en ligne sur le site.
+	</div>
+{% endblock %}
